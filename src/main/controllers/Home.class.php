@@ -26,10 +26,11 @@ use DraiWiki\views\View;
 
 class Home implements App{
 
-	private $_view;
+	private $_view, $_template;
 
 	public function __construct() {
-		$_view = new View('Home');
+		$this->_view = new View('Home');
+		$this->_template = $this->_view->get();
 	}
 
 	public function show() {

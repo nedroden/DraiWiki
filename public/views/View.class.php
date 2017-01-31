@@ -32,16 +32,16 @@ class View {
 	}
 
 	private function getImageLink() {
-		return Main::$settings->read('path', 'BASE_URL') . 'public/views/images/' . Main::$settings->read('wiki', 'WIKI_IMAGES') . '/';
+		return Main::$config->read('path', 'BASE_URL') . 'public/views/images/' . Main::$config->read('wiki', 'WIKI_IMAGES') . '/';
 	}
 
 	private function getSkin() {
-		return Main::$settings->read('path', 'BASE_URL') . 'public/views/skins/' . Main::$settings->read('wiki', 'WIKI_IMAGES') . '/' . $name . '.css';
+		return Main::$config->read('path', 'BASE_URL') . 'public/views/skins/' . Main::$config->read('wiki', 'WIKI_SKIN') . '/' . $this->_name . '.css';
 	}
 
 	public function get() {
-		require_once Main::$settings->read('path', 'BASE_PATH') . 'public/views/templates/' . $name . '.template.php';
-		$tplName = 'DraiWiki\public\views\templates\\' . $this->_name;
+		require_once Main::$config->read('path', 'BASE_PATH') . 'public/views/templates/' . Main::$config->read('wiki', 'WIKI_TEMPLATES') . '/' . $this->_name . '.template.php';
+		$tplName = 'DraiWiki\views\templates\\' . $this->_name;
 		return new $tplName($this->getImageLink(), $this->getSkin());
 	}
 }
