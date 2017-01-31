@@ -25,7 +25,7 @@ use DraiWiki\src\main\controllers\Main;
 
 abstract class Template {
 
-	public function loadStylesheet($name) {
-		return Main::$config->read('path', 'BASE_URL') . 'public/views/skins/' . Main::$config->read('wiki', 'WIKI_SKIN') . '/' . $name . '.css';
+	public function getStylesheet($name) {
+		return Main::$config->read('path', 'BASE_URL') . 'index.php?stylesheet=' . $name;
 	}
 }

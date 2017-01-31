@@ -22,6 +22,7 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\Config;
+use DraiWiki\views\View;
 
 require 'public/Config.php';
 
@@ -49,6 +50,12 @@ class Main {
 
 	public function init() {
 		$this->loadApp($this->_currentAppName);
+		$view = new View('Index');
+
+		$template = $view->get();
+		$template->showHeader();
+		$this->_currentApp->show();
+		$template->showFooter();
 	}
 
 	private function loadApp($app) {
