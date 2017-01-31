@@ -29,11 +29,39 @@ class Main {
 
 	public static $config;
 
+	private $_currentApp, $_currentAppName;
+
+	private $_apps = [
+		'home' => [
+			'package' => 'main',
+			'class' => 'Home'
+		]
+	];
+
 	public function __construct() {
 		self::$config = new Config();
+		$this->setCurrentApp();
 	}
 
 	public function init() {
+		$this->loadApp($this->_currentAppName);
+	}
 
+	private function loadApp($app) {
+		require_once self::$config->read('path', 'BASE_PATH') . '/src/' . $this->_apps[$app]['package'] . '/controllers/' . $this->_apps[$app]['class'] . '.class.php';
+
+		$classname = '\DraiWiki\src\\' . $this->_apps[$app]['package'] . '\controllers\\' . $this->_apps[$app]['class'];
+		$this->_currentApp = new $classname(); 
+	}
+
+	private function getCurrentApp() {
+		if (!empty($_GET['app']) && array_key_exists(strtolower($_GET['app']), $this->_app))
+			return $_GET['app'];
+		else
+			return 'home';
+	}
+
+	private function setCurrentApp() {
+		$this->_currentAppName = $this->getCurrentApp();
 	}
 }

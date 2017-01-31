@@ -8,6 +8,7 @@
  * @copyright   DraiWiki, 2017
  * @license     Apache 2.0
  */
+session_start();
 
 use DraiWiki\src\main\controllers\Main;
 

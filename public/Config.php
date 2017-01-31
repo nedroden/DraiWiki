@@ -23,13 +23,13 @@ if (!defined('DraiWiki')) {
 
 class Config {
 
-	private $settings;
+	private $_settings;
 
 	public function __construct() {
 		/**
 		 * DraiWiki will use the data below to establish a connection to the database.
 		 */
-		$settings['database'] = [ 
+		$this->_settings['database'] = [ 
 			'DB_SERVER' => 'localhost',
 			'DB_USERNAME' => 'pasta',
 			'DB_PASSWORD' => '',
@@ -40,17 +40,24 @@ class Config {
 		/**
 		 * Wiki settings. Note: will probably be moved to the database in the future.
 		 */
-		$settings['wiki'] = [
+		$this->_settings['wiki'] = [
 			'WIKI_NAME' => 'DraiWiki',
 			'WIKI_SKIN' => 'default',
 			'WIKI_IMAGES' => 'default',
 			'WIKI_TEMPLATES' => 'default'
 		];
+
+		/**
+		 * Paths and urls
+		 */
+		$this->_settings['path'] = [
+			'BASE_PATH' => '/var/www/html/DraiWiki/'
+		];
 	}
 
 	public function read($category, $key) {
-		if (!empty($settings[$category][$key]))
-			return $settings[$category][$key];
+		if (!empty($this->_settings[$category][$key]))
+			return $this->_settings[$category][$key];
 		else
 			return null;
 	}
