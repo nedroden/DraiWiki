@@ -1,0 +1,14 @@
+/**
+ * HURRICANE
+ * DraiWiki default theme
+ *
+ * @author		Robert Monden
+ * @copyright	DraiWiki development team, 2017
+ * @version		1.0 Alpha 1
+ */
+
+body {
+	background: #ebf5ee;
+	font-family: "Trebuchet MS", Verdana, Helvetica, Arial;
+	font-size: 14px;
+}

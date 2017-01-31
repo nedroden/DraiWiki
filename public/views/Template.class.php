@@ -26,6 +26,6 @@ use DraiWiki\src\main\controllers\Main;
 abstract class Template {
 
 	public function getStylesheet($name) {
-		return Main::$config->read('path', 'BASE_URL') . 'index.php?stylesheet=' . $name;
+		return Main::$config->read('path', 'BASE_URL') . 'index.php?stylesheet=' . lcfirst($name);
 	}
 }

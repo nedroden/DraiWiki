@@ -36,7 +36,7 @@ class View {
 	}
 
 	private function getSkin() {
-		return Main::$config->read('path', 'BASE_URL') . 'public/views/skins/' . Main::$config->read('wiki', 'WIKI_SKIN') . '/' . $this->_name . '.css';
+		return Main::$config->read('path', 'BASE_URL') . 'index.php?stylesheet=' . lcfirst($this->_name);
 	}
 
 	public function get() {

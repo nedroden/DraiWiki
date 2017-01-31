@@ -23,6 +23,7 @@ if (!defined('DraiWiki')) {
 
 use DraiWiki\Config;
 use DraiWiki\views\View;
+use DraiWiki\views\Stylesheet;
 
 require 'public/Config.php';
 
@@ -49,6 +50,13 @@ class Main {
 	}
 
 	public function init() {
+		if (!empty($_GET['stylesheet'])) {
+			require_once self::$config->read('path', 'BASE_PATH') . 'public/views/Stylesheet.class.php';
+			$stylesheet = new Stylesheet(ucfirst($_GET['stylesheet']));
+			echo $stylesheet->parse();
+			die;
+		}
+
 		$this->loadApp($this->_currentAppName);
 		$view = new View('Index');
 

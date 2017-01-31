@@ -27,7 +27,8 @@ class Index extends Template {
 		<title>', Main::$config->read('wiki', 'WIKI_NAME'),' | ', Main::$config->read('wiki', 'WIKI_SLOGAN'), '</title>
 		<link rel="stylesheet" type="text/css" href="', $this->getStylesheet('Index'), '" />
 	</head>
-	<body>';
+	<body>
+		Test test test';
 	}
 
 	public function showFooter() {
