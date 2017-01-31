@@ -51,7 +51,8 @@ class Config {
 		 * Paths and urls
 		 */
 		$this->_settings['path'] = [
-			'BASE_PATH' => '/var/www/html/DraiWiki/'
+			'BASE_PATH' => '/var/www/html/DraiWiki/',
+			'BASE_URL' => 'http://localhost/DraiWiki/'
 		];
 	}
 

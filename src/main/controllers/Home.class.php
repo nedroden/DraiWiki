@@ -29,7 +29,7 @@ class Home implements App{
 	private $_view;
 
 	public function __construct() {
-		$_view = new View();
+		$_view = new View('Home');
 	}
 
 	public function show() {
@@ -37,6 +37,6 @@ class Home implements App{
 	}
 
 	public function getTitle() {
-		
+
 	}
 }
