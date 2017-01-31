@@ -9,18 +9,16 @@
  * @license     Apache 2.0
  *
  * Class information:
- * This class is used for loading a view. It automatically loads the correct files.
+ * This class is used for loading the other required classes and setting up the wiki.
  * @since 		1.0 Alpha 1
  * @author 		DraiWiki development team
  */
 
-namespace DraiWiki\views;
+namespace DraiWiki\src\interfaces;
 
-if (!defined('DraiWiki')) {
-	header('Location: ../index.php');
-	die('You\'re really not supposed to be here.');
-}
+interface App {
 
-class View {
+	public function show();
 
+	public function getTitle();
 }

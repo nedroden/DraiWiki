@@ -21,6 +21,22 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
-class Home {
-	
+use DraiWiki\src\interfaces\App;
+use DraiWiki\views\View;
+
+class Home implements App{
+
+	private $_view;
+
+	public function __construct() {
+		$_view = new View();
+	}
+
+	public function show() {
+
+	}
+
+	public function getTitle() {
+		
+	}
 }
