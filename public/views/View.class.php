@@ -35,13 +35,13 @@ class View {
 		return Main::$config->read('path', 'BASE_URL') . 'public/views/images/' . Main::$config->read('wiki', 'WIKI_IMAGES') . '/';
 	}
 
-	private function getSkin() {
+	private function getStylesheet() {
 		return Main::$config->read('path', 'BASE_URL') . 'index.php?stylesheet=' . lcfirst($this->_name);
 	}
 
 	public function get() {
 		require_once Main::$config->read('path', 'BASE_PATH') . 'public/views/templates/' . Main::$config->read('wiki', 'WIKI_TEMPLATES') . '/' . $this->_name . '.template.php';
 		$tplName = 'DraiWiki\views\templates\\' . $this->_name;
-		return new $tplName($this->getImageLink(), $this->getSkin());
+		return new $tplName($this->getImageLink(), $this->getStylesheet());
 	}
 }

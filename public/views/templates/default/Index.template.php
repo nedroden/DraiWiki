@@ -20,14 +20,19 @@ use DraiWiki\views\Template;
 
 class Index extends Template {
 
-	private $_menuItems = [];
+	private $_imageUrl, $_skinUrl, $_menuItems = [];
+
+	public function __construct($imageUrl, $skinUrl) {
+		$this->_imageUrl = $imageUrl;
+		$this->_skinUrl = $skinUrl;
+	}
 
 	public function showHeader() {
 		echo '<!DOCTYPE HTML>
 <html>
 	<head>
 		<title>', Main::$config->read('wiki', 'WIKI_NAME'),' | ', Main::$config->read('wiki', 'WIKI_SLOGAN'), '</title>
-		<link rel="stylesheet" type="text/css" href="', $this->getStylesheet('Index'), '" />
+		<link rel="stylesheet" type="text/css" href="', $this->_skinUrl, '" />
 	</head>
 	<body>
 		<div id="wrapper">
