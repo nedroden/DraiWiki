@@ -23,10 +23,33 @@ if (!defined('DraiWiki')) {
 
 class Menu {
 
-	private static $_tabs = [
-	];
+	private $_items = [];
+
+	public function __construct() {
+		$this->set();
+	}
 
 	public function get() {
-		
+		return $this->_items;
+	}
+
+	private function set() {
+		$this->_items = [
+			'home' => [
+				'label' => 'Home',
+				'href' => 'index.php',
+				'visible' => true,
+			],
+			'login' => [
+				'label' => 'Login',
+				'href' => 'index.php?app=login',
+				'visible' => true,
+			],
+			'register' => [
+				'label' => 'Register',
+				'href' => 'index.php?app=register',
+				'visible' => true,
+			]
+		];
 	}
 }

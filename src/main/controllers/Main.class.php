@@ -24,6 +24,7 @@ if (!defined('DraiWiki')) {
 use DraiWiki\Config;
 use DraiWiki\views\View;
 use DraiWiki\views\Stylesheet;
+use DraiWiki\src\main\models\Menu;
 
 require 'public/Config.php';
 
@@ -59,9 +60,14 @@ class Main {
 		}
 
 		$this->loadApp($this->_currentAppName);
-		$view = new View('Index');
 
+		$view = new View('Index');
+		$menu = new Menu();
+
+		$menuItems = $menu->get();
 		$template = $view->get();
+		$template->pushMenu($menuItems);
+
 		$template->showHeader();
 		$this->_currentApp->show();
 		$template->showFooter();
@@ -75,7 +81,7 @@ class Main {
 	}
 
 	private function getCurrentApp() {
-		if (!empty($_GET['app']) && array_key_exists(strtolower($_GET['app']), $this->_app))
+		if (!empty($_GET['app']) && array_key_exists(strtolower($_GET['app']), $this->_apps))
 			return $_GET['app'];
 		else
 			return 'home';

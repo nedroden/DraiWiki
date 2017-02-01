@@ -20,6 +20,8 @@ use DraiWiki\views\Template;
 
 class Index extends Template {
 
+	private $_menuItems = [];
+
 	public function showHeader() {
 		echo '<!DOCTYPE HTML>
 <html>
@@ -29,14 +31,11 @@ class Index extends Template {
 	</head>
 	<body>
 		<div id="wrapper">
-			<div id="topbar">
-				<div id="menu">
-					<a href="index.php">Home</a>
-					<a href="index.php">Random page</a>
-					<a href="index.php">Search</a>
-					<a href="index.php">Admin</a>
-					<a href="index.php">Logout</a>
-				</div>
+			<div id="topbar">';
+
+		$this->showMenu();
+
+		echo '
 				<div id="search">
 					<input type="text" placeholder="Search for a page" />
 				</div>
@@ -55,5 +54,23 @@ echo '
 		</div>
 	</body>
 </html>';
+	}
+
+	private function showMenu() {
+		echo '
+				<div id="menu">';
+
+		foreach ($this->_menuItems as $item) {
+			if ($item['visible'])
+				echo '
+					<a href="', $item['href'], '">', $item['label'],'</a>';
+		}
+
+		echo '
+				</div>';
+	}
+
+	public function pushMenu($menuItems) {
+		$this->_menuItems = $menuItems;
 	}
 }
