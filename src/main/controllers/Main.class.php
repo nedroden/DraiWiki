@@ -64,9 +64,8 @@ class Main {
 		$view = new View('Index');
 		$menu = new Menu();
 
-		$menuItems = $menu->get();
 		$template = $view->get();
-		$template->pushMenu($menuItems);
+		$template->pushMenu($menu->get());
 
 		$template->showHeader();
 		$this->_currentApp->show();

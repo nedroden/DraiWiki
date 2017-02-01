@@ -33,6 +33,7 @@ class Index extends Template {
 	<head>
 		<title>', Main::$config->read('wiki', 'WIKI_NAME'),' | ', Main::$config->read('wiki', 'WIKI_SLOGAN'), '</title>
 		<link rel="stylesheet" type="text/css" href="', $this->_skinUrl, '" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	</head>
 	<body>
 		<div id="wrapper">
@@ -49,13 +50,16 @@ class Index extends Template {
 			<div id="header">
 				', Main::$config->read('wiki', 'WIKI_NAME'), '
 			</div>
-			<div id="body">
+			<div id="content">
 				This is a <a href="index.php">link</a>.';	
 	}
 
 	public function showFooter() {
 echo '
 			</div>
+		</div>
+		<div id="copyright">
+			Powered by DraiWiki
 		</div>
 	</body>
 </html>';

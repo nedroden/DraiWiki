@@ -21,6 +21,22 @@ a {
 	text-decoration: none;
 }
 
+::selection {
+	background: #bfa89e;
+	color: #fff;
+}
+
+::-moz-selection {
+	background: #bfa89e;
+	color: #fff;
+}
+
+#copyright {
+	padding: 10px;
+	font-size: 11px;
+	text-align: center;
+}
+
 /* Styles for the top bar */
 #topbar {
 	padding: 10px 20px 10px 20px;
@@ -30,6 +46,7 @@ a {
 
 #topbar a {
 	color: #fff;
+	text-shadow: 1px 2px #000;
 }
 
 #topbar #menu {
@@ -67,9 +84,10 @@ a {
 	font-size: 30px;
 	font-family: Verdana, Helvetica, Arial;
 	padding: 30px;
+	text-shadow: 1px 2px 0 #000;
 }
 
-#body {
+#content {
 	padding: 20px;
 	background: #fff;
 	border-left: 1px solid #78a1bb;
