@@ -28,11 +28,31 @@ class Index extends Template {
 		<link rel="stylesheet" type="text/css" href="', $this->getStylesheet('Index'), '" />
 	</head>
 	<body>
-		Test test test';
+		<div id="wrapper">
+			<div id="topbar">
+				<div id="menu">
+					<a href="index.php">Home</a>
+					<a href="index.php">Random page</a>
+					<a href="index.php">Search</a>
+					<a href="index.php">Admin</a>
+					<a href="index.php">Logout</a>
+				</div>
+				<div id="search">
+					<input type="text" placeholder="Search for a page" />
+				</div>
+				<br class="clear" />
+			</div>
+			<div id="header">
+				', Main::$config->read('wiki', 'WIKI_NAME'), '
+			</div>
+			<div id="body">
+				This is a <a href="index.php">link</a>.';	
 	}
 
 	public function showFooter() {
 echo '
+			</div>
+		</div>
 	</body>
 </html>';
 	}

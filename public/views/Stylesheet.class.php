@@ -9,7 +9,7 @@
  * @license     Apache 2.0
  *
  * Class information:
- * This class is used to parse CSS files
+ * This class is used for parsing CSS files
  * @since 		1.0 Alpha 1
  * @author 		DraiWiki development team
  */

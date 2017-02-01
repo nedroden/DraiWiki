@@ -7,8 +7,87 @@
  * @version		1.0 Alpha 1
  */
 
+/* General styles */
 body {
-	background: #ebf5ee;
+	background: #e6ebe0;
 	font-family: "Trebuchet MS", Verdana, Helvetica, Arial;
 	font-size: 14px;
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	color: #78a1bb;
+	text-decoration: none;
+}
+
+/* Styles for the top bar */
+#topbar {
+	padding: 10px 20px 10px 20px;
+	color: #fff;
+	background: #141414;
+}
+
+#topbar a {
+	color: #fff;
+}
+
+#topbar #menu {
+	float: left;
+	width: 60%;
+}
+
+#topbar #menu a {
+	margin-right: 15px;
+	vertical-align: middle!important;
+}
+
+#topbar #search {
+	float: right;
+	width: 35%;
+	text-align: right;
+}
+
+#topbar #search input {
+	border: 0px;
+	background: #fff;
+	padding: 3px;
+	vertical-align: middle!important;
+}
+
+/* Wrapper, header and body styles */
+#wrapper {
+	width: 80%;
+	margin: auto;
+}
+
+#header {
+	background: #283044;
+	color: #fff;
+	font-size: 30px;
+	font-family: Verdana, Helvetica, Arial;
+	padding: 30px;
+}
+
+#body {
+	padding: 20px;
+	background: #fff;
+	border-left: 1px solid #78a1bb;
+	border-right: 1px solid #78a1bb;
+	border-bottom: 1px solid #78a1bb;
+	border-bottom-right-radius: 8px;
+	border-bottom-left-radius: 8px;
+}
+
+/* Positioning */
+.floatRight {
+	float: right;
+}
+
+.floatLeft {
+	float: left;
+}
+
+.clear {
+	clear: both;
 }
