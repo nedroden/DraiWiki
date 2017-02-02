@@ -21,6 +21,9 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+/**
+ * @todo	Turn class into a singleton
+ */
 class Config {
 
 	private $_settings;
@@ -30,11 +33,12 @@ class Config {
 		 * DraiWiki will use the data below to establish a connection to the database.
 		 */
 		$this->_settings['database'] = [ 
-			'DB_SERVER' => 'localhost',
+			'DB_SERVER' => '127.0.0.1',
 			'DB_USERNAME' => 'pasta',
 			'DB_PASSWORD' => '',
 			'DB_NAME' => 'draiwiki',
-			'DB_PREFIX' => 'drai_'
+			'DB_PREFIX' => 'drai_',
+			'DB_CHARSET' => 'utf8mb4'
 		];
 
 		/**

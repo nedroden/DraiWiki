@@ -22,8 +22,9 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\Config;
-use DraiWiki\views\View;
 use DraiWiki\views\Stylesheet;
+use DraiWiki\views\View;
+use DraiWiki\src\database\controllers\Connection;
 use DraiWiki\src\main\models\Menu;
 
 require 'public/Config.php';
@@ -45,10 +46,13 @@ class Main {
 		self::$config = new Config();
 		$this->setCurrentApp();
 
+		require_once self::$config->read('path', 'BASE_PATH') . 'src/database/controllers/Connection.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'public/views/Template.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'public/views/View.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/interfaces/App.interface.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/models/Menu.class.php';
+
+		Connection::instantiate();
 	}
 
 	public function init() {
