@@ -47,7 +47,7 @@ class Config {
 		$this->_settings['wiki'] = [
 			'WIKI_NAME' => 'DraiWiki',
 			'WIKI_SLOGAN' => 'Revolutionary wiki software',
-			'WIKI_LANG' => 'en_US',
+			'WIKI_LOCALE' => 'en_US',
 			'WIKI_SKIN' => 'default',
 			'WIKI_IMAGES' => 'default',
 			'WIKI_TEMPLATES' => 'default',

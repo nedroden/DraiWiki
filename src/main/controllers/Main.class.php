@@ -26,6 +26,7 @@ use DraiWiki\views\Stylesheet;
 use DraiWiki\views\View;
 use DraiWiki\src\database\controllers\Connection;
 use DraiWiki\src\main\models\Menu;
+use DraiWiki\src\main\models\Locale;
 
 require 'public/Config.php';
 
@@ -51,8 +52,10 @@ class Main {
 		require_once self::$config->read('path', 'BASE_PATH') . 'public/views/View.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/interfaces/App.interface.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/models/Menu.class.php';
+		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/models/Locale.class.php';
 
 		Connection::instantiate();
+		Locale::instantiate();
 	}
 
 	public function init() {
