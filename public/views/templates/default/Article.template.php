@@ -17,7 +17,7 @@ if (!defined('DraiWiki')) {
 
 use DraiWiki\views\Template;
 
-class Home extends Template {
+class Article extends Template {
 
 	public function __construct($images, $skin) {
 

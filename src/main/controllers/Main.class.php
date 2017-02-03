@@ -36,9 +36,9 @@ class Main {
 	private $_currentApp, $_currentAppName;
 
 	private $_apps = [
-		'home' => [
+		'article' => [
 			'package' => 'main',
-			'class' => 'Home'
+			'class' => 'Article'
 		]
 	];
 
@@ -80,14 +80,20 @@ class Main {
 		require_once self::$config->read('path', 'BASE_PATH') . '/src/' . $this->_apps[$app]['package'] . '/controllers/' . $this->_apps[$app]['class'] . '.class.php';
 
 		$classname = '\DraiWiki\src\\' . $this->_apps[$app]['package'] . '\controllers\\' . $this->_apps[$app]['class'];
-		$this->_currentApp = new $classname(); 
+
+		if (!$this->_currentAppName == 'article')
+			$this->_currentApp = new $classname();
+		else if ($this->_currentAppName == 'article' && empty($_GET['article']))
+			$this->_currentApp = new $classname(true);
+		else
+			$this->_currentApp = new $classname(false, $_GET['article']);
 	}
 
 	private function getCurrentApp() {
 		if (!empty($_GET['app']) && array_key_exists(strtolower($_GET['app']), $this->_apps))
 			return $_GET['app'];
 		else
-			return 'home';
+			return 'article';
 	}
 
 	private function setCurrentApp() {

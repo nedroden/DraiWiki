@@ -47,9 +47,11 @@ class Config {
 		$this->_settings['wiki'] = [
 			'WIKI_NAME' => 'DraiWiki',
 			'WIKI_SLOGAN' => 'Revolutionary wiki software',
+			'WIKI_LANG' => 'en_US',
 			'WIKI_SKIN' => 'default',
 			'WIKI_IMAGES' => 'default',
-			'WIKI_TEMPLATES' => 'default'
+			'WIKI_TEMPLATES' => 'default',
+			'WIKI_HOMEPAGE' => 'Home'
 		];
 
 		/**
@@ -66,5 +68,15 @@ class Config {
 			return $this->_settings[$category][$key];
 		else
 			return null;
+	}
+
+	/**
+	 * This method will be used for adding settings retrieved from the database.
+	 */
+	public function import($category, $key, $value) {
+		if (empty($this->_settings[$category]))
+			$this->_settings[$category] = [$key => $value];
+		else
+			$this->_settings[$category][$key] = $value;
 	}
 }

@@ -42,16 +42,15 @@ class Index extends Template {
 		$this->showMenu();
 
 		echo '
-				<div id="search">
-					<input type="text" placeholder="Search for a page" />
+				<div id="userinfo">
+					Hello, <strong>Robert</strong>
 				</div>
 				<br class="clear" />
 			</div>
 			<div id="header">
 				', Main::$config->read('wiki', 'WIKI_NAME'), '
 			</div>
-			<div id="content">
-				This is a <a href="index.php">link</a>.';	
+			<div id="content">';	
 	}
 
 	public function showFooter() {
@@ -59,7 +58,8 @@ echo '
 			</div>
 		</div>
 		<div id="copyright">
-			Powered by DraiWiki
+			Powered by <a href="http://robertmonden.com/draiwiki" target="_blank">DraiWiki</a> 1.0 Alpha 1 | 
+			&copy; 2017 Robert Monden
 		</div>
 	</body>
 </html>';

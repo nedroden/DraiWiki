@@ -10,7 +10,7 @@
 /* General styles */
 body {
 	background: #e6ebe0;
-	font-family: "Trebuchet MS", Verdana, Helvetica, Arial;
+	font-family: Helvetica, "Trebuchet MS", Verdana, Arial;
 	font-size: 14px;
 	padding: 0;
 	margin: 0;
@@ -37,6 +37,10 @@ a {
 	text-align: center;
 }
 
+h1, h2, h3, h4, h5, h6 {
+	color: #78a1bb;
+}
+
 /* Styles for the top bar */
 #topbar {
 	padding: 10px 20px 10px 20px;
@@ -59,17 +63,10 @@ a {
 	vertical-align: middle!important;
 }
 
-#topbar #search {
+#topbar #userinfo {
 	float: right;
 	width: 35%;
 	text-align: right;
-}
-
-#topbar #search input {
-	border: 0px;
-	background: #fff;
-	padding: 3px;
-	vertical-align: middle!important;
 }
 
 /* Wrapper, header and body styles */
