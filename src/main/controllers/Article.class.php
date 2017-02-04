@@ -22,8 +22,11 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\main\controllers\Main;
+use DraiWiki\src\main\models\Article as Model;
 use DraiWiki\src\interfaces\App;
 use DraiWiki\views\View;
+
+require_once Main::$config->read('path', 'BASE_PATH') . 'src/main/models/Article.class.php';
 
 class Article implements App {
 
@@ -34,11 +37,15 @@ class Article implements App {
 		$this->_currentPage = $currentPage == null ? Main::$config->read('wiki', 'WIKI_HOMEPAGE') : $currentPage;
 
 		$this->_view = new View('Article');
+		$this->_model = new Model();
+
 		$this->_template = $this->_view->get();
 	}
 
 	public function show() {
-
+		$this->_template->setData([
+			'article' => $this->_model->retrieve($this->_currentPage)
+		]);
 	}
 
 	public function getTitle() {

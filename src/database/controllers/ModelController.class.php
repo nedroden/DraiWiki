@@ -23,11 +23,15 @@ if (!defined('DraiWiki')) {
 
 //use DraiWiki\src\database\controllers\Connection;
 
-class ModelController {
+abstract class ModelController {
 
 	private $_connection;
 
-	public function __construct() {
+	protected function __construct() {
 		$this->_connection = Connection::instantiate();
+	}
+
+	protected function retrieveFromDatabase($query) {
+		return $this->_connection->query($query);
 	}
 }

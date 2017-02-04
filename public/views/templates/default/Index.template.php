@@ -25,6 +25,7 @@ class Index extends Template {
 	public function __construct($imageUrl, $skinUrl) {
 		$this->_imageUrl = $imageUrl;
 		$this->_skinUrl = $skinUrl;
+		$this->loadLocale();
 	}
 
 	public function showHeader() {
@@ -43,7 +44,7 @@ class Index extends Template {
 
 		echo '
 				<div id="userinfo">
-					Hello, <strong>Robert</strong>
+					', sprintf($this->locale->read('index', 'hello'), 'Robert'), '
 				</div>
 				<br class="clear" />
 			</div>
@@ -58,8 +59,7 @@ echo '
 			</div>
 		</div>
 		<div id="copyright">
-			Powered by <a href="http://robertmonden.com/draiwiki" target="_blank">DraiWiki</a> 1.0 Alpha 1 | 
-			&copy; 2017 Robert Monden
+			', $this->getCopyright(), '
 		</div>
 	</body>
 </html>';
@@ -72,7 +72,7 @@ echo '
 		foreach ($this->_menuItems as $item) {
 			if ($item['visible'])
 				echo '
-					<a href="', $item['href'], '">', $item['label'],'</a>';
+					<a href="', $item['href'], '">', $this->locale->read('index', $item['label']), '</a>';
 		}
 
 		echo '

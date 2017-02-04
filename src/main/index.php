@@ -14,6 +14,8 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+ob_start();
+
 define('DraiWikiVersion', '1.0 Alpha 1');
 
 require '../src/main/Main.class.php';

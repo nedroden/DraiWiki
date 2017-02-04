@@ -48,6 +48,7 @@ class Main {
 		$this->setCurrentApp();
 
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/database/controllers/Connection.class.php';
+		require_once self::$config->read('path', 'BASE_PATH') . 'src/database/controllers/ModelController.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'public/views/Template.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'public/views/View.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/interfaces/App.interface.php';

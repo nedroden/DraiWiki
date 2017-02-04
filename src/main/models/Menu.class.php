@@ -34,19 +34,20 @@ class Menu {
 	}
 
 	private function set() {
+		// Note: the label should refer to a string in Index.language.php. The correct string is then loaded automatically.
 		$this->_items = [
 			'home' => [
-				'label' => 'Home',
+				'label' => 'home',
 				'href' => 'index.php',
 				'visible' => true,
 			],
 			'login' => [
-				'label' => 'Login',
+				'label' => 'login',
 				'href' => 'index.php?app=login',
 				'visible' => true,
 			],
 			'register' => [
-				'label' => 'Register',
+				'label' => 'register',
 				'href' => 'index.php?app=register',
 				'visible' => true,
 			]
