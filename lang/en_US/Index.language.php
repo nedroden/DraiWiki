@@ -17,11 +17,11 @@
  */
 
 return [
-	'hello' => 			'Hello, <strong>%s</strong>!',
+	'hello' => 'Hello, <strong>%s</strong>!',
 
-	'home' => 			'Home',
-	'login' => 			'Login',
-	'register' => 		'Register',
-	'logout' => 		'Logout',
-	'admin' => 			'Admin'
+	'home' => 'Home',
+	'login' => 'Login',
+	'register' => 'Register',
+	'logout' => 'Logout',
+	'admin' => 'Admin'
 ];

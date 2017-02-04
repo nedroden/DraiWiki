@@ -32,6 +32,6 @@ abstract class ModelController {
 	}
 
 	protected function retrieveFromDatabase($query) {
-		return $this->_connection->query($query);
+		return $this->_connection->executeQuery($query);
 	}
 }

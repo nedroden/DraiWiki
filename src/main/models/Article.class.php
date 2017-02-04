@@ -26,10 +26,10 @@ use DraiWiki\src\database\controllers\ModelController;
 class Article extends ModelController {
 
 	public function __construct() {
-
+		parent::__construct();
 	}
 
 	public function retrieve($id) {
-
+		//$result = $this->retrieveFromDatabase('');
 	}
 }
