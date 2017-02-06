@@ -9,6 +9,9 @@
  * @license     Apache 2.0
  */
 session_start();
+ob_start();
+
+set_time_limit(25);
 
 use DraiWiki\src\main\controllers\Main;
 

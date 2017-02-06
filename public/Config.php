@@ -28,6 +28,10 @@ class Config {
 
 	private $_settings;
 
+	/**
+	 * Creates a new instance of the Config class and adds default settings to the settings array.
+	 * @return Config
+	 */
 	public function __construct() {
 		/**
 		 * DraiWiki will use the data below to establish a connection to the database.
@@ -63,6 +67,12 @@ class Config {
 		];
 	}
 
+	/**
+	 * This method is used for retrieving a specific setting.
+	 * @param string $category The category the setting belongs to
+	 * @param string $key The identification key of the desired setting
+	 * @return string/int/boolean The setting's value
+	 */
 	public function read($category, $key) {
 		if (!empty($this->_settings[$category][$key]))
 			return $this->_settings[$category][$key];
@@ -71,7 +81,12 @@ class Config {
 	}
 
 	/**
-	 * This method will be used for adding settings retrieved from the database.
+	 * This method will be used for adding settings retrieved from the database. Any existing
+	 * settings will be overwritten.
+	 * @param string $category The category the current element belongs to, e.g. database, layout, etc.
+	 * @param string $key The key will be used to identify the setting
+	 * @param string $value The value of the setting
+	 * @return void
 	 */
 	public function import($category, $key, $value) {
 		if (empty($this->_settings[$category]))
