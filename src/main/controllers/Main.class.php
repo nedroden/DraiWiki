@@ -43,6 +43,10 @@ class Main {
 		]
 	];
 
+	/**
+	 * This method loads the necessary files and creates a new database connection.
+	 * @return void
+	 */
 	public function __construct() {
 		self::$config = new Config();
 		$this->setCurrentApp();
@@ -59,6 +63,10 @@ class Main {
 		Locale::instantiate();
 	}
 
+	/**
+	 * This method makes sure we have something to work with and then proceeds to show content to the screen.
+	 * @return void
+	 */
 	public function init() {
 		if (!empty($_GET['stylesheet'])) {
 			require_once self::$config->read('path', 'BASE_PATH') . 'public/views/Stylesheet.class.php';
@@ -80,6 +88,11 @@ class Main {
 		$template->showFooter();
 	}
 
+	/**
+	 * This method loads the correct files for an app and creates a new instance of the corresponding class.
+	 * @param string $app The name of the app
+	 * @return void
+	 */
 	private function loadApp($app) {
 		require_once self::$config->read('path', 'BASE_PATH') . '/src/' . $this->_apps[$app]['package'] . '/controllers/' . $this->_apps[$app]['class'] . '.class.php';
 
@@ -93,6 +106,10 @@ class Main {
 			$this->_currentApp = new $classname(false, $_GET['article']);
 	}
 
+	/**
+	 * Determines the app that should be loaded, based on the value of _GET['app'].
+	 * @return string The name of the app that should be loaded
+	 */
 	private function getCurrentApp() {
 		if (!empty($_GET['app']) && array_key_exists(strtolower($_GET['app']), $this->_apps))
 			return $_GET['app'];
@@ -100,6 +117,10 @@ class Main {
 			return 'article';
 	}
 
+	/**
+	 * This method sets the name of the current app based on the return value of getCurrentApp()
+	 * @return void
+	 */
 	private function setCurrentApp() {
 		$this->_currentAppName = $this->getCurrentApp();
 	}
