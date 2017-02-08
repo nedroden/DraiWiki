@@ -21,7 +21,7 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
-//use DraiWiki\src\database\controllers\Connection;
+use DraiWiki\src\database\controllers\Query;
 
 abstract class ModelController {
 

@@ -22,6 +22,7 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\database\controllers\ModelController;
+use DraiWiki\src\database\controllers\Query;
 
 class Article extends ModelController {
 
@@ -30,6 +31,8 @@ class Article extends ModelController {
 	}
 
 	public function retrieve($id) {
-		//$result = $this->retrieveFromDatabase('');
+		// Note: this is just to test the Query class, this will be removed as soon as it works properly.
+		$query = new Query();
+		echo $query->retrieve('ID', 'username', 'first_name')->from('test')->toString();
 	}
 }

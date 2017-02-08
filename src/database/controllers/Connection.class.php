@@ -57,40 +57,4 @@ class Connection {
 
 		return self::$_instance;
 	}
-
-	public function executeQuery($query, $type = 'retrieve', $parameters = []) {
-		try {
-			$preparedQuery = $this->_connection->prepare($query);
-		}
-		catch (PDOException $e) {
-			// @todo	Replace with error page
-			die;
-		}
-
-		if (!in_array($type, ['retrieve', 'modify']))
-			return [];
-
-		$parameters = [];
-		if (!empty($parameters)) {
-			foreach ($parameters as $key => $value)
-				$preparedQuery->bindParam(':' . $key, $value);
-		}
-
-		try {
-			if ($type == 'retrieve') 
-				$result = $preparedQuery->execute();
-			else
-				$preparedQuery->execute();
-		}
-		catch (PDOException $e) {
-			// @todo	Replace with error page
-			die;
-		}
-		finally {
-			if (!empty($result))
-				return $result;
-			else
-				return [];
-		}
-	}
 }
