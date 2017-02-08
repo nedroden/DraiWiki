@@ -37,9 +37,21 @@ class Main {
 	private $_currentApp, $_currentAppName;
 
 	private $_apps = [
+		'admin' => [
+			'package' => 'admin',
+			'class' => 'Main'
+		],
 		'article' => [
 			'package' => 'main',
 			'class' => 'Article'
+		],
+		'login' => [
+			'package' => 'auth',
+			'class' => 'Login'
+		],
+		'register' => [
+			'package' => 'auth',
+			'class' => 'Registration'
 		]
 	];
 
