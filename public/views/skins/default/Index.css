@@ -46,6 +46,7 @@ h1, h2, h3, h4, h5, h6 {
 	padding: 10px 20px 10px 20px;
 	color: #fff;
 	background: #141414;
+	background: linear-gradient(-180deg, #1a1a1a, #141414);
 }
 
 #topbar a {
@@ -77,6 +78,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #header {
 	background: #283044;
+	background: linear-gradient(-180deg, #283044, #262d40);
 	color: #fff;
 	font-size: 30px;
 	font-family: Verdana, Helvetica, Arial;
