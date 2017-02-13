@@ -31,6 +31,7 @@ class Query extends Connection {
 			self::$_connection = parent::instantiate();
 
 		$this->_query = '';
+		$this->_params = [];
 	}
 
 	public function retrieve(...$fields) {
@@ -86,6 +87,11 @@ class Query extends Connection {
 
 		$this->_query .= ' ORDER BY ' . implode('AND ', $queryFields);
 		return $this;
+	}
+
+	public function execute() {
+		$result = self::$_connection->executeQuery($this->_query, $this->_type, $this->_params);
+		return $this->_type == 'select' ? $result : null;
 	}
 
 	public function toString() {

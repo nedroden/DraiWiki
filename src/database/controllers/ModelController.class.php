@@ -25,13 +25,7 @@ use DraiWiki\src\database\controllers\Query;
 
 abstract class ModelController {
 
-	private $_connection;
-
 	protected function __construct() {
-		$this->_connection = Connection::instantiate();
-	}
 
-	protected function retrieveFromDatabase($query) {
-		return $this->_connection->executeQuery($query);
 	}
 }

@@ -21,22 +21,21 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
-use DraiWiki\src\database\controllers\ModelController;
-use DraiWiki\src\database\controllers\Query;
+use \DraiWiki\src\database\controllers\ModelController;
+use \DraiWiki\src\database\controllers\Query;
 
 class Article extends ModelController {
 
 	public function __construct() {
-		parent::__construct();
+
 	}
 
 	public function retrieve($id) {
-		// Note: this is just to test the Query class, this will be removed as soon as it works properly.
 		$query = new Query();
-		echo $query->retrieve('ID', 'username', 'first_name')
-					->from('test')
-					->where(['ID' => 2])
-					->orderBy(['ID' => 'asc'])
-					->toString();
+		$result = $query->retrieve('ID')
+						->from('articles')
+						->execute();
+
+		return $result;
 	}
 }

@@ -57,4 +57,31 @@ class Connection {
 
 		return self::$_instance;
 	}
+
+	protected function executeQuery($query, $type, $params = []) {
+		try {
+			$pendingQuery = $this->_connection->prepare($query);
+		}
+		catch (PDOException $e) {
+			die('<h1>Unable to execute query.</h1>Please try again. Aborting for security reasons.');
+		}
+
+		try {
+			foreach ($params as $paramKey => $paramValue)
+				$pendingQuery->bindParam(':' . $paramKey, $paramValue);
+
+			$pendingQuery->execute();
+			$result = $pendingQuery->fetchAll(PDO::FETCH_ASSOC);
+		}
+		catch (PDOException $e) {
+			$failed = true;
+			die('<h1>Unable to execute query.</h1>Please try again. Aborting for security reasons.');
+		}
+		finally {
+			if (empty($failed) && $type == 'select')
+				return $result;
+			else
+				return null;
+		}
+	}
 }
