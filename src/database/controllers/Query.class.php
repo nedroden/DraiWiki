@@ -55,18 +55,36 @@ class Query extends Connection {
 	}
 
 	public function where($fields = []) {
-		$this->_query .= ' ';
-
 		if (!is_array($fields))
 			return null;
 
-		$queryFields = '';
+		$this->_query .= ' WHERE ';
+
+		$queryFields = [];
 		foreach ($fields as $key => $value) {
-			$queryFields .= ' ' . $value . ' = :VAL_' . $value;
-			$this->_params[$value] = $shouldBe[$key];
+			$queryFields[] = ' ' . $key . ' = :VAL_PARAM_' . $key;
+			$this->_params['VAL_PARAM_' . $key] = $value;
 		}
 
 		$this->_query .= implode('AND ', $queryFields);
+		return $this;
+	}
+
+	public function orderBy($fields = []) {
+		if (!is_array($fields))
+			return null;
+
+		$queryFields = [];
+		foreach ($fields as $name => $direction) {
+			$direction = strtoupper($direction);
+
+			if (!$direction == 'ASC' || !$direction == 'DESC')
+				return null;
+
+			$queryFields[] = $name . ' ' . $direction;
+		}
+
+		$this->_query .= ' ORDER BY ' . implode('AND ', $queryFields);
 		return $this;
 	}
 

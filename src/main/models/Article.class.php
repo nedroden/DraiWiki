@@ -9,7 +9,7 @@
  * @license     Apache 2.0
  *
  * Class information:
- * This class is used for loading pages.
+ * This class is used for loading articles.
  * @since 		1.0 Alpha 1
  * @author 		DraiWiki development team
  */
@@ -33,6 +33,10 @@ class Article extends ModelController {
 	public function retrieve($id) {
 		// Note: this is just to test the Query class, this will be removed as soon as it works properly.
 		$query = new Query();
-		echo $query->retrieve('ID', 'username', 'first_name')->from('test')->toString();
+		echo $query->retrieve('ID', 'username', 'first_name')
+					->from('test')
+					->where(['ID' => 2])
+					->orderBy(['ID' => 'asc'])
+					->toString();
 	}
 }
