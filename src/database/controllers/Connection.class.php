@@ -19,6 +19,7 @@ namespace DraiWiki\src\database\controllers;
 use PDO;
 use PDOException;
 use DraiWiki\src\main\controllers\Main;
+use DraiWiki\src\main\controllers\Error;
 
 class Connection {
 
@@ -74,14 +75,11 @@ class Connection {
 			$result = $pendingQuery->fetchAll(PDO::FETCH_ASSOC);
 		}
 		catch (PDOException $e) {
-			$failed = true;
-			die('<h1>Unable to execute query.</h1>Please try again. Aborting for security reasons.');
+			$error = new Error('execute_query_failure', [$e->getMessage()]);
+			$error->show();
 		}
 		finally {
-			if (empty($failed) && $type == 'select')
-				return $result;
-			else
-				return null;
+			return $type == 'select' ? $result : null;
 		}
 	}
 }

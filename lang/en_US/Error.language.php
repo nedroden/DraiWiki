@@ -17,5 +17,7 @@
  */
 
 return [
-
+	'an_error_occured' => 'Oops!',
+	'an_error_occured_message' => 'A fatal error occured. For security purposes the script will now be aborted. If this error message keeps appearing, please contact the administrator. We apologize for the inconvenience.',
+	'execute_query_failure' => 'The script was unable to execute a query, thus the script has been aborted for security reasons.'
 ];

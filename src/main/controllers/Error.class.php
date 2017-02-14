@@ -31,7 +31,13 @@ class Error {
 
 	private $_model, $_view, $_langFallback;
 
-	public function __construct($title, $message, $detailedInfo = null, $langFallback = false) {
+	public function __construct($detailedInfo = null, $parameters = [], $langFallback = false) {
 		$this->_langFallback = $langFallback;
+		$this->_model = new Model();
+		$this->_view = new View('Error');
+	}
+
+	public function show() {
+
 	}
 }
