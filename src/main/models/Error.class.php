@@ -14,7 +14,7 @@
  * @author 		DraiWiki development team
  */
 
-namespace DraiWiki\src\main\controllers;
+namespace DraiWiki\src\main\models;
 
 if (!defined('DraiWiki')) {
 	header('Location: ../index.php');
@@ -24,6 +24,6 @@ if (!defined('DraiWiki')) {
 class Error {
 
 	public function __construct() {
-		
+
 	}
 }
