@@ -27,6 +27,7 @@ class Locale {
 	private function __construct() {
 		$this->_language = Main::$config->read('wiki', 'WIKI_LOCALE');
 		$this->loadFile('Index');
+		$this->loadFile('Error');
 	}
 
 	public static function instantiate() {
