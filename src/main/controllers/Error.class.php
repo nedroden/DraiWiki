@@ -40,6 +40,8 @@ class Error {
 	}
 
 	public function show() {
+		ob_end_flush();
+
 		$this->_template->setData([
 			'error' => $this->_model->retrieve()
 		]);
