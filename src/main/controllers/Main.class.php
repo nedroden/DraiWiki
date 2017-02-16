@@ -82,6 +82,9 @@ class Main {
 	 * @return void
 	 */
 	public function init() {
+		/**
+		 * @todo	Move this to another file
+		 */
 		if (!empty($_GET['stylesheet'])) {
 			require_once self::$config->read('path', 'BASE_PATH') . 'public/views/Stylesheet.class.php';
 			$stylesheet = new Stylesheet(ucfirst($_GET['stylesheet']));

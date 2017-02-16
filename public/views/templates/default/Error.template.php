@@ -24,7 +24,7 @@ class Error extends Template {
 	 * This method displays the page header HTML. Since we're dealing with an
 	 * entirely new page here, it includes the HTML opening tags (for the lack
 	 * of a better word).
-	 * @return void
+	 * @return 	void
 	 */
 	public function showHeader() {
 		echo '<!DOCTYPE HTML>
@@ -38,7 +38,7 @@ class Error extends Template {
 	/**
 	 * The controller made sure the model provided us with the necessary data
 	 * regarding the error. This is the method that shows it.
-	 * @return void
+	 * @return 	void
 	 */
 	public function showBody() {
 		echo '
@@ -51,7 +51,7 @@ class Error extends Template {
 
 	/**
 	 * As its name suggests, this method displays the page footer.
-	 * @return void
+	 * @return 	void
 	 */
 	public function showFooter() {
 		echo '
