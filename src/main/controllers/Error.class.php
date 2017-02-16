@@ -40,14 +40,13 @@ class Error {
 	}
 
 	public function show() {
-		ob_end_flush();
+		ob_clean();
 
-		$this->_template->setData([
-			'error' => $this->_model->retrieve()
-		]);
+		$this->_template->setData($this->_model->retrieve());
 
 		$this->_template->showHeader();
 		$this->_template->showBody();
-		$this->_template->showHeader();
+		$this->_template->showFooter();
+		die;
 	}
 }

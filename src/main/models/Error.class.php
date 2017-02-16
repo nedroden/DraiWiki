@@ -21,7 +21,8 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
-use DraiWIki\src\database\controllers\ModelController;
+use DraiWiki\src\database\controllers\ModelController;
+use DraiWiki\src\main\controllers\Main;
 
 class Error extends ModelController {
 
@@ -33,6 +34,14 @@ class Error extends ModelController {
 
 		$this->_title = $langFallBack ? $locale->read('Error', 'an_error_occurred') : 'Fatal error';
 		$this->_body = $langFallBack ? $locale->read('Error', 'an_error_occurred_message') : 'A fatal error has just occured, and for security reasons, the script has been aborted. We apologize for any inconvenience this is causing. Try refreshing the page to see if this error has been resolved. If not, please contact the administrator.';
-		$this->_detailedInfo = $detailedInfo;
+		$this->_detailedInfo = Main::$config->read('debug', 'ENABLE_DEBUG') ? $detailedInfo : null;
+	}
+
+	public function retrieve() {
+		return [
+			'title' => $this->_title,
+			'body' => $this->_body,
+			'detailed' => $this->_detailedInfo
+		];
 	}
 }

@@ -65,6 +65,13 @@ class Config {
 			'BASE_PATH' => '/var/www/html/DraiWiki/',
 			'BASE_URL' => 'http://localhost/DraiWiki/'
 		];
+
+		/**
+		 * Debug information
+		 */
+		$this->_settings['debug'] = [
+			'ENABLE_DEBUG' => true
+		];
 	}
 
 	/**

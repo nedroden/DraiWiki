@@ -20,10 +20,11 @@ use PDO;
 use PDOException;
 use DraiWiki\src\main\controllers\Main;
 use DraiWiki\src\main\controllers\Error;
+use DraiWiki\src\main\models\Locale;
 
 class Connection {
 
-	private $_connection;
+	private $_connection, $_locale;
 	private static $_instance;
 
 	/**
@@ -32,6 +33,8 @@ class Connection {
 	 * @return void
 	 */
 	private function __construct() {
+		$this->_locale = Locale::instantiate();
+
 		try {
 			$this->_connection = new PDO('mysql:host=' . Main::$config->read('database', 'DB_SERVER') . ';
 				dbname=' . Main::$config->read('database', 'DB_NAME') . ';
@@ -67,19 +70,21 @@ class Connection {
 			die('<h1>Unable to execute query.</h1>Please try again. Aborting for security reasons.');
 		}
 
+		$result = [];
 		try {
 			foreach ($params as $paramKey => $paramValue)
 				$pendingQuery->bindParam(':' . $paramKey, $paramValue);
 
 			$pendingQuery->execute();
-			$result = $pendingQuery->fetchAll(PDO::FETCH_ASSOC);
+			
+			if ($type == 'select')
+				$result = $pendingQuery->fetchAll(PDO::FETCH_ASSOC);
 		}
 		catch (PDOException $e) {
-			$error = new Error('execute_query_failure', [$e->getMessage()]);
+			$error = new Error(str_replace('{SQL_ERROR}', $e->getMessage(), $this->_locale->read('error', 'execute_query_failure')), [$e->getMessage()]);
 			$error->show();
 		}
-		finally {
-			return $type == 'select' ? $result : null;
-		}
+
+		return $type == 'select' ? $result : null;
 	}
 }
