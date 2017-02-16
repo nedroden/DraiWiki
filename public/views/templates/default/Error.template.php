@@ -30,7 +30,7 @@ class Error extends Template {
 		echo '<!DOCTYPE HTML>
 <html>
 	<head>
-
+		<title>', $this->data['title'], '</title>
 	</head>
 	<body>';
 	}
