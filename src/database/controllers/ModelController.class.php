@@ -22,10 +22,17 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\database\controllers\Query;
+use DraiWiki\src\main\models\Locale;
 
 abstract class ModelController {
 
+	protected $locale;
+
 	protected function __construct() {
 
+	}
+
+	protected function loadLocale() {
+		$this->locale = Locale::instantiate();
 	}
 }

@@ -21,9 +21,18 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
-class Error {
+use DraiWIki\src\main\controllers\ModelController;
 
-	public function __construct() {
+class Error extends ModelController {
 
+	private $_title, $_body, $_detailedInfo;
+
+	public function __construct($detailedInfo, $parameters, $langFallBack = false) {
+		if (!$langFallBack)
+			$this->loadLocale();
+
+		$this->_title = $langFallBack ? $locale->read('Error', 'an_error_occurred') : 'Fatal error');
+		$this->_body = $langFallBack ? $locale->read('Error', 'an_error_occurred_message' : 'A fatal error has just occured, and for security reasons, the script has been aborted. We apologize for any inconvenience this is causing. Try refreshing the page to see if this error has been resolved. If not, please contact the administrator.');
+		$this->_detailedInfo = $detailedInfo;
 	}
 }

@@ -29,15 +29,23 @@ require_once Main::$config->read('path', 'BASE_PATH') . 'src/main/models/Error.c
 
 class Error {
 
-	private $_model, $_view, $_langFallback;
+	private $_model, $_view, $_langFallback, $_template;
 
 	public function __construct($detailedInfo = null, $parameters = [], $langFallback = false) {
 		$this->_langFallback = $langFallback;
-		$this->_model = new Model();
+		$this->_model = new Model($detailedInfo, $parameters, $langFallback);
 		$this->_view = new View('Error');
+
+		$this->_template = $this->_view->get();
 	}
 
 	public function show() {
+		$this->_template->setData([
+			'error' => $this->_model->retrieve()
+		]);
 
+		$this->_template->showHeader();
+		$this->_template->showBody();
+		$this->_template->showHeader();
 	}
 }
