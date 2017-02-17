@@ -20,6 +20,13 @@ use DraiWiki\views\Template;
 
 class Error extends Template {
 
+	private $_imageUrl, $_skinUrl;
+
+	public function __construct($imageUrl, $skinUrl) {
+		$this->_imageUrl = $imageUrl;
+		$this->_skinUrl = $skinUrl;
+	}
+
 	/**
 	 * This method displays the page header HTML. Since we're dealing with an
 	 * entirely new page here, it includes the HTML opening tags (for the lack
@@ -31,8 +38,10 @@ class Error extends Template {
 <html>
 	<head>
 		<title>', $this->data['title'], '</title>
+		<link rel="stylesheet" type="text/css" href="', $this->_skinUrl, '" />
 	</head>
-	<body>';
+	<body>
+		<div id="wrapper">';
 	}
 
 	/**
@@ -42,11 +51,12 @@ class Error extends Template {
 	 */
 	public function showBody() {
 		echo '
-		<h1>', $this->data['title'], '</h1>
-		<p>', $this->data['body'], '</p>';
+			<h1>', $this->data['title'], '</h1>
+			<p>', $this->data['body'], '</p>';
 
 		if (!empty($this->data['detailed']))
-			echo '<p>', $this->data['detailed'], '</p>';
+			echo '
+				<p>', $this->data['detailed'], '</p>';
 	}
 
 	/**
@@ -55,6 +65,7 @@ class Error extends Template {
 	 */
 	public function showFooter() {
 		echo '
+		</div>
 	</body>
 </html>';
 	}
