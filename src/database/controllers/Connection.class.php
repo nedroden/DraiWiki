@@ -44,14 +44,15 @@ class Connection {
 			);
 		}
 		catch (PDOException $e) {
-			die('<h1>Database connection failed</h1>Aborting for security reasons.');
+			$error = new Error($e->getMessage(), [], true);
+			$error->show();
 		}
 
 		try {
 			$this->_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		}
 		catch (PDOException $e) {
-			$error = new Error(str_replace('{SQL_ERROR}', $e->getMessage(), $this->_locale->read('error', 'execute_query_failure')), [$e->getMessage()]);
+			$error = new Error($e->getMessage(), [], true);
 			$error->show();
 		}
 	}

@@ -38,7 +38,7 @@ a {
 }
 
 h1, h2, h3, h4, h5, h6 {
-	color: #78a1bb;
+	color: #ed6a5a;
 }
 
 /* Wrapper styles */
@@ -54,10 +54,10 @@ h1, h2, h3, h4, h5, h6 {
 /* Specific error styles */
 .sqlError {
 	font-style: italic;
-	color: red;
+	color: #ed6a5a;
 }
 
 .stringNotFound {
-	color: red;
+	color: #ed6a5a;
 	font-weight: bold;
 }

@@ -26,8 +26,9 @@ class Locale {
 
 	private function __construct() {
 		$this->_language = Main::$config->read('wiki', 'WIKI_LOCALE');
-		$this->loadFile('Index');
-		$this->loadFile('Error');
+
+		$this->loadFile('index');
+		$this->loadFile('error');
 	}
 
 	public static function instantiate() {
@@ -37,18 +38,21 @@ class Locale {
 		return self::$_instance;
 	}
 
-	public function loadFile($className) {
-		if (in_array($className, $this->_files))
+	public function loadFile($category) {
+		$fileName = ucfirst($category);
+		$category = lcfirst($category);
+
+		if (in_array($category, $this->_files))
 			return;
 
-		if (!$this->_language == 'en_US' && file_exists(Main::$config->read('path', 'BASE_PATH') . 'lang/' . $this->_language . '/' . $className . '.language.php'))
-			$this->_strings[lcfirst($className)] = require_once Main::$config->read('path', 'BASE_PATH') . 'lang/' . $this->_language . '/' . $className . '.language.php';
-		else if (Main::$config->read('path', 'BASE_PATH') . 'lang/en_US/' . $className . '.language.php')
-			$this->_strings[lcfirst($className)] = require_once Main::$config->read('path', 'BASE_PATH') . 'lang/en_US/' . $className . '.language.php';
+		if (!$this->_language == 'en_US' && file_exists(Main::$config->read('path', 'BASE_PATH') . 'lang/' . $this->_language . '/' . $fileName . '.language.php'))
+			$this->_strings[$category] = require_once Main::$config->read('path', 'BASE_PATH') . 'lang/' . $this->_language . '/' . $fileName . '.language.php';
+		else if (Main::$config->read('path', 'BASE_PATH') . 'lang/en_US/' . $fileName . '.language.php')
+			$this->_strings[$category] = require_once Main::$config->read('path', 'BASE_PATH') . 'lang/en_US/' . $fileName . '.language.php';
 		else
 			die('Could not load language file.');
 
-		$this->_files[] = $className;
+		$this->_files[] = $category;
 	}
 
 	public function read($category, $key, $return = true) {
@@ -60,5 +64,7 @@ class Locale {
 			return '<span class="stringNotFound">String not found: ' . $category . '.' . $key . '</span>';
 		else
 			echo '<span class="stringNotFound">String not found ', $category, '.', $key , '</span>';
+
+		return null;
 	}
 }
