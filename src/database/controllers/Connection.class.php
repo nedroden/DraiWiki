@@ -51,7 +51,8 @@ class Connection {
 			$this->_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		}
 		catch (PDOException $e) {
-			die('<h1>Unable to set PDO error mode.</h1>Aborting for security reasons.');
+			$error = new Error(str_replace('{SQL_ERROR}', $e->getMessage(), $this->_locale->read('error', 'execute_query_failure')), [$e->getMessage()]);
+			$error->show();
 		}
 	}
 
@@ -62,12 +63,13 @@ class Connection {
 		return self::$_instance;
 	}
 
-	protected function executeQuery($query, $type, $params = []) {
+	public function executeQuery($query, $type, $params = []) {
 		try {
 			$pendingQuery = $this->_connection->prepare($query);
 		}
 		catch (PDOException $e) {
-			die('<h1>Unable to execute query.</h1>Please try again. Aborting for security reasons.');
+			$error = new Error(str_replace('{SQL_ERROR}', $e->getMessage(), $this->_locale->read('error', 'execute_query_failure')), [$e->getMessage()]);
+			$error->show();
 		}
 
 		$result = [];

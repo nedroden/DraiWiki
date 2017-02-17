@@ -18,20 +18,22 @@ namespace DraiWiki\src\database\controllers;
 
 use PDO;
 use PDOException;
+use DraiWiki\src\database\controllers\Connection;
 use DraiWiki\src\main\controllers\Main;
 
-class Query extends Connection {
+class Query {
 
-	private $_type, $_query, $_params;
+	private $_type, $_query, $_params, $_prefix;
 
 	private static $_connection;
 
 	public function __construct() {
 		if (self::$_connection == null)
-			self::$_connection = parent::instantiate();
+			self::$_connection = Connection::instantiate();
 
 		$this->_query = '';
 		$this->_params = [];
+		$this->_prefix = Main::$config->read('database', 'DB_PREFIX');
 	}
 
 	public function retrieve(...$fields) {
@@ -50,6 +52,10 @@ class Query extends Connection {
 		if (!$this->_type == 'select')
 			return null;
 		else {
+			foreach ($tables as $key => $table) {
+				$tables[$key] = $this->_prefix . $table;
+			}
+
 			$this->_query .= ' FROM ' . implode(', ', $tables);
 			return $this;
 		}
