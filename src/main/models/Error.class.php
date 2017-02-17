@@ -32,8 +32,8 @@ class Error extends ModelController {
 		if (!$langFallBack)
 			$this->loadLocale();
 
-		$this->_title = $langFallBack ? $locale->read('Error', 'an_error_occurred') : 'Fatal error';
-		$this->_body = $langFallBack ? $locale->read('Error', 'an_error_occurred_message') : 'A fatal error has just occured, and for security reasons, the script has been aborted. We apologize for any inconvenience this is causing. Try refreshing the page to see if this error has been resolved. If not, please contact the administrator.';
+		$this->_title = !$langFallBack ? $locale->read('Error', 'an_error_occurred') : 'Fatal error';
+		$this->_body = !$langFallBack ? $locale->read('Error', 'an_error_occurred_message') : 'A fatal error has just occured, and for security reasons, the script has been aborted. We apologize for any inconvenience this is causing. Try refreshing the page to see if this error has been resolved. If not, please contact the administrator.';
 		$this->_detailedInfo = Main::$config->read('debug', 'ENABLE_DEBUG') ? $detailedInfo : null;
 	}
 
