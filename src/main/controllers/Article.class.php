@@ -43,9 +43,9 @@ class Article implements App {
 	}
 
 	public function show() {
-		$this->_template->setData([
+		/*$this->_template->setData([
 			'article' => $this->_model->retrieve($this->_currentPage)
-		]);
+		]);*/
 	}
 
 	public function getTitle() {
