@@ -38,6 +38,12 @@ class Query {
 
 	public function retrieve(...$fields) {
 		$this->_type = 'select';
+
+		// I know this looks like a mess, sorry, but it works. :P
+		foreach ($fields as $key => $field) {
+			$fields[$key] = '`' . $field . '`';
+		}
+
 		$this->_query .= 'SELECT ' . implode(', ', $fields);
 		return $this;
 	}

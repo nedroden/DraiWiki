@@ -9,7 +9,7 @@
  * @license     Apache 2.0
  *
  * Class information:
- * This class allows models to retrieve data from the database.
+ * This class contains some useful methods for models.
  * @since 		1.0 Alpha 1
  * @author 		DraiWiki development team
  */
