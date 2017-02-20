@@ -23,6 +23,7 @@ if (!defined('DraiWiki')) {
 
 use \DraiWiki\src\database\controllers\ModelController;
 use \DraiWiki\src\database\controllers\Query;
+use \DraiWiki\src\main\controllers\Main;
 
 class Article extends ModelController {
 
@@ -30,11 +31,20 @@ class Article extends ModelController {
 
 	}
 
-	public function retrieve($id) {
+	public function retrieve($title, $locale) {
 		$query = new Query();
-		$result = $query->retrieve('ID')
+		$result = $query->retrieve('ID', 'title', 'language', 'group_ID', 'status')
 						->from('articles')
+						->where([
+							'title' => $title,
+							'language' => $locale
+						])
+						->limit(1)
 						->execute();
+
+		foreach ($result as $test) {
+			echo 'Yep, we found it.';
+		}
 
 		return $result;
 	}

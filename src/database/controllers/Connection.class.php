@@ -75,11 +75,20 @@ class Connection {
 
 		$result = [];
 		try {
-			foreach ($params as $paramKey => $paramValue)
+			foreach ($params as $paramKey => $paramValue) {
 				$pendingQuery->bindParam(':' . $paramKey, $paramValue);
+			}
+
+			/**
+			 *
+			 * NOTE TO SELF:
+			 * An extra space is added after param values when there is more
+			 * than one parameter.
+			 *
+			 */
 
 			$pendingQuery->execute();
-			
+
 			if ($type == 'select')
 				$result = $pendingQuery->fetchAll(PDO::FETCH_ASSOC);
 		}

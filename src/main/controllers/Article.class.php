@@ -34,7 +34,7 @@ class Article implements App {
 
 	public function __construct($isHome, $currentPage = null) {
 		$this->_isHome = $isHome;
-		$this->_currentPage = $currentPage == null ? Main::$config->read('wiki', 'WIKI_HOMEPAGE') : $currentPage;
+		$this->_currentPage = $currentPage == null || $this->_isHome ? Main::$config->read('wiki', 'WIKI_HOMEPAGE') : $currentPage;
 
 		$this->_view = new View('Article');
 		$this->_model = new Model();
@@ -44,7 +44,7 @@ class Article implements App {
 
 	public function show() {
 		$this->_template->setData([
-			'article' => $this->_model->retrieve($this->_currentPage)
+			'article' => $this->_model->retrieve($this->_currentPage, Main::$config->read('wiki', 'WIKI_LOCALE'))
 		]);
 	}
 

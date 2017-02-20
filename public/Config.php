@@ -46,16 +46,12 @@ class Config {
 		];
 
 		/**
-		 * Wiki settings. Note: will probably be moved to the database in the future.
+		 * Wiki settings
 		 */
 		$this->_settings['wiki'] = [
-			'WIKI_NAME' => 'DraiWiki',
-			'WIKI_SLOGAN' => 'Revolutionary wiki software',
 			'WIKI_LOCALE' => 'en_US',
 			'WIKI_SKIN' => 'default',
-			'WIKI_IMAGES' => 'default',
-			'WIKI_TEMPLATES' => 'default',
-			'WIKI_HOMEPAGE' => 'Home'
+			'WIKI_IMAGES' => 'default'
 		];
 
 		/**

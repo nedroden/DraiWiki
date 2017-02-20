@@ -38,12 +38,6 @@ class Query {
 
 	public function retrieve(...$fields) {
 		$this->_type = 'select';
-
-		// I know this looks like a mess, sorry, but it works. :P
-		foreach ($fields as $key => $field) {
-			$fields[$key] = '`' . $field . '`';
-		}
-
 		$this->_query .= 'SELECT ' . implode(', ', $fields);
 		return $this;
 	}
@@ -75,11 +69,13 @@ class Query {
 
 		$queryFields = [];
 		foreach ($fields as $key => $value) {
-			$queryFields[] = ' ' . $key . ' = :VAL_PARAM_' . $key;
-			$this->_params['VAL_PARAM_' . $key] = $value;
+			$queryFields[] = $key . ' = :param_' . $key;
+			$this->_params['param_' . $key] = $value;
 		}
 
-		$this->_query .= implode('AND ', $queryFields);
+		$this->_query .= implode(' AND ', $queryFields);
+
+		echo $this->_query;
 		return $this;
 	}
 
@@ -98,6 +94,11 @@ class Query {
 		}
 
 		$this->_query .= ' ORDER BY ' . implode('AND ', $queryFields);
+		return $this;
+	}
+
+	public function limit($amount) {
+		$this->_query .= ' LIMIT ' . $amount;
 		return $this;
 	}
 
