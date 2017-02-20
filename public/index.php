@@ -24,6 +24,7 @@ else if (version_compare(phpversion(), '5.6.0', '<'))
 
 define('DraiWikiVersion', '1.0 Alpha 1');
 
-require 'src/main/controllers/Main.class.php';
+require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../src/main/controllers/Main.class.php';
 $main = new Main();
 $main->init();
