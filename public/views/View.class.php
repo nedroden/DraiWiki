@@ -36,7 +36,7 @@ class View {
 	}
 
 	private function getStylesheet() {
-		return Main::$config->read('path', 'BASE_URL') . 'index.php?stylesheet=' . lcfirst($this->_name);
+		return Main::$config->read('path', 'BASE_URL') . 'stylesheet.php?id=' . lcfirst($this->_name);
 	}
 
 	public function get() {

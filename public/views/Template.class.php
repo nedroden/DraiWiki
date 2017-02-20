@@ -29,7 +29,7 @@ abstract class Template {
 	protected $locale, $data;
 
 	protected function getStylesheet($name) {
-		return Main::$config->read('path', 'BASE_URL') . 'index.php?stylesheet=' . lcfirst($name);
+		return Main::$config->read('path', 'BASE_URL') . 'stylesheet.php?id=' . lcfirst($name);
 	}
 
 	protected function loadLocale() {

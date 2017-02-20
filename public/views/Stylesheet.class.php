@@ -21,14 +21,16 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
-use DraiWiki\src\main\controllers\Main;
-
 class Stylesheet {
 
-	private $_filename;
+	private $_filename, $_baseUrl, $_basePath, $_skinSet, $_imgSet;
 
-	public function __construct($filename) {
+	public function __construct($filename, $baseUrl, $basePath, $skinSet, $imgSet) {
 		$this->_filename = $filename;
+		$this->_baseUrl = $baseUrl;
+		$this->_basePath = $basePath;
+		$this->_skinSet = $skinSet;
+		$this->_imgSet = $imgSet;
 	}
 
 	public function parse() {
@@ -51,11 +53,11 @@ class Stylesheet {
 	}
 
 	private function generateImageUrl() {
-		return Main::$config->read('path', 'BASE_URL') . 'views/images/' . Main::$config->read('wiki', 'WIKI_IMAGES' . '/');
+		return $this->_baseUrl . 'views/images/' . $this->_imgSet . '/';
 	}
 
 	private function generatePath() {
-		return Main::$config->read('path', 'BASE_PATH') . 'public/views/skins/' . Main::$config->read('wiki', 'WIKI_SKIN') . '/' . $this->_filename . '.css';
+		return $this->_basePath . 'public/views/skins/' . $this->_skinSet . '/' . $this->_filename . '.css';
 	}
 
 	private function doesExist() {
