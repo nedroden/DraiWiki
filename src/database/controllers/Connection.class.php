@@ -73,30 +73,21 @@ class Connection {
 			$error->show();
 		}
 
-		$result = [];
 		try {
 			foreach ($params as $paramKey => $paramValue) {
-				$pendingQuery->bindParam(':' . $paramKey, $paramValue);
+				$pendingQuery->bindValue(':' . $paramKey, $paramValue);
 			}
-
-			/**
-			 *
-			 * NOTE TO SELF:
-			 * An extra space is added after param values when there is more
-			 * than one parameter.
-			 *
-			 */
 
 			$pendingQuery->execute();
 
 			if ($type == 'select')
-				$result = $pendingQuery->fetchAll(PDO::FETCH_ASSOC);
+				return $pendingQuery->fetchAll();
+			else
+				return null;
 		}
 		catch (PDOException $e) {
 			$error = new Error(str_replace('{SQL_ERROR}', $e->getMessage(), $this->_locale->read('error', 'execute_query_failure')), [$e->getMessage()]);
 			$error->show();
 		}
-
-		return $type == 'select' ? $result : null;
 	}
 }

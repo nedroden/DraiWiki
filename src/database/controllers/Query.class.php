@@ -69,13 +69,11 @@ class Query {
 
 		$queryFields = [];
 		foreach ($fields as $key => $value) {
-			$queryFields[] = $key . ' = :param_' . $key;
-			$this->_params['param_' . $key] = $value;
+			$queryFields[] = $key . ' = :' . $key;
+			$this->_params[$key] = $value;
 		}
 
 		$this->_query .= implode(' AND ', $queryFields);
-
-		echo $this->_query;
 		return $this;
 	}
 
@@ -103,7 +101,7 @@ class Query {
 	}
 
 	public function execute() {
-		$result = self::$_connection->executeQuery($this->_query, $this->_type, $this->_params);
+		$result = self::$_connection->executeQuery($this->_query . ';', $this->_type, $this->_params);
 		return $this->_type == 'select' ? $result : null;
 	}
 

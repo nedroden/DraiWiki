@@ -33,7 +33,14 @@ class Index extends Template {
 <html>
 	<head>
 		<title>', Main::$config->read('wiki', 'WIKI_NAME'),' | ', Main::$config->read('wiki', 'WIKI_SLOGAN'), '</title>
-		<link rel="stylesheet" type="text/css" href="', $this->_skinUrl, '" />
+		<link rel="stylesheet" type="text/css" href="', $this->_skinUrl, '" />';
+
+	foreach ($this->stylesheets as $stylesheet) {
+		echo '
+		<link rel="stylesheet" type="text/css" href="', $this->getStylesheet($stylesheet),'" />';
+	}
+
+	echo '
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	</head>
 	<body>

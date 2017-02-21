@@ -30,9 +30,10 @@ require_once Main::$config->read('path', 'BASE_PATH') . 'src/main/models/Article
 
 class Article implements App {
 
-	private $_view, $_template, $_isHome, $_currentPage;
+	private $_view, $_template, $_isHome, $_currentPage, $_hasStylesheet;
 
 	public function __construct($isHome, $currentPage = null) {
+		$this->_hasStylesheet = true;
 		$this->_isHome = $isHome;
 		$this->_currentPage = $currentPage == null || $this->_isHome ? Main::$config->read('wiki', 'WIKI_HOMEPAGE') : $currentPage;
 
@@ -43,12 +44,22 @@ class Article implements App {
 	}
 
 	public function show() {
-		$this->_template->setData([
-			'article' => $this->_model->retrieve($this->_currentPage, Main::$config->read('wiki', 'WIKI_LOCALE'))
-		]);
+		$this->_template->setData(
+			$this->_model->retrieve($this->_currentPage, Main::$config->read('wiki', 'WIKI_LOCALE'))
+		);
+
+		$this->_template->showContent();
 	}
 
 	public function getTitle() {
 
+	}
+
+	public function getHasStylesheet() {
+		return $this->_hasStylesheet;
+	}
+
+	public function getStylesheets() {
+		return ['article'];
 	}
 }

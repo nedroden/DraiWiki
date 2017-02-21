@@ -27,8 +27,10 @@ use \DraiWiki\src\main\controllers\Main;
 
 class Article extends ModelController {
 
-	public function __construct() {
+	private $_currentArticle;
 
+	public function __construct() {
+		$this->_currentArticle = [];
 	}
 
 	public function retrieve($title, $locale) {
@@ -42,10 +44,13 @@ class Article extends ModelController {
 						->limit(1)
 						->execute();
 
-		foreach ($result as $test) {
-			echo 'Yep, we found it.';
+		foreach ($result as $article) {
+			foreach ($article as $key => $value) {
+				$currentArticle[$key] = $value;
+			}
 		}
 
-		return $result;
+
+		return $currentArticle;
 	}
 }

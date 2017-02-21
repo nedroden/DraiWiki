@@ -94,6 +94,10 @@ class Main {
 		$menu = new Menu();
 
 		$template = $view->get();
+
+		if ($this->_currentApp->getHasStylesheet())
+			$template->pushStylesheets($this->_currentApp->getStylesheets());
+
 		$template->pushMenu($menu->get());
 
 		$template->showHeader();

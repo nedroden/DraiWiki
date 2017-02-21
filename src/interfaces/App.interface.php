@@ -16,4 +16,8 @@ interface App {
 	public function show();
 
 	public function getTitle();
+
+	public function getStylesheets();
+
+	public function getHasStylesheet();
 }

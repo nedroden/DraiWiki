@@ -19,7 +19,23 @@ use DraiWiki\views\Template;
 
 class Article extends Template {
 
-	public function __construct($images, $skin) {
+	private $_imageUrl, $_skinUrl;
+
+	public function __construct($imageUrl, $skinUrl) {
+		$this->_imageUrl = $imageUrl;
+		$this->_skinUrl = $skinUrl;
+	}
+
+	public function showHeader() {
+
+	}
+
+	public function showContent() {
+		echo '
+			<h1>', $this->data['title'], '</h1>';
+	}
+
+	public function showFooter() {
 
 	}
 }
