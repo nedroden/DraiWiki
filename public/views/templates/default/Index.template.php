@@ -32,7 +32,15 @@ class Index extends Template {
 		echo '<!DOCTYPE HTML>
 <html>
 	<head>
-		<title>', Main::$config->read('wiki', 'WIKI_NAME'),' | ', Main::$config->read('wiki', 'WIKI_SLOGAN'), '</title>
+		<title>';
+
+	if (empty($this->data['title']))
+		echo Main::$config->read('wiki', 'WIKI_NAME'), ' | ', Main::$config->read('wiki', 'WIKI_SLOGAN');
+
+	else 
+		echo $this->data['title'], ' | ', Main::$config->read('wiki', 'WIKI_NAME');
+
+	echo '</title>
 		<link rel="stylesheet" type="text/css" href="', $this->_skinUrl, '" />';
 
 	foreach ($this->stylesheets as $stylesheet) {
@@ -57,7 +65,15 @@ class Index extends Template {
 			</div>
 			<div id="header">
 				', Main::$config->read('wiki', 'WIKI_NAME'), '
-			</div>
+			</div>';
+
+		if (!empty($this->data['title']))
+			echo '
+			<div id="contentHeader">
+				', $this->data['title'], '
+			</div>';
+
+		echo '
 			<div id="content">';	
 	}
 

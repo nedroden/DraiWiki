@@ -98,6 +98,9 @@ class Main {
 		if ($this->_currentApp->getHasStylesheet())
 			$template->pushStylesheets($this->_currentApp->getStylesheets());
 
+		if (!empty($this->_currentApp->getTitle()))
+			$template->setData(['title' => $this->_currentApp->getTitle()]);
+
 		$template->pushMenu($menu->get());
 
 		$template->showHeader();
@@ -115,7 +118,7 @@ class Main {
 
 		$classname = '\DraiWiki\src\\' . $this->_apps[$app]['package'] . '\controllers\\' . $this->_apps[$app]['class'];
 
-		if (!$this->_currentAppName == 'article')
+		if ($this->_currentAppName != 'article')
 			$this->_currentApp = new $classname();
 		else if ($this->_currentAppName == 'article' && empty($_GET['article']))
 			$this->_currentApp = new $classname(true);
