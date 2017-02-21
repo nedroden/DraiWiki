@@ -21,21 +21,24 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use DraiWiki\src\interfaces\App;
 use DraiWiki\src\main\controllers\Main;
 use DraiWiki\src\main\models\Article as Model;
-use DraiWiki\src\interfaces\App;
+use DraiWiki\src\main\models\Locale;
 use DraiWiki\views\View;
 
 require_once Main::$config->read('path', 'BASE_PATH') . 'src/main/models/Article.class.php';
 
 class Article implements App {
 
-	private $_view, $_template, $_isHome, $_currentPage, $_hasStylesheet;
+	private $_view, $_template, $_isHome, $_currentPage, $_hasStylesheet, $_locale;
 
 	public function __construct($isHome, $currentPage = null) {
 		$this->_hasStylesheet = true;
+		$this->_locale = Locale::instantiate();
+
 		$this->_isHome = $isHome;
-		$this->_currentPage = $currentPage == null || $this->_isHome ? Main::$config->read('wiki', 'WIKI_HOMEPAGE') : $currentPage;
+		$this->_currentPage = $currentPage == null || $this->_isHome ? $this->_locale->getLanguage()['homepage'] : $currentPage;
 
 		$this->_view = new View('Article');
 		$this->_model = new Model();
@@ -45,7 +48,7 @@ class Article implements App {
 
 	public function show() {
 		$this->_template->setData(
-			$this->_model->retrieve($this->_currentPage, Main::$config->read('wiki', 'WIKI_LOCALE'))
+			$this->_model->retrieve($this->_currentPage, $this->_locale->getLanguage()['code'])
 		);
 
 		$this->_template->showContent();

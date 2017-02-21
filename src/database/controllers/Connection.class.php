@@ -20,11 +20,10 @@ use PDO;
 use PDOException;
 use DraiWiki\src\main\controllers\Main;
 use DraiWiki\src\main\controllers\Error;
-use DraiWiki\src\main\models\Locale;
 
 class Connection {
 
-	private $_connection, $_locale;
+	private $_connection;
 	private static $_instance;
 
 	/**
@@ -33,8 +32,6 @@ class Connection {
 	 * @return void
 	 */
 	private function __construct() {
-		$this->_locale = Locale::instantiate();
-
 		try {
 			$this->_connection = new PDO('mysql:host=' . Main::$config->read('database', 'DB_SERVER') . ';
 				dbname=' . Main::$config->read('database', 'DB_NAME') . ';
@@ -69,7 +66,7 @@ class Connection {
 			$pendingQuery = $this->_connection->prepare($query);
 		}
 		catch (PDOException $e) {
-			$error = new Error(str_replace('{SQL_ERROR}', $e->getMessage(), $this->_locale->read('error', 'execute_query_failure')), [$e->getMessage()]);
+			$error = new Error(str_replace('{SQL_ERROR}', $e->getMessage(), 'The query could not be executed. This is what PDO returned:<br /> {SQL_ERROR}'), [$e->getMessage()], true);
 			$error->show();
 		}
 
@@ -86,7 +83,7 @@ class Connection {
 				return null;
 		}
 		catch (PDOException $e) {
-			$error = new Error(str_replace('{SQL_ERROR}', $e->getMessage(), $this->_locale->read('error', 'execute_query_failure')), [$e->getMessage()]);
+			$error = new Error(str_replace('{SQL_ERROR}', $e->getMessage(), 'The query could not be executed. This is what PDO returned:<br /> {SQL_ERROR}'), [$e->getMessage()], true);
 			$error->show();
 		}
 	}
