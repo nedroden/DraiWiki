@@ -9,7 +9,7 @@
  * @license     Apache 2.0
  *
  * Class information:
- * This class is used for loading articles.
+ * This class loads the user agreement.
  * @since 		1.0 Alpha 1
  * @author 		DraiWiki development team
  */
