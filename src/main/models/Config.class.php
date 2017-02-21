@@ -28,10 +28,11 @@ use \DraiWiki\src\database\controllers\Query;
 class Config extends ModelController {
 
 	public static function retrieve() {
-		$query = new Query();
-		$result = $query->retrieve('category', 'identifier', 'value')
-						->from('config')
-						->execute();
+		$query = new Query('
+			SELECT category, identifier, value
+				FROM {db_prefix}config
+		');
+		$result = $query->execute();
 
 		return $result;
 	}

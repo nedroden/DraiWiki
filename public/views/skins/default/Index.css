@@ -41,6 +41,17 @@ h1, h2, h3, h4, h5, h6 {
 	color: #78a1bb;
 }
 
+h1.articleTitle {
+	color: #3a3a3a;
+	margin-bottom: 0px;
+	font-weight: normal;
+}
+
+hr {
+	border-width: 1px 0px 0px 0px;
+	border-color: #e2e2e2;
+}
+
 /* Styles for the top bar */
 #topbar {
 	padding: 10px 20px 10px 20px;

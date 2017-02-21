@@ -27,85 +27,23 @@ class Query {
 
 	private static $_connection;
 
-	public function __construct() {
+	public function __construct($query) {
 		if (self::$_connection == null)
 			self::$_connection = Connection::instantiate();
 
-		$this->_query = '';
+		$this->_query = $query;
 		$this->_params = [];
 		$this->_prefix = Main::$config->read('database', 'DB_PREFIX');
 	}
 
-	public function retrieve(...$fields) {
-		$this->_type = 'select';
-		$this->_query .= 'SELECT ' . implode(', ', $fields);
-		return $this;
+	public function setParams($params) {
+		$this->_params = $params;
 	}
 
-	public function retrieveAll() {
-		$this->_type = 'select';
-		$this->_query .= 'SELECT *';
-		return $this;
-	}
+	public function execute($type = 'select') {
+		if (!empty($this->_prefix))
+			$this->_query = str_replace('{db_prefix}', $this->_prefix, $this->_query);
 
-	public function from(...$tables) {
-		if (!$this->_type == 'select')
-			return null;
-		else {
-			foreach ($tables as $key => $table) {
-				$tables[$key] = $this->_prefix . $table;
-			}
-
-			$this->_query .= ' FROM ' . implode(', ', $tables);
-			return $this;
-		}
-	}
-
-	public function where($fields = []) {
-		if (!is_array($fields))
-			return null;
-
-		$this->_query .= ' WHERE ';
-
-		$queryFields = [];
-		foreach ($fields as $key => $value) {
-			$queryFields[] = $key . ' = :' . $key;
-			$this->_params[$key] = $value;
-		}
-
-		$this->_query .= implode(' AND ', $queryFields);
-		return $this;
-	}
-
-	public function orderBy($fields = []) {
-		if (!is_array($fields))
-			return null;
-
-		$queryFields = [];
-		foreach ($fields as $name => $direction) {
-			$direction = strtoupper($direction);
-
-			if (!$direction == 'ASC' || !$direction == 'DESC')
-				return null;
-
-			$queryFields[] = $name . ' ' . $direction;
-		}
-
-		$this->_query .= ' ORDER BY ' . implode('AND ', $queryFields);
-		return $this;
-	}
-
-	public function limit($amount) {
-		$this->_query .= ' LIMIT ' . $amount;
-		return $this;
-	}
-
-	public function execute() {
-		$result = self::$_connection->executeQuery($this->_query . ';', $this->_type, $this->_params);
-		return $this->_type == 'select' ? $result : null;
-	}
-
-	public function toString() {
-		return $this->_query;
+		return self::$_connection->executeQuery($this->_query . ';', $type, $this->_params);
 	}
 }

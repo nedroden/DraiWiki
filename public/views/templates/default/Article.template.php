@@ -32,7 +32,9 @@ class Article extends Template {
 
 	public function showContent() {
 		echo '
-			<h1>', $this->data['title'], '</h1>';
+			<h1 class="articleTitle">', $this->data['title'], '</h1>
+			<hr />
+			', $this->data['body'];
 	}
 
 	public function showFooter() {
