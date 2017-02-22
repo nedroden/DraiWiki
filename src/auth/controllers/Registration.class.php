@@ -33,7 +33,7 @@ require_once Main::$config->read('path', 'BASE_PATH') . 'src/auth/models/Agreeme
 
 class Registration implements App {
 
-	private $_model, $_view, $_template, $_hasStylesheet, $_agreement;
+	private $_model, $_view, $_template, $_hasStylesheet, $_agreement, $_errors, $_correctFields;
 
 	public function __construct() {
 		$this->_hasStylesheet = true;
@@ -42,14 +42,16 @@ class Registration implements App {
 		$this->_model = new Model();
 		$this->_template = $this->_view->get();
 
+		$this->_errors = [];
+
+		if (!empty($_POST))
+			$this->handle();
+
 		$this->getAgreement();
+		$this->setTemplateData();
 	}
 
 	public function show() {
-		$this->_template->setData([
-			'action' => $this->_model->getAction(),
-			'agreement' => $this->_agreement
-		]);
 		$this->_template->showContent();
 	}
 
@@ -68,5 +70,32 @@ class Registration implements App {
 
 	public function getHasStylesheet() {
 		return $this->_hasStylesheet;
+	}
+
+	private function setTemplateData() {
+		$this->_template->setData([
+			'action' => $this->_model->getAction(),
+			'agreement' => $this->_agreement,
+			'errors' => $this->_errors,
+			'correct' => $this->_correctFields
+		]);
+	}
+
+	private function handle() {
+		$result = $this->_model->verify();
+
+		if (empty($result)) {
+			$this->_model->addToDatabase();
+			$this->redirectToLogin();
+		}
+		else {
+			$this->_errors = $result['errors'];
+			$this->_correctFields = $result['correct'];
+		}
+	}
+
+	private function redirectToLogin() {
+		header('Location: ' . Main::$config->read('path', 'BASE_URL') . 'app=login');
+		die('Redirect disabled.');
 	}
 }

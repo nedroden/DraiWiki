@@ -53,7 +53,7 @@ hr {
 }
 
 /* Form elements */
-input[type="text"] {
+input[type="text"], input[type="password"] {
 	border-width: 0px 0px 2px 0px;
 	border-color: #78a1bb;
 	color: #777777;
@@ -61,7 +61,7 @@ input[type="text"] {
 	padding: 3px;
 }
 
-input[type="text"]:hover {
+input[type="text"]:hover, input[type="password"]:hover {
 	background: #f9f9f9;
 }
 
@@ -160,6 +160,10 @@ input[type="submit"] {
 }
 
 /* Messages */
+.messageBox {
+	margin: 20px 0px 20px 0px;
+}
+
 .info {
 	border: 1px solid #78a1bb;
 	background: #ebf5ee;
@@ -174,4 +178,16 @@ input[type="submit"] {
 	color: #353532;
 	padding: 15px;
 	border-radius: 10px;
+}
+
+.error {
+	border: 1px solid #bb7878;
+	background: #f5ebeb;
+	color: #442828;
+	padding: 15px;
+	border-radius: 10px;
+}
+
+.containsError {
+	color: #c11d1d!important;
 }
