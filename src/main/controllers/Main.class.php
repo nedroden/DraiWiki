@@ -25,6 +25,7 @@ use DraiWiki\Config;
 use DraiWiki\views\Stylesheet;
 use DraiWiki\views\View;
 use DraiWiki\src\database\controllers\Connection;
+use DraiWiki\src\database\models\SessionHandler;
 use DraiWiki\src\main\controllers\SettingsImporter;
 use DraiWiki\src\main\models\Menu;
 use DraiWiki\src\main\models\Locale;
@@ -67,6 +68,7 @@ class Main {
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/database/controllers/Connection.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/database/controllers/ModelController.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/database/controllers/Query.class.php';
+		require_once self::$config->read('path', 'BASE_PATH') . 'src/database/models/SessionHandler.class.php';
 
 		require_once self::$config->read('path', 'BASE_PATH') . 'public/views/Template.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'public/views/View.class.php';
@@ -79,6 +81,9 @@ class Main {
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/models/Locale.class.php';
 
 		Connection::instantiate();
+
+		new SessionHandler();
+
 		SettingsImporter::import();
 		Locale::instantiate();
 	}

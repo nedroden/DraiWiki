@@ -23,7 +23,7 @@ use DraiWiki\src\main\controllers\Error;
 
 class Connection {
 
-	private $_connection;
+	private $_connection, $_isConnected;
 	private static $_instance;
 
 	/**

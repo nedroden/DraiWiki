@@ -23,5 +23,16 @@ return [
 	'password' => 'Password',
 
 	'placeholder_email' => 'nobody@example.com',
-	'placeholder_password' => 'password'
+	'placeholder_password' => 'password',
+
+	'field_is_empty_email' => 'You haven\'t entered an email address',
+	'field_is_empty_password' => 'You haven\'t entered a password',
+
+	'input_too_short_email' => 'The email address cannot have fewer than {length} characters',
+	'input_too_short_password' => 'The password cannot have fewer than {length} characters',
+
+	'input_too_long_email' => 'The email address cannot have more than {length} characters',
+	'input_too_long_password' => 'The password cannot have more than {length} characters',
+
+	'no_match_found' => 'There is currently no user registered with the specified email address and password'
 ];

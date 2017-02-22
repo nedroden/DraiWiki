@@ -53,7 +53,8 @@ INSERT INTO `drai_config` (`category`, `identifier`, `value`) VALUES
 ('user',  'MAX_PASSWORD_LENGTH',  '35'),
 ('user',  'MIN_EMAIL_LENGTH', '5'),
 ('user',  'MAX_EMAIL_LENGTH', '25'),
-('user',  'SALT', '98h#_al04sNGd#$4u98732nasG__');
+('user',  'SALT', '98h#_al04sNGd#$4u98732nasG__'),
+('session', 'SESSION_ID', 'DraiWikiDev10');
 
 CREATE TABLE `drai_history` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -84,6 +85,15 @@ INSERT INTO `drai_locales` (`ID`, `native`, `dialect`, `country`, `code`, `homep
 (1, 'English',  'General American', 'United States',  'en_US',  'homepage'),
 (2, 'Nederlands', 'Netherlandic', 'Netherlands',  'nl_NL',  'welkom!');
 
+CREATE TABLE `drai_log_updates` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `to_version` tinytext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date` datetime NOT NULL,
+  `performed_by` int(11) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
 CREATE TABLE `drai_permission_profiles` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `permissions` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -94,6 +104,15 @@ INSERT INTO `drai_permission_profiles` (`ID`, `permissions`) VALUES
 (1, ''),
 (2, ''),
 (3, '');
+
+CREATE TABLE `drai_sessions` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `session_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `data` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` bigint(20) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 CREATE TABLE `drai_users` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -106,10 +125,14 @@ CREATE TABLE `drai_users` (
   `locale` varchar(5) COLLATE utf8mb4_unicode_ci NOT NULL,
   `groups` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `preferences` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `edits` int(11) NOT NULL,
+  `ip_address` tinytext COLLATE utf8mb4_unicode_ci NOT NULL,
   `activated` int(11) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+INSERT INTO `drai_users` (`ID`, `first_name`, `last_name`, `email`, `password`, `birthdate`, `registration_date`, `locale`, `groups`, `preferences`, `edits`, `ip_address`, `activated`) VALUES
+(5, 'Robert', 'Monden', 'cj_robert@outlook.com',  '1e32d92487c1806b6fdb8a5743e663a1a97248fe1615f7d840254e011c6cf8b4f0377acf43899b3ff90e47dcc17a86696ef23dc44b1ba128533b0df5ea2a946e', '0000-00-00', '2017-02-22', 'en_US',  '3',  '', 0,  '::1',  1);
 
 CREATE TABLE `drai_user_groups` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -126,4 +149,4 @@ INSERT INTO `drai_user_groups` (`ID`, `permission_profile`, `name`, `color`, `do
 (3, 2,  'Regular',  '', 0),
 (4, 3,  'Banned', '#000', 1);
 
--- 2017-02-22 13:45:53
+-- 2017-02-22 19:17:09

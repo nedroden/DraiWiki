@@ -43,7 +43,7 @@ class Registration extends ModelController {
 	}
 
 	public function verify() {
-		$importantFields = [
+		$fields = [
 			'first_name' => [
 				'name' => 'first_name',
 				'required' => true,
@@ -81,8 +81,8 @@ class Registration extends ModelController {
 		$errors = [];
 		$correctFields = [];
 
-		foreach ($importantFields as $field) {
-			if (empty($_POST[$field['name']]) && $field['name']) {
+		foreach ($fields as $field) {
+			if (empty($_POST[$field['name']]) && $field['required']) {
 				$errors[$field['name']] = $this->locale->read('registration', 'field_empty_' . $field['name']);
 				continue;
 			}
@@ -150,7 +150,7 @@ class Registration extends ModelController {
 			INSERT
 				INTO {db_prefix}users (
 					first_name, last_name, email, password, registration_date,
-					locale, groups, activated
+					locale, groups, ip_address, activated
 				)
 				VALUES (
 					:first_name,
@@ -160,6 +160,7 @@ class Registration extends ModelController {
 					STR_TO_DATE(:registration_date, \'%m-%d-%Y\'),
 					:locale,
 					:groups,
+					:ip_address,
 					:activated
 				)
 		');
@@ -172,6 +173,7 @@ class Registration extends ModelController {
 			'registration_date' => date("m-d-Y"),
 			'locale' => $this->locale->getLanguage()['code'],
 			'groups' => 3,
+			'ip_address' => $_SERVER['REMOTE_ADDR'],
 			'activated' => 1
 		]);
 

@@ -16,8 +16,6 @@
 
 namespace DraiWiki\src\database\controllers;
 
-use PDO;
-use PDOException;
 use DraiWiki\src\database\controllers\Connection;
 use DraiWiki\src\main\controllers\Main;
 

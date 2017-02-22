@@ -39,6 +39,9 @@ class Login implements App {
 		$this->_model = new Model();
 		$this->_template = $this->_view->get();
 
+		if (!empty($_POST))
+			$this->handle();
+
 		$this->setTemplateData();
 	}
 
@@ -63,5 +66,30 @@ class Login implements App {
 			'errors' => [],
 			'action' => $this->_model->getAction(),
 		]);
+	}
+
+	private function handle() {
+		$result = $this->_model->validate();
+
+		if (!is_array($result)) {
+			$_SESSION[Main::$config->read('session', 'SESSION_ID')] = implode('||', $this->setSessionInfo($result, 1));
+			$this->redirectToIndex();
+		}
+		else
+			$this->setTemplateData($result['errors'], $result['correct']);
+	}
+
+	private function setSessionInfo($userID, $lifetime) {
+		return [
+			$userID,
+			$_SERVER['HTTP_USER_AGENT'],
+			$_SERVER['REMOTE_ADDR'],
+			$lifetime
+		];
+	}
+
+	private function redirectToIndex() {
+		header('Location: ' . Main::$config->read('path', 'BASE_URL'));
+		exit();
 	}
 }

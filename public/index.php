@@ -8,7 +8,6 @@
  * @copyright   DraiWiki, 2017
  * @license     Apache 2.0
  */
-session_start();
 ob_start();
 
 set_time_limit(25);
@@ -24,7 +23,7 @@ else if (version_compare(phpversion(), '5.6.0', '<'))
 
 define('DraiWikiVersion', '1.0 Alpha 1');
 
-require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../src/main/controllers/Main.class.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../src/main/controllers/Main.class.php';
 $main = new Main();
 $main->init();
