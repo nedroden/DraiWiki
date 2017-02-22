@@ -114,7 +114,7 @@ class Main {
 	 * @return void
 	 */
 	private function loadApp($app) {
-		require_once self::$config->read('path', 'BASE_PATH') . '/src/' . $this->_apps[$app]['package'] . '/controllers/' . $this->_apps[$app]['class'] . '.class.php';
+		require_once self::$config->read('path', 'BASE_PATH') . 'src/' . $this->_apps[$app]['package'] . '/controllers/' . $this->_apps[$app]['class'] . '.class.php';
 
 		$classname = '\DraiWiki\src\\' . $this->_apps[$app]['package'] . '\controllers\\' . $this->_apps[$app]['class'];
 
