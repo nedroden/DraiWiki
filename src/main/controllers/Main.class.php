@@ -81,10 +81,11 @@ class Main {
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/models/Locale.class.php';
 
 		Connection::instantiate();
+		SettingsImporter::import();
 
 		new SessionHandler();
+		session_start();
 
-		SettingsImporter::import();
 		Locale::instantiate();
 	}
 

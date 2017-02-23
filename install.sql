@@ -54,7 +54,7 @@ INSERT INTO `drai_config` (`category`, `identifier`, `value`) VALUES
 ('user',  'MIN_EMAIL_LENGTH', '5'),
 ('user',  'MAX_EMAIL_LENGTH', '25'),
 ('user',  'SALT', '98h#_al04sNGd#$4u98732nasG__'),
-('session', 'SESSION_ID', 'DraiWikiDev10');
+('session', 'COOKIE_ID',  'DraiWikiDev10');
 
 CREATE TABLE `drai_history` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -106,11 +106,10 @@ INSERT INTO `drai_permission_profiles` (`ID`, `permissions`) VALUES
 (3, '');
 
 CREATE TABLE `drai_sessions` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `session_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `session_key` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
   `data` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` bigint(20) NOT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`session_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
@@ -131,9 +130,6 @@ CREATE TABLE `drai_users` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `drai_users` (`ID`, `first_name`, `last_name`, `email`, `password`, `birthdate`, `registration_date`, `locale`, `groups`, `preferences`, `edits`, `ip_address`, `activated`) VALUES
-(5, 'Robert', 'Monden', 'cj_robert@outlook.com',  '1e32d92487c1806b6fdb8a5743e663a1a97248fe1615f7d840254e011c6cf8b4f0377acf43899b3ff90e47dcc17a86696ef23dc44b1ba128533b0df5ea2a946e', '0000-00-00', '2017-02-22', 'en_US',  '3',  '', 0,  '::1',  1);
-
 CREATE TABLE `drai_user_groups` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `permission_profile` int(11) NOT NULL,
@@ -149,4 +145,4 @@ INSERT INTO `drai_user_groups` (`ID`, `permission_profile`, `name`, `color`, `do
 (3, 2,  'Regular',  '', 0),
 (4, 3,  'Banned', '#000', 1);
 
--- 2017-02-22 19:17:09
+-- 2017-02-23 12:26:37

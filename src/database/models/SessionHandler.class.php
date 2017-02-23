@@ -22,11 +22,11 @@ if (!defined('DraiWiki')) {
 }
 
 use \DraiWiki\src\database\controllers\Connection;
-use \DraiWiki\src\database\controllers\ModelController;
 use \DraiWiki\src\database\controllers\Query;
 use \DraiWiki\src\main\controllers\Main;
+use \SessionHandlerInterface;
 
-class SessionHandler extends ModelController {
+class SessionHandler implements SessionHandlerInterface {
 
 	public function __construct() {
 		$this->_database = Connection::instantiate();
@@ -39,12 +39,29 @@ class SessionHandler extends ModelController {
 			[$this, 'destroy'],
 			[$this, 'gc']
 		);
-
-		session_start();
+		register_shutdown_function('session_write_close');
+		session_name(Main::$config->read('session', 'COOKIE_ID'));
 	}
 
-	public function open() {
-		return $this->_database != null;
+	public function open($savePath, $sessionKey) {
+		/*$query = new Query('
+			SELECT data
+				FROM {db_prefix}sessions
+				WHERE session_key = :session_key
+				LIMIT 1
+		');
+
+		$query->setParams([
+			'session_key' => $sessionKey
+		]);
+		$result = $query->execute();
+
+		foreach ($result as $resultFound) {
+			return true;
+		}
+
+		return false;*/
+		return true;
 	}
 
 	public function close() {
@@ -53,9 +70,10 @@ class SessionHandler extends ModelController {
 
 	public function read($session_key) {
 		$query = new Query('
-			SELECT session_key, data
+			SELECT data
 				FROM {db_prefix}sessions
 				WHERE session_key = :session_key
+				LIMIT 1
 		');
 
 		$query->setParams([
@@ -73,9 +91,7 @@ class SessionHandler extends ModelController {
 	public function write($session_key, $data) {
 		$query = new Query('
 			REPLACE
-				INTO {db_prefix}sessions (
-					session_key, data, created_at
-				)
+				INTO {db_prefix}sessions
 				VALUES (
 					:session_key,
 					:data,

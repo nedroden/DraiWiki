@@ -72,14 +72,20 @@ class Login implements App {
 		$result = $this->_model->validate();
 
 		if (!is_array($result)) {
-			$_SESSION[Main::$config->read('session', 'SESSION_ID')] = implode('||', $this->setSessionInfo($result, 1));
+			$this->setSession();
 			$this->redirectToIndex();
 		}
 		else
 			$this->setTemplateData($result['errors'], $result['correct']);
 	}
 
-	private function setSessionInfo($userID, $lifetime) {
+	private function setSession() {
+		$_SESSION['userID'] = $this->getSessionInfo($result, 1);
+		$sessionID = session_id();
+		setcookie(Main::$config->read('session', 'COOKIE_ID'), $sessionID, 60 * 60 * 24 * 7 * 52);
+	}
+
+	private function getSessionInfo($userID, $lifetime) {
 		return [
 			$userID,
 			$_SERVER['HTTP_USER_AGENT'],
