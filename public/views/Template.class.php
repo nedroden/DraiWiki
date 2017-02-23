@@ -26,7 +26,7 @@ use DraiWiki\src\main\models\Locale;
 
 abstract class Template {
 
-	protected $locale, $data, $stylesheets = [];
+	protected $locale, $user, $data, $stylesheets = [];
 
 	protected function getStylesheet($name) {
 		return Main::$config->read('path', 'BASE_URL') . 'stylesheet.php?id=' . lcfirst($name);
@@ -50,5 +50,9 @@ abstract class Template {
 
 	public function pushStylesheets($stylesheets) {
 		$this->stylesheets = $stylesheets;
+	}
+
+	public function setUserInfo($userInfo) {
+		$this->user = $userInfo;
 	}
 }

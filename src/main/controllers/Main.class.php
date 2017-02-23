@@ -24,6 +24,7 @@ if (!defined('DraiWiki')) {
 use DraiWiki\Config;
 use DraiWiki\views\Stylesheet;
 use DraiWiki\views\View;
+use DraiWiki\src\auth\models\User;
 use DraiWiki\src\database\controllers\Connection;
 use DraiWiki\src\database\models\SessionHandler;
 use DraiWiki\src\main\controllers\SettingsImporter;
@@ -36,7 +37,7 @@ class Main {
 
 	public static $config;
 
-	private $_currentApp, $_currentAppName;
+	private $_currentApp, $_currentAppName, $_user;
 
 	private $_apps = [
 		'admin' => [
@@ -70,6 +71,8 @@ class Main {
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/database/controllers/Query.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/database/models/SessionHandler.class.php';
 
+		require_once self::$config->read('path', 'BASE_PATH') . 'src/auth/models/User.class.php';
+
 		require_once self::$config->read('path', 'BASE_PATH') . 'public/views/Template.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'public/views/View.class.php';
 
@@ -86,6 +89,7 @@ class Main {
 		new SessionHandler();
 		session_start();
 
+		$this->_user = User::instantiate();
 		Locale::instantiate();
 	}
 
@@ -106,6 +110,8 @@ class Main {
 
 		if (!empty($this->_currentApp->getTitle()))
 			$template->setData(['title' => $this->_currentApp->getTitle()]);
+
+		$template->setUserInfo($this->_user->get());
 
 		$template->pushMenu($menu->get());
 

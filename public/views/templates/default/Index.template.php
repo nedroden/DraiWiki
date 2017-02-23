@@ -59,7 +59,7 @@ class Index extends Template {
 
 		echo '
 				<div id="userinfo">
-					', sprintf($this->locale->read('index', 'hello'), 'Robert'), '
+					', sprintf($this->locale->read('index', 'hello'), $this->user['first_name']), '
 				</div>
 				<br class="clear" />
 			</div>
