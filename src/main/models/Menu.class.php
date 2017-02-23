@@ -21,11 +21,14 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use \DraiWiki\src\auth\models\User;
+
 class Menu {
 
-	private $_items = [];
+	private $_items = [], $_user;
 
 	public function __construct() {
+		$this->_user = User::instantiate();
 		$this->set();
 	}
 
@@ -39,17 +42,22 @@ class Menu {
 			'home' => [
 				'label' => 'home',
 				'href' => 'index.php',
-				'visible' => true,
+				'visible' => true
 			],
 			'login' => [
 				'label' => 'login',
 				'href' => 'index.php?app=login',
-				'visible' => true,
+				'visible' => $this->_user->isGuest()
 			],
 			'register' => [
 				'label' => 'register',
 				'href' => 'index.php?app=register',
-				'visible' => true,
+				'visible' => $this->_user->isGuest()
+			],
+			'logout' => [
+				'label' => 'logout',
+				'href' => 'index.php?app=logout',
+				'visible' => !$this->_user->isGuest()
 			]
 		];
 	}

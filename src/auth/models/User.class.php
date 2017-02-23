@@ -26,7 +26,7 @@ use \DraiWiki\src\main\controllers\Main;
 
 class User {
 
-	private $_isGuest, $_userInfo;
+	private $_isGuest, $_userInfo, $_permissions;
 
 	private static $_instance;
 
@@ -46,12 +46,20 @@ class User {
 		return $this->_userInfo;
 	}
 
+	public function isGuest() {
+		return $this->_isGuest;
+	}
+
+	public function hasPermission($permission) {
+		return empty($this->_permissions[$permission]);
+	}
+
 	private function load() {
 		if (!$this->_isGuest) {
 			$query = new Query('
 				SELECT ID, first_name, last_name, email, birthdate, registration_date,
 						locale, groups, preferences, edits, ip_address, activated
-					FROM {db_prefix}users u
+					FROM {db_prefix}users
 					WHERE ID = :ID
 					AND activated = :activated
 					LIMIT 1
@@ -66,6 +74,8 @@ class User {
 			foreach ($result as $infoResult) {
 				$userInfo = $infoResult;
 			}
+
+			$userInfo['groups'] = explode(',', $userInfo['groups']);
 		}
 
 		if (empty($userInfo)) {
@@ -86,5 +96,75 @@ class User {
 		}
 
 		$this->_userInfo = $userInfo;
+		$this->loadGroups();
+	}
+
+	private function loadGroups() {
+		$groupCount = count($this->_userInfo['groups']);
+		$groupPlaceholders = '';
+
+		foreach ($this->_userInfo['groups'] as $key => $group) {
+			$groupPlaceholders .= "'" . $group . "'" . ($key < ($groupCount - 1) ? ', ' : '');
+		}
+
+		$query = new Query('
+			SELECT ID, permission_profile, name, color, dominant
+				FROM {db_prefix}user_groups g
+				WHERE ID IN (' . $groupPlaceholders . ')
+		');
+
+		$result = $query->execute();
+
+		/**
+		 * Whether or not a group is dominant only affects the permission profile. Since
+		 * that's the only difference between a normal group and a dominant group, we can
+		 * safely return all groups.
+		 */
+		$groups = [];
+		$dominantGroups = [];
+		$normalGroups = [];
+
+		foreach ($result as $group) {
+			$groupInfo = [
+				'ID' => $group['ID'],
+				'color' => $group['color'],
+				'dominant' => $group['dominant'],
+				'name' => $group['name']
+			];
+
+			$groups[] = $groupInfo;
+
+			if ($group['dominant'] == 1)
+				$dominantGroups[] = $group;
+			else
+				$normalGroups[] = $group;
+		}
+
+		$this->_userInfo['groups'] = $groups;
+		$this->loadPermissions(empty($dominantGroups) ? $normalGroups : $dominantGroups);		
+	}
+
+	private function loadPermissions($groups) {
+		$groupCount = count($groups);
+		$groupPlaceholders = '';
+
+		foreach ($this->_userInfo['groups'] as $key => $group) {
+			$groupPlaceholders .= "'" . $group['ID'] . "'" . ($key < ($groupCount - 1) ? ', ' : '');
+		}
+
+		$query = new Query('
+			SELECT ID, permissions
+				FROM {db_prefix}permission_profiles
+				WHERE ID IN (' . $groupPlaceholders . ')
+		');
+
+		$result = $query->execute();
+
+		foreach ($result as $profile) {
+			$permissions = explode(';', $profile['permissions']);
+			foreach ($permissions as $permission) {
+				$this->_permissions[] = $permission;
+			}
+		}
 	}
 }
