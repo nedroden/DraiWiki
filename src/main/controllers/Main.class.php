@@ -52,6 +52,10 @@ class Main {
 			'package' => 'auth',
 			'class' => 'Login'
 		],
+		'logout' => [
+			'package' => 'auth',
+			'class' => 'Logout'
+		],
 		'register' => [
 			'package' => 'auth',
 			'class' => 'Registration'
