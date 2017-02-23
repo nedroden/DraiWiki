@@ -96,14 +96,16 @@ CREATE TABLE `drai_log_updates` (
 
 CREATE TABLE `drai_permission_profiles` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `label` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `permissions` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `drai_permission_profiles` (`ID`, `permissions`) VALUES
-(1, ''),
-(2, ''),
-(3, '');
+INSERT INTO `drai_permission_profiles` (`ID`, `label`, `permissions`) VALUES
+(1, '', ''),
+(2, '', ''),
+(3, '', ''),
+(4, '', '');
 
 CREATE TABLE `drai_sessions` (
   `session_key` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -143,6 +145,7 @@ INSERT INTO `drai_user_groups` (`ID`, `permission_profile`, `name`, `color`, `do
 (1, 0,  'Root', '#000', 0),
 (2, 1,  'Admin',  '#ed6a5a',  0),
 (3, 2,  'Regular',  '', 0),
-(4, 3,  'Banned', '#000', 1);
+(4, 3,  'Banned', '#000', 1),
+(5, 4,  'Guest',  '', 0);
 
--- 2017-02-23 12:26:37
+-- 2017-02-23 17:47:15

@@ -191,3 +191,57 @@ input[type="submit"] {
 .containsError {
 	color: #c11d1d!important;
 }
+
+/* Sections width */
+.col20 {
+	width: 20%;
+}
+
+.col30 {
+	width: 30%;
+}
+
+.col40 {
+	width: 40%;
+}
+
+.col50 {
+	width: 50%;
+}
+
+.col60 {
+	width: 60%;
+}
+
+/* The sidebar */
+#sidebar {
+	padding: 10px;
+}
+
+#sidebar a {
+	color: #161616;
+}
+
+.sidebar_header {
+	background: #283044;
+	background: linear-gradient(-180deg, #283044, #262d40);
+	padding: 5px;
+	margin: 5px 0px 0px 0px;
+	color: #fff;
+}
+
+#sidebar ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+#sidebar ul li {
+	padding: 3px 2px 3px 2px;
+}
+
+.sidebar_items {
+	padding: 10px;
+	margin-bottom: 20px;
+	background: #f9f9f9;
+}

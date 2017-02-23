@@ -74,11 +74,18 @@ class Index extends Template {
 			</div>';
 
 		echo '
-			<div id="content">';	
+			<div id="content">';
+
+		$this->showSidebar();
+
+		echo '
+				<div class="floatLeft col60">';	
 	}
 
 	public function showFooter() {
 echo '
+				</div>
+				<br class="clear" />
 			</div>
 		</div>
 		<div id="copyright">
@@ -100,6 +107,42 @@ echo '
 
 		echo '
 				</div>';
+	}
+
+	private function showSidebar() {
+		echo '
+			<div id="sidebar" class="floatLeft col20">
+				<div class="sidebar_header">Test</div>
+				<div class="sidebar_items">
+					<ul>
+						<li><a href="#">Home</a></li>
+						<li><a href="#">Recent changes</a></li>
+						<li><a href="#">Random page</a></li>
+						<li><a href="#">Search</a></li>
+						<li><a href="#">Log out</a></li>
+					</ul>
+				</div>
+				<div class="sidebar_header">Test</div>
+				<div class="sidebar_items">
+					<ul>
+						<li><a href="#">Home</a></li>
+						<li><a href="#">Recent changes</a></li>
+						<li><a href="#">Random page</a></li>
+						<li><a href="#">Search</a></li>
+						<li><a href="#">Log out</a></li>
+					</ul>
+				</div>
+				<div class="sidebar_header">Test</div>
+				<div class="sidebar_items">
+					<ul>
+						<li><a href="#">Home</a></li>
+						<li><a href="#">Recent changes</a></li>
+						<li><a href="#">Random page</a></li>
+						<li><a href="#">Search</a></li>
+						<li><a href="#">Log out</a></li>
+					</ul>
+				</div>
+			</div>';
 	}
 
 	public function pushMenu($menuItems) {
