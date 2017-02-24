@@ -22,16 +22,16 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\Config;
-use DraiWiki\views\Stylesheet;
 use DraiWiki\views\View;
 use DraiWiki\src\auth\models\User;
 use DraiWiki\src\database\controllers\Connection;
 use DraiWiki\src\database\models\SessionHandler;
 use DraiWiki\src\main\controllers\SettingsImporter;
 use DraiWiki\src\main\models\Menu;
+use DraiWiki\src\main\models\SidebarMenu;
 use DraiWiki\src\main\models\Locale;
 
-require 'public/Config.php';
+require_once 'public/Config.php';
 
 class Main {
 
@@ -85,6 +85,7 @@ class Main {
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/controllers/Error.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/controllers/SettingsImporter.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/models/Menu.class.php';
+		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/models/SidebarMenu.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/models/Locale.class.php';
 
 		Connection::instantiate();
@@ -106,6 +107,7 @@ class Main {
 
 		$view = new View('Index');
 		$menu = new Menu();
+		$sidebarMenu = new SidebarMenu();
 
 		$template = $view->get();
 
@@ -118,6 +120,7 @@ class Main {
 		$template->setUserInfo($this->_user->get());
 
 		$template->pushMenu($menu->get());
+		$template->pushSidebarMenu($sidebarMenu->get());
 
 		$template->showHeader();
 		$this->_currentApp->show();

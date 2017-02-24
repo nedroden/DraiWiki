@@ -121,7 +121,7 @@ input[type="submit"] {
 }
 
 #content {
-	padding: 20px;
+	padding: 5px 20px 20px 20px;
 	background: #fff;
 	border-left: 1px solid #78a1bb;
 	border-right: 1px solid #78a1bb;

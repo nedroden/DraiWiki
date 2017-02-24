@@ -28,7 +28,7 @@ use \Parsedown;
 
 class Article extends ModelController {
 
-	private $_currentArticle, $_parsedown;
+	private $_currentArticle, $_parsedown, $_title;
 
 	public function __construct() {
 		$this->_currentArticle = [];
@@ -64,10 +64,15 @@ class Article extends ModelController {
 		}
 
 		$currentArticle['title'] = str_replace('_', ' ', $currentArticle['title']);
+		$this->_title = $currentArticle['title'];
 
 		$currentArticle['body_md'] = $currentArticle['body'];
 		$currentArticle['body'] = $this->_parsedown->text($currentArticle['body']);
 
 		return $currentArticle;
+	}
+
+	public function getTitle() {
+		return $this->_title;
 	}
 }

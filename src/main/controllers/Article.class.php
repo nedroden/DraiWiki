@@ -44,18 +44,17 @@ class Article implements App {
 		$this->_model = new Model();
 
 		$this->_template = $this->_view->get();
-	}
-
-	public function show() {
 		$this->_template->setData(
 			$this->_model->retrieve($this->_currentPage, $this->_locale->getLanguage()['code'])
 		);
+	}
 
+	public function show() {
 		$this->_template->showContent();
 	}
 
 	public function getTitle() {
-
+		return $this->_model->getTitle();
 	}
 
 	public function getHasStylesheet() {

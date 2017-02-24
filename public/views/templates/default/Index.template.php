@@ -20,7 +20,7 @@ use DraiWiki\views\Template;
 
 class Index extends Template {
 
-	private $_imageUrl, $_skinUrl, $_menuItems = [];
+	private $_imageUrl, $_skinUrl, $_menuItems = [], $_sideMenuItems = [];
 
 	public function __construct($imageUrl, $skinUrl) {
 		$this->_imageUrl = $imageUrl;
@@ -111,41 +111,39 @@ echo '
 
 	private function showSidebar() {
 		echo '
-			<div id="sidebar" class="floatLeft col20">
-				<div class="sidebar_header">Test</div>
-				<div class="sidebar_items">
-					<ul>
-						<li><a href="#">Home</a></li>
-						<li><a href="#">Recent changes</a></li>
-						<li><a href="#">Random page</a></li>
-						<li><a href="#">Search</a></li>
-						<li><a href="#">Log out</a></li>
-					</ul>
-				</div>
-				<div class="sidebar_header">Test</div>
-				<div class="sidebar_items">
-					<ul>
-						<li><a href="#">Home</a></li>
-						<li><a href="#">Recent changes</a></li>
-						<li><a href="#">Random page</a></li>
-						<li><a href="#">Search</a></li>
-						<li><a href="#">Log out</a></li>
-					</ul>
-				</div>
-				<div class="sidebar_header">Test</div>
-				<div class="sidebar_items">
-					<ul>
-						<li><a href="#">Home</a></li>
-						<li><a href="#">Recent changes</a></li>
-						<li><a href="#">Random page</a></li>
-						<li><a href="#">Search</a></li>
-						<li><a href="#">Log out</a></li>
-					</ul>
-				</div>
+			<div id="sidebar" class="floatLeft col20">';
+
+		foreach ($this->_sideMenuItems as $section) {
+			if (!$section['visible'])
+				continue;
+
+			echo '
+				<div class="sidebar_header">', $this->locale->read('index', $section['label']), '</div>
+				<ul>';
+
+			foreach ($section['items'] as $item) {
+				if ($item['visible'])
+					echo '
+						<li><a href="', $item['href'], '">', $this->locale->read('index', $item['label']), '</a></li>';
+			}
+
+			echo '
+				</ul>';
+		}
+
+		echo '
 			</div>';
 	}
 
 	public function pushMenu($menuItems) {
 		$this->_menuItems = $menuItems;
+	}
+
+	public function pushSidebarMenu($menuItems) {
+		if (empty($this->_sideMenuItems))
+			$this->_sideMenuItems = $menuItems;
+
+		else
+			$this->_sideMenuItems = array_merge($this->_sideMenuItems, $menuItems);
 	}
 }

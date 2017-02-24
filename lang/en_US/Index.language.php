@@ -25,5 +25,8 @@ return [
 	'logout' => 'Logout',
 	'admin' => 'Admin',
 
+	'main' => 'Main',
+	'random' => 'Random article',
+
 	'submit' => 'Submit'
 ];
