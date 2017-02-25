@@ -54,7 +54,8 @@ INSERT INTO `drai_config` (`category`, `identifier`, `value`) VALUES
 ('user',  'MIN_EMAIL_LENGTH', '5'),
 ('user',  'MAX_EMAIL_LENGTH', '25'),
 ('user',  'SALT', '98h#_al04sNGd#$4u98732nasG__'),
-('session', 'COOKIE_ID',  'DraiWikiDev10');
+('session', 'COOKIE_ID',  'DraiWikiDev10'),
+('user',  'ENABLE_REGISTRATION',  '1');
 
 CREATE TABLE `drai_history` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -67,7 +68,7 @@ CREATE TABLE `drai_history` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `drai_history` (`ID`, `article_ID`, `body`, `date_edited`, `edited_by`, `infobox_ID`) VALUES
-(1, 1,  '## 1. Introduction to DraiWiki\r\n### 1.1. What is DraiWiki?\r\nDraiWiki is an upcoming open source wiki software that is designed to be customizable, neat-looking, secure and easy to use.\r\n\r\n### 1.2. Why use DraiWiki?\r\nThere are other free wiki softwares out there, so you might be wondering, what makes DraiWiki the best choice for your website? Well, there are several reasons.\r\n\r\nFirst of all, the software is designed to be customizable. For example, a theme consists of three parts: images, CSS and templates. Basically, what you\'ll be able to do is this: you can use the image set from the default theme, while using the CSS of a 3rd party theme, while using the templates of yet another 3rd party theme. And the best thing is: it\'ll only take a few seconds to set up.\r\n\r\nIt also has built-in multi-language support, meaning you won\'t need an extension.\r\n\r\n## 2. Installation\r\n### 2.1. Server requirements\r\n* PHP 5.6+\r\n* MySQL\r\n* PDO extension',  '2017-02-20 19:46:38',  1,  0),
+(1, 1,  '## 1. Introduction to DraiWiki\r\n### 1.1. What is DraiWiki?\r\nDraiWiki is an upcoming open source wiki software that is designed to be customizable, neat-looking, secure and easy to use.\r\n\r\n### 1.2. Why use DraiWiki?\r\nThere are other free wiki softwares out there, so you might be wondering, what makes DraiWiki the best choice for your website? Well, there are several reasons.\r\n\r\nFirst of all, the software is designed to be customizable. For example, a theme consists of three parts: images, CSS and templates. Basically, what you\'ll be able to do is this: you can use the image set from the default theme, while using the CSS of a 3rd party theme, while using the templates of yet another 3rd party theme. And the best thing is: it\'ll only take a few seconds to set up.\r\n\r\nIt also has built-in multi-language support, meaning you won\'t need an extension.\r\n\r\nThe admin panel is designed to be self-sufficient and isolated (i.e. it has its own files), meaning that if you break something, 90% of the time you\'ll be able to fix it from within the admin panel. That\'s not all, however. The admin panel allows you to make changes without much effort.\r\n\r\n## 2. Installation\r\n### 2.1. Server requirements\r\n* PHP 5.6+\r\n* MySQL\r\n* PDO extension\r\n* Composer\r\n\r\n### 2.2. How to install\r\n1. Install Composer\r\n2. Download the most recent code from Github\r\n3. Extract the files to your http directory\r\n4. Use Composer to install the required packages (run _composer install_ from the terminal/command prompt)\r\n5. Edit the configuration file in public/config\r\n6. Import the database tables (install.sql)\r\n7. Enjoy!', '2017-02-20 19:46:38',  1,  0),
 (2, 2,  'We\'re cool.', '2017-02-21 11:48:45',  1,  0),
 (3, 3,  'Dit is alleen om te testen.',  '2017-02-21 12:22:33',  1,  0);
 
@@ -132,6 +133,7 @@ CREATE TABLE `drai_users` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+
 CREATE TABLE `drai_user_groups` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `permission_profile` int(11) NOT NULL,
@@ -148,4 +150,4 @@ INSERT INTO `drai_user_groups` (`ID`, `permission_profile`, `name`, `color`, `do
 (4, 3,  'Banned', '#000', 1),
 (5, 4,  'Guest',  '', 0);
 
--- 2017-02-23 17:47:15
+-- 2017-02-24 13:35:23

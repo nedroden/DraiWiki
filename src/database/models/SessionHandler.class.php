@@ -70,7 +70,7 @@ class SessionHandler implements SessionHandlerInterface {
 
 	public function read($session_key) {
 		$query = new Query('
-			SELECT data
+			SELECT `data`
 				FROM {db_prefix}sessions
 				WHERE session_key = :session_key
 				LIMIT 1

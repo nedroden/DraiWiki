@@ -15,15 +15,15 @@ The admin panel is designed to be self-sufficient and isolated (i.e. it has its 
 ## 2. Installation
 ### 2.1. Server requirements
 * PHP 5.6+
-* MySQL
+* MariaDB / MySQL
 * PDO extension
 * Composer
 
 ### 2.2. How to install
 1. Install Composer
-2. Download the most recent code from Github
-3. Extract the files to your http directory
-4. Use Composer to install the required packages (run _composer install_ from the terminal/command prompt)
+2. cd to your http directory
+3. Run the following command in your command prompt or terminal: git clone http://github.com/Chistaen/DraiWiki.git
+4. Use Composer to install the required packages (composer install)
 5. Edit the configuration file in public/config
 6. Import the database tables (install.sql)
 7. Enjoy!

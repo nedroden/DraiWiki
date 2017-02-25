@@ -108,7 +108,7 @@ class User {
 		}
 
 		$query = new Query('
-			SELECT ID, permission_profile, name, color, dominant
+			SELECT ID, permission_profile, `name`, color, dominant
 				FROM {db_prefix}user_groups g
 				WHERE ID IN (' . $groupPlaceholders . ')
 		');
@@ -120,7 +120,6 @@ class User {
 		 * that's the only difference between a normal group and a dominant group, we can
 		 * safely return all groups.
 		 */
-		$groups = [];
 		$dominantGroups = [];
 		$normalGroups = [];
 
@@ -132,15 +131,12 @@ class User {
 				'name' => $group['name']
 			];
 
-			$groups[] = $groupInfo;
-
 			if ($group['dominant'] == 1)
 				$dominantGroups[] = $group;
 			else
 				$normalGroups[] = $group;
 		}
 
-		$this->_userInfo['groups'] = $groups;
 		$this->loadPermissions(empty($dominantGroups) ? $normalGroups : $dominantGroups);		
 	}
 
@@ -148,7 +144,7 @@ class User {
 		$groupCount = count($groups);
 		$groupPlaceholders = '';
 
-		foreach ($this->_userInfo['groups'] as $key => $group) {
+		foreach ($groups as $key => $group) {
 			$groupPlaceholders .= "'" . $group['ID'] . "'" . ($key < ($groupCount - 1) ? ', ' : '');
 		}
 
