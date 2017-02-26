@@ -31,13 +31,15 @@ class Logout {
 
 	public function __construct() {
 		$this->_user = User::instantiate();
-		$this->checkAccess();
 
 		$this->_cookieName = Main::$config->read('session', 'COOKIE_NAME');
 		$this->handle();
 	}
 
 	public function handle() {
+		if ($this->_user->isGuest())
+			$this->redirect();
+
 		session_destroy();
 		if (!empty($_COOKIE[$this->_cookieName]))
 			unset($_COOKIE[$this->_cookieName]);
@@ -47,10 +49,5 @@ class Logout {
 	public function redirect() {
 		header('Location: ' . Main::$config->read('path', 'BASE_URL'));
 		die();
-	}
-
-	private function checkAccess() {
-		if ($this->_user->isGuest())
-			NoAccessError::show();
 	}
 }

@@ -26,7 +26,6 @@ use DraiWiki\src\auth\models\User;
 use DraiWiki\src\interfaces\App;
 use DraiWiki\src\main\controllers\Main;
 use DraiWiki\src\main\controllers\NoAccessError;
-use DraiWiki\src\main\models\Menu;
 use DraiWiki\views\View;
 
 require_once Main::$config->read('path', 'BASE_PATH') . 'src/auth/models/Login.class.php';
@@ -37,21 +36,24 @@ class Login implements App {
 
 	public function __construct() {
 		$this->_user = User::instantiate();
-		$this->checkAccess();
-
 		$this->_hasStylesheet = true;
 
 		$this->_view = new View('Login');
 		$this->_model = new Model();
 		$this->_template = $this->_view->get();
 
-		if (!empty($_POST))
+		if (!empty($_POST) && $this->_user->isGuest())
 			$this->handle();
 
 		$this->setTemplateData();
 	}
 
 	public function show() {
+		if (!$this->_user->isGuest()) {
+			NoAccessError::show();
+			return;
+		}
+
 		$this->_template->showContent();
 	}
 

@@ -39,7 +39,6 @@ class Registration implements App {
 
 	public function __construct() {
 		$this->_user = User::instantiate();
-		$this->checkAccess();
 		$this->_hasStylesheet = true;
 
 		$this->_view = new View('Registration');
@@ -48,7 +47,7 @@ class Registration implements App {
 
 		$this->_errors = [];
 
-		if (!empty($_POST))
+		if (!empty($_POST) && $this->_user->isGuest())
 			$this->handle();
 
 		$this->getAgreement();
@@ -56,6 +55,11 @@ class Registration implements App {
 	}
 
 	public function show() {
+		if (!$this->_user->isGuest()) {
+			NoAccessError::show();
+			return;
+		}
+
 		$this->_template->showContent();
 	}
 
@@ -101,10 +105,5 @@ class Registration implements App {
 	private function redirectToLogin() {
 		header('Location: ' . Main::$config->read('path', 'BASE_URL') . '?app=login');
 		die('Redirect disabled.');
-	}
-
-	private function checkAccess() {
-		if (!$this->_user->isGuest())
-			NoAccessError::show();
 	}
 }

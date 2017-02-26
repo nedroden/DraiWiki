@@ -32,24 +32,11 @@ require_once Main::$config->read('path', 'BASE_PATH') . 'src/main/models/NoAcces
 class NoAccessError {
 
 	public static function show() {
-		ob_clean();
 		$model = new Model();
-		$userInfo = User::instantiate();
+		$view = new View('NoAccessError');
+		$template = $view->get();
 
-		$indexView = new View('Index');
-		$errorView = new View('NoAccessError');
-		$menu = new Menu();
-
-		$indexTemplate = $indexView->get();
-		$errorTemplate = $errorView->get();
-
-		$indexTemplate->setUserInfo($userInfo->get());
-		$indexTemplate->pushMenu($menu->get());
-		$errorTemplate->setData($model->get());
-
-		$indexTemplate->showHeader();
-		$errorTemplate->show();
-		$indexTemplate->showFooter();
-		die;
+		$template->setData($model->get());
+		$template->show();
 	}
 }
