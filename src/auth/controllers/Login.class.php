@@ -21,18 +21,24 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use DraiWiki\src\auth\models\Login as Model;
+use DraiWiki\src\auth\models\User;
 use DraiWiki\src\interfaces\App;
 use DraiWiki\src\main\controllers\Main;
-use DraiWiki\src\auth\models\Login as Model;
+use DraiWiki\src\main\controllers\NoAccessError;
+use DraiWiki\src\main\models\Menu;
 use DraiWiki\views\View;
 
 require_once Main::$config->read('path', 'BASE_PATH') . 'src/auth/models/Login.class.php';
 
 class Login implements App {
 
-	private $_view, $_template, $_model, $_hasStylesheet;
+	private $_user, $_view, $_template, $_model, $_hasStylesheet;
 
 	public function __construct() {
+		$this->_user = User::instantiate();
+		$this->checkAccess();
+
 		$this->_hasStylesheet = true;
 
 		$this->_view = new View('Login');
@@ -97,5 +103,10 @@ class Login implements App {
 	private function redirectToIndex() {
 		header('Location: ' . Main::$config->read('path', 'BASE_URL'));
 		exit();
+	}
+
+	private function checkAccess() {
+		if (!$this->_user->isGuest())
+			NoAccessError::show();
 	}
 }

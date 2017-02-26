@@ -21,13 +21,18 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use DraiWiki\src\auth\models\User;
 use DraiWiki\src\main\controllers\Main;
+use DraiWiki\src\main\controllers\NoAccessError;
 
 class Logout {
 
 	private $_cookieName;
 
 	public function __construct() {
+		$this->_user = User::instantiate();
+		$this->checkAccess();
+
 		$this->_cookieName = Main::$config->read('session', 'COOKIE_NAME');
 		$this->handle();
 	}
@@ -42,5 +47,10 @@ class Logout {
 	public function redirect() {
 		header('Location: ' . Main::$config->read('path', 'BASE_URL'));
 		die();
+	}
+
+	private function checkAccess() {
+		if ($this->_user->isGuest())
+			NoAccessError::show();
 	}
 }

@@ -21,10 +21,12 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
-use DraiWiki\src\interfaces\App;
-use DraiWiki\src\main\controllers\Main;
 use DraiWiki\src\auth\models\Agreement;
 use DraiWiki\src\auth\models\Registration as Model;
+use DraiWiki\src\auth\models\User;
+use DraiWiki\src\interfaces\App;
+use DraiWiki\src\main\controllers\Main;
+use DraiWiki\src\main\controllers\NoAccessError;
 use DraiWiki\src\main\models\Locale;
 use DraiWiki\views\View;
 
@@ -33,9 +35,11 @@ require_once Main::$config->read('path', 'BASE_PATH') . 'src/auth/models/Agreeme
 
 class Registration implements App {
 
-	private $_model, $_view, $_template, $_hasStylesheet, $_agreement, $_errors, $_correctFields;
+	private $_user, $_model, $_view, $_template, $_hasStylesheet, $_agreement, $_errors, $_correctFields;
 
 	public function __construct() {
+		$this->_user = User::instantiate();
+		$this->checkAccess();
 		$this->_hasStylesheet = true;
 
 		$this->_view = new View('Registration');
@@ -97,5 +101,10 @@ class Registration implements App {
 	private function redirectToLogin() {
 		header('Location: ' . Main::$config->read('path', 'BASE_URL') . '?app=login');
 		die('Redirect disabled.');
+	}
+
+	private function checkAccess() {
+		if (!$this->_user->isGuest())
+			NoAccessError::show();
 	}
 }

@@ -19,5 +19,8 @@
 return [
 	'an_error_occurred' => 'Oops!',
 	'an_error_occurred_message' => 'A fatal error occured. For security purposes the script will now be aborted. If this error message keeps appearing, please contact the administrator. We apologize for the inconvenience.',
-	'execute_query_failure' => 'The script was unable to execute a query, thus the script has been aborted for security reasons. This is the message returned by PDO:<br /><br /> <span class="sqlError">{SQL_ERROR}</span>'
+	'execute_query_failure' => 'The script was unable to execute a query, thus the script has been aborted for security reasons. This is the message returned by PDO:<br /><br /> <span class="sqlError">{SQL_ERROR}</span>',
+
+	'access_denied' => 'Access denied',
+	'access_denied_message' => 'You currently do not have access to this page. If you believe you\'re seeing this message in error, please contact the administrator.'
 ];

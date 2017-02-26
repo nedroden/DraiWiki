@@ -87,6 +87,7 @@ class Main {
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/interfaces/App.interface.php';
 
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/controllers/Error.class.php';
+		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/controllers/NoAccessError.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/controllers/SettingsImporter.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/models/Menu.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/models/SidebarMenu.class.php';
@@ -154,10 +155,7 @@ class Main {
 	 * @return string The name of the app that should be loaded
 	 */
 	private function getCurrentApp() {
-		if (!empty($_GET['app']) && array_key_exists(strtolower($_GET['app']), $this->_apps))
-			return $_GET['app'];
-		else
-			return 'article';
+		return !empty($_GET['app']) && array_key_exists(strtolower($_GET['app']), $this->_apps) ? $_GET['app'] : 'article';
 	}
 
 	/**
