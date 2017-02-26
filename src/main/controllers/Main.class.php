@@ -59,6 +59,10 @@ class Main {
 		'register' => [
 			'package' => 'auth',
 			'class' => 'Registration'
+		],
+		'random' => [
+			'package' => 'main',
+			'class' => 'Random'
 		]
 	];
 
