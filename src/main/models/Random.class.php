@@ -49,7 +49,7 @@ class Random {
 		$result = $query->execute();
 
 		foreach ($result as $article) {
-			return $article['title'];
+			return str_replace(' ', '_', $article['title']);
 		}
 	}
 }

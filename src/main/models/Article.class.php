@@ -55,7 +55,7 @@ class Article extends ModelController {
 		$result = $query->execute();
 
 		if (count($result) == 0)
-			return;
+			return false;
 
 		foreach ($result as $article) {
 			foreach ($article as $key => $value) {

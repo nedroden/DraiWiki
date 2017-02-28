@@ -80,6 +80,7 @@ class Main {
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/database/models/SessionHandler.class.php';
 
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/auth/models/User.class.php';
+		require_once self::$config->read('path', 'BASE_PATH') . 'src/auth/controllers/Permission.class.php';
 
 		require_once self::$config->read('path', 'BASE_PATH') . 'public/views/Template.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'public/views/View.class.php';
@@ -88,7 +89,7 @@ class Main {
 
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/controllers/Error.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/controllers/NoAccessError.class.php';
-		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/controllers/SettingsImporter.php';
+		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/controllers/SettingsImporter.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/models/Menu.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/models/SidebarMenu.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/models/Locale.class.php';

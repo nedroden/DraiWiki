@@ -53,7 +53,7 @@ class User {
 	}
 
 	public function hasPermission($permission) {
-		return empty($this->_permissions[$permission]);
+		return in_array($permission, $this->_permissions);
 	}
 
 	private function load() {

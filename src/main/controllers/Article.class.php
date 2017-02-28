@@ -21,6 +21,7 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use DraiWiki\src\auth\controllers\Permission;
 use DraiWiki\src\interfaces\App;
 use DraiWiki\src\main\controllers\Main;
 use DraiWiki\src\main\models\Article as Model;
@@ -31,7 +32,7 @@ require_once Main::$config->read('path', 'BASE_PATH') . 'src/main/models/Article
 
 class Article implements App {
 
-	private $_view, $_template, $_isHome, $_currentPage, $_hasStylesheet, $_locale;
+	private $_view, $_template, $_isHome, $_currentPage, $_hasStylesheet, $_locale, $_isEditing;
 
 	public function __construct($isHome, $currentPage = null) {
 		$this->_hasStylesheet = true;
@@ -40,16 +41,31 @@ class Article implements App {
 		$this->_isHome = $isHome;
 		$this->_currentPage = $currentPage == null || $this->_isHome ? $this->_locale->getLanguage()['homepage'] : $currentPage;
 
-		$this->_view = new View('Article');
 		$this->_model = new Model();
+		$article = $this->_model->retrieve($this->_currentPage, $this->_locale->getLanguage()['code']);
 
-		$this->_template = $this->_view->get();
-		$this->_template->setData(
-			$this->_model->retrieve($this->_currentPage, $this->_locale->getLanguage()['code'])
-		);
+		if (!$article || isset($_GET['edit'])) {
+			$this->_view = new View('Editor');
+
+			$this->_template = $this->_view->get();
+			$this->_template->setData($currentPage);
+
+			$this->_isEditing = true;
+		}
+		else {
+			$this->_view = new View('Article');
+
+			$this->_template = $this->_view->get();
+			$this->_template->setData($article);
+		}
 	}
 
 	public function show() {
+		if ($this->_isEditing && !Permission::checkAndReturn('edit_articles')) {
+			Permission::yell();
+			return;
+		}
+
 		$this->_template->showContent();
 	}
 
