@@ -44,20 +44,16 @@ class Article implements App {
 		$this->_model = new Model();
 		$article = $this->_model->retrieve($this->_currentPage, $this->_locale->getLanguage()['code']);
 
-		if (!$article || isset($_GET['edit'])) {
+		if ($this->_model->getIsEditing()) {
 			$this->_view = new View('Editor');
-
 			$this->_template = $this->_view->get();
-			$this->_template->setData($this->_model->getEditorData());
-
-			$this->_model->setIsEditing(true);
 		}
 		else {
 			$this->_view = new View('Article');
-
 			$this->_template = $this->_view->get();
-			$this->_template->setData($article);
 		}
+
+		$this->_template->setData($article);
 	}
 
 	public function show() {

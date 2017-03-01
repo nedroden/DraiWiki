@@ -28,7 +28,7 @@ use \Parsedown;
 
 class Article extends ModelController {
 
-	private $_currentArticle, $_parsedown, $_title, $_isEditing;
+	private $_currentArticle, $_parsedown, $_isEditing;
 
 	public function __construct() {
 		$this->loadLocale();
@@ -55,29 +55,33 @@ class Article extends ModelController {
 		]);
 		$result = $query->execute();
 
-		if (count($result) == 0)
-			return false;
-
 		foreach ($result as $article) {
 			foreach ($article as $key => $value) {
-				$currentArticle[$key] = $value;
+				$this->_currentArticle[$key] = $value;
 			}
 		}
 
-		$currentArticle['title'] = str_replace('_', ' ', $currentArticle['title']);
-		$this->_title = $currentArticle['title'];
+		if (count($result) == 0) {
+			$this->_isEditing = true;
+			$this->_currentArticle = [
+				'title' => str_replace('_', ' ', $this->sanitize($_GET['article'])),
+				'body' => ''
+			];
+		}
+		else if (isset($_GET['edit'])) {
+			$this->_isEditing = true;
 
-		$currentArticle['body_md'] = $currentArticle['body'];
-		$currentArticle['body'] = $this->_parsedown->text($currentArticle['body']);
+			// We have already loaded the page, we just need to remove the underscores from the title
+			$this->_currentArticle['title'] = str_replace('_', ' ', $this->_title);
+		}
+		else {
+			$this->_currentArticle['title'] = str_replace('_', ' ', $this->_currentArticle['title']);
 
-		$this->_exists = true;
-		return $currentArticle;
-	}
+			$this->_currentArticle['body_md'] = $this->_currentArticle['body'];
+			$this->_currentArticle['body'] = $this->_parsedown->text($this->_currentArticle['body']);
+		}
 
-	public function getEditorData() {
-		return [
-			'title' => $this->sanitize($this->_title)
-		];
+		return $this->_currentArticle;
 	}
 
 	private function sanitize($value) {
@@ -89,7 +93,7 @@ class Article extends ModelController {
 	}
 
 	public function getTitle() {
-		return ($this->_isEditing ? $this->locale->read('editor', 'edit_article_title') : $this->_title);
+		return ($this->_isEditing ? $this->locale->read('editor', 'edit_article_title') : $this->_currentArticle['title']);
 	}
 
 	public function setIsEditing($value) {
