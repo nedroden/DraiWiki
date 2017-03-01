@@ -72,7 +72,7 @@ class Article extends ModelController {
 			$this->_isEditing = true;
 
 			// We have already loaded the page, we just need to remove the underscores from the title
-			$this->_currentArticle['title'] = str_replace('_', ' ', $this->_title);
+			$this->_currentArticle['title'] = str_replace('_', ' ', $this->_currentArticle['title']);
 		}
 		else {
 			$this->_currentArticle['title'] = str_replace('_', ' ', $this->_currentArticle['title']);

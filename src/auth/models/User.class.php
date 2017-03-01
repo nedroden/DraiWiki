@@ -34,6 +34,7 @@ class User {
 	private function __construct() {
 		$this->_isGuest = empty($_SESSION['user']);
 		$this->_locale = Locale::instantiate();
+		$this->_permissions = [];
 		$this->load();
 	}
 
