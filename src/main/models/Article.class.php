@@ -28,9 +28,10 @@ use \Parsedown;
 
 class Article extends ModelController {
 
-	private $_currentArticle, $_parsedown, $_title;
+	private $_currentArticle, $_parsedown, $_title, $_isEditing;
 
 	public function __construct() {
+		$this->loadLocale();
 		$this->_currentArticle = [];
 		$this->_parsedown = new Parsedown();
 	}
@@ -69,10 +70,29 @@ class Article extends ModelController {
 		$currentArticle['body_md'] = $currentArticle['body'];
 		$currentArticle['body'] = $this->_parsedown->text($currentArticle['body']);
 
+		$this->_exists = true;
 		return $currentArticle;
 	}
 
+	public function getEditorData() {
+		return [
+			'title' => $this->sanitize($this->_title)
+		];
+	}
+
+	private function sanitize($value) {
+		return htmlspecialchars($value, ENT_NOQUOTES, UTF-8);
+	}
+
+	public function getIsEditing() {
+		return $this->_isEditing;
+	}
+
 	public function getTitle() {
-		return $this->_title;
+		return ($this->_isEditing ? $this->locale->read('editor', 'edit_article_title') : $this->_title);
+	}
+
+	public function setIsEditing($value) {
+		$this->_isEditing = $value;
 	}
 }

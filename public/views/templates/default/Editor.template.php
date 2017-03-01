@@ -20,8 +20,13 @@ use DraiWiki\views\Template;
 
 class Editor extends Template {
 
+	public function __construct() {
+		$this->loadLocale();
+		$this->locale->loadFile('editor');
+	}
+
 	public function showContent() {
 		echo '
-			Ohai';
+			<h1>', $this->locale->read('editor', 'edit_article'), '</h1>';
 	}
 }

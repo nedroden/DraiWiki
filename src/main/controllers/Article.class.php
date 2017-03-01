@@ -32,7 +32,7 @@ require_once Main::$config->read('path', 'BASE_PATH') . 'src/main/models/Article
 
 class Article implements App {
 
-	private $_view, $_template, $_isHome, $_currentPage, $_hasStylesheet, $_locale, $_isEditing;
+	private $_view, $_template, $_isHome, $_currentPage, $_hasStylesheet, $_locale;
 
 	public function __construct($isHome, $currentPage = null) {
 		$this->_hasStylesheet = true;
@@ -48,9 +48,9 @@ class Article implements App {
 			$this->_view = new View('Editor');
 
 			$this->_template = $this->_view->get();
-			$this->_template->setData($currentPage);
+			$this->_template->setData($this->_model->getEditorData());
 
-			$this->_isEditing = true;
+			$this->_model->setIsEditing(true);
 		}
 		else {
 			$this->_view = new View('Article');
@@ -61,7 +61,7 @@ class Article implements App {
 	}
 
 	public function show() {
-		if ($this->_isEditing && !Permission::checkAndReturn('edit_articles')) {
+		if ($this->_model->getIsEditing() && !Permission::checkAndReturn('edit_articles')) {
 			Permission::yell();
 			return;
 		}
