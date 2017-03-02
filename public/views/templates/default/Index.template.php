@@ -88,7 +88,7 @@ echo '
 			</div>
 			<div id="copyright">
 				<div class="col33">', $this->getCopyright(), '</div>
-				<div class="col33 align_center"><a href="#topbar">', $this->locale->read('index', 'to_top'), '</a></div>
+				<div class="col33 align_center bigger"><a href="#topbar">', $this->locale->read('index', 'to_top'), '</a></div>
 				<div class="col33 align_right">
 					<strong>', $this->locale->read('index', 'locale'), '</strong> ', $this->locale->getLanguage()['native'], '
 				</div>
