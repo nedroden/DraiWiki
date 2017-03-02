@@ -44,14 +44,8 @@ class Article implements App {
 		$this->_model = new Model();
 		$article = $this->_model->retrieve($this->_currentPage, $this->_locale->getLanguage()['code']);
 
-		if ($this->_model->getIsEditing()) {
-			$this->_view = new View('Editor');
-			$this->_template = $this->_view->get();
-		}
-		else {
-			$this->_view = new View('Article');
-			$this->_template = $this->_view->get();
-		}
+		$this->_view = new View($this->_model->getIsEditing() ? 'Editor' : 'Article');
+		$this->_template = $this->_view->get();
 
 		$this->_template->setData($article);
 	}

@@ -65,14 +65,21 @@ class Article extends ModelController {
 			$this->_isEditing = true;
 			$this->_currentArticle = [
 				'title' => str_replace('_', ' ', $this->sanitize($_GET['article'])),
-				'body' => ''
+				'body' => '',
+				'action' => Main::$config->read('path', 'BASE_URL') . 'index.php?article=' . $this->sanitize($_GET['article']) . '&amp;edit'
 			];
 		}
 		else if (isset($_GET['edit'])) {
 			$this->_isEditing = true;
 
+			if (empty($_GET['article']))
+				$article = $this->locale->getLanguage()['homepage'];
+			else
+				$article = $_GET['article'];
+
 			// We have already loaded the page, we just need to remove the underscores from the title
 			$this->_currentArticle['title'] = str_replace('_', ' ', $this->_currentArticle['title']);
+			$this->_currentArticle['action'] = Main::$config->read('path', 'BASE_URL') . 'index.php?article=' . $this->sanitize($article) . '&amp;edit';
 		}
 		else {
 			$this->_currentArticle['title'] = str_replace('_', ' ', $this->_currentArticle['title']);
@@ -85,7 +92,7 @@ class Article extends ModelController {
 	}
 
 	private function sanitize($value) {
-		return htmlspecialchars($value, ENT_NOQUOTES, UTF-8);
+		return htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8');
 	}
 
 	public function getIsEditing() {

@@ -27,6 +27,11 @@ class Editor extends Template {
 
 	public function showContent() {
 		echo '
-			<h1>', $this->locale->read('editor', 'edit_article'), '</h1>';
+			<h1>', $this->locale->read('editor', 'edit_article'), ' ', $this->data['title'], '</h1>
+			<form action="', $this->data['action'], '" method="post">
+				<textarea name="content" id="editor">
+					', $this->data['body'], '
+				</textarea>
+			</form>';
 	}
 }
