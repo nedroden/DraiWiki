@@ -32,9 +32,8 @@ a {
 }
 
 #copyright {
-	padding: 10px;
-	font-size: 11px;
-	text-align: center;
+	padding: 10px 8px 50px 8px;
+	font-size: 12px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -195,22 +194,27 @@ input[type="submit"] {
 /* Sections width */
 .col20 {
 	width: 20%;
+	float: left;
 }
 
-.col30 {
-	width: 30%;
+.col33 {
+	width: 33%;
+	float: left;
 }
 
 .col40 {
 	width: 40%;
+	float: left;
 }
 
 .col50 {
 	width: 50%;
+	float: left;
 }
 
 .col60 {
 	width: 60%;
+	float: left;
 }
 
 /* The sidebar */
@@ -244,4 +248,13 @@ input[type="submit"] {
 	padding: 10px;
 	margin-bottom: 20px;
 	background: #f9f9f9;
+}
+
+/* Text styles */
+.align_center {
+	text-align: center;
+}
+
+.align_right {
+	text-align: right;
 }

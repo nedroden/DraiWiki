@@ -75,7 +75,7 @@ class Locale {
 
 	private function loadInfo($localeID) {
 		$query = new Query('
-			SELECT ID, code, homepage
+			SELECT ID, code, homepage, native
 				FROM {db_prefix}locales
 				WHERE code = :locale
 				LIMIT 1

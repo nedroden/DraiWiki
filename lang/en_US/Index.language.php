@@ -28,5 +28,8 @@ return [
 	'main' => 'Main',
 	'random' => 'Random article',
 
-	'submit' => 'Submit'
+	'submit' => 'Submit',
+
+	'to_top' => 'Top',
+	'locale' => 'Locale:'
 ];

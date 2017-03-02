@@ -78,7 +78,7 @@ class Index extends Template {
 		$this->showSidebar();
 
 		echo '
-				<div class="floatLeft col60">';	
+				<div class="col60">';	
 	}
 
 	public function showFooter() {
@@ -86,9 +86,14 @@ echo '
 				</div>
 				<br class="clear" />
 			</div>
-		</div>
-		<div id="copyright">
-			', $this->getCopyright(), '
+			<div id="copyright">
+				<div class="col33">', $this->getCopyright(), '</div>
+				<div class="col33 align_center"><a href="#topbar">', $this->locale->read('index', 'to_top'), '</a></div>
+				<div class="col33 align_right">
+					<strong>', $this->locale->read('index', 'locale'), '</strong> ', $this->locale->getLanguage()['native'], '
+				</div>
+				<br class="clear" />
+			</div>
 		</div>
 	</body>
 </html>';
@@ -110,7 +115,7 @@ echo '
 
 	private function showSidebar() {
 		echo '
-			<div id="sidebar" class="floatLeft col20">';
+			<div id="sidebar" class="col20">';
 
 		foreach ($this->_sideMenuItems as $section) {
 			if (!$section['visible'])
