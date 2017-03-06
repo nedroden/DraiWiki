@@ -100,7 +100,7 @@ class Article extends ModelController {
 	}
 
 	public function getTitle() {
-		return ($this->_isEditing ? $this->locale->read('editor', 'edit_article_title') : $this->_currentArticle['title']);
+		return ($this->_isEditing ? $this->locale->read('editor', 'edit_article_title') : $this->locale->read('index', 'view_article'));
 	}
 
 	public function setIsEditing($value) {

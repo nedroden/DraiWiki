@@ -31,5 +31,6 @@ return [
 	'submit' => 'Submit',
 
 	'to_top' => 'Top',
-	'locale' => 'Locale:'
+	'locale' => 'Locale:',
+	'view_article' => 'Read an article'
 ];

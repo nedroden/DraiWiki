@@ -105,7 +105,7 @@ input[type="submit"] {
 
 /* Wrapper, header and body styles */
 #wrapper {
-	width: 80%;
+	width: 90%;
 	margin: auto;
 }
 
@@ -155,7 +155,7 @@ input[type="submit"] {
 	font-family: Verdana, Arial;
 	font-style: italic;
 	color: #fff;
-	background: #8b9396;
+	background: #4a6699;
 }
 
 /* Messages */
