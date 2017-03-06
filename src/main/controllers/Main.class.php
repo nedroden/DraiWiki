@@ -85,7 +85,7 @@ class Main {
 		require_once self::$config->read('path', 'BASE_PATH') . 'public/views/Template.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'public/views/View.class.php';
 
-		require_once self::$config->read('path', 'BASE_PATH') . 'src/interfaces/App.interface.php';
+		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/controllers/App.class.php';
 
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/controllers/Error.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/controllers/NoAccessError.class.php';
@@ -122,6 +122,9 @@ class Main {
 
 		if (!empty($this->_currentApp->getTitle()))
 			$template->setData(['title' => $this->_currentApp->getTitle()]);
+
+		if (!empty($this->_currentApp->getSubmenuItems()))
+			$sidebarMenu->addItems($this->_currentApp->getSubmenuItems());
 
 		$template->setUserInfo($this->_user->get());
 

@@ -22,7 +22,7 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\auth\controllers\Permission;
-use DraiWiki\src\interfaces\App;
+use DraiWiki\src\main\controllers\App;
 use DraiWiki\src\main\controllers\Main;
 use DraiWiki\src\main\models\Article as Model;
 use DraiWiki\src\main\models\Locale;
@@ -30,12 +30,12 @@ use DraiWiki\views\View;
 
 require_once Main::$config->read('path', 'BASE_PATH') . 'src/main/models/Article.class.php';
 
-class Article implements App {
+class Article extends App {
 
-	private $_view, $_template, $_isHome, $_currentPage, $_hasStylesheet, $_locale;
+	private $_view, $_template, $_isHome, $_currentPage, $_locale;
 
 	public function __construct($isHome, $currentPage = null) {
-		$this->_hasStylesheet = true;
+		$this->hasStylesheet = true;
 		$this->_locale = Locale::instantiate();
 
 		$this->_isHome = $isHome;
@@ -63,11 +63,11 @@ class Article implements App {
 		return $this->_model->getTitle();
 	}
 
-	public function getHasStylesheet() {
-		return $this->_hasStylesheet;
-	}
-
 	public function getStylesheets() {
 		return ['article'];
+	}
+
+	public function getSubmenuItems() {
+		return $this->_model->getSubmenuItems();
 	}
 }

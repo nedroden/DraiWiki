@@ -9,7 +9,7 @@
 
 /* General styles */
 body {
-	background: #e6ebe0;
+	background: #D7D7D9;
 	font-family: Helvetica, "Trebuchet MS", Verdana, Arial;
 	font-size: 14px;
 	padding: 0;
@@ -120,13 +120,20 @@ input[type="submit"] {
 }
 
 #content {
-	padding: 5px 20px 20px 20px;
+	padding: 10px;
 	background: #fff;
-	border-left: 1px solid #78a1bb;
-	border-right: 1px solid #78a1bb;
-	border-bottom: 1px solid #78a1bb;
-	border-bottom-right-radius: 8px;
-	border-bottom-left-radius: 8px;
+	border-radius: 10px;
+	margin-top: 40px;
+}
+
+#contentHeader {
+	padding: 10px 30px 10px 30px;
+	font-size: 25px;
+	font-family: Verdana, Arial;
+	font-style: italic;
+	color: #fff;
+	background: #4a6699;
+	border-radius: 0px 0px 10px 10px;
 }
 
 /* Positioning */
@@ -146,16 +153,6 @@ input[type="submit"] {
 .stringNotFound {
 	color: red;
 	font-weight: bold;
-}
-
-/* Content headers */
-#contentHeader {
-	padding: 10px 30px 10px 30px;
-	font-size: 25px;
-	font-family: Verdana, Arial;
-	font-style: italic;
-	color: #fff;
-	background: #4a6699;
 }
 
 /* Messages */
@@ -229,19 +226,20 @@ input[type="submit"] {
 .sidebar_header {
 	background: #283044;
 	background: linear-gradient(-180deg, #283044, #262d40);
-	padding: 5px;
-	margin: 5px 0px 0px 0px;
+	padding: 8px;
+	margin: 5px 15px 0px 0px;
+	font-size: 15px;
 	color: #fff;
 }
 
 #sidebar ul {
 	list-style: none;
-	padding: 0;
+	padding: 5px 0px 0px 0px;
 	margin: 0;
 }
 
 #sidebar ul li {
-	padding: 3px 2px 3px 2px;
+	padding: 4px 2px 4px 5px;
 }
 
 .sidebar_items {

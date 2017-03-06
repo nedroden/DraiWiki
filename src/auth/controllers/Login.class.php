@@ -23,20 +23,20 @@ if (!defined('DraiWiki')) {
 
 use DraiWiki\src\auth\models\Login as Model;
 use DraiWiki\src\auth\models\User;
-use DraiWiki\src\interfaces\App;
+use DraiWiki\src\main\controllers\App;
 use DraiWiki\src\main\controllers\Main;
 use DraiWiki\src\main\controllers\NoAccessError;
 use DraiWiki\views\View;
 
 require_once Main::$config->read('path', 'BASE_PATH') . 'src/auth/models/Login.class.php';
 
-class Login implements App {
+class Login extends App {
 
-	private $_user, $_view, $_template, $_model, $_hasStylesheet;
+	private $_user, $_view, $_template, $_model;
 
 	public function __construct() {
 		$this->_user = User::instantiate();
-		$this->_hasStylesheet = true;
+		$this->hasStylesheet = true;
 
 		$this->_view = new View('Login');
 		$this->_model = new Model();
@@ -63,10 +63,6 @@ class Login implements App {
 
 	public function getTitle() {
 		return $this->_model->getTitle();
-	}
-
-	public function getHasStylesheet() {
-		return $this->_hasStylesheet;
 	}
 
 	private function setTemplateData() {

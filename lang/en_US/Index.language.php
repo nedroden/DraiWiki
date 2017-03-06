@@ -32,5 +32,9 @@ return [
 
 	'to_top' => 'Top',
 	'locale' => 'Locale:',
-	'view_article' => 'Read an article'
+	'view_article' => 'Read an article',
+
+	'side_read_article' => 'Read article',
+	'side_edit_article' => 'Edit article',
+	'article_actions' => 'Actions'
 ];

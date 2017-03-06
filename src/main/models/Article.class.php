@@ -64,7 +64,7 @@ class Article extends ModelController {
 		if (count($result) == 0) {
 			$this->_isEditing = true;
 			$this->_currentArticle = [
-				'title' => str_replace('_', ' ', $this->sanitize($_GET['article'])),
+				'title' => $this->ditchUnderscores($this->sanitize($_GET['article'])),
 				'body' => '',
 				'action' => Main::$config->read('path', 'BASE_URL') . 'index.php?article=' . $this->sanitize($_GET['article']) . '&amp;edit'
 			];
@@ -78,11 +78,11 @@ class Article extends ModelController {
 				$article = $_GET['article'];
 
 			// We have already loaded the page, we just need to remove the underscores from the title
-			$this->_currentArticle['title'] = str_replace('_', ' ', $this->_currentArticle['title']);
+			$this->_currentArticle['title'] = $this->ditchUnderscores($this->_currentArticle['title']);
 			$this->_currentArticle['action'] = Main::$config->read('path', 'BASE_URL') . 'index.php?article=' . $this->sanitize($article) . '&amp;edit';
 		}
 		else {
-			$this->_currentArticle['title'] = str_replace('_', ' ', $this->_currentArticle['title']);
+			$this->_currentArticle['title'] = $this->ditchUnderscores($this->_currentArticle['title']);
 
 			$this->_currentArticle['body_md'] = $this->_currentArticle['body'];
 			$this->_currentArticle['body'] = $this->_parsedown->text($this->_currentArticle['body']);
@@ -91,8 +91,32 @@ class Article extends ModelController {
 		return $this->_currentArticle;
 	}
 
+	public function getSubmenuItems() {
+		return [
+			'article' => [
+				'label' => 'article_actions',
+				'visible' => true,
+				'items' => [
+					'edit' => [
+						'label' => 'side_edit_article',
+						'href' => 'index.php?article=' . $this->addUnderscores($this->_currentArticle['title']) . '&amp;edit',
+						'visible' => true,
+					]
+				]
+			]
+		];
+	}
+
 	private function sanitize($value) {
 		return htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8');
+	}
+
+	private function addUnderscores($text) {
+		return str_replace(' ', '_', $text);
+	}
+
+	private function ditchUnderscores($text) {
+		return str_replace('_', ' ', $text);
 	}
 
 	public function getIsEditing() {

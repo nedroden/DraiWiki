@@ -24,7 +24,7 @@ if (!defined('DraiWiki')) {
 use DraiWiki\src\auth\models\Agreement;
 use DraiWiki\src\auth\models\Registration as Model;
 use DraiWiki\src\auth\models\User;
-use DraiWiki\src\interfaces\App;
+use DraiWiki\src\main\controllers\App;
 use DraiWiki\src\main\controllers\Main;
 use DraiWiki\src\main\controllers\NoAccessError;
 use DraiWiki\src\main\models\Locale;
@@ -33,13 +33,13 @@ use DraiWiki\views\View;
 require_once Main::$config->read('path', 'BASE_PATH') . 'src/auth/models/Registration.class.php';
 require_once Main::$config->read('path', 'BASE_PATH') . 'src/auth/models/Agreement.class.php';
 
-class Registration implements App {
+class Registration extends App {
 
-	private $_user, $_model, $_view, $_template, $_hasStylesheet, $_agreement, $_errors, $_correctFields;
+	private $_user, $_model, $_view, $_template, $_agreement, $_errors, $_correctFields;
 
 	public function __construct() {
 		$this->_user = User::instantiate();
-		$this->_hasStylesheet = true;
+		$this->hasStylesheet = true;
 
 		$this->_view = new View('Registration');
 		$this->_model = new Model();
@@ -74,10 +74,6 @@ class Registration implements App {
 
 	public function getStylesheets() {
 		return ['registration'];
-	}
-
-	public function getHasStylesheet() {
-		return $this->_hasStylesheet;
 	}
 
 	private function setTemplateData() {
