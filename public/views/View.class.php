@@ -40,7 +40,13 @@ class View {
 	}
 
 	public function get() {
-		require_once Main::$config->read('path', 'BASE_PATH') . 'public/views/templates/' . Main::$config->read('wiki', 'WIKI_TEMPLATES') . '/' . $this->_name . '.template.php';
+		if (file_exists(Main::$config->read('path', 'BASE_PATH') . 'public/views/templates/' . Main::$config->read('wiki', 'WIKI_TEMPLATES') . '/' . $this->_name . '.template.php'))
+			require_once Main::$config->read('path', 'BASE_PATH') . 'public/views/templates/' . Main::$config->read('wiki', 'WIKI_TEMPLATES') . '/' . $this->_name . '.template.php';
+		else if (Main::$config->read('wiki', 'WIKI_TEMPLATES') != 'default' && file_exists(Main::$config->read('path', 'BASE_PATH') . 'public/views/templates/default/' . $this->_name . '.template.php'))
+			require_once Main::$config->read('path', 'BASE_PATH') . 'public/views/templates/default/' . $this->_name . '.template.php';
+		else
+			die('<h1>Template not found</h1>Aborting...');
+
 		$tplName = 'DraiWiki\views\templates\\' . $this->_name;
 		return new $tplName($this->getImageLink(), $this->getStylesheet());
 	}
