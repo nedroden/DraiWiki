@@ -29,7 +29,7 @@ class Editor extends Template {
 		echo '
 			<h1>', $this->locale->read('editor', 'edit_article'), ' ', $this->data['title'], '</h1>
 			<form action="', $this->data['action'], '" method="post">
-				<textarea name="content" id="editor">
+				<textarea name="content" id="editor" onload="loadEditor(\'editor\')">
 					', $this->data['body'], '
 				</textarea>
 			</form>';

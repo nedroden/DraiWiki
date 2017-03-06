@@ -126,6 +126,9 @@ class Main {
 		if (!empty($this->_currentApp->getSubmenuItems()))
 			$sidebarMenu->addItems($this->_currentApp->getSubmenuItems());
 
+		if (!empty($this->_currentApp->getHeader()))
+			$template->setData(['header' => $this->_currentApp->getHeader()]);
+
 		$template->setUserInfo($this->_user->get());
 
 		$template->pushMenu($menu->get());

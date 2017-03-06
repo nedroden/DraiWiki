@@ -40,4 +40,8 @@ abstract class App {
 	public function getHasStylesheet() {
 		return $this->hasStylesheet;
 	}
+
+	public function getHeader() {
+		return null;
+	}
 }

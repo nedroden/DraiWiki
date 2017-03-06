@@ -21,6 +21,7 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use \DraiWiki\src\auth\controllers\Permission;
 use \DraiWiki\src\database\controllers\ModelController;
 use \DraiWiki\src\database\controllers\Query;
 use \DraiWiki\src\main\controllers\Main;
@@ -95,16 +96,25 @@ class Article extends ModelController {
 		return [
 			'article' => [
 				'label' => 'article_actions',
-				'visible' => true,
+				'visible' => (
+					Permission::checkAndReturn('edit_articles')
+				),
 				'items' => [
 					'edit' => [
 						'label' => 'side_edit_article',
 						'href' => 'index.php?article=' . $this->addUnderscores($this->_currentArticle['title']) . '&amp;edit',
-						'visible' => true,
+						'visible' => Permission::checkAndReturn('edit_articles'),
 					]
 				]
 			]
 		];
+	}
+
+	public function getHeader() {
+		return '
+
+		<link rel="stylsheet" type="text/css" href="' . Main::$config->read('path', 'BASE_URL'). 'js_libraries/SimpleMDE/css/simplemde.css" />
+		<script type="text/javascript" src="' . Main::$config->read('path', 'BASE_URL'). 'js_libraries/SimpleMDE/js/simplemde.js"></script>';
 	}
 
 	private function sanitize($value) {

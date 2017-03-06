@@ -41,12 +41,16 @@ class Index extends Template {
 		echo $this->data['title'], ' | ', Main::$config->read('wiki', 'WIKI_NAME');
 
 	echo '</title>
-		<link rel="stylesheet" type="text/css" href="', $this->_skinUrl, '" />';
+		<link rel="stylesheet" type="text/css" href="', $this->_skinUrl, '" />
+		<script type="text/javascript" src="' . Main::$config->read('path', 'BASE_URL'). 'src/javascript/Main.js"></script>';
 
 	foreach ($this->stylesheets as $stylesheet) {
 		echo '
 		<link rel="stylesheet" type="text/css" href="', $this->getStylesheet($stylesheet),'" />';
 	}
+
+	if (!empty($this->data['header']))
+		echo $this->data['header'];
 
 	echo '
 	</head>

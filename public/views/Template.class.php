@@ -44,8 +44,10 @@ abstract class Template {
 	public function setData($data = []) {
 		if (!is_array($data))
 			return false;
-		else
+		else if (empty($this->data))
 			$this->data = $data;
+		else
+			$this->data = array_merge($this->data, $data);
 	}
 
 	public function pushStylesheets($stylesheets) {
