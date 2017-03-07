@@ -67,7 +67,8 @@ class Article extends ModelController {
 			$this->_currentArticle = [
 				'title' => $this->ditchUnderscores($this->sanitize($_GET['article'])),
 				'body' => '',
-				'action' => Main::$config->read('path', 'BASE_URL') . 'index.php?article=' . $this->sanitize($_GET['article']) . '&amp;edit'
+				'action' => Main::$config->read('path', 'BASE_URL') . 'index.php?article=' . $this->sanitize($_GET['article']) . '&amp;edit',
+				'language' => $locale
 			];
 		}
 		else if (isset($_GET['edit'])) {
@@ -81,6 +82,7 @@ class Article extends ModelController {
 			// We have already loaded the page, we just need to remove the underscores from the title
 			$this->_currentArticle['title'] = $this->ditchUnderscores($this->_currentArticle['title']);
 			$this->_currentArticle['action'] = Main::$config->read('path', 'BASE_URL') . 'index.php?article=' . $this->sanitize($article) . '&amp;edit';
+			$this->_currentArticle['language'] = $locale;
 		}
 		else {
 			$this->_currentArticle['title'] = $this->ditchUnderscores($this->_currentArticle['title']);
@@ -93,6 +95,8 @@ class Article extends ModelController {
 	}
 
 	public function getSubmenuItems() {
+		$languages = $this->getSidebarLanguages();
+
 		return [
 			'article' => [
 				'label' => 'article_actions',
@@ -109,6 +113,11 @@ class Article extends ModelController {
 						'visible' => Permission::checkAndReturn('edit_articles'),
 					]
 				]
+			],
+			'language' => [
+				'label' => 'other_languages',
+				'visible' => true,
+				'items' => $languages
 			]
 		];
 	}
@@ -130,6 +139,36 @@ class Article extends ModelController {
 
 	private function ditchUnderscores($text) {
 		return str_replace('_', ' ', $text);
+	}
+
+	private function getSidebarLanguages() {
+		$query = new Query('
+			SELECT a.group_ID, a.language, l.code, l.native, a.title
+				FROM {db_prefix}articles a
+				INNER JOIN {db_prefix}locales l ON (a.language = l.code)
+				WHERE a.language != :locale
+				AND a.group_id = :group
+				ORDER BY l.native ASC
+		');
+
+		$query->setParams([
+			'locale' => $this->_currentArticle['language'],
+			'group' => $this->_currentArticle['group_ID']
+		]);
+
+		$result = $query->execute();
+
+		$languages = [];
+		foreach ($result as $locale) {
+			$languages[] = [
+				'label' => $locale['native'],
+				'href' => Main::$config->read('path', 'BASE_URL') . '/index.php?article=' . $locale['title'] . '&locale=' . $locale['code'],
+				'visible' => true,
+				'hardcoded' => true
+			];
+		}
+
+		return $languages;
 	}
 
 	public function getIsEditing() {

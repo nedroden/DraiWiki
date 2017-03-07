@@ -21,6 +21,7 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use \DraiWiki\src\auth\controllers\Permission;
 use \DraiWiki\src\auth\models\User;
 
 class Menu {
@@ -43,6 +44,11 @@ class Menu {
 				'label' => 'home',
 				'href' => 'index.php',
 				'visible' => true
+			],
+			'admin' => [
+				'label' => 'admin',
+				'href' => 'admin/index.php',
+				'visible' => Permission::checkAndReturn('access_admin')
 			],
 			'login' => [
 				'label' => 'login',

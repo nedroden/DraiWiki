@@ -36,5 +36,6 @@ return [
 
 	'side_read_article' => 'Read article',
 	'side_edit_article' => 'Edit article',
-	'article_actions' => 'Actions'
+	'article_actions' => 'Actions',
+	'other_languages' => 'Languages'
 ];

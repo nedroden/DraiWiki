@@ -132,9 +132,17 @@ echo '
 				<ul>';
 
 			foreach ($section['items'] as $item) {
-				if ($item['visible'])
+				if ($item['visible']) {
 					echo '
-						<li><a href="', $item['href'], '">', $this->locale->read('index', $item['label']), '</a></li>';
+						<li><a href="', $item['href'], '">';
+
+					if (!empty($item['hardcoded']) && $item['hardcoded'])
+						echo $item['label'];
+					else
+						echo $this->locale->read('index', $item['label']);
+
+					echo '</a></li>';
+				}
 			}
 
 			echo '

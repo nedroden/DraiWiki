@@ -228,13 +228,14 @@ input[type="submit"] {
 
 .sidebar_header {
 	background: #283044;
-	background: linear-gradient(-180deg, #283044, #262d40);
+	background: linear-gradient(-180deg, #283044, #262d42);
 	padding: 8px;
 	margin: 30px 15px 0px 0px;
 	font-size: 15px;
 	color: #fff;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
+	text-shadow: 1px 2px #000;
 }
 
 .sidebar_header:first-child {
@@ -243,7 +244,7 @@ input[type="submit"] {
 
 #sidebar ul {
 	list-style: none;
-	padding: 10px;
+	padding: 8px;
 	margin: 0px 15px 0px 0px;
 	background: #efefef;
 	border-bottom-left-radius: 5px;
@@ -251,7 +252,7 @@ input[type="submit"] {
 }
 
 #sidebar ul li {
-	padding: 4px 2px 4px 5px;
+	padding: 4px 2px 4px 0px;
 }
 
 .sidebar_items {
