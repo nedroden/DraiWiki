@@ -27,7 +27,7 @@ use \DraiWiki\src\main\models\Locale;
 
 class User {
 
-	private $_isGuest, $_userInfo, $_permissions, $_locale;
+	private $_isGuest, $_userInfo, $_permissions, $_locale, $_isRoot;
 
 	private static $_instance;
 
@@ -54,7 +54,7 @@ class User {
 	}
 
 	public function hasPermission($permission) {
-		return in_array($permission, $this->_permissions);
+		return in_array($permission, $this->_permissions) || $this->_isRoot;
 	}
 
 	private function load() {
@@ -134,13 +134,16 @@ class User {
 				'name' => $group['name']
 			];
 
+			$this->_isRoot = $group['ID'] == 1;
+
 			if ($group['dominant'] == 1)
 				$dominantGroups[] = $group;
 			else
 				$normalGroups[] = $group;
 		}
 
-		$this->loadPermissions(empty($dominantGroups) ? $normalGroups : $dominantGroups);		
+		if (!$this->_isRoot)
+			$this->loadPermissions(empty($dominantGroups) ? $normalGroups : $dominantGroups);		
 	}
 
 	private function loadPermissions($groups) {
