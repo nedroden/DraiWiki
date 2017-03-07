@@ -50,7 +50,7 @@ class Article extends ModelController {
 		');
 
 		$query->setParams([
-			'title' => $title,
+			'title' => $this->addUnderscores($title),
 			'locale' => $locale,
 			'status' => 1
 		]);
@@ -96,10 +96,13 @@ class Article extends ModelController {
 		return [
 			'article' => [
 				'label' => 'article_actions',
-				'visible' => (
-					Permission::checkAndReturn('edit_articles')
-				),
+				'visible' => true,
 				'items' => [
+					'view' => [
+						'label' => 'side_read_article',
+						'href' => 'index.php?article=' . $this->addUnderscores($this->_currentArticle['title']),
+						'visible' => true,
+					],
 					'edit' => [
 						'label' => 'side_edit_article',
 						'href' => 'index.php?article=' . $this->addUnderscores($this->_currentArticle['title']) . '&amp;edit',
@@ -113,8 +116,8 @@ class Article extends ModelController {
 	public function getHeader() {
 		return '
 
-		<link rel="stylsheet" type="text/css" href="' . Main::$config->read('path', 'BASE_URL'). 'js_libraries/SimpleMDE/css/simplemde.css" />
-		<script type="text/javascript" src="' . Main::$config->read('path', 'BASE_URL'). 'js_libraries/SimpleMDE/js/simplemde.js"></script>';
+		<link rel="stylsheet" type="text/css" href="' . Main::$config->read('path', 'BASE_URL'). 'libraries/SimpleMDE/css/simplemde.css" />
+		<script type="text/javascript" src="' . Main::$config->read('path', 'BASE_URL'). 'libraries/SimpleMDE/js/simplemde.js"></script>';
 	}
 
 	private function sanitize($value) {

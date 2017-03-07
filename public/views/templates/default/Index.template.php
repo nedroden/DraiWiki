@@ -56,27 +56,29 @@ class Index extends Template {
 	</head>
 	<body>
 		<div id="wrapper">
-			<div id="topbar">';
+			<div id="header_section">
+				<div id="topbar">';
 
-		$this->showMenu();
+			$this->showMenu();
 
-		echo '
-				<div id="userinfo">
-					', sprintf($this->locale->read('index', 'hello'), $this->user['first_name']), '
-				</div>
-				<br class="clear" />
-			</div>
-			<div id="header">
-				', Main::$config->read('wiki', 'WIKI_NAME'), '
-			</div>';
-
-		if (!empty($this->data['title']))
 			echo '
-			<div id="contentHeader">
-				', $this->data['title'], '
-			</div>';
+					<div id="userinfo">
+						', sprintf($this->locale->read('index', 'hello'), $this->user['first_name']), '
+					</div>
+					<br class="clear" />
+				</div>
+				<div id="header">
+					', Main::$config->read('wiki', 'WIKI_NAME'), '
+				</div>';
+
+			if (!empty($this->data['title']))
+				echo '
+				<div id="contentHeader">
+					', $this->data['title'], '
+				</div>';
 
 		echo '
+			</div>
 			<div id="content">';
 
 		$this->showSidebar();

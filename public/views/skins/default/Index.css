@@ -133,6 +133,9 @@ input[type="submit"] {
 	font-style: italic;
 	color: #fff;
 	background: #4a6699;
+}
+
+#header_section div:last-child {
 	border-radius: 0px 0px 10px 10px;
 }
 
@@ -227,9 +230,13 @@ input[type="submit"] {
 	background: #283044;
 	background: linear-gradient(-180deg, #283044, #262d40);
 	padding: 8px;
-	margin: 5px 15px 0px 0px;
+	margin: 30px 15px 0px 0px;
 	font-size: 15px;
 	color: #fff;
+}
+
+.sidebar_header:first-child {
+	margin: 5px 15px 0px 0px;
 }
 
 #sidebar ul {
