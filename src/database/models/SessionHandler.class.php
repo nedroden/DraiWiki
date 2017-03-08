@@ -43,6 +43,16 @@ class SessionHandler implements SessionHandlerInterface {
 		session_name(Main::$config->read('session', 'COOKIE_ID'));
 	}
 
+	/**
+	 * Servers running Ubuntu or its deratives (this may apply to other Debian-based systems as well) do
+	 * not automatically run the garbage collector. Thus, we need to call it ourselves.
+	 */
+	public function __destruct() {
+		$probability = rand(0, 2);
+		if ($probability == 0)
+			$this->gc(init_get('session.gc_max_lifetime'));
+	}
+
 	public function open($savePath, $sessionKey) {
 		/*$query = new Query('
 			SELECT data
