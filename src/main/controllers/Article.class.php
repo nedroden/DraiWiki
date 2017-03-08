@@ -70,8 +70,4 @@ class Article extends App {
 	public function getSubmenuItems() {
 		return $this->_model->getSubmenuItems();
 	}
-
-	public function getHeader() {
-		return $this->_model->getHeader();
-	}
 }

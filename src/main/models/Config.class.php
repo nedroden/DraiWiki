@@ -22,10 +22,9 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
-use \DraiWiki\src\database\controllers\ModelController;
 use \DraiWiki\src\database\controllers\Query;
 
-class Config extends ModelController {
+class Config {
 
 	public static function retrieve() {
 		$query = new Query('

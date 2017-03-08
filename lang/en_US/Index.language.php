@@ -23,7 +23,7 @@ return [
 	'login' => 'Login',
 	'register' => 'Register',
 	'logout' => 'Logout',
-	'admin' => 'Admin',
+	'admin' => 'Admin panel',
 
 	'main' => 'Main',
 	'random' => 'Random article',
@@ -37,5 +37,7 @@ return [
 	'side_read_article' => 'Read article',
 	'side_edit_article' => 'Edit article',
 	'article_actions' => 'Actions',
-	'other_languages' => 'Languages'
+	'other_languages' => 'Languages',
+
+	'account_settings' => 'Account settings'
 ];

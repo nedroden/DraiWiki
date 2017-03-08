@@ -18,8 +18,10 @@ The admin panel is designed to be self-sufficient and isolated (i.e. it has its 
 * MariaDB / MySQL
 * PDO extension
 * Composer
+* Node.js
+* NPM
 
-### 2.2. How to install
+### 2.2. How to install (OUTDATED!)
 1. Install Composer
 2. cd to your http directory
 3. Run the following command in your command prompt or terminal: git clone http://github.com/Chistaen/DraiWiki.git

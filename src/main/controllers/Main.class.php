@@ -22,7 +22,6 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\Config;
-use DraiWiki\views\View;
 use DraiWiki\src\auth\models\User;
 use DraiWiki\src\database\controllers\Connection;
 use DraiWiki\src\database\models\SessionHandler;
@@ -30,6 +29,7 @@ use DraiWiki\src\main\controllers\SettingsImporter;
 use DraiWiki\src\main\models\Menu;
 use DraiWiki\src\main\models\SidebarMenu;
 use DraiWiki\src\main\models\Locale;
+use DraiWiki\views\View;
 
 require_once 'public/Config.php';
 
@@ -40,10 +40,6 @@ class Main {
 	private $_currentApp, $_currentAppName, $_user;
 
 	private $_apps = [
-		'admin' => [
-			'package' => 'admin',
-			'class' => 'Main'
-		],
 		'article' => [
 			'package' => 'main',
 			'class' => 'Article'

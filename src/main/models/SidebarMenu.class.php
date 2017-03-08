@@ -21,6 +21,7 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use \DraiWiki\src\auth\controllers\Permission;
 use \DraiWiki\src\auth\models\User;
 
 class SidebarMenu {
@@ -66,6 +67,16 @@ class SidebarMenu {
 						'label' => 'register',
 						'href' => 'index.php?app=register',
 						'visible' => $this->_user->isGuest()
+					],
+					'admin' => [
+						'label' => 'admin',
+						'href' => 'admin/index.php',
+						'visible' => Permission::checkAndReturn('access_admin')
+					],
+					'account_settings' => [
+						'label' => 'account_settings',
+						'href' => 'index.php?app=settings',
+						'visible' => !$this->_user->isGuest()
 					],
 					'logout' => [
 						'label' => 'logout',

@@ -68,7 +68,8 @@ class Article extends ModelController {
 				'title' => $this->ditchUnderscores($this->sanitize($_GET['article'])),
 				'body' => '',
 				'action' => Main::$config->read('path', 'BASE_URL') . 'index.php?article=' . $this->sanitize($_GET['article']) . '&amp;edit',
-				'language' => $locale
+				'language' => $locale,
+				'group_ID' => 0
 			];
 		}
 		else if (isset($_GET['edit'])) {
@@ -122,13 +123,6 @@ class Article extends ModelController {
 		];
 	}
 
-	public function getHeader() {
-		return '
-
-		<link rel="stylsheet" type="text/css" href="' . Main::$config->read('path', 'BASE_URL'). 'libraries/SimpleMDE/css/simplemde.css" />
-		<script type="text/javascript" src="' . Main::$config->read('path', 'BASE_URL'). 'libraries/SimpleMDE/js/simplemde.js"></script>';
-	}
-
 	private function sanitize($value) {
 		return htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8');
 	}
@@ -162,7 +156,7 @@ class Article extends ModelController {
 		foreach ($result as $locale) {
 			$languages[] = [
 				'label' => $locale['native'],
-				'href' => Main::$config->read('path', 'BASE_URL') . '/index.php?article=' . $locale['title'] . '&locale=' . $locale['code'],
+				'href' => Main::$config->read('path', 'BASE_URL') . 'index.php?article=' . $locale['title'] . '&locale=' . $locale['code'],
 				'visible' => true,
 				'hardcoded' => true
 			];
