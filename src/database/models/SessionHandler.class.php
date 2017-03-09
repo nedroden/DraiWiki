@@ -49,7 +49,7 @@ class SessionHandler implements SessionHandlerInterface {
 	 * @return void
 	 */
 	public function __destruct() {
-		$probability = rand(0, 2);
+		$probability = rand(0, 1000);
 		if ($probability == 0)
 			$this->gc(ini_get('session.gc_max_lifetime'));
 	}
