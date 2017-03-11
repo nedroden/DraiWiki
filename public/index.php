@@ -23,6 +23,11 @@ else if (version_compare(phpversion(), '5.6.0', '<'))
 
 define('DraiWikiVersion', '1.0 Alpha 1');
 
+if (!file_exists(__DIR__ . '/../vendor/autoload.php') || !file_exists(__DIR__ . '/../node_modules/simplemde/dist/simplemde.min.js')) {
+	require 'NoLibraries.html';
+	die;
+}
+
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../src/main/controllers/Main.class.php';
 $main = new Main();

@@ -34,7 +34,8 @@ class Editor extends Template {
 
 			<script type="text/javascript">
 				var simplemde = new SimpleMDE({
-					element: document.getElementById("editor")
+					element: document.getElementById("editor"),
+					tabSize: 8
 				});
 			</script>';
 	}

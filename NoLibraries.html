@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>No libraries installed</title>
+		<style type="text/css">
+			body {
+				background: #D7D7D9;
+				font-family: Helvetica, "Trebuchet MS", Verdana, Arial;
+				font-size: 14px;
+				padding: 40px;
+				margin: 0;
+			}
+
+			a {
+				color: #78a1bb;
+				text-decoration: none;
+			}
+
+			::selection {
+				background: #bfa89e;
+				color: #fff;
+			}
+
+			::-moz-selection {
+				background: #bfa89e;
+				color: #fff;
+			}
+
+			#copyright {
+				padding: 10px 8px 50px 8px;
+				font-size: 12px;
+			}
+
+			h1, h2, h3, h4, h5, h6 {
+				color: #383838;
+			}
+
+			hr {
+				border-width: 1px 0px 0px 0px;
+				border-color: #e2e2e2;
+			}
+
+			em {
+				color: #96745D;
+				font-weight: bold;
+				font-size: 14px;
+			}
+
+			#wrapper {
+				width: 60%;
+				margin: auto;
+				padding: 10px;
+				background: #fff;
+				border: 1px solid #bcbcbc;
+				border-radius: 8px;
+			}
+
+			#copyright {
+				padding: 10px 8px 50px 8px;
+				font-size: 12px;
+				text-align: center
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="wrapper">
+			<h1>Missing libraries</h1>
+			<p><strong>Welcome to DraiWiki!</strong> Thank you for using our software. Before you can start using your freshly-installed wiki, there are a few more things you need to do. We've detected that several important libraries are missing. No worries, that's normal. It is, however, necessary that you install them, as DraiWiki won't work without them.</p>
+			<p>To make things easier, we've created a quick guide:</p>
+			<p>
+				<ol>
+					<li>Install the <em>Composer</em> and <em>NPM</em> package managers.</li>
+					<li>Go to the main directory. This is the directory that contains the src and public folders, as well as several others.</li>
+					<li>Enter a terminal or command prompt, and execute the following command <em>composer install</em></li>
+					<li>Execute the <em>npm install</em> command</li>
+					<li>Verify that both the <em>vendor</em> and <em>node_modules</em> directories exist.</li>
+					<li>Refresh this page and enjoy your DraiWiki installation</li>
+				</ol>
+			</p>
+			<p>Are you receiving this message in error? If so, we apologize for the inconvenience. For some reason, DraiWiki did not detect the <em>vendor</em> and <em>node_modules</em> directories (or you're accessing this error file directly). Make sure you have ran Composer and NPM in the directory that contains the admin, lang, public and src directories, and that all files are accessible.</p>
+			<p>Good luck with your wiki installation! Make us proud.</p>
+		</div>
+		<div id="copyright">
+			Powered by <a href="http://draiwiki.robertmonden.com" target="_blank">DraiWiki</a> | 
+			&copy; 2017 Robert Monden
+		</div>
+	</body>
+</html>
