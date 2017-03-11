@@ -165,6 +165,12 @@ class Article extends ModelController {
 		return $languages;
 	}
 
+	public function getHeader() {
+		return '
+			<link rel="stylesheet" type="text/css" href="' . Main::$config->read('path', 'BASE_URL') . 'node_modules/simplemde/dist/simplemde.min.css" />
+			<script src="' . Main::$config->read('path', 'BASE_URL') . 'node_modules/simplemde/dist/simplemde.min.js"></script>';
+	}
+
 	public function getIsEditing() {
 		return $this->_isEditing;
 	}

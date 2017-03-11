@@ -7,9 +7,3 @@
  * @copyright   DraiWiki, 2017
  * @license     Apache 2.0
  */
-
-function loadEditor(editor) {
-	var simplemde = new SimpleMDE({
-		element: document.getElementById(editor)
-	});
-}

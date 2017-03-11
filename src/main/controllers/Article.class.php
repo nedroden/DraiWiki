@@ -59,6 +59,10 @@ class Article extends App {
 		$this->_template->showContent();
 	}
 
+	public function getHeader() {
+		return $this->_model->getHeader();
+	}
+
 	public function getTitle() {
 		return $this->_model->getTitle();
 	}
