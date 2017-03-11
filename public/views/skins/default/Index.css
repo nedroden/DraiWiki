@@ -9,7 +9,8 @@
 
 /* General styles */
 body {
-	background: #D7D7D9;
+	background: #d7d7d9;
+	background: radial-gradient(circle, #f4f4f4, #c6c6c6);
 	font-family: Helvetica, "Trebuchet MS", Verdana, Arial;
 	font-size: 14px;
 	padding: 0;
