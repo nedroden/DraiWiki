@@ -129,10 +129,11 @@ input[type="submit"] {
 #contentHeader {
 	padding: 10px 30px 10px 30px;
 	font-size: 25px;
-	font-family: Verdana, Arial;
+	font-family: "Dejavu Sans", Verdana, Helvetica, Arial;
 	font-style: italic;
 	color: #fff;
 	background: #4a6699;
+	background: linear-gradient(-90deg, #394f77, #4a6699);
 }
 
 #header_section div:last-child {
