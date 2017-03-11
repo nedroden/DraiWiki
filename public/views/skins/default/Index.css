@@ -275,3 +275,19 @@ input[type="submit"] {
 .bigger {
 	font-size: 16px;
 }
+
+/* Content styles */
+pre {
+	font-family: "Courier New", Monospace;
+	padding: 10px;
+	margin: 10px;
+	border: 1px solid #E5E5E5;
+	background: #f7f7f7 url({IMAGE_URL}codebg.png) no-repeat right 0px;
+}
+
+blockquote {
+	padding: 10px;
+	margin: 10px;
+	border: 1px solid #E5E5E5;
+	background: #f7f7f7;
+}

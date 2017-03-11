@@ -53,7 +53,7 @@ class Stylesheet {
 	}
 
 	private function generateImageUrl() {
-		return $this->_baseUrl . 'views/images/' . $this->_imgSet . '/';
+		return $this->_baseUrl . 'public/views/images/' . $this->_imgSet . '/';
 	}
 
 	private function generatePath() {
