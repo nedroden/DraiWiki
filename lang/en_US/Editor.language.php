@@ -18,5 +18,8 @@
 
 return [
 	'edit_article' => 'Edit article: ',
-	'edit_article_title' => 'Edit article'
+	'edit_article_title' => 'Edit article',
+	'save' => 'Save',
+
+	'title' => 'Title: '
 ];

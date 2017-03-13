@@ -16,7 +16,7 @@
 
 namespace DraiWiki\src\database\models;
 
-if (!defined('DraiWiki')) {
+if (!defined('DraiWiki') && !defined('DraiWikiAdmin')) {
 	header('Location: ../index.php');
 	die('You\'re really not supposed to be here.');
 }

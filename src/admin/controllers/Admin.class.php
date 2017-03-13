@@ -22,10 +22,10 @@ if (!defined('DraiWikiAdmin')) {
 }
 
 use DraiWiki\Config;
-use DraiWiki\src\admin\models\User;
-use DraiWiki\src\admin\controllers\Connection;
+use DraiWiki\src\admin\auth\models\User;
+use DraiWiki\src\admin\database\controllers\Query;
+use DraiWiki\src\admin\database\controllers\SettingsImporter;
 use DraiWiki\src\database\models\SessionHandler;
-use DraiWiki\src\admin\controllers\SettingsImporter;
 
 /**
  * NOTE: as you may notice, the admin panel only shares two classes with
@@ -50,17 +50,17 @@ class Admin {
 
 	public static $config;
 
-	private $_currentPage;
+	private $_currentPage, $_currentAppName, $_currentApp;
 
 	public function __construct() {
 		self::$config = new Config();
 		$this->setCurrentApp();
 
-		require_once self::$config->read('path', 'BASE_PATH') . 'src/admin/controllers/Query.class.php';
-		require_once self::$config->read('path', 'BASE_PATH') . 'src/admin/models/User.class.php';
+		require_once self::$config->read('path', 'BASE_PATH') . 'src/admin/database/controllers/Query.class.php';
+		require_once self::$config->read('path', 'BASE_PATH') . 'src/admin/auth/models/User.class.php';
 
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/database/models/SessionHandler.class.php';
-		require_once self::$config->read('path', 'BASE_PATH') . 'src/admin/controllers/SettingsImporter.class.php';
+		require_once self::$config->read('path', 'BASE_PATH') . 'src/admin/database/controllers/SettingsImporter.class.php';
 
 		SettingsImporter::import();
 
@@ -73,5 +73,39 @@ class Admin {
 
 	public function display() {
 		echo '<h1>Administration panel</h1>This is just a placeholder.';
+	}
+
+	/**
+	 * This method loads the correct files for an app and creates a new instance of the corresponding class.
+	 * @param string $app The name of the app
+	 * @return void
+	 */
+	private function loadApp($app) {
+		require_once self::$config->read('path', 'BASE_PATH') . 'src/' . $this->_apps[$app]['package'] . '/controllers/' . $this->_apps[$app]['class'] . '.class.php';
+
+		$classname = '\DraiWiki\src\\' . $this->_apps[$app]['package'] . '\controllers\\' . $this->_apps[$app]['class'];
+
+		if ($this->_currentAppName != 'article')
+			$this->_currentApp = new $classname();
+		else if ($this->_currentAppName == 'article' && empty($_GET['article']))
+			$this->_currentApp = new $classname(true);
+		else
+			$this->_currentApp = new $classname(false, $_GET['article']);
+	}
+
+	/**
+	 * Determines the app that should be loaded, based on the value of _GET['app'].
+	 * @return string The name of the app that should be loaded
+	 */
+	private function getCurrentApp() {
+		return !empty($_GET['app']) && array_key_exists(strtolower($_GET['app']), $this->_apps) ? $_GET['app'] : 'article';
+	}
+
+	/**
+	 * This method sets the name of the current app based on the return value of getCurrentApp()
+	 * @return void
+	 */
+	private function setCurrentApp() {
+		$this->_currentAppName = $this->getCurrentApp();
 	}
 }

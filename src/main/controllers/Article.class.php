@@ -39,10 +39,13 @@ class Article extends App {
 		$this->_locale = Locale::instantiate();
 
 		$this->_isHome = $isHome;
-		$this->_currentPage = $currentPage == null || $this->_isHome ? $this->_locale->getLanguage()['homepage'] : $currentPage;
+		$this->_currentPage = ($currentPage == null || $this->_isHome) ? $this->_locale->getLanguage()['homepage'] : $currentPage;
 
 		$this->_model = new Model();
 		$article = $this->_model->retrieve($this->_currentPage, $this->_locale->getLanguage()['code']);
+
+		if (!empty($_POST))
+			$this->handlePostRequest();
 
 		$this->_view = new View($this->_model->getIsEditing() ? 'Editor' : 'Article');
 		$this->_template = $this->_view->get();
@@ -57,6 +60,27 @@ class Article extends App {
 		}
 
 		$this->_template->showContent();
+	}
+
+	private function handlePostRequest() {
+		if (!Permission::checkAndReturn('edit_articles')) {
+			Permission::yell();
+			return;
+		}
+
+		if ($this->hasEmptyFields())
+			die('Testing.');
+
+		$this->redirect();
+	}
+
+	private function hasEmptyFields() {
+		return true;
+	}
+
+	private function redirect() {
+		header('Location: ' . Main::$config->read('path', 'BASE_URL') . 'index.php?article=' . $this->_currentPage);
+		die;
 	}
 
 	public function getHeader() {

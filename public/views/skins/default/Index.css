@@ -75,6 +75,10 @@ input[type="submit"] {
 	color: #fff;
 }
 
+.wide {
+	width: 100%;
+}
+
 /* Styles for the top bar */
 #topbar {
 	padding: 10px 20px 10px 20px;
@@ -112,7 +116,7 @@ input[type="submit"] {
 
 #header {
 	background: #283044;
-	background: linear-gradient(-180deg, #283044, #262d40);
+	background: radial-gradient(circle, #283044, #262d40);
 	color: #fff;
 	font-size: 30px;
 	font-family: Verdana, Helvetica, Arial;
@@ -191,6 +195,10 @@ input[type="submit"] {
 
 .containsError {
 	color: #c11d1d!important;
+}
+
+.text_bold {
+	font-weight: bold;
 }
 
 /* Sections width */
@@ -277,17 +285,28 @@ input[type="submit"] {
 }
 
 /* Content styles */
-pre {
+/*pre {
 	font-family: "Courier New", Monospace;
 	padding: 10px;
 	margin: 10px;
 	border: 1px solid #E5E5E5;
 	background: #f7f7f7 url({IMAGE_URL}codebg.png) no-repeat right 0px;
-}
+	word-wrap: break-word;
+	min-height: 50px;
+	max-height: 200px;
+	overflow-y: auto;
+}*/
 
 blockquote {
 	padding: 10px;
 	margin: 10px;
 	border: 1px solid #E5E5E5;
 	background: #f7f7f7;
+	word-wrap: break-word;
+	min-height: 50px;
+}
+
+/* Spacing */
+.bottom_top_margin {
+	margin: 30px 0px 30px 0px;
 }

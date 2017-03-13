@@ -14,9 +14,9 @@
  * @author 		DraiWiki development team
  */
 
-namespace DraiWiki\src\auth\models;
+namespace DraiWiki\src\admin\auth\models;
 
-if (!defined('DraiWiki')) {
+if (!defined('DraiWikiAdmin')) {
 	header('Location: ../index.php');
 	die('You\'re really not supposed to be here.');
 }
