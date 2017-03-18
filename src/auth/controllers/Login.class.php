@@ -92,9 +92,9 @@ class Login extends App {
 	private function getSessionInfo($userID, $lifetime) {
 		return [
 			'ID' => $userID,
-			'UA' => $_SERVER['HTTP_USER_AGENT'],
-			'IP' => $_SERVER['REMOTE_ADDR'],
-			'LT' => $lifetime
+			'user_agent' => $_SERVER['HTTP_USER_AGENT'],
+			'ip_address' => $_SERVER['REMOTE_ADDR'],
+			'lifetime' => $lifetime
 		];
 	}
 

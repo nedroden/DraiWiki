@@ -32,7 +32,7 @@ require_once Main::$config->read('path', 'BASE_PATH') . 'src/main/models/Article
 
 class Article extends App {
 
-	private $_view, $_template, $_isHome, $_currentPage, $_locale;
+	private $_view, $_template, $_isHome, $_currentPage, $_locale, $_errors;
 
 	public function __construct($isHome, $currentPage = null) {
 		$this->hasStylesheet = true;
@@ -41,7 +41,7 @@ class Article extends App {
 		$this->_isHome = $isHome;
 		$this->_currentPage = ($currentPage == null || $this->_isHome) ? $this->_locale->getLanguage()['homepage'] : $currentPage;
 
-		$this->_model = new Model();
+		$this->_model = new Model($isHome);
 		$article = $this->_model->retrieve($this->_currentPage, $this->_locale->getLanguage()['code']);
 
 		if (!empty($_POST))
@@ -68,14 +68,41 @@ class Article extends App {
 			return;
 		}
 
-		if ($this->hasEmptyFields())
-			die('Testing.');
+		$this->_errors = [];
 
+		if (!empty($fields = $this->getEmptyFields())) {
+			foreach ($fields as $field) {
+				$this->_errors[$field] = 'empty_' . $field;
+			}
+			return;
+		}
+
+		if (!empty($fields = $this->_model->verifyLength())) {
+			foreach ($fields as $field) {
+				// @todo: add error messages to locale file
+				$this->_errors[$field] = 'invalid_length_' . $field;
+			}
+			return;
+		}
+
+		if (!$this->_model->isValidId($_POST['articleID'])) {
+			$this->_errors['articleID'] = 'invalid_ID';
+			return;
+		}
+
+		$this->_model->update();
 		$this->redirect();
 	}
 
-	private function hasEmptyFields() {
-		return true;
+	private function getEmptyFields() {
+		$fields = ['articleID', 'title', 'body'];
+
+		$errors = [];
+		foreach ($fields as $field)
+			if (empty($_POST[$field]))
+				$errors[] = $field;
+
+		return $errors;
 	}
 
 	private function redirect() {

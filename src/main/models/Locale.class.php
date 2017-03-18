@@ -16,17 +16,23 @@
 
 namespace DraiWiki\src\main\models;
 
+use DraiWiki\src\auth\models\User;
 use DraiWiki\src\database\controllers\Query;
 use DraiWiki\src\main\controllers\Main;
 
 class Locale {
 
-	private $_language, $_strings, $_files = [];
+	private $_language, $_strings, $_files = [], $_user;
 
 	private static $_instance;
 
 	private function __construct() {
-		$this->_language = $this->loadInfo(Main::$config->read('wiki', 'WIKI_LOCALE'));
+		$this->_user = User::instantiate();
+
+		if ($this->hasCookie())
+			$this->_language = $this->loadInfo($this->getCookie());
+		else
+			$this->_language = $this->loadInfo($this->_user->get()['locale']);
 
 		$this->loadFile('index');
 		$this->loadFile('error');
@@ -69,10 +75,6 @@ class Locale {
 		return null;
 	}
 
-	public function getLanguage() {
-		return $this->_language;
-	}
-
 	private function loadInfo($localeID) {
 		$query = new Query('
 			SELECT ID, code, homepage, native
@@ -91,6 +93,21 @@ class Locale {
 			}
 		}
 
+		if (empty($localeInfo))
+			return null;
+
 		return $localeInfo;
+	}
+
+	private function hasCookie() {
+		return false;
+	}
+
+	private function getCookie() {
+
+	}
+
+	public function getLanguage() {
+		return $this->_language;
 	}
 }

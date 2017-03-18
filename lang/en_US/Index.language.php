@@ -38,6 +38,7 @@ return [
 	'side_edit_article' => 'Edit article',
 	'article_actions' => 'Actions',
 	'other_languages' => 'Languages',
+	'side_recent_changes' => 'Recent changes',
 
 	'account_settings' => 'Account settings'
 ];

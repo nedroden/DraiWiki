@@ -21,5 +21,10 @@ return [
 	'edit_article_title' => 'Edit article',
 	'save' => 'Save',
 
-	'title' => 'Title: '
+	'title' => 'Title: ',
+
+	'invalid_ID' => 'Invalid article ID',
+
+	'empty_title' => 'No title was specified',
+	'empty_body' => 'Cannot add an empty article'
 ];

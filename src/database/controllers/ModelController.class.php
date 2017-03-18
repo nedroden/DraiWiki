@@ -21,12 +21,13 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use DraiWiki\src\auth\models\User;
 use DraiWiki\src\database\controllers\Query;
 use DraiWiki\src\main\models\Locale;
 
 abstract class ModelController {
 
-	protected $locale;
+	protected $locale, $user;
 
 	protected function __construct() {
 
@@ -34,5 +35,9 @@ abstract class ModelController {
 
 	protected function loadLocale() {
 		$this->locale = Locale::instantiate();
+	}
+
+	protected function loadUser() {
+		$this->user = User::instantiate();
 	}
 }

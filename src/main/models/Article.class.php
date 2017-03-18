@@ -29,12 +29,15 @@ use \Parsedown;
 
 class Article extends ModelController {
 
-	private $_currentArticle, $_parsedown, $_isEditing;
+	private $_currentArticle, $_parsedown, $_isEditing, $_isHome;
 
-	public function __construct() {
+	public function __construct($isHome) {
 		$this->loadLocale();
+		$this->loadUser();
+
 		$this->_currentArticle = [];
 		$this->_parsedown = new Parsedown();
+		$this->_isHome = $isHome;
 	}
 
 	public function retrieve($title, $locale) {
@@ -42,7 +45,7 @@ class Article extends ModelController {
 			SELECT a.ID, a.title, a.language, a.group_ID, a.status, h.article_ID, h.body, h.date_edited
 				FROM {db_prefix}articles a
 				INNER JOIN {db_prefix}history h ON (a.ID = h.article_ID)
-				WHERE a.title = :title
+				WHERE ' . ($this->_isHome ? 'a.ID' : 'a.title') . ' = :article
 				AND a.language = :locale
 				AND a.status = :status
 				ORDER BY h.date_edited DESC
@@ -50,7 +53,7 @@ class Article extends ModelController {
 		');
 
 		$query->setParams([
-			'title' => $this->addUnderscores($title),
+			'article' => $this->addUnderscores($title),
 			'locale' => $locale,
 			'status' => 1
 		]);
@@ -112,6 +115,11 @@ class Article extends ModelController {
 						'label' => 'side_edit_article',
 						'href' => 'index.php?article=' . $this->addUnderscores($this->_currentArticle['title']) . '&amp;edit',
 						'visible' => Permission::checkAndReturn('edit_articles'),
+					],
+					'recent_changes' => [
+						'label' => 'side_recent_changes',
+						'href' => 'index.php?app=history&amp;id=' . $this->addUnderscores($this->_currentArticle['title']),
+						'visible' => Permission::checkAndReturn('view_history'),
 					]
 				]
 			],
@@ -165,10 +173,70 @@ class Article extends ModelController {
 		return $languages;
 	}
 
+	private function getLengths() {
+		return [
+			'title' => [
+				'min' => Main::$config->read('article', 'MIN_TITLE_LENGTH'),
+				'max' => Main::$config->read('article', 'MAX_TITLE_LENGTH')
+			],
+			'body' => [
+				'min' => Main::$config->read('article', 'MIN_BODY_LENGTH'),
+				'max' => 0
+			]
+		];
+	}
+
 	public function getHeader() {
 		return '
-			<link rel="stylesheet" type="text/css" href="' . Main::$config->read('path', 'BASE_URL') . 'node_modules/simplemde/dist/simplemde.min.css" />
-			<script src="' . Main::$config->read('path', 'BASE_URL') . 'node_modules/simplemde/dist/simplemde.min.js"></script>';
+		<link rel="stylesheet" type="text/css" href="' . Main::$config->read('path', 'BASE_URL') . 'node_modules/simplemde/dist/simplemde.min.css" />
+		<script src="' . Main::$config->read('path', 'BASE_URL') . 'node_modules/simplemde/dist/simplemde.min.js"></script>';
+	}
+
+	public function verifyLength() {
+		$data = $this->getLengths();
+
+		$errors = [];
+		foreach ($data as $field => $params) {
+			$length = strlen($_POST[$field]);
+
+			if ($length < $params['min'] && $params['min'] > 0)
+				$errors[] = $field;
+			else if ($length > $params['max'] && $params['max'] > 1)
+				$errors[] = $field;
+		}
+
+		return $errors;
+	}
+
+	public function isValidId($id) {
+		if (!is_numeric($id) || !is_int((int) $id))
+			return false;
+		else
+			return true;
+	}
+
+	public function update() {
+		$query = new Query('
+			INSERT
+				INTO {db_prefix}history (
+					article_ID, body, date_edited, edited_by
+				)
+				VALUES (
+					:id,
+					:body,
+					STR_TO_DATE(:date_edited, \'%m-%d-%Y %H:%i:%s\'),
+					:edited_by
+				)
+		');
+
+		$query->setParams([
+			'id' => $_POST['articleID'],
+			'body' => $_POST['body'],
+			'date_edited' => date("m-d-Y H:i:s"),
+			'edited_by' => $this->user->get()['ID']
+		]);
+
+		$query->execute('update');
 	}
 
 	public function getIsEditing() {

@@ -29,6 +29,7 @@ class Editor extends Template {
 		echo '
 			<h1>', $this->locale->read('editor', 'edit_article'), ' ', $this->data['title'], '</h1>
 			<form action="', $this->data['action'], '" method="post">
+				<input type="hidden" name="articleID" value="', $this->data['ID'], '" />
 
 				<label 	for="title" class="text_bold">',
 						$this->locale->read('editor', 'title'), '
@@ -36,11 +37,9 @@ class Editor extends Template {
 				<input 	type="text"
 						name="title"
 						value="', $this->data['title'], '"
-						class="wide" /><br />
+						class="wide" /><br /><br />
 
-				<hr class="bottom_top_margin" />
-
-				<textarea name="content" id="editor">', $this->data['body'], '</textarea>
+				<textarea id="editor" name="body">', $this->data['body'], '</textarea>
 				<input type="submit" value="', $this->locale->read('editor', 'save'), '" />
 			</form>
 

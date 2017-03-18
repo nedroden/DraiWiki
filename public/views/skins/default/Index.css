@@ -15,6 +15,7 @@ body {
 	font-size: 14px;
 	padding: 0;
 	margin: 0;
+	color: #1c1c1c;
 }
 
 a {
@@ -49,7 +50,8 @@ h1.articleTitle {
 
 hr {
 	border-width: 1px 0px 0px 0px;
-	border-color: #e2e2e2;
+	border-color: #c6c6c6;
+	border-style: solid
 }
 
 /* Form elements */
@@ -233,7 +235,7 @@ input[type="submit"] {
 }
 
 #sidebar a {
-	color: #161616;
+	color: #212121;
 }
 
 .sidebar_header {
@@ -308,5 +310,5 @@ blockquote {
 
 /* Spacing */
 .bottom_top_margin {
-	margin: 30px 0px 30px 0px;
+	margin: 20px 0px 20px 0px;
 }

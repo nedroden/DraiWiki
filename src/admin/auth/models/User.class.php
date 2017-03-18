@@ -23,17 +23,15 @@ if (!defined('DraiWikiAdmin')) {
 
 use \DraiWiki\src\database\controllers\Query;
 use \DraiWiki\src\main\controllers\Main;
-use \DraiWiki\src\main\models\Locale;
 
 class User {
 
-	private $_isGuest, $_userInfo, $_permissions, $_locale, $_isRoot;
+	private $_isGuest, $_userInfo, $_permissions, $_isRoot;
 
 	private static $_instance;
 
 	private function __construct() {
 		$this->_isGuest = empty($_SESSION['user']);
-		$this->_locale = Locale::instantiate();
 		$this->_permissions = [];
 		$this->load();
 	}
@@ -89,7 +87,7 @@ class User {
 				'email' => null,
 				'birthdate' => null,
 				'registration_date' => null,
-				'locale' => $this->_locale->getLanguage()['homepage'],
+				'locale' => Main::$config->read('wiki', 'WIKI_LOCALE'),
 				'groups' => [5],
 				'preferences' => [],
 				'edits' => 0,
