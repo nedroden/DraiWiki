@@ -34,13 +34,13 @@ class Article extends ModelController {
 	public function __construct($article) {
 		$this->_isHomepage = empty($article);
 		
+		$this->loadLocale();
+		$this->loadUser();		
+
 		if (!empty($article))
 			$this->_title = $article;
 		else
-			$this->_title = Main::$config->read('wiki', 'WIKI_HOMEPAGE');
-
-		$this->loadLocale();
-		$this->loadUser();
+			$this->_title = $this->locale->getLanguage()['homepage'];
 
 		$this->_parsedown = new Parsedown();
 

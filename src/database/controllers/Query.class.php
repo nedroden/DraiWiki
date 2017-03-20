@@ -44,4 +44,8 @@ class Query {
 
 		return self::$_connection->executeQuery($this->_query . ';', $type, $this->_params);
 	}
+	
+	public function toString() {
+		return $this->_query;
+	}
 }
