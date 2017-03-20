@@ -147,9 +147,9 @@ class Main {
 		if ($this->_currentAppName != 'article')
 			$this->_currentApp = new $classname();
 		else if ($this->_currentAppName == 'article' && empty($_GET['article']))
-			$this->_currentApp = new $classname(true);
+			$this->_currentApp = new $classname(null);
 		else
-			$this->_currentApp = new $classname(false, $_GET['article']);
+			$this->_currentApp = new $classname($_GET['article']);
 	}
 
 	/**

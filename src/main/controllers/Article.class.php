@@ -32,77 +32,22 @@ require_once Main::$config->read('path', 'BASE_PATH') . 'src/main/models/Article
 
 class Article extends App {
 
-	private $_view, $_template, $_isHome, $_currentPage, $_locale, $_errors;
+	private $_model, $_article;
 
-	public function __construct($isHome, $currentPage = null) {
+	public function __construct($currentPage) {
 		$this->hasStylesheet = true;
 		$this->_locale = Locale::instantiate();
 
-		$this->_isHome = $isHome;
-		$this->_currentPage = ($currentPage == null || $this->_isHome) ? $this->_locale->getLanguage()['homepage'] : $currentPage;
+		$this->_model = new Model($currentPage);
+		$article = $this->_model->get();
 
-		$this->_model = new Model($isHome);
-		$article = $this->_model->retrieve($this->_currentPage, $this->_locale->getLanguage()['code']);
-
-		if (!empty($_POST))
-			$this->handlePostRequest();
-
-		$this->_view = new View($this->_model->getIsEditing() ? 'Editor' : 'Article');
-		$this->_template = $this->_view->get();
-
+		$view = new View('Article');
+		$this->_template = $view->get();
 		$this->_template->setData($article);
 	}
 
 	public function show() {
-		if ($this->_model->getIsEditing() && !Permission::checkAndReturn('edit_articles')) {
-			Permission::yell();
-			return;
-		}
-
 		$this->_template->showContent();
-	}
-
-	private function handlePostRequest() {
-		if (!Permission::checkAndReturn('edit_articles')) {
-			Permission::yell();
-			return;
-		}
-
-		$this->_errors = [];
-
-		if (!empty($fields = $this->getEmptyFields())) {
-			foreach ($fields as $field) {
-				$this->_errors[$field] = 'empty_' . $field;
-			}
-			return;
-		}
-
-		if (!empty($fields = $this->_model->verifyLength())) {
-			foreach ($fields as $field) {
-				// @todo: add error messages to locale file
-				$this->_errors[$field] = 'invalid_length_' . $field;
-			}
-			return;
-		}
-
-		if (!$this->_model->isValidId($_POST['articleID'])) {
-			$this->_errors['articleID'] = 'invalid_ID';
-			return;
-		}
-
-		$this->_model->update();
-		$this->redirect();
-	}
-
-	private function getEmptyFields() {
-		$fields = ['articleID', 'title', 'body'];
-
-		$errors = [];
-		foreach ($fields as $field)
-			if (empty($_POST[$field]))
-				$errors[] = $field;
-
-		return $errors;
 	}
 
 	private function redirect() {
