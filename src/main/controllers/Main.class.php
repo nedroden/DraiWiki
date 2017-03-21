@@ -59,6 +59,10 @@ class Main {
 		'random' => [
 			'package' => 'main',
 			'class' => 'Random'
+		],
+		'edit' => [
+			'package' => 'main',
+			'class' => 'Editor'
 		]
 	];
 

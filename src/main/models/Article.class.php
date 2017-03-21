@@ -37,10 +37,7 @@ class Article extends ModelController {
 		$this->loadLocale();
 		$this->loadUser();		
 
-		if (!empty($article))
-			$this->_title = $article;
-		else
-			$this->_title = $this->locale->getLanguage()['homepage'];
+		$this->_title = !empty($article) ? $article : $this->locale->getLanguage()['homepage'];
 
 		$this->_parsedown = new Parsedown();
 
@@ -117,6 +114,8 @@ class Article extends ModelController {
 			header('Location: ' . Main::$config->read('path', 'BASE_URL') . 'index.php?app=edit&id=' . $this->_title);
 			die;
 		}
+		else if (empty($found))
+			die('<h1>Homepage not found</h1>The homepage could not be loaded. Please try again.');
 
 		$this->_info['title'] = $this->ditchUnderscores($this->_info['title']);
 		$this->_info['body_md'] = $this->_info['body'];
@@ -165,13 +164,7 @@ class Article extends ModelController {
 		return $languages;
 	}
 
-	public function getHeader() {
-		return '
-		<link rel="stylesheet" type="text/css" href="' . Main::$config->read('path', 'BASE_URL') . 'node_modules/simplemde/dist/simplemde.min.css" />
-		<script src="' . Main::$config->read('path', 'BASE_URL') . 'node_modules/simplemde/dist/simplemde.min.js"></script>';
-	}
-
-	public function update() {
+	/*public function update() {
 		$query = new Query('
 			INSERT
 				INTO {db_prefix}history (
@@ -193,7 +186,7 @@ class Article extends ModelController {
 		]);
 
 		$query->execute('update');
-	}
+	}*/
 
 	public function getTitle() {
 		return $this->_info['title'];

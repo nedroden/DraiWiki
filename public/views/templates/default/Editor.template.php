@@ -29,11 +29,11 @@ class Editor extends Template {
 		echo '
 			<h1>', $this->locale->read('editor', 'edit_article'), ' ', $this->data['title'], '</h1>
 			<form action="', $this->data['action'], '" method="post">
-				<input type="hidden" name="articleID" value="', $this->data['ID'], '" />
+				<input type="hidden" name="id" value="', $this->data['ID'], '" />
 
 				<label 	for="title" class="text_bold">',
 						$this->locale->read('editor', 'title'), '
-				</label>			
+				</label>
 				<input 	type="text"
 						name="title"
 						value="', $this->data['title'], '"

@@ -9,7 +9,7 @@
  * @license     Apache 2.0
  *
  * Class information:
- * This class is used for loading pages.
+ * This class is used for loading articles.
  * @since 		1.0 Alpha 1
  * @author 		DraiWiki development team
  */
@@ -53,10 +53,6 @@ class Article extends App {
 	private function redirect() {
 		header('Location: ' . Main::$config->read('path', 'BASE_URL') . 'index.php?article=' . $this->_currentPage);
 		die;
-	}
-
-	public function getHeader() {
-		return $this->_model->getHeader();
 	}
 
 	public function getTitle() {
