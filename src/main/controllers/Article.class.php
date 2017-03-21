@@ -44,8 +44,10 @@ class Article extends App {
 		if (!empty($_POST))
 			$this->handlePostRequest();
 
-		$view = new View('Article');
+		$viewName = $this->_model->getIsEditing() ? 'Editor' : 'Article';
+		$view = new View($viewName);
 		$this->_template = $view->get();
+
 		$this->_template->setData($article);
 	}
 

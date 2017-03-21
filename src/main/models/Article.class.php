@@ -117,7 +117,11 @@ class Article extends ModelController {
 		if (!empty($found)) {
 			$this->_info['title'] = $this->ditchUnderscores($this->_info['title']);
 			$this->_info['body_md'] = $this->_info['body'];
-			$this->_info['body'] = $this->_parsedown->text($this->_info['body']);
+
+			if ($this->_isEditing)
+				$this->_info['body'] = $this->sanitize($this->_info['body']);
+			else
+				$this->_info['body'] = $this->_parsedown->text($this->_info['body']);
 		}
 
 		// Even if we haven't loaded an article, the editor page still needs some basic information
