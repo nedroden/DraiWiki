@@ -26,5 +26,7 @@ return [
 	'invalid_ID' => 'Invalid article ID',
 
 	'empty_title' => 'No title was specified',
-	'empty_body' => 'Cannot add an empty article'
+	'empty_body' => 'Cannot add an empty article',
+
+	'new_article' => 'New article'
 ];

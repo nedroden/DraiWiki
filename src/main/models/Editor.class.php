@@ -71,7 +71,13 @@ class Editor extends ModelController {
 	}
 
 	public function validate() {
+		$errors = $this->getEmptyFields();
 
+		if (empty($errors)) {
+
+		}
+		else
+			return $errors;
 	}
 
 	private function getEmptyFields() {
@@ -84,6 +90,14 @@ class Editor extends ModelController {
 		}
 
 		return $errors;
+	}
+
+	private function getFieldsOfInvalidLength() {
+
+	}
+
+	private function isCorrectId() {
+
 	}
 
 	private function addUnderscores($text) {

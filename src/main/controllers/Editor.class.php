@@ -32,7 +32,7 @@ require_once Main::$config->read('path', 'BASE_PATH') . 'src/main/models/Editor.
 
 class Editor extends App {
 
-	private $_model, $_template;
+	private $_model, $_template, $_errors;
 
 	public function __construct() {
 		$this->hasStylesheet = false;
@@ -48,7 +48,9 @@ class Editor extends App {
 		$this->_template = $view->get();
 
 		$this->_template->setData(
-			array_merge($this->_model->get(), ['action' => 'test'])
+			array_merge($this->_model->get(), [
+				'action' => Main::$config->read('path', 'BASE_URL') . 'index.php?app=edit&amp;id=' . $this->_model->get()['title']
+			])
 		);
 	}
 
@@ -63,8 +65,17 @@ class Editor extends App {
 		}
 	}
 
+	private function redirectToArticle() {
+		header('Location: ' . Main::$config->read('path', 'BASE_URL') . 'index.php?article=' . $this->_model->get()['title']);
+		die;
+	}
+
 	private function handlePostRequest() {
-		echo 'Hello, I\'m awesome.';
+		$errors = $this->_model->validate();
+		$this->_errors = !empty($errors) ? $errors : [];
+
+		if (empty($errors))
+			$this->redirectToArticle();
 	}
 
 	public function getHeader() {

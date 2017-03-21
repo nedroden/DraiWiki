@@ -41,6 +41,9 @@ class Article extends App {
 		$this->_model = new Model($currentPage);
 		$article = $this->_model->get();
 
+		if (!empty($_POST))
+			$this->handlePostRequest();
+
 		$view = new View('Article');
 		$this->_template = $view->get();
 		$this->_template->setData($article);
@@ -55,8 +58,27 @@ class Article extends App {
 		die;
 	}
 
+	private function redirectIfEmpty() {
+		if (empty($_GET['id'])) {
+			header('Location: ' . Main::$config->read('path', 'BASE_URL') . 'index.php');
+			die;
+		}
+	}
+
+	private function handlePostRequest() {
+		$errors = $this->_model->validate();
+		$this->_errors = !empty($errors) ? $errors : [];
+
+		if (empty($errors))
+			$this->redirect();
+	}
+
 	public function getTitle() {
 		return $this->_model->getTitle();
+	}
+
+	public function getHeader() {
+		return $this->_model->getHeader();
 	}
 
 	public function getStylesheets() {

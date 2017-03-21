@@ -29,13 +29,13 @@ use \Parsedown;
 
 class Article extends ModelController {
 
-	private $_info, $_isHomepage, $_title, $_isNew;
+	private $_info, $_isHomepage, $_title, $_isEditing;
 
 	public function __construct($article) {
 		$this->_isHomepage = empty($article);
-		
+
 		$this->loadLocale();
-		$this->loadUser();		
+		$this->loadUser();
 
 		$this->_title = !empty($article) ? $article : $this->locale->getLanguage()['homepage'];
 
@@ -63,12 +63,12 @@ class Article extends ModelController {
 					],
 					'edit' => [
 						'label' => 'side_edit_article',
-						'href' => 'index.php?app=edit&amp;id=' . $this->addUnderscores($this->_info['title']),
+						'href' => 'index.php?article=' . $this->addUnderscores($this->_info['title']) . '&amp;do=edit',
 						'visible' => Permission::checkAndReturn('edit_articles'),
 					],
 					'recent_changes' => [
 						'label' => 'side_recent_changes',
-						'href' => 'index.php?app=history&amp;id=' . $this->addUnderscores($this->_info['title']),
+						'href' => 'index.php?app=timeline&amp;id=' . $this->addUnderscores($this->_info['title']),
 						'visible' => Permission::checkAndReturn('view_history'),
 					]
 				]
@@ -105,21 +105,57 @@ class Article extends ModelController {
 			foreach ($article as $key => $value) {
 				$this->_info[$key] = $value;
 			}
-			
+
 			$found = true;
 		}
-		
-		// Don't redirect if the homepage is missing (to prevent an infinite loop)
-		if (empty($found) && !$this->_isHomepage) {
-			header('Location: ' . Main::$config->read('path', 'BASE_URL') . 'index.php?app=edit&id=' . $this->_title);
-			die;
-		}
-		else if (empty($found))
-			die('<h1>Homepage not found</h1>The homepage could not be loaded. Please try again.');
 
-		$this->_info['title'] = $this->ditchUnderscores($this->_info['title']);
-		$this->_info['body_md'] = $this->_info['body'];
-		$this->_info['body'] = $this->_parsedown->text($this->_info['body']);
+		if (empty($found) || !empty($_GET['do']) && $_GET['do'] == 'edit') {
+			$this->_isEditing = true;
+			$this->_info['action'] = Main::$config->read('path', 'BASE_URL');
+		}
+
+		if (!empty($found)) {
+			$this->_info['title'] = $this->ditchUnderscores($this->_info['title']);
+			$this->_info['body_md'] = $this->_info['body'];
+			$this->_info['body'] = $this->_parsedown->text($this->_info['body']);
+		}
+
+		// Even if we haven't loaded an article, the editor page still needs some basic information
+		else {
+			$this->_info['title'] = $this->locale->read('editor', 'new_article');
+			$this->_info['body_md'] = '';
+			$this->_info['body'] = '';
+		}
+	}
+
+	public function validate() {
+		$errors = $this->getEmptyFields();
+
+		if (empty($errors)) {
+
+		}
+		else
+			return $errors;
+	}
+
+	private function getEmptyFields() {
+		$requiredFields = ['id', 'title', 'body'];
+
+		$errors = [];
+		foreach ($requiredFields as $field) {
+			if (empty($_POST[$field]))
+				$errors[$field] = 'empty_' . $field;
+		}
+
+		return $errors;
+	}
+
+	private function getFieldsOfInvalidLength() {
+
+	}
+
+	private function isCorrectId() {
+
 	}
 
 	private function sanitize($value) {
@@ -164,7 +200,7 @@ class Article extends ModelController {
 		return $languages;
 	}
 
-	/*public function update() {
+	public function update() {
 		$query = new Query('
 			INSERT
 				INTO {db_prefix}history (
@@ -186,9 +222,19 @@ class Article extends ModelController {
 		]);
 
 		$query->execute('update');
-	}*/
+	}
+
+	public function getHeader() {
+		return '
+		<link rel="stylesheet" type="text/css" href="' . Main::$config->read('path', 'BASE_URL') . 'node_modules/simplemde/dist/simplemde.min.css" />
+		<script src="' . Main::$config->read('path', 'BASE_URL') . 'node_modules/simplemde/dist/simplemde.min.js"></script>';
+	}
 
 	public function getTitle() {
-		return $this->_info['title'];
+		return !$this->_isEditing ? $this->_info['title'] : $this->locale->read('editor', 'edit_article') . $this->_info['title'];
+	}
+
+	public function getIsEditing() {
+		return $this->_isEditing;
 	}
 }
