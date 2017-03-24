@@ -111,6 +111,7 @@ class Article extends ModelController {
 
 		if (empty($found) || !empty($_GET['do']) && $_GET['do'] == 'edit') {
 			$this->_isEditing = true;
+			$this->locale->loadFile('editor');
 			$this->_info['action'] = Main::$config->read('path', 'BASE_URL');
 		}
 
@@ -126,9 +127,14 @@ class Article extends ModelController {
 
 		// Even if we haven't loaded an article, the editor page still needs some basic information
 		else {
-			$this->_info['title'] = $this->locale->read('editor', 'new_article');
-			$this->_info['body_md'] = '';
-			$this->_info['body'] = '';
+			$this->_info = [
+				'id' => 0,
+				'title' => $this->locale->read('editor', 'new_article'),
+				'body_md' => '',
+				'body' => '',
+				'language' => $this->locale->getLanguage()['code'],
+				'group_ID' => 0
+			];
 		}
 	}
 
@@ -136,7 +142,7 @@ class Article extends ModelController {
 		$errors = $this->getEmptyFields();
 
 		if (empty($errors)) {
-
+			return array_merge($errors, $this->getFieldsWithInvalidLength());
 		}
 		else
 			return $errors;
@@ -154,8 +160,31 @@ class Article extends ModelController {
 		return $errors;
 	}
 
-	private function getFieldsOfInvalidLength() {
+	private function getFieldLengths() {
+		return [
+			'title' => [
+				'min' => Main::$config->read('article', 'MIN_TITLE_LENGTH'),
+				'max' => Main::$config->read('article', 'MAX_TITLE_LENGTH')
+			],
+			'body' => [
+				'min' => Main::$config->read('article', 'MIN_BODY_LENGTH'),
+				'max' => 0
+			]
+		];
+	}
 
+	private function getFieldsWithInvalidLength() {
+		$rules = $this->getFieldLengths();
+		$errors = [];
+
+		foreach ($rules as $key => $value) {
+			if (strlen($_POST[$key]) < $value['min'] && $value['min'] != 0)
+				$errors[$key] = 'too_short_' . $key;
+			else if (strlen($_POST[$key]) > $value['max'] && $value['max'] != 0)
+				$errors[$key] = 'too_long_' . $key;
+		}
+
+		return $errors;
 	}
 
 	private function isCorrectId() {

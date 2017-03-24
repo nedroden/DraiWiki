@@ -36,7 +36,6 @@ class Article extends App {
 
 	public function __construct($currentPage) {
 		$this->hasStylesheet = true;
-		$this->_locale = Locale::instantiate();
 
 		$this->_model = new Model($currentPage);
 		$article = $this->_model->get();
@@ -52,11 +51,16 @@ class Article extends App {
 	}
 
 	public function show() {
+		if (!Permission::checkAndReturn('edit_articles')) {
+			NoAccessError::show();
+			return;
+		}
+
 		$this->_template->showContent();
 	}
 
 	private function redirect() {
-		header('Location: ' . Main::$config->read('path', 'BASE_URL') . 'index.php?article=' . $this->_currentPage);
+		header('Location: ' . Main::$config->read('path', 'BASE_URL') . 'index.php?article=' . $this->_model->get()['title']);
 		die;
 	}
 
@@ -68,11 +72,16 @@ class Article extends App {
 	}
 
 	private function handlePostRequest() {
+		if (!Permission::checkAndReturn('edit_articles'))
+			return;
+
 		$errors = $this->_model->validate();
 		$this->_errors = !empty($errors) ? $errors : [];
 
-		if (empty($errors))
+		if (empty($errors)) {
+			$this->_model->update();
 			$this->redirect();
+		}
 	}
 
 	public function getTitle() {
