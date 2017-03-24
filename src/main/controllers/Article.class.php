@@ -51,7 +51,7 @@ class Article extends App {
 	}
 
 	public function show() {
-		if (!Permission::checkAndReturn('edit_articles')) {
+		if ($this->_model->getIsEditing() && !Permission::checkAndReturn('edit_articles')) {
 			NoAccessError::show();
 			return;
 		}
