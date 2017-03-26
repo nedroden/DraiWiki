@@ -124,7 +124,7 @@ class Article extends ModelController {
 			if ($this->_isEditing)
 				$this->_info['body'] = $this->sanitize($this->_info['body']);
 			else
-				$this->_info['body'] = $this->_parsedown->text($this->_info['body']);
+				$this->_info['body'] = $this->_parsedown->setMarkupEscaped(true)->text($this->_info['body']);
 		}
 
 		// Even if we haven't loaded an article, the editor page still needs some basic information
