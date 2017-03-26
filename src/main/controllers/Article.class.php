@@ -34,10 +34,10 @@ class Article extends App {
 
 	private $_model, $_article;
 
-	public function __construct($currentPage) {
+	public function __construct($currentPage, $forceEdit = false) {
 		$this->hasStylesheet = true;
 
-		$this->_model = new Model($currentPage);
+		$this->_model = new Model($currentPage, $this->params, $forceEdit);
 		$article = $this->_model->get();
 
 		if (!empty($_POST))
@@ -60,7 +60,7 @@ class Article extends App {
 	}
 
 	private function redirect() {
-		header('Location: ' . Main::$config->read('path', 'BASE_URL') . 'index.php?article=' . $this->_model->get()['title']);
+		header('Location: ' . Main::$config->read('path', 'BASE_URL') . 'index.php/article/' . $this->_model->get()['title']);
 		die;
 	}
 

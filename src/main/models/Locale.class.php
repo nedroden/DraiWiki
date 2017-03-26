@@ -26,10 +26,16 @@ class Locale {
 
 	private static $_instance;
 
+	private const FALLBACK_LOCALE = 'en_US';
+
 	private function __construct() {
 		$this->_user = User::instantiate();
 
-		if ($this->hasCookie())
+		if (!empty($_GET['locale']) && $_GET['locale'] != Main::$config->read('wiki', 'WIKI_LOCALE')) {
+			$language = $this->verifyLocaleRequest($_GET['locale']);
+			$this->_language = $this->loadInfo($language);
+		}
+		else if ($this->hasCookie())
 			$this->_language = $this->loadInfo($this->getCookie());
 		else
 			$this->_language = $this->loadInfo($this->_user->get()['locale']);
@@ -105,6 +111,17 @@ class Locale {
 
 	private function getCookie() {
 
+	}
+
+	private function verifyLocaleRequest($locale) {
+		if (!strlen($locale) == 5)
+			return self::FALLBACK_LOCALE;
+		else if (!preg_match('', $locale))
+			return self::FALLBACK_LOCALE;
+		else if (!file_exists(Main::$config->read('path', 'BASE_PATH') . '/lang/' . $locale . '/Index.language.php'))
+			return self::FALLBACK_LOCALE;
+		else
+			return $language;
 	}
 
 	public function getLanguage() {

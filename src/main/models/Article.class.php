@@ -29,10 +29,12 @@ use \Parsedown;
 
 class Article extends ModelController {
 
-	private $_info, $_isHomepage, $_title, $_isEditing;
+	private $_info, $_isHomepage, $_title, $_isEditing, $_params;
 
-	public function __construct($article) {
+	public function __construct($article, $params = [], $forceEdit = false) {
 		$this->_isHomepage = empty($article);
+		$this->_isEditing = $forceEdit;
+		$this->_params = $params;
 
 		$this->loadLocale();
 		$this->loadUser();
@@ -58,17 +60,17 @@ class Article extends ModelController {
 				'items' => [
 					'view' => [
 						'label' => 'side_read_article',
-						'href' => 'index.php?article=' . $this->addUnderscores($this->_info['title']),
+						'href' => Main::$config->read('path', 'BASE_URL') . 'index.php/article/' . $this->addUnderscores($this->_info['title']),
 						'visible' => true,
 					],
 					'edit' => [
 						'label' => 'side_edit_article',
-						'href' => 'index.php?article=' . $this->addUnderscores($this->_info['title']) . '&amp;do=edit',
+						'href' => Main::$config->read('path', 'BASE_URL') . 'index.php/article/' . $this->addUnderscores($this->_info['title']) . '/edit',
 						'visible' => Permission::checkAndReturn('edit_articles'),
 					],
 					'recent_changes' => [
 						'label' => 'side_recent_changes',
-						'href' => 'index.php?app=timeline&amp;id=' . $this->addUnderscores($this->_info['title']),
+						'href' => Main::$config->read('path', 'BASE_URL') . 'index.php/timeline/' . $this->addUnderscores($this->_info['title']),
 						'visible' => Permission::checkAndReturn('view_history'),
 					]
 				]
@@ -109,7 +111,7 @@ class Article extends ModelController {
 			$found = true;
 		}
 
-		if (empty($found) || !empty($_GET['do']) && $_GET['do'] == 'edit') {
+		if (empty($found) || $this->_isEditing) {
 			$this->_isEditing = true;
 			$this->locale->loadFile('editor');
 			$this->_info['action'] = Main::$config->read('path', 'BASE_URL');
@@ -224,7 +226,7 @@ class Article extends ModelController {
 		foreach ($result as $locale) {
 			$languages[] = [
 				'label' => $locale['native'],
-				'href' => Main::$config->read('path', 'BASE_URL') . 'index.php?article=' . $locale['title'] . '&amp;locale=' . $locale['code'],
+				'href' => Main::$config->read('path', 'BASE_URL') . 'index.php/' . $locale['code'] . '/' . $locale['title'],
 				'visible' => true,
 				'hardcoded' => true
 			];

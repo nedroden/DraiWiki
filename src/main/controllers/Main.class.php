@@ -31,13 +31,16 @@ use DraiWiki\src\main\models\SidebarMenu;
 use DraiWiki\src\main\models\Locale;
 use DraiWiki\views\View;
 
+use function DraiWiki\createRoutes;
+
 require_once 'public/Config.php';
+require_once 'public/Routing.php';
 
 class Main {
 
 	public static $config;
 
-	private $_currentApp, $_currentAppName, $_user;
+	private $_currentApp, $_currentAppName, $_user, $_route;
 
 	private $_apps = [
 		'article' => [
@@ -68,6 +71,8 @@ class Main {
 	 */
 	public function __construct() {
 		self::$config = new Config();
+
+		$this->_route = createRoutes();
 		$this->setCurrentApp();
 
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/database/controllers/Connection.class.php';
@@ -144,12 +149,13 @@ class Main {
 
 		$classname = '\DraiWiki\src\\' . $this->_apps[$app]['package'] . '\controllers\\' . $this->_apps[$app]['class'];
 
+		// I'm sorry. I'm so, so sorry.
 		if ($this->_currentAppName != 'article')
 			$this->_currentApp = new $classname();
-		else if ($this->_currentAppName == 'article' && empty($_GET['article']))
+		else if ($this->_currentAppName == 'article' && empty($this->_route['params']['title']))
 			$this->_currentApp = new $classname(null);
 		else
-			$this->_currentApp = new $classname($_GET['article']);
+			$this->_currentApp = new $classname($this->_route['params']['title'], (!empty($this->_route['params']['action']) && $this->_route['params']['action'] == 'edit'));
 	}
 
 	/**
@@ -157,7 +163,7 @@ class Main {
 	 * @return string The name of the app that should be loaded
 	 */
 	private function getCurrentApp() {
-		return !empty($_GET['app']) && array_key_exists(strtolower($_GET['app']), $this->_apps) ? $_GET['app'] : 'article';
+		return !empty($this->_route['app']) && array_key_exists(strtolower($this->_route['app']), $this->_apps) ? $this->_route['app'] : 'article';
 	}
 
 	/**

@@ -10,4 +10,5 @@
  */
 
 define('DraiWiki', 1);
+
 require 'public/index.php';

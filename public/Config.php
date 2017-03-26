@@ -36,7 +36,7 @@ class Config {
 		/**
 		 * DraiWiki will use the data below to establish a connection to the database.
 		 */
-		$this->_settings['database'] = [ 
+		$this->_settings['database'] = [
 			'DB_SERVER' => '127.0.0.1',
 			'DB_USERNAME' => 'pasta',
 			'DB_PASSWORD' => '',
@@ -59,7 +59,8 @@ class Config {
 		 */
 		$this->_settings['path'] = [
 			'BASE_PATH' => '/srv/http/DraiWiki/',
-			'BASE_URL' => 'http://localhost/DraiWiki/'
+			'BASE_URL' => 'http://localhost/DraiWiki/',
+			'BASE_DIRNAME' => '/DraiWiki/'
 		];
 
 		/**

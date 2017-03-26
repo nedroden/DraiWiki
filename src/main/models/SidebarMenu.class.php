@@ -23,6 +23,7 @@ if (!defined('DraiWiki')) {
 
 use \DraiWiki\src\auth\controllers\Permission;
 use \DraiWiki\src\auth\models\User;
+use \DraiWiki\src\main\controllers\Main;
 
 class SidebarMenu {
 
@@ -50,37 +51,37 @@ class SidebarMenu {
 				'items' => [
 					'home' => [
 						'label' => 'home',
-						'href' => 'index.php',
+						'href' => Main::$config->read('path', 'BASE_URL') . 'index.php',
 						'visible' => true
 					],
 					'random' => [
 						'label' => 'random',
-						'href' => 'index.php?app=random',
+						'href' => Main::$config->read('path', 'BASE_URL') . 'index.php/random',
 						'visible' => true
 					],
 					'login' => [
 						'label' => 'login',
-						'href' => 'index.php?app=login',
+						'href' => Main::$config->read('path', 'BASE_URL') . 'index.php/login',
 						'visible' => $this->_user->isGuest()
 					],
 					'register' => [
 						'label' => 'register',
-						'href' => 'index.php?app=register',
+						'href' => Main::$config->read('path', 'BASE_URL') . 'index.php/register',
 						'visible' => $this->_user->isGuest()
 					],
 					'admin' => [
 						'label' => 'admin',
-						'href' => 'admin/index.php',
+						'href' => Main::$config->read('path', 'BASE_URL') . 'admin/index.php',
 						'visible' => Permission::checkAndReturn('access_admin')
 					],
 					'account_settings' => [
 						'label' => 'account_settings',
-						'href' => 'index.php?app=settings',
+						'href' => Main::$config->read('path', 'BASE_URL') . 'index.php/settings',
 						'visible' => !$this->_user->isGuest()
 					],
 					'logout' => [
 						'label' => 'logout',
-						'href' => 'index.php?app=logout',
+						'href' => Main::$config->read('path', 'BASE_URL') . 'index.php/logout',
 						'visible' => !$this->_user->isGuest()
 					]
 				]

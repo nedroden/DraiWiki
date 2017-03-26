@@ -23,7 +23,7 @@ if (!defined('DraiWiki')) {
 
 abstract class App {
 
-	protected $hasStylesheet = false;
+	protected $hasStylesheet = false, $params = [];
 
 	public function getTitle() {
 		return null;
@@ -43,5 +43,9 @@ abstract class App {
 
 	public function getHeader() {
 		return null;
+	}
+
+	public function setParams($params) {
+		$this->params = $params;
 	}
 }

@@ -35,7 +35,7 @@ class Login extends ModelController {
 	}
 
 	public function getAction() {
-		return Main::$config->read('path', 'BASE_URL') . 'index.php?app=login';
+		return Main::$config->read('path', 'BASE_URL') . 'index.php/login';
 	}
 
 	public function getTitle() {
@@ -94,7 +94,7 @@ class Login extends ModelController {
 			]);
 			$result = $query->execute();
 
-			if (empty($result)) 
+			if (empty($result))
 				$errors['email'] = $this->locale->read('login', 'no_match_found');
 			else {
 				foreach ($result as $user) {

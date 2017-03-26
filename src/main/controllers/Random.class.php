@@ -43,7 +43,7 @@ class Random {
 	}
 
 	public function redirect($article) {
-		header('Location: ' . Main::$config->read('path', 'BASE_URL') . 'index.php?article=' . $article);
+		header('Location: ' . Main::$config->read('path', 'BASE_URL') . 'index.php/article/' . $article);
 		die();
 	}
 }
