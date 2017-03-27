@@ -19,8 +19,12 @@ body {
 }
 
 a {
-	color: #78a1bb;
+	color: #3890e0;
 	text-decoration: none;
+}
+
+a:hover {
+	color: #73b4ef;
 }
 
 ::selection {
@@ -236,6 +240,10 @@ input[type="submit"] {
 
 #sidebar a {
 	color: #212121;
+}
+
+#sidebar a:hover {
+	color: #113b60;
 }
 
 .sidebar_header {

@@ -34,9 +34,12 @@ class Article extends ModelController {
 	public function __construct($article, $params = [], $forceEdit = false) {
 		$this->_isHomepage = empty($article);
 		$this->_isEditing = $forceEdit;
+		$this->_info = [];
+
 		$this->_params = $params;
 
 		$this->loadLocale();
+		$this->locale->loadFile('editor');
 		$this->loadUser();
 
 		$this->_title = !empty($article) ? $article : $this->locale->getLanguage()['homepage'];
@@ -111,15 +114,19 @@ class Article extends ModelController {
 			$found = true;
 		}
 
+		if (empty($this->_info['title']))
+			$this->_info['title_safe'] = $this->locale->read('editor', 'new_article');
+		else
+			$this->_info['title_safe'] = $this->addUnderscores($this->_info['title']);
+
 		if (empty($found) || $this->_isEditing) {
 			$this->_isEditing = true;
 			$this->locale->loadFile('editor');
-			$this->_info['action'] = Main::$config->read('path', 'BASE_URL');
+			$this->_info['action'] = Main::$config->read('path', 'BASE_URL') . 'index.php/article/' . $this->_info['title_safe'] . '/edit';
 		}
 
 		if (!empty($found)) {
 			$this->_info['title'] = $this->ditchUnderscores($this->_info['title']);
-			$this->_info['body_md'] = $this->_info['body'];
 
 			if ($this->_isEditing)
 				$this->_info['body'] = $this->sanitize($this->_info['body']);
@@ -129,14 +136,13 @@ class Article extends ModelController {
 
 		// Even if we haven't loaded an article, the editor page still needs some basic information
 		else {
-			$this->_info = [
-				'id' => 0,
-				'title' => $this->locale->read('editor', 'new_article'),
-				'body_md' => '',
+			$this->_info = array_merge($this->_info, [
+				'ID' => 0,
+				'title' => $this->_info['title'] = $this->locale->read('editor', 'new_article'),
 				'body' => '',
 				'language' => $this->locale->getLanguage()['code'],
 				'group_ID' => 0
-			];
+			]);
 		}
 	}
 

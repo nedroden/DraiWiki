@@ -26,7 +26,7 @@ class Locale {
 
 	private static $_instance;
 
-	private const FALLBACK_LOCALE = 'en_US';
+	const FALLBACK_LOCALE = 'en_US';
 
 	private function __construct() {
 		$this->_user = User::instantiate();

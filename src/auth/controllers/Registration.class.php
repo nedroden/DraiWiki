@@ -99,7 +99,7 @@ class Registration extends App {
 	}
 
 	private function redirectToLogin() {
-		header('Location: ' . Main::$config->read('path', 'BASE_URL') . '?app=login');
-		die('Redirect disabled.');
+		header('Location: ' . Main::$config->read('path', 'BASE_URL') . 'index.php/login');
+		die;
 	}
 }

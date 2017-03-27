@@ -35,7 +35,7 @@ class Registration extends ModelController {
 	}
 
 	public function getAction() {
-		return Main::$config->read('path', 'BASE_URL') . 'index.php?app=register';
+		return Main::$config->read('path', 'BASE_URL') . 'index.php/register';
 	}
 
 	public function getTitle() {
@@ -138,7 +138,7 @@ class Registration extends ModelController {
 			if (!empty($result))
 				$errors['email'] = $this->locale->read('registration', 'email_in_use');
 		}
-		
+
 		if (!empty($errors))
 			return ['errors' => $errors, 'correct' => $correctFields];
 		else
@@ -172,7 +172,7 @@ class Registration extends ModelController {
 			'password' => AuthTool::hash($_POST['password']),
 			'registration_date' => date("m-d-Y"),
 			'locale' => $this->locale->getLanguage()['code'],
-			'groups' => 3,
+			'groups' => 2,
 			'ip_address' => $_SERVER['REMOTE_ADDR'],
 			'activated' => 1
 		]);
