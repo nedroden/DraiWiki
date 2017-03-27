@@ -1,7 +1,6 @@
 {
     "require": {
         "erusev/parsedown": "^1.6",
-        "nikic/fast-route": "^1.2",
-        "phpdocumentor/phpdocumentor": "^2.9"
+        "nikic/fast-route": "^1.2"
     }
 }
