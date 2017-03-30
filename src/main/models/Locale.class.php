@@ -116,12 +116,22 @@ class Locale {
 	private function verifyLocaleRequest($locale) {
 		if (!strlen($locale) == 5)
 			return self::FALLBACK_LOCALE;
-		else if (!preg_match('', $locale))
+		else if (!preg_match('/^[a-z]{2}_[A-Z]{2}$/', $locale))
 			return self::FALLBACK_LOCALE;
 		else if (!file_exists(Main::$config->read('path', 'BASE_PATH') . '/lang/' . $locale . '/Index.language.php'))
 			return self::FALLBACK_LOCALE;
 		else
 			return $language;
+	}
+
+	public function getAll() {
+		$query = new Query('
+			SELECT *
+				FROM {db_prefix}locales
+				ORDER BY native ASC
+		');
+
+		return $query->execute();
 	}
 
 	public function getLanguage() {

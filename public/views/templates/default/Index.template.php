@@ -37,7 +37,7 @@ class Index extends Template {
 	if (empty($this->data['title']))
 		echo Main::$config->read('wiki', 'WIKI_NAME'), ' | ', Main::$config->read('wiki', 'WIKI_SLOGAN');
 
-	else 
+	else
 		echo $this->data['title'], ' | ', Main::$config->read('wiki', 'WIKI_NAME');
 
 	echo '</title>
@@ -68,7 +68,7 @@ class Index extends Template {
 					<br class="clear" />
 				</div>
 				<div id="header">
-					', Main::$config->read('wiki', 'WIKI_NAME'), '
+					<a href="', Main::$config->read('path', 'BASE_URL'), 'index.php">', Main::$config->read('wiki', 'WIKI_NAME'), '</a>
 				</div>';
 
 			if (!empty($this->data['title']))
@@ -84,7 +84,7 @@ class Index extends Template {
 		$this->showSidebar();
 
 		echo '
-				<div class="col60">';	
+				<div class="col60">';
 	}
 
 	public function showFooter() {

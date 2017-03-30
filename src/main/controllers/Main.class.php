@@ -38,10 +38,30 @@ require_once 'public/Routing.php';
 
 class Main {
 
+	/**
+	 * @var Config $config An instance of the config class containing the settings.
+	 */
 	public static $config;
 
-	private $_currentApp, $_currentAppName, $_user, $_route;
+	/**
+	 * @var App $_currentApp The object that belongs to the app we've loaded
+	 * @var string $_currentAppName The name of the app we're supposed to load based on the URL
+	 */
+	private $_currentApp, $_currentAppName;
 
+	/**
+	 * @var User $_user An object of the user class. This object contains the current user information
+	 */
+	private $_user;
+
+	/**
+	 * @var array $_route This array contains data related to the request URL, such as the current app
+	 */
+	private $_route;
+
+	/**
+	 * @var array $_apps An array containing the 'apps' that are available.
+	 */
 	private $_apps = [
 		'article' => [
 			'package' => 'main',
@@ -78,19 +98,20 @@ class Main {
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/database/controllers/Connection.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/database/controllers/ModelController.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/database/controllers/Query.class.php';
+
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/database/models/SessionHandler.class.php';
 
-		require_once self::$config->read('path', 'BASE_PATH') . 'src/auth/models/User.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/auth/controllers/Permission.class.php';
+		require_once self::$config->read('path', 'BASE_PATH') . 'src/auth/models/User.class.php';
 
 		require_once self::$config->read('path', 'BASE_PATH') . 'public/views/Template.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'public/views/View.class.php';
 
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/controllers/App.class.php';
-
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/controllers/Error.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/controllers/NoAccessError.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/controllers/SettingsImporter.class.php';
+
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/models/Menu.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/models/SidebarMenu.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/models/Locale.class.php';
@@ -159,7 +180,7 @@ class Main {
 	}
 
 	/**
-	 * Determines the app that should be loaded, based on the value of _GET['app'].
+	 * Determines the app that should be loaded, based on the value of '_route['app']'
 	 * @return string The name of the app that should be loaded
 	 */
 	private function getCurrentApp() {

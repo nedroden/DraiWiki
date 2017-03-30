@@ -29,7 +29,7 @@ use \Parsedown;
 
 class Article extends ModelController {
 
-	private $_info, $_isHomepage, $_title, $_isEditing, $_params;
+	private $_info, $_isHomepage, $_title, $_isEditing, $_isNew, $_params;
 
 	public function __construct($article, $params = [], $forceEdit = false) {
 		$this->_isHomepage = empty($article);
@@ -64,17 +64,22 @@ class Article extends ModelController {
 					'view' => [
 						'label' => 'side_read_article',
 						'href' => Main::$config->read('path', 'BASE_URL') . 'index.php/article/' . $this->addUnderscores($this->_info['title']),
-						'visible' => true,
+						'visible' => true
 					],
 					'edit' => [
 						'label' => 'side_edit_article',
 						'href' => Main::$config->read('path', 'BASE_URL') . 'index.php/article/' . $this->addUnderscores($this->_info['title']) . '/edit',
-						'visible' => Permission::checkAndReturn('edit_articles'),
+						'visible' => Permission::checkAndReturn('edit_articles')
 					],
 					'recent_changes' => [
 						'label' => 'side_recent_changes',
 						'href' => Main::$config->read('path', 'BASE_URL') . 'index.php/timeline/' . $this->addUnderscores($this->_info['title']),
-						'visible' => Permission::checkAndReturn('view_history'),
+						'visible' => Permission::checkAndReturn('view_history')
+					],
+					'add_languages' => [
+						'label' => 'side_add_languages',
+						'href' => Main::$config->read('path', 'BASE_URL') . 'index.php/article/' . $this->addUnderscores($this->_info['title']) . '/assignlang',
+						'visible' => Permission::checkAndReturn('edit_articles')
 					]
 				]
 			],
@@ -149,11 +154,13 @@ class Article extends ModelController {
 	public function validate() {
 		$errors = $this->getEmptyFields();
 
-		if (empty($errors)) {
-			return array_merge($errors, $this->getFieldsWithInvalidLength());
-		}
+		// Since we're sure we have an ID we can work with, we can check if the article exists now
+		if (!empty($_POST['id']) && $_POST['id'] != 0)
+			$this->_isNew = !$this->isExistingArticle();
 		else
-			return $errors;
+			$this->_isNew = true;
+
+		return empty($errors) ? array_merge($errors, $this->getFieldsWithInvalidLength()) : $errors;
 	}
 
 	private function getEmptyFields() {
@@ -195,8 +202,26 @@ class Article extends ModelController {
 		return $errors;
 	}
 
-	private function isCorrectId() {
+	private function isExistingArticle() {
+		$id = $_POST['id'];
 
+		if (!is_numeric($id))
+			return false;
+
+		$query = new Query('
+			SELECT ID
+				FROM {db_prefix}articles
+				WHERE ID = :id
+		');
+
+		$query->setParams(['id' => $id]);
+		$result = $query->execute();
+
+		foreach ($result as $entry) {
+			return true;
+		}
+
+		return false;
 	}
 
 	private function sanitize($value) {
@@ -232,7 +257,7 @@ class Article extends ModelController {
 		foreach ($result as $locale) {
 			$languages[] = [
 				'label' => $locale['native'],
-				'href' => Main::$config->read('path', 'BASE_URL') . 'index.php/' . $locale['code'] . '/' . $locale['title'],
+				'href' => Main::$config->read('path', 'BASE_URL') . 'index.php/locale/' . $locale['code'] . '/' . $locale['title'],
 				'visible' => true,
 				'hardcoded' => true
 			];

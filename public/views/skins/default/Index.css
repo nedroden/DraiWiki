@@ -123,10 +123,13 @@ input[type="submit"] {
 #header {
 	background: #283044;
 	background: radial-gradient(circle, #283044, #262d40);
-	color: #fff;
 	font-size: 30px;
 	font-family: Verdana, Helvetica, Arial;
 	padding: 30px;
+}
+
+#header, #header a {
+	color: #fff;
 	text-shadow: 1px 2px 0 #000;
 }
 

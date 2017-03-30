@@ -31,6 +31,9 @@ function createRoutes() {
 	    $routeCollector->get('/article/{title}', 'article');
 		$routeCollector->addRoute(['GET', 'POST'], '/article/{title}/{action}', 'article');
 
+		$routeCollector->get('/locale/{locale}', 'changelocale');
+		$routeCollector->get('/locale/{locale}/{article}', 'changelocale');
+
 		$routeCollector->get('/random', 'random');
 
 	    $routeCollector->addRoute(['GET', 'POST'], '/register', 'register');

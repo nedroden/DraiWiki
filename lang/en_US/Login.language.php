@@ -20,7 +20,7 @@ return [
 	'page_title' => 'Login page',
 
 	'email' => 'Email address:',
-	'password' => 'Password',
+	'password' => 'Password:',
 
 	'placeholder_email' => 'nobody@example.com',
 	'placeholder_password' => 'password',
