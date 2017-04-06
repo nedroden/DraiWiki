@@ -34,7 +34,7 @@ class Error {
 	public function __construct($detailedInfo = null, $parameters = [], $langFallback = false) {
 		$this->_langFallback = $langFallback;
 		$this->_model = new Model($detailedInfo, $parameters, $langFallback);
-		$this->_view = new View('Error');
+		$this->_view = new View('error');
 
 		$this->_template = $this->_view->get();
 	}

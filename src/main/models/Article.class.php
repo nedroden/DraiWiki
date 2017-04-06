@@ -29,11 +29,20 @@ use \Parsedown;
 
 class Article extends ModelController {
 
-	private $_info, $_isHomepage, $_title, $_isEditing, $_isNew, $_params;
+	private $_info, $_isHomepage, $_title, $_params;
+
+	/**
+	 * These variables tell the controller what exactly we should do.
+	 * @var boolean $_isEditing Whether or not we're editing this article
+	 * @var boolean $_isNew Whether or not this is an article that doesn't exist yet
+	 * @var boolean $_hasChangedTitle WHether or not we've changed the title of an existing article
+	 */
+	private $_isEditing, $_isNew, $_hasChangedTitle;
 
 	public function __construct($article, $params = [], $forceEdit = false) {
 		$this->_isHomepage = empty($article);
 		$this->_isEditing = $forceEdit;
+		$this->_hasChangedTitle = false;
 		$this->_info = [];
 
 		$this->_params = $params;
@@ -42,6 +51,11 @@ class Article extends ModelController {
 		$this->locale->loadFile('editor');
 		$this->loadUser();
 
+		/**
+		  * The way this works is pretty simple: should we load the homepage? Then load it using its ID. If not, load it
+		  * using the article title. That way there can be no confusion, as only the hamepage can be loaded using its
+		  * ID.
+		  */
 		$this->_title = !empty($article) ? $article : $this->locale->getLanguage()['homepage'];
 
 		$this->_parsedown = new Parsedown();
@@ -49,6 +63,10 @@ class Article extends ModelController {
 		$this->load();
 	}
 
+	/**
+	 * This method returns article information, such as the ID, title, body, etc.
+	 * @return array The requested information.
+	 */
 	public function get() {
 		return $this->_info;
 	}
@@ -209,7 +227,7 @@ class Article extends ModelController {
 			return false;
 
 		$query = new Query('
-			SELECT ID
+			SELECT ID, title
 				FROM {db_prefix}articles
 				WHERE ID = :id
 		');
@@ -218,6 +236,9 @@ class Article extends ModelController {
 		$result = $query->execute();
 
 		foreach ($result as $entry) {
+			if ($entry['title'] != $_POST['title'])
+				$this->_hasChangedTitle = true;
+
 			return true;
 		}
 
@@ -250,6 +271,7 @@ class Article extends ModelController {
 			'locale' => $this->_info['language'],
 			'group' => $this->_info['group_ID']
 		]);
+
 
 		$result = $query->execute();
 
@@ -290,8 +312,52 @@ class Article extends ModelController {
 		$query->execute('update');
 	}
 
+	/**
+	 * Since an article's header information and body are stored separately, we need to execute
+	 * another query if a user decides to change the title. Since it'd be pretty pointless to
+	 * execute this query if the title remains unchanged, this method is invoked ONLY if the
+	 * new article title does not match the old one. Simple, right? Thought so.
+	 * @return void
+	 */
+	public function updateTitle() {
+		$query = new Query('
+			UPDATE
+				TABLE {db_prefix}articles
+				SET title = :title
+				WHERE ID = :id
+		');
+
+		$title = $this->addUnderscores($_POST['title']);
+
+		$query->setParams([
+			'title' => $title,
+			'id' => $_POST['id']
+		]);
+
+		$result = $query->execute('update');
+	}
+
+	/**
+	 * This method takes a string and determines whether or not it is a valid title. This method
+	 * doesn't check for length, since that has already been taken care of by the getFieldsWithInvalidLength() method.
+	 * Yes, sometimes I even surprise myself.
+	 * @param string $title The name of the article
+	 * @return boolean
+	 */
+	public function isValidTitle($title) {
+		return false;
+	}
+
+	public function isTitleInUse($title) {
+		return false;
+	}
+
+	/**
+	 * Load the editor's Javascript and CSS files if we're attempting to edit an article.
+	 * @return string Brilliantly-written header code.
+	 */
 	public function getHeader() {
-		return '
+		return !$this->_isEditing ? '' : '
 		<link rel="stylesheet" type="text/css" href="' . Main::$config->read('path', 'BASE_URL') . 'node_modules/simplemde/dist/simplemde.min.css" />
 		<script src="' . Main::$config->read('path', 'BASE_URL') . 'node_modules/simplemde/dist/simplemde.min.js"></script>';
 	}
@@ -302,5 +368,13 @@ class Article extends ModelController {
 
 	public function getIsEditing() {
 		return $this->_isEditing;
+	}
+
+	public function getHasChangedTitle() {
+		return $this->_hasChangedTitle;
+	}
+
+	public function getIsNew() {
+		return $this->_isNew;
 	}
 }

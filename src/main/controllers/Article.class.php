@@ -43,7 +43,7 @@ class Article extends App {
 		if (!empty($_POST))
 			$this->handlePostRequest();
 
-		$viewName = $this->_model->getIsEditing() ? 'Editor' : 'Article';
+		$viewName = $this->_model->getIsEditing() ? 'editor' : 'article';
 		$view = new View($viewName);
 		$this->_template = $view->get();
 
@@ -77,6 +77,18 @@ class Article extends App {
 
 		$errors = $this->_model->validate();
 		$this->_errors = !empty($errors) ? $errors : [];
+
+		if (!$this->_model->getIsNew() && $this->_model->getHasChangedTitle()) {
+			$titleErrors = $this->_model->isValidTitle($_POST['title']);
+			if (empty($errors) && empty($titleErrors)) {
+				if (!$this->_model->isUsedTitle($_POST['title']))
+					$this->_model->updateTitle();
+				else
+					$this->_errors = array_merge($this->_errors, ['title' => 'title_in_use']);
+			}
+			else
+				$this->_errors = array_merge($this->_errors, $titleErrors);
+		}
 
 		if (empty($errors)) {
 			$this->_model->update();

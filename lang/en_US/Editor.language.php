@@ -28,5 +28,6 @@ return [
 	'empty_title' => 'No title was specified',
 	'empty_body' => 'Cannot add an empty article',
 
-	'new_article' => 'New article'
+	'new_article' => 'New article',
+	'title_in_use' => 'Title is already in use'
 ];

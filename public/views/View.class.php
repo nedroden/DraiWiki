@@ -28,7 +28,7 @@ class View {
 	private $_name;
 
 	public function __construct($name) {
-		$this->_name = $name;
+		$this->_name = ucfirst($name);
 	}
 
 	private function getImageLink() {

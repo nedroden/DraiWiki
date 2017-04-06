@@ -8,6 +8,10 @@
  */
 
 /* General styles */
+* {
+   box-sizing: border-box;
+}
+
 body {
 	background: #d7d7d9;
 	background: radial-gradient(circle, #f4f4f4, #c6c6c6);
@@ -233,6 +237,11 @@ input[type="submit"] {
 
 .col60 {
 	width: 60%;
+	float: left;
+}
+
+.col80 {
+	width: 80%;
 	float: left;
 }
 

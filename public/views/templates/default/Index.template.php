@@ -84,7 +84,7 @@ class Index extends Template {
 		$this->showSidebar();
 
 		echo '
-				<div class="col60">';
+				<div class="col80">';
 	}
 
 	public function showFooter() {

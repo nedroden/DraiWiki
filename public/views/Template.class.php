@@ -37,8 +37,8 @@ abstract class Template {
 	}
 
 	protected function getCopyright() {
-		return 'Powered by <a href="http://draiwiki.robertmonden.com" target="_blank">DraiWiki</a> ' . DraiWikiVersion . ' | 
-			&copy; ' . date("Y") . ' Robert Monden';
+		return 'Powered by <a href="http://draiwiki.robertmonden.com" target="_blank">DraiWiki</a> ' . DraiWikiVersion . ' |
+			&copy; ' . date("Y") . ' <a href="http://robertmonden.com" taret="_blank">Robert Monden</a>';
 	}
 
 	public function setData($data = []) {
