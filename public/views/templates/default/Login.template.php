@@ -33,7 +33,7 @@ class Login extends Template {
 			$this->showErrors();
 
 		echo '
-					<label 	for="email"', 
+					<label 	for="email"',
 							(array_key_exists('password', $this->data['errors']) ? ' class="containsError"' : ''), '>',
 							$this->locale->read('login', 'email'), '
 					</label>
@@ -42,7 +42,7 @@ class Login extends Template {
 							placeholder="', $this->locale->read('login', 'placeholder_email'), '"
 							maxlength="', Main::$config->read('user', 'MAX_EMAIL_LENGTH'), '" /><br />
 
-					<label 	for="password"', 
+					<label 	for="password"',
 							(array_key_exists('password', $this->data['errors']) ? ' class="containsError"' : ''), '>',
 							$this->locale->read('login', 'password'), '
 					</label>
@@ -54,5 +54,19 @@ class Login extends Template {
 					<input type="submit" value="', $this->locale->read('index', 'submit'), '" />
 				</form>
 			</div>';
+	}
+
+	private function showErrors() {
+		echo '
+					<div class="messageBox error">
+						<ul>';
+
+				foreach ($this->data['errors'] as $error)
+					echo '
+							<li>', $error, '</li>';
+
+				echo '
+						</ul>
+					</div>';
 	}
 }

@@ -42,10 +42,10 @@ class Login extends App {
 		$this->_model = new Model();
 		$this->_template = $this->_view->get();
 
+		$this->setTemplateData();
+
 		if (!empty($_POST) && $this->_user->isGuest())
 			$this->handle();
-
-		$this->setTemplateData();
 	}
 
 	public function show() {
@@ -80,7 +80,10 @@ class Login extends App {
 			$this->redirectToIndex();
 		}
 		else
-			$this->setTemplateData($result['errors'], $result['correct']);
+			$this->_template->setData([
+				'errors' => $result['errors'],
+				'correct' => $result['correct']
+			]);
 	}
 
 	private function setSession($ID) {

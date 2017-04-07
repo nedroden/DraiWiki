@@ -60,7 +60,7 @@ class Article extends App {
 	}
 
 	private function redirect() {
-		header('Location: ' . Main::$config->read('path', 'BASE_URL') . 'index.php/article/' . $this->_model->get()['title']);
+		header('Location: ' . Main::$config->read('path', 'BASE_URL') . 'index.php/article/' . $this->_model->addUnderscores($_POST['title']));
 		die;
 	}
 
@@ -78,20 +78,23 @@ class Article extends App {
 		$errors = $this->_model->validate();
 		$this->_errors = !empty($errors) ? $errors : [];
 
-		if (!$this->_model->getIsNew() && $this->_model->getHasChangedTitle()) {
-			$titleErrors = $this->_model->isValidTitle($_POST['title']);
-			if (empty($errors) && empty($titleErrors)) {
-				if (!$this->_model->isUsedTitle($_POST['title']))
-					$this->_model->updateTitle();
-				else
-					$this->_errors = array_merge($this->_errors, ['title' => 'title_in_use']);
-			}
+		if (empty($this->_errors) && !$this->_model->getIsNew() && $this->_model->getHasChangedTitle()) {
+			if (!$this->_model->isUsedTitle($_POST['title']))
+				$this->_model->updateTitle();
 			else
-				$this->_errors = array_merge($this->_errors, $titleErrors);
+				$this->_errors = array_merge($this->_errors, ['title' => 'title_in_use']);
 		}
 
-		if (empty($errors)) {
-			$this->_model->update();
+		if (empty($this->_errors)) {
+			if ($this->_model->getIsNew() && !$this->_model->isUsedTitle($_POST['title']))
+				$this->_model->create();
+			else if ($this->_model->getIsNew() && $this->_model->isUsedTitle($_POST['title'])) {
+				$this->_errors = array_merge($this->_errors, ['title' => 'title_in_use']);
+				return;
+			}
+			else
+				$this->_model->update();
+
 			$this->redirect();
 		}
 	}

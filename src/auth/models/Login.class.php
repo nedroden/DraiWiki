@@ -97,6 +97,9 @@ class Login extends ModelController {
 			if (empty($result))
 				$errors['email'] = $this->locale->read('login', 'no_match_found');
 			else {
+				/**
+				 * @todo Replace with array ASAP.
+				 */
 				foreach ($result as $user) {
 					return $user['ID'];
 				}

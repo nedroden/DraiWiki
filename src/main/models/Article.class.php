@@ -161,7 +161,8 @@ class Article extends ModelController {
 		else {
 			$this->_info = array_merge($this->_info, [
 				'ID' => 0,
-				'title' => $this->_info['title'] = $this->locale->read('editor', 'new_article'),
+				'title' => $this->locale->read('editor', 'new_article'),
+				'title_safe' => $this->addUnderscores($this->locale->read('editor', 'new_article')),
 				'body' => '',
 				'language' => $this->locale->getLanguage()['code'],
 				'group_ID' => 0
@@ -178,11 +179,11 @@ class Article extends ModelController {
 		else
 			$this->_isNew = true;
 
-		return empty($errors) ? array_merge($errors, $this->getFieldsWithInvalidLength()) : $errors;
+		return $errors;
 	}
 
 	private function getEmptyFields() {
-		$requiredFields = ['id', 'title', 'body'];
+		$requiredFields = ['title', 'body'];
 
 		$errors = [];
 		foreach ($requiredFields as $field) {
@@ -300,7 +301,7 @@ class Article extends ModelController {
 					STR_TO_DATE(:date_edited, \'%m-%d-%Y %H:%i:%s\'),
 					:edited_by
 				)
-		');
+		', 'update');
 
 		$query->setParams([
 			'id' => $_POST['id'],
@@ -312,6 +313,30 @@ class Article extends ModelController {
 		$query->execute('update');
 	}
 
+	public function create() {
+		$query = new Query('
+			INSERT
+				INTO {db_prefix}articles (
+					title, language, group_ID, status
+				)
+				VALUES (
+					:title,
+					:language,
+					:group_ID,
+					:status
+				)
+		');
+
+		$query->setParams([
+			'title' => $_POST['title'],
+			'language' => $this->locale->getLanguage()['code'],
+			'group_ID' => 0,
+			'status' => 1
+		]);
+
+		$query->execute();
+	}
+
 	/**
 	 * Since an article's header information and body are stored separately, we need to execute
 	 * another query if a user decides to change the title. Since it'd be pretty pointless to
@@ -321,8 +346,7 @@ class Article extends ModelController {
 	 */
 	public function updateTitle() {
 		$query = new Query('
-			UPDATE
-				TABLE {db_prefix}articles
+			UPDATE {db_prefix}articles
 				SET title = :title
 				WHERE ID = :id
 		');
@@ -338,17 +362,27 @@ class Article extends ModelController {
 	}
 
 	/**
-	 * This method takes a string and determines whether or not it is a valid title. This method
-	 * doesn't check for length, since that has already been taken care of by the getFieldsWithInvalidLength() method.
-	 * Yes, sometimes I even surprise myself.
-	 * @param string $title The name of the article
+	 * This method checks if the given title is already in use. If so, we should tell so.
+	 * @param string $title The title you you want to check
 	 * @return boolean
 	 */
-	public function isValidTitle($title) {
-		return false;
-	}
+	public function isUsedTitle($title) {
+		$query = new Query('
+			SELECT title
+				FROM {db_prefix}articles
+				WHERE title = :title
+				LIMIT 1
+		');
 
-	public function isTitleInUse($title) {
+		$query->setParams([
+			'title' => $this->addUnderscores($title)
+		]);
+		$result = $query->execute();
+
+		foreach ($result as $article) {
+			return true;
+		}
+
 		return false;
 	}
 
