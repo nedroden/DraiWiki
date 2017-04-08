@@ -48,6 +48,8 @@ a:hover {
 
 h1, h2, h3, h4, h5, h6 {
 	color: #78a1bb;
+    font-weight: normal;
+    margin: 10px 0px 0px 0px;
 }
 
 h1.articleTitle {
@@ -331,4 +333,8 @@ blockquote {
 /* Spacing */
 .bottom_top_margin {
 	margin: 20px 0px 20px 0px;
+}
+
+p {
+    margin: 4px 0px 20px 0px;
 }
