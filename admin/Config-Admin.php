@@ -7,32 +7,27 @@
  * @author      Robert Monden
  * @copyright   DraiWiki, 2017
  * @license     Apache 2.0
- *
- * Class information:
- * This class contains the settings.
- * @since 		1.0 Alpha 1
- * @author 		DraiWiki development team
  */
 
-namespace DraiWiki;
+namespace DraiWiki\admin;
 
-if (!defined('DraiWiki') && !defined('DraiWikiAdmin')) {
+if (!defined('DWA')) {
 	header('Location: ../index.php');
 	die('You\'re really not supposed to be here.');
 }
 
 /**
- * @todo	Turn class into a singleton
+ * This class, similar to the Config.php file in /public, is used for storing
+ * important settings. Unlike its counterpart, however, this file only contains
+ * settings that are absolutely vital.
+ *
+ * @since		1.0 Alpha 1
  */
 class Config {
 
-	private $_settings;
+	private static $_instance;
 
-	/**
-	 * Creates a new instance of the Config class and adds default settings to the settings array.
-	 * @return Config
-	 */
-	public function __construct() {
+	private function __construct() {
 		/**
 		 * DraiWiki will use the data below to establish a connection to the database.
 		 */
@@ -44,31 +39,13 @@ class Config {
 			'DB_PREFIX' => 'drai_',
 			'DB_CHARSET' => 'utf8mb4'
 		];
+	}
 
-		/**
-		 * Wiki settings
-		 */
-		$this->_settings['wiki'] = [
-			'WIKI_LOCALE' => 'en_US',
-			'WIKI_SKIN' => 'default',
-			'WIKI_IMAGES' => 'default'
-		];
+	public static function instantiate() {
+		if (self::$_instance == null)
+			self::$_instance = new self();
 
-		/**
-		 * Paths and urls
-		 */
-		$this->_settings['path'] = [
-			'BASE_PATH' => 'C:\xampp\htdocs\DraiWiki\\',
-			'BASE_URL' => 'http://localhost/DraiWiki/',
-			'BASE_DIRNAME' => '/DraiWiki/'
-		];
-
-		/**
-		 * Debug information
-		 */
-		$this->_settings['debug'] = [
-			'ENABLE_DEBUG' => true
-		];
+		return self::$_instance;
 	}
 
 	/**

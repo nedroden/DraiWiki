@@ -60,7 +60,7 @@ class Article extends App {
 	}
 
 	private function redirect() {
-		header('Location: ' . Main::$config->read('path', 'BASE_URL') . 'index.php/article/' . $this->_model->addUnderscores($_POST['title']));
+		header('Location: ' . Main::$config->read('path', 'BASE_URL') . 'index.php/article/' . $this->_model->getUpdatedTitle());
 		die;
 	}
 

@@ -411,4 +411,8 @@ class Article extends ModelController {
 	public function getIsNew() {
 		return $this->_isNew;
 	}
+
+	public function getUpdatedTitle() {
+		return $this->addUnderscores(!empty($_POST['title']) ? $_POST['title'] : null);
+	}
 }

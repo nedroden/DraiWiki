@@ -12,11 +12,11 @@ ob_start();
 
 set_time_limit(25);
 
-use \DraiWiki\src\admin\controllers\Admin;
+use DraiWiki\admin\controllers\Admin;
 
-define('DraiWikiAdmin', 1);
+define('DWA', 1);
 
-require '../src/admin/controllers/Admin.class.php';
+require __DIR__ . '/controllers/Admin.class.php';
 
-$admin = new Admin();
+$admin = new Admin(__DIR__);
 $admin->display();
