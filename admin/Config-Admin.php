@@ -39,6 +39,10 @@ class Config {
 			'DB_PREFIX' => 'drai_',
 			'DB_CHARSET' => 'utf8mb4'
 		];
+
+        $this->_settings['path'] = [
+                'BASE_DIRNAME' => '/DraiWiki'
+        ];
 	}
 
 	public static function instantiate() {

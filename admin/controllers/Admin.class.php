@@ -16,6 +16,8 @@ if (!defined('DWA')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use function \DraiWiki\admin\createRoutes;
+
 /**
  * This class' sole purpose is setting up the admin panel. It loads all other
  * required files and points unauthorized users to the door. Or the login page.
@@ -53,7 +55,11 @@ class Admin {
 	public function __construct($directory) {
 		$this->_dir = $directory;
 
+        require_once $this->_dir . '/../vendor/autoload.php';
 		require_once $this->_dir . '/Config-Admin.php';
+        require_once $this->_dir . '/Routing.php';
+
+        $this->_route = createRoutes();
 
 		$this->_appName = $this->getCurrentApp();
 	}
