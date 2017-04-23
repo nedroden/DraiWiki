@@ -28,6 +28,7 @@ class Registration extends Template {
 		echo '
 				<div id="registrationPage">
 					<form action="', $this->data['action'],'" method="post">
+                        <h1>', $this->locale->read('registration', 'register_new_account'), '</h1>
 						<div class="messageBox info">
 							', $this->locale->read('registration', 'this_is_the_registration_page'), '
 						</div>';
@@ -36,7 +37,7 @@ class Registration extends Template {
 				$this->showErrors();
 
 			echo '
-						<label 	for="first_name"', 
+						<label 	for="first_name"',
 								(array_key_exists('password', $this->data['errors']) ? ' class="containsError"' : ''), '>',
 								$this->locale->read('registration', 'first_name'), '
 						</label>
@@ -45,16 +46,16 @@ class Registration extends Template {
 								placeholder="', $this->locale->read('registration', 'placeholder_first_name'), '"
 								maxlength="', Main::$config->read('user', 'MAX_FIRST_NAME_LENGTH'), '" /><br />
 
-						<label 	for="last_name"', 
+						<label 	for="last_name"',
 								(array_key_exists('password', $this->data['errors']) ? ' class="containsError"' : ''), '>',
 								$this->locale->read('registration', 'last_name'), '
 						</label>
-						<input 	type="text" 
-								name="last_name" 
+						<input 	type="text"
+								name="last_name"
 								placeholder="', $this->locale->read('registration', 'placeholder_last_name'), '"
 								maxlength="', Main::$config->read('user', 'MAX_LAST_NAME_LENGTH'), '" /><br />
 
-						<label 	for="password"', 
+						<label 	for="password"',
 								(array_key_exists('password', $this->data['errors']) ? ' class="containsError"' : ''), '>',
 								$this->locale->read('registration', 'password'), '
 						</label>
@@ -63,7 +64,7 @@ class Registration extends Template {
 								placeholder="', $this->locale->read('registration', 'placeholder_password'), '"
 								maxlength="', Main::$config->read('user', 'MAX_PASSWORD_LENGTH'), '" /><br />
 
-						<label 	for="confirm_password"', 
+						<label 	for="confirm_password"',
 								(array_key_exists('password', $this->data['errors']) ? ' class="containsError"' : ''), '>',
 								$this->locale->read('registration', 'confirm_password'), '
 						</label>
@@ -71,7 +72,7 @@ class Registration extends Template {
 								name="confirm_password"
 								maxlength="', Main::$config->read('user', 'MAX_PASSWORD_LENGTH'), '" /><br />
 
-						<label 	for="email"', 
+						<label 	for="email"',
 								(array_key_exists('password', $this->data['errors']) ? ' class="containsError"' : ''), '>',
 								$this->locale->read('registration', 'email'), '
 						</label>

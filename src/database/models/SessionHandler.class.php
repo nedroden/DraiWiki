@@ -21,6 +21,7 @@ if (!defined('DraiWiki') && !defined('DraiWikiAdmin')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use \DraiWiki\src\core\controllers\Registry;
 use \DraiWiki\src\database\controllers\Connection;
 use \DraiWiki\src\database\controllers\Query;
 use \DraiWiki\src\main\controllers\Main;
@@ -29,7 +30,7 @@ use \SessionHandlerInterface;
 class SessionHandler implements SessionHandlerInterface {
 
 	public function __construct() {
-		$this->_database = Connection::instantiate();
+		$this->_database = Registry::get('connection');
 
 		session_set_save_handler(
 			[$this, 'open'],

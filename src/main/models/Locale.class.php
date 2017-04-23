@@ -17,6 +17,7 @@
 namespace DraiWiki\src\main\models;
 
 use DraiWiki\src\auth\models\User;
+use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\database\controllers\Query;
 use DraiWiki\src\main\controllers\Main;
 
@@ -24,12 +25,10 @@ class Locale {
 
 	private $_language, $_strings, $_files = [], $_user;
 
-	private static $_instance;
-
 	const FALLBACK_LOCALE = 'en_US';
 
-	private function __construct() {
-		$this->_user = User::instantiate();
+	public function __construct() {
+		$this->_user = Registry::get('user');
 
 		if (!empty($_GET['locale']) && $_GET['locale'] != Main::$config->read('wiki', 'WIKI_LOCALE')) {
 			$language = $this->verifyLocaleRequest($_GET['locale']);
@@ -42,13 +41,6 @@ class Locale {
 
 		$this->loadFile('index');
 		$this->loadFile('error');
-	}
-
-	public static function instantiate() {
-		if (self::$_instance == null)
-			self::$_instance = new self();
-
-		return self::$_instance;
 	}
 
 	public function loadFile($category) {

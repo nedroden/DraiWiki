@@ -23,6 +23,7 @@ if (!defined('DraiWiki')) {
 
 use \DraiWiki\src\auth\controllers\Permission;
 use \DraiWiki\src\auth\models\User;
+use \DraiWiki\src\core\controllers\Registry;
 use \DraiWiki\src\main\controllers\Main;
 
 class Menu {
@@ -30,7 +31,7 @@ class Menu {
 	private $_items = [], $_user;
 
 	public function __construct() {
-		$this->_user = User::instantiate();
+		$this->_user = Registry::get('user');
 		$this->set();
 	}
 

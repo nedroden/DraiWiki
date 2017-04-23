@@ -24,6 +24,7 @@ if (!defined('DraiWiki')) {
 use DraiWiki\src\auth\models\Agreement;
 use DraiWiki\src\auth\models\Registration as Model;
 use DraiWiki\src\auth\models\User;
+use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\main\controllers\App;
 use DraiWiki\src\main\controllers\Main;
 use DraiWiki\src\main\controllers\NoAccessError;
@@ -38,7 +39,7 @@ class Registration extends App {
 	private $_user, $_model, $_view, $_template, $_agreement, $_errors, $_correctFields;
 
 	public function __construct() {
-		$this->_user = User::instantiate();
+		$this->_user = Registry::get('user');
 		$this->hasStylesheet = true;
 
 		$this->_view = new View('Registration');

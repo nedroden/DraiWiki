@@ -16,6 +16,9 @@ if (!defined('DWA')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use DraiWiki\src\core\controllers\Registry;
+use DraiWiki\admin\Config;
+
 use function \DraiWiki\admin\createRoutes;
 
 /**
@@ -58,9 +61,11 @@ class Admin {
         require_once $this->_dir . '/../vendor/autoload.php';
 		require_once $this->_dir . '/Config-Admin.php';
         require_once $this->_dir . '/Routing.php';
+        require_once $this->_dir . '/../src/core/controllers/Registry.class.php';
+
+        Registry::set('conf_admin', new Config());
 
         $this->_route = createRoutes();
-
 		$this->_appName = $this->getCurrentApp();
 	}
 

@@ -24,19 +24,18 @@ use DraiWiki\src\main\controllers\Error;
 class Connection {
 
 	private $_connection, $_isConnected;
-	private static $_instance;
 
 	/**
 	 * Establish a database connection and make sure PDO throws exceptions. That way the user won't (or at least, shouldn't) see any
 	 * database errors. There are no parameters; the method uses the config array in the Main class to establish a connection.
 	 * @return void
 	 */
-	private function __construct() {
+	public function __construct() {
 		try {
 			$this->_connection = new PDO('mysql:host=' . Main::$config->read('database', 'DB_SERVER') . ';
 				dbname=' . Main::$config->read('database', 'DB_NAME') . ';
 				charset=' . Main::$config->read('database', 'DB_CHARSET'),
-				Main::$config->read('database', 'DB_USERNAME'), 
+				Main::$config->read('database', 'DB_USERNAME'),
 				Main::$config->read('database', 'DB_PASSWORD')
 			);
 		}
@@ -52,13 +51,6 @@ class Connection {
 			$error = new Error($e->getMessage(), [], true);
 			$error->show();
 		}
-	}
-
-	public static function instantiate() {
-		if (self::$_instance == null)
-			self::$_instance = new self();
-
-		return self::$_instance;
 	}
 
 	public function executeQuery($query, $type, $params = []) {

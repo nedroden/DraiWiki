@@ -40,3 +40,7 @@
 	font-style: normal;
 	font-size: 14px;
 }
+
+h1.title_with_margin {
+    margin-bottom: 20px;
+}

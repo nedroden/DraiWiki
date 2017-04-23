@@ -22,6 +22,7 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\auth\models\User;
+use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\main\controllers\NoAccessError;
 
 class Permission {
@@ -31,7 +32,7 @@ class Permission {
 	}
 
 	public static function checkAndReturn($permission) {
-		$user = User::instantiate();
+		$user = Registry::get('user');
 		return $user->hasPermission($permission);
 	}
 }

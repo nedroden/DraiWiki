@@ -42,7 +42,9 @@ class Index extends Template {
 
 	echo '</title>
 		<link rel="stylesheet" type="text/css" href="', $this->_skinUrl, '" />
-		<script type="text/javascript" src="' . Main::$config->read('path', 'BASE_URL'). 'src/javascript/Main.js"></script>';
+		<script type="text/javascript" src="' . Main::$config->read('path', 'BASE_URL'). 'src/javascript/Main.js"></script>
+
+        <link rel="icon" href="', Main::$config->read('path', 'BASE_URL'), '/favicon.png" sizes="16x16" type="image/png">';
 
 	foreach ($this->stylesheets as $stylesheet) {
 		echo '

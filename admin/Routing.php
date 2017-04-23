@@ -19,6 +19,7 @@ if (!defined('DWA')) {
 }
 
 // Because PHP is such a wonderful and predictable language!
+use \DraiWiki\src\core\controllers\Registry;
 use \FastRoute;
 
 /**
@@ -26,7 +27,7 @@ use \FastRoute;
  * @return string The admin section that should be loaded
  */
 function createRoutes() {
-    $config = Config::instantiate();
+    $config = Registry::get('conf_admin');
 
 	$router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $routeCollector) {
 	    $routeCollector->get('/section/{title}', 'section');

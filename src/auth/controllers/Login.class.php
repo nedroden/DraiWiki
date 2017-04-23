@@ -23,6 +23,7 @@ if (!defined('DraiWiki')) {
 
 use DraiWiki\src\auth\models\Login as Model;
 use DraiWiki\src\auth\models\User;
+use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\main\controllers\App;
 use DraiWiki\src\main\controllers\Main;
 use DraiWiki\src\main\controllers\NoAccessError;
@@ -35,7 +36,7 @@ class Login extends App {
 	private $_user, $_view, $_template, $_model;
 
 	public function __construct() {
-		$this->_user = User::instantiate();
+		$this->_user = Registry::get('user');
 		$this->hasStylesheet = true;
 
 		$this->_view = new View('Login');

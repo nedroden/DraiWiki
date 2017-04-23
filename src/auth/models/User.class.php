@@ -28,19 +28,10 @@ class User {
 
 	private $_isGuest, $_userInfo, $_permissions, $_isRoot;
 
-	private static $_instance;
-
-	private function __construct() {
+	public function __construct() {
 		$this->_isGuest = empty($_SESSION['user']);
 		$this->_permissions = [];
 		$this->load();
-	}
-
-	public static function instantiate() {
-		if (self::$_instance == null)
-			self::$_instance = new self();
-
-		return self::$_instance;
 	}
 
 	public function get() {
@@ -141,7 +132,7 @@ class User {
 		}
 
 		if (!$this->_isRoot)
-			$this->loadPermissions(empty($dominantGroups) ? $normalGroups : $dominantGroups);		
+			$this->loadPermissions(empty($dominantGroups) ? $normalGroups : $dominantGroups);
 	}
 
 	private function loadPermissions($groups) {

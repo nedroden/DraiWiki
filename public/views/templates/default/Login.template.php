@@ -27,7 +27,8 @@ class Login extends Template {
 	public function showContent() {
 		echo '
 			<div id="registrationPage">
-				<form action="', $this->data['action'],'" method="post">';
+				<form action="', $this->data['action'],'" method="post">
+                    <h1 class="title_with_margin">', $this->locale->read('login', 'page_title'), '</h1>';
 
 		if (!empty($this->data['errors']))
 			$this->showErrors();

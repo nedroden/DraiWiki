@@ -16,6 +16,7 @@
 
 namespace DraiWiki\src\database\controllers;
 
+use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\database\controllers\Connection;
 use DraiWiki\src\main\controllers\Main;
 
@@ -27,7 +28,7 @@ class Query {
 
 	public function __construct($query) {
 		if (self::$_connection == null)
-			self::$_connection = Connection::instantiate();
+			self::$_connection = Registry::get('connection');
 
 		$this->_query = $query;
 		$this->_params = [];
@@ -44,7 +45,7 @@ class Query {
 
 		return self::$_connection->executeQuery($this->_query . ';', $type, $this->_params);
 	}
-	
+
 	public function toString() {
 		return $this->_query;
 	}

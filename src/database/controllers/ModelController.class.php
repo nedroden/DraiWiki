@@ -22,6 +22,7 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\auth\models\User;
+use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\database\controllers\Query;
 use DraiWiki\src\main\models\Locale;
 
@@ -34,10 +35,10 @@ abstract class ModelController {
 	}
 
 	protected function loadLocale() {
-		$this->locale = Locale::instantiate();
+		$this->locale = Registry::get('locale');
 	}
 
 	protected function loadUser() {
-		$this->user = User::instantiate();
+		$this->user = Registry::get('user');
 	}
 }

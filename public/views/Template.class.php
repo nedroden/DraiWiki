@@ -21,6 +21,7 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\main\controllers\Main;
 use DraiWiki\src\main\models\Locale;
 
@@ -33,7 +34,7 @@ abstract class Template {
 	}
 
 	protected function loadLocale() {
-		$this->locale = Locale::instantiate();
+		$this->locale = Registry::get('locale');
 	}
 
 	protected function getCopyright() {

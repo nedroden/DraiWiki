@@ -25,9 +25,7 @@ if (!defined('DWA')) {
  */
 class Config {
 
-	private static $_instance;
-
-	private function __construct() {
+	public function __construct() {
 		/**
 		 * DraiWiki will use the data below to establish a connection to the database.
 		 */
@@ -41,15 +39,8 @@ class Config {
 		];
 
         $this->_settings['path'] = [
-                'BASE_DIRNAME' => '/DraiWiki'
+            'BASE_DIRNAME' => '/DraiWiki'
         ];
-	}
-
-	public static function instantiate() {
-		if (self::$_instance == null)
-			self::$_instance = new self();
-
-		return self::$_instance;
 	}
 
 	/**

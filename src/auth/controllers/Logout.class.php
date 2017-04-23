@@ -22,6 +22,7 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\auth\models\User;
+use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\main\controllers\Main;
 use DraiWiki\src\main\controllers\NoAccessError;
 
@@ -30,7 +31,7 @@ class Logout {
 	private $_cookieName;
 
 	public function __construct() {
-		$this->_user = User::instantiate();
+		$this->_user = Registry::get('user');
 
 		$this->_cookieName = Main::$config->read('session', 'COOKIE_NAME');
 		$this->handle();

@@ -22,6 +22,7 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\Config;
+use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\auth\models\User;
 use DraiWiki\src\database\controllers\Connection;
 use DraiWiki\src\database\models\SessionHandler;
@@ -116,13 +117,17 @@ class Main {
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/models/SidebarMenu.class.php';
 		require_once self::$config->read('path', 'BASE_PATH') . 'src/main/models/Locale.class.php';
 
+        require_once self::$config->read('path', 'BASE_PATH') . 'src/core/controllers/Registry.class.php';
+
+        Registry::set('connection', new Connection());
+
 		SettingsImporter::import();
 
 		new SessionHandler();
 		session_start();
 
-		$this->_user = User::instantiate();
-		Locale::instantiate();
+		$this->_user = Registry::set('user', new User());
+		Registry::set('locale', new Locale());
 	}
 
 	/**

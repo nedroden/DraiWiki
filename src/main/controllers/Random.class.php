@@ -21,6 +21,7 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use \DraiWiki\src\core\controllers\Registry;
 use \DraiWiki\src\main\controllers\Main;
 use \DraiWiki\src\main\models\Locale;
 use \DraiWiki\src\main\models\Random as Model;
@@ -32,7 +33,7 @@ class Random {
 	private $_model, $_locale;
 
 	public function __construct() {
-		$this->_locale = Locale::instantiate();
+		$this->_locale = Registry::get('locale');
 		$this->_model = new Model($this->_locale->getLanguage()['code']);
 		$this->handle();
 	}
