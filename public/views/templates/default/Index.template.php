@@ -44,6 +44,7 @@ class Index extends Template {
 		<link rel="stylesheet" type="text/css" href="', $this->_skinUrl, '" />
 		<script type="text/javascript" src="' . Main::$config->read('path', 'BASE_URL'). 'src/javascript/Main.js"></script>
 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="', Main::$config->read('path', 'BASE_URL'), '/favicon.png" sizes="16x16" type="image/png">';
 
 	foreach ($this->stylesheets as $stylesheet) {
@@ -76,7 +77,16 @@ class Index extends Template {
 			if (!empty($this->data['title']))
 				echo '
 				<div id="contentHeader">
-					', $this->data['title'], '
+                    <div class="col60">
+                        ', $this->data['title'], '
+                    </div>
+                    <div class="col40 align_right" id="header_search">
+                        <form action="', Main::$config->read('path', 'BASE_URL'), 'index.php/search" method="post">
+                            <input type="text" placeholder="', $this->locale->read('index', 'search_for'), '" />
+                            <input type="submit" value="', $this->locale->read('index', 'go'), '" />
+                        </form>
+                    </div>
+                    <br class="clear"/>
 				</div>';
 
 		echo '
@@ -96,7 +106,7 @@ echo '
 			</div>
 			<div id="copyright">
 				<div class="col33">', $this->getCopyright(), '</div>
-				<div class="col33 align_center"><a href="#topbar">', $this->locale->read('index', 'to_top'), '</a></div>
+				<div class="col33 align_center"><a href="#wrapper">', $this->locale->read('index', 'to_top'), '</a></div>
 				<div class="col33 align_right">
 					<strong>', $this->locale->read('index', 'locale'), '</strong> ', $this->locale->getLanguage()['native'], '
 				</div>

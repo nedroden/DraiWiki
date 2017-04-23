@@ -41,5 +41,8 @@ return [
 	'side_recent_changes' => 'Recent changes',
 	'side_add_languages' => 'Add languages',
 
-	'account_settings' => 'Account settings'
+	'account_settings' => 'Account settings',
+
+    'search_for' => 'Search for an article',
+    'go' => 'Go'
 ];

@@ -23,12 +23,12 @@ body {
 }
 
 a {
-	color: #3890e0;
+	color: #1873e2;
 	text-decoration: none;
 }
 
 a:hover {
-	color: #73b4ef;
+	color: #7d9cc1;
 }
 
 ::selection {
@@ -44,6 +44,10 @@ a:hover {
 #copyright {
 	padding: 10px 8px 50px 8px;
 	font-size: 12px;
+}
+
+#copyright a {
+    color: #294a72;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -102,6 +106,21 @@ input[type="submit"]:hover {
 	background: #70b8e0;
 	background: linear-gradient(-180deg, #70b8e0, #5186a3);
     cursor: pointer;
+}
+
+#header_search input {
+    font-size: 16px;
+    padding: 3px;
+}
+
+#header_search input[type="text"] {
+    width: 70%;
+	padding: 3px 3px 3px 8px;
+    border-color: #fcfcfc;
+}
+
+#header_search input[type="submit"] {
+    max-width: 20%;
 }
 
 .wide {
@@ -175,13 +194,15 @@ input[type="submit"]:hover {
 }
 
 #contentHeader {
-	padding: 10px 30px 10px 30px;
-	font-size: 25px;
-	font-family: "Dejavu Sans", Verdana, Helvetica, Arial;
-	font-style: italic;
+	padding: 8px 30px 8px 30px;
+	font-size: 20px;
+	font-family: Arial;
 	color: #fff;
 	background: #4a6699;
 	background: linear-gradient(-90deg, #394f77, #4a6699);
+    letter-spacing: -1px;
+    display: flex;
+    align-items: center;
 }
 
 #header_section div:last-child {
@@ -267,6 +288,11 @@ input[type="submit"]:hover {
 
 .col60 {
 	width: 60%;
+	float: left;
+}
+
+.col66 {
+	width: 66%;
 	float: left;
 }
 
@@ -365,4 +391,41 @@ blockquote {
 
 p {
     margin: 4px 0px 20px 0px;
+}
+
+/* Responsive theming */
+@media only screen and (max-width: 800px) {
+    #content {
+        padding: 10px;
+    }
+
+    #topbar {
+        display: none;
+    }
+
+    #sidebar {
+        padding: 0;
+    }
+
+    #sidebar ul {
+        margin: 0;
+    }
+
+    .sidebar_header {
+        margin: 5px 0px 0px 0px;
+        width: 100%;
+    }
+
+    [class*="col"] {
+        width: 100%;
+    }
+
+    #copyright div {
+        margin: 15px 0px 0px 0px;
+        text-align: center;
+    }
+
+    #header_search input[type="submit"] {
+        display: none;
+    }
 }
