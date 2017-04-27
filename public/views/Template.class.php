@@ -42,6 +42,10 @@ abstract class Template {
 			&copy; ' . date("Y") . ' <a href="http://robertmonden.com" taret="_blank">Robert Monden</a>';
 	}
 
+    protected function getScriptLocation($name) {
+        return Main::$config->read('path', 'BASE_URL') . 'src/javascript/' . $name . '.js';
+    }
+
 	public function setData($data = []) {
 		if (!is_array($data))
 			return false;
