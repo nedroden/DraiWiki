@@ -38,7 +38,13 @@ class Config {
 			'DB_CHARSET' => 'utf8mb4'
 		];
 
+		/**
+		 * @todo Get rid of these settings. Their values should be assigned dynamically.
+		 */
         $this->_settings['path'] = [
+			// The absolute path to the admin directory, without the trailing slash.
+			'BASE_ADMIN_PATH' => 'C:\server\htdocs\DraiWiki\admin',
+			'BASE_ADMIN_URL' => 'http://localhost/DraiWiki',
             'BASE_DIRNAME' => '/DraiWiki'
         ];
 	}

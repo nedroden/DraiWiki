@@ -18,6 +18,9 @@ if (!defined('DWA')) {
 
 use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\admin\Config;
+use DraiWiki\admin\controllers\Connection;
+use DraiWiki\admin\controllers\Locale;
+use DraiWiki\admin\models\User;
 
 use function \DraiWiki\admin\createRoutes;
 
@@ -63,14 +66,27 @@ class Admin {
         require_once $this->_dir . '/Routing.php';
         require_once $this->_dir . '/../src/core/controllers/Registry.class.php';
 
+		require_once $this->_dir . '/controllers/Error.class.php';
+		require_once $this->_dir . '/controllers/Connection.class.php';
+		require_once $this->_dir . '/controllers/Locale.class.php';
+		require_once $this->_dir . '/controllers/ModelController.class.php';
+		require_once $this->_dir . '/controllers/ViewController.class.php';
+		require_once $this->_dir . '/models/User.class.php';
+		require_once $this->_dir . '/models/Template.class.php';
+
         Registry::set('conf_admin', new Config());
+		Registry::set('connection', new Connection());
 
         $this->_route = createRoutes();
 		$this->_appName = $this->getCurrentApp();
+
+		Registry::set('user', new User());
+		Registry::set('locale', new Locale());
 	}
 
 	public function display() {
-		echo 'This is the admin panel. Isn\'t it cool?';
+		echo '<h1>DraiWiki administration panel</h1>
+			It\'s taking some time, but we\'re getting there!';
 	}
 
 	private function getCurrentApp() {

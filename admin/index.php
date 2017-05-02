@@ -15,6 +15,7 @@ set_time_limit(25);
 use DraiWiki\admin\controllers\Admin;
 
 define('DWA', 1);
+define('DraiWikiVersion', '1.0 Alpha 1');
 
 require __DIR__ . '/controllers/Admin.class.php';
 

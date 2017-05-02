@@ -58,8 +58,10 @@ class Config {
 		 * Paths and urls
 		 */
 		$this->_settings['path'] = [
-			'BASE_PATH' => 'C:\xampp\htdocs\DraiWiki\\',
+			'BASE_PATH' => 'C:\server\htdocs\DraiWiki\\',
 			'BASE_URL' => 'http://localhost/DraiWiki/',
+
+			// Get rid of this. Really. ASAP.
 			'BASE_DIRNAME' => '/DraiWiki/'
 		];
 
