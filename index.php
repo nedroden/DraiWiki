@@ -11,4 +11,5 @@
 
 define('DraiWiki', 1);
 
+require 'autoload.php';
 require 'public/index.php';
