@@ -42,6 +42,7 @@ class Registry {
     /**
      * Retrieve an object from the registry based on the identifier.
      * @param string $identfier The identifier of the object
+	 * @todo If an object is not found, an error page should be displayed
      * @return object The object the identifier belongs to
      */
     public static function get($identifier) {
