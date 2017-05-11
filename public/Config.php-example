@@ -1,0 +1,50 @@
+<?php
+/**
+ * DRAIWIKI
+ * Open source wiki software
+ *
+ * @version     1.0 Alpha 1
+ * @author      Robert Monden
+ * @copyright   DraiWiki, 2017
+ * @license     Apache 2.0
+ */
+
+namespace DraiWiki;
+
+if (!defined('DraiWiki')) {
+	header('Location: ../index.php');
+	die('You\'re really not supposed to be here.');
+}
+
+class Config {
+
+    private $_settings;
+
+    public function __construct() {
+        $this->_settings = [
+            'db_server' => 'localhost',
+            'db_username' => 'username',
+            'db_password' => 'password',
+            'db_name' => 'DraiWiki',
+            'db_prefix' => 'drai_',
+			'db_charset' => 'utf8mb4',
+
+            'path' => 'C:\server\htdocs\DraiWiki\\',
+            'url' => 'http://localhost/DraiWiki/'
+        ];
+    }
+
+    public function read($identifier) {
+        return !empty($setting = $this->_settings[$identifier]) ? $setting : null;
+    }
+
+    public function import($settings) {
+        $this->_settings = array_merge($this->_settings, $settings);
+    }
+
+    public function deleteDatabaseInfo() {
+        foreach (['db_server', 'db_username', 'db_password', 'db_name'] as $setting) {
+            $this->_settings[$setting] = null;
+        }
+    }
+}
