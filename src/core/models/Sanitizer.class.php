@@ -26,7 +26,7 @@ class Sanitizer {
         return str_replace(' ', '_', $value);
     }
 
-    public function escapehtml($value, $charset = 'UTF-8') {
+    public static function escapehtml($value, $charset = 'UTF-8') {
     	return htmlspecialchars($value, ENT_NOQUOTES, $charset);
     }
 }

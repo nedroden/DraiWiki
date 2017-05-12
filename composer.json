@@ -1,6 +1,7 @@
 {
     "require": {
         "erusev/parsedown": "^1.6",
-        "nikic/fast-route": "^1.2"
+        "nikic/fast-route": "^1.2",
+        "twig/twig": "~2.0"
     }
 }

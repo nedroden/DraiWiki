@@ -27,7 +27,7 @@ class Connection {
     public function __construct() {
         $this->_config = Registry::get('config');
         $this->connect();
-        $this->destroyData();
+        $this->destroyLoginData();
     }
 
     private function connect() {
@@ -53,7 +53,7 @@ class Connection {
 		}
     }
 
-    private function destroyData() {
+    private function destroyLoginData() {
         $this->_config->deleteDatabaseInfo();
     }
 }
