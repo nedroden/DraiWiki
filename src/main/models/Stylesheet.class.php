@@ -16,25 +16,9 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
-use DraiWiki\src\core\controllers\Registry;
-
-class App {
-
-    private $_route;
+class Stylesheet {
 
     public function __construct() {
-        $this->_route = Registry::get('route');
-    }
-
-    private function detect() {
-
-    }
-
-    public function load() {
-
-    }
-
-    public function display() {
-
+        
     }
 }

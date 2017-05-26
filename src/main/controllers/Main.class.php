@@ -20,6 +20,7 @@ use DraiWiki\Config;
 use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\core\controllers\Connection;
 use DraiWiki\src\core\models\RouteInfo;
+use DraiWiki\src\main\controllers\GUI;
 
 use function DraiWiki\createRoutes;
 
@@ -38,6 +39,8 @@ class Main {
 	 */
 	private $_route;
 
+	const WIKI_VERSION = '1.0 Alpha 1';
+
     public function __construct() {
         $this->_config = Registry::set('config', new Config());
 
@@ -46,5 +49,14 @@ class Main {
 
     public function load() {
 		Registry::set('connection', new Connection());
+
+		$gui = new GUI();
+		$gui->setData([
+			'url' => $this->_config->read('url'),
+			'wiki_name' => $this->_config->read('wiki_name'),
+		]);
+
+		$gui->showHeader();
+		$gui->showFooter();
     }
 }

@@ -30,7 +30,7 @@ class Config {
 			'db_charset' => 'utf8mb4',
 
             'path' => 'C:\server\htdocs\DraiWiki\\',
-            'url' => 'http://localhost/DraiWiki/'
+            'url' => 'http://localhost/DraiWiki'
         ];
     }
 

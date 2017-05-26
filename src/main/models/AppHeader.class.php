@@ -22,7 +22,27 @@ abstract class AppHeader {
 
     protected $config;
 
+	/**
+	 * Wether or not main templates should be shown. There are four possible values:
+	 * 	neither -> Show both the header and the footer
+	 * 	upper	-> Hide the header, but display the footer
+	 * 	lower	-> Display the header, but hide the footer
+	 * 	both	-> Hide both the header and the footer
+	 *
+	 * @var string $ignoreTemplates Determines which template parts will be shown
+	 */
+	protected $ignoreTemplates = 'neither';
+
     protected function loadConfig() {
         $this->config = Registry::get('config');
     }
+
+	public function getIgnoreTemplates() {
+		return $this->ignoreTemplates;
+	}
+
+	protected function redirectTo($url) {
+		header('Location: ' . $url);
+		die;
+	}
 }
