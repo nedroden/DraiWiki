@@ -29,7 +29,7 @@ class Config {
             'db_prefix' => 'drai_',
 			'db_charset' => 'utf8mb4',
 
-            'path' => 'C:\server\htdocs\DraiWiki\\',
+            'path' => '/path/to/DraiWiki',
             'url' => 'http://localhost/DraiWiki'
         ];
     }

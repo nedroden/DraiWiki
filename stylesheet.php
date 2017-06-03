@@ -11,23 +11,14 @@
 
 define('DraiWiki', 1);
 
-require_once 'public/Config.php';
+use DraiWiki\src\main\models\Stylesheet;
 
-use DraiWiki\Config;
-use DraiWiki\views\Stylesheet;
+include 'public/Config.php';
 
 if (!empty($_GET['id'])) {
-	$config = new Config();
+	require_once __DIR__ . '/src/main/models/Stylesheet.class.php';
 
-	$baseUrl = $config->read('url');
-	$basePath = $config->read('path');
-
-	$imgSet = $config->read('images');
-	$skinSet = $config->read('skins');
-
-	require_once $basePath . '/src/main/models/Stylesheet.class.php';
-
-	$stylesheet = new Stylesheet(ucfirst($_GET['id']), $baseUrl, $basePath, $skinSet, $imgSet);
+	$stylesheet = new Stylesheet($_GET['id']);
 	echo $stylesheet->parse();
 	die;
 }

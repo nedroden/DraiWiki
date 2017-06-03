@@ -17,10 +17,12 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\Config;
-use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\core\controllers\Connection;
+use DraiWiki\src\core\controllers\Registry;
+use DraiWiki\src\core\controllers\SelectQuery;
 use DraiWiki\src\core\models\RouteInfo;
 use DraiWiki\src\main\controllers\GUI;
+use DraiWiki\src\main\controllers\Locale;
 
 use function DraiWiki\createRoutes;
 
@@ -39,6 +41,8 @@ class Main {
 	 */
 	private $_route;
 
+	private $_locale;
+
 	const WIKI_VERSION = '1.0 Alpha 1';
 
     public function __construct() {
@@ -50,10 +54,14 @@ class Main {
     public function load() {
 		Registry::set('connection', new Connection());
 
+		$this->_locale = Registry::set('locale', new Locale());
+
 		$gui = new GUI();
 		$gui->setData([
 			'url' => $this->_config->read('url'),
 			'wiki_name' => $this->_config->read('wiki_name'),
+			'locale_native' => $this->_locale->getNative(),
+			'locale_copyright' => $this->_locale->getCopyright()
 		]);
 
 		$gui->showHeader();

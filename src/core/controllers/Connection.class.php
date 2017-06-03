@@ -30,6 +30,10 @@ class Connection {
         $this->destroyLoginData();
     }
 
+    public function getObject() {
+    	return $this->_connection;
+    }
+
     private function connect() {
 		$this->_config = Registry::get('config');
 

@@ -16,9 +16,31 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use PDOException;
+
 class SelectQuery extends Query {
 
-    public function __construct() {
+    public function __construct($query) {
+    	parent::__construct($query);
+    	$this->setPrefix();
+    }
 
+    public function execute() {
+        try {
+            $pendingQuery = $this->connection->prepare($this->query);
+        }
+        catch (PDOException $e) {
+            die('Could not execute query: ' . $e->getMessage());
+        }
+        try {
+            foreach ($this->params as $paramKey => $paramValue) {
+                $pendingQuery->bindValue(':' . $paramKey, $paramValue);
+            }
+            $pendingQuery->execute();
+            return $pendingQuery->fetchAll();
+        }
+        catch (PDOException $e) {
+            die('Could not execute query: ' . $e->getMessage());
+        }
     }
 }
