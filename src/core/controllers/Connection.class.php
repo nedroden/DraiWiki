@@ -30,6 +30,10 @@ class Connection {
         $this->destroyLoginData();
     }
 
+    public function __destruct() {
+    	// !!
+    }
+
     public function getObject() {
     	return $this->_connection;
     }

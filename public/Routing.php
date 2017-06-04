@@ -67,7 +67,7 @@ function createRoutes() {
 	if (!empty($routeInfo[1])) {
 		return [
 			'app' => $routeInfo[1],
-			'params' => $routeInfo[2]
+			'params' => (!empty($routeInfo[2]) ? $routeInfo[2] : [])
 		];
 	}
 	else {

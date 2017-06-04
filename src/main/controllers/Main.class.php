@@ -21,6 +21,7 @@ use DraiWiki\src\core\controllers\Connection;
 use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\core\controllers\SelectQuery;
 use DraiWiki\src\core\models\RouteInfo;
+use DraiWiki\src\main\controllers\App;
 use DraiWiki\src\main\controllers\GUI;
 use DraiWiki\src\main\controllers\Locale;
 
@@ -64,7 +65,11 @@ class Main {
 			'locale_copyright' => $this->_locale->getCopyright()
 		]);
 
+		$app = new App();
+		$app->execute();
+
 		$gui->showHeader();
+		$app->display();
 		$gui->showFooter();
     }
 }

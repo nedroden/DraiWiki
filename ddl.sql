@@ -11,7 +11,7 @@
 CREATE DATABASE IF NOT EXISTS DraiWiki;
 USE DraiWiki;
 
-CREATE TABLE IF NOT EXISTS drai_settings (
+CREATE TABLE IF NOT EXISTS drai_setting (
     `key` VARCHAR(32) NOT NULL,
     `value` VARCHAR(255) NOT NULL
 );
@@ -31,4 +31,25 @@ CREATE TABLE IF NOT EXISTS drai_log_updates (
     dtime DATETIME NOT NULL,
     performed_by INT NOT NULL,
     status SMALLINT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS drai_locale (
+    id INT UNSIGNED PRIMARY KEY NOT NULL,
+    code CHAR(5) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS drai_article (
+    id INT UNSIGNED PRIMARY KEY NOT NULL,
+    title VARCHAR(60) NOT NULL,
+    locale_id INT UNSIGNED NOT NULL,
+    status INT NOT NULL DEFAULT 0,
+    FOREIGN KEY (locale_id) REFERENCES drai_locale(id)
+);
+
+CREATE TABLE IF NOT EXISTS drai_article_history (
+    id INT UNSIGNED PRIMARY KEY NOT NULL,
+    article_id INT UNSIGNED NOT NULL,
+    body LONGTEXT,
+    updated DATETIME NOT NULL DEFAULT NOW(),
+    FOREIGN KEY (article_id) REFERENCES drai_article(id)
 );

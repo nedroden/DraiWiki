@@ -20,21 +20,59 @@ use DraiWiki\src\core\controllers\Registry;
 
 class App {
 
-    private $_route;
+    private $_route, $_currentApp, $_appObject;
+
+    const DEFAULT_APP = 'article';
 
     public function __construct() {
         $this->_route = Registry::get('route');
+        $this->_currentApp = $this->_route->getApp();
+
+        $classPath = $this->detect();
+        $this->load($classPath);
     }
 
     private function detect() {
+        $apps = [
+            'article' => 'DraiWiki\src\main\controllers\Article'
+        ];
 
+        if (empty($apps[$this->_currentApp])) {
+            $this->_currentApp = self::DEFAULT_APP;
+        }
+
+        return $apps[$this->_currentApp];
     }
 
-    public function load() {
+    public function load($classPath) {
+        if (class_exists($classPath)) {
+            if ($this->_currentApp == 'article' && empty($this->_route->getParams()))
+                $this->_appObject = new $classPath(null, true);
+            else if ($this->_currentApp == 'article')
+                $this->_appObject = new $classPath($this->_route->getParams()['title']);
+            else
+                $this->_appObject = new $classPath();
+        }
+        else
+            die('App files not found.');
+    }
 
+    private function canAccess() {
+        // check for permissions here
+        return true;
+    }
+
+    public function execute() {
+        if ($this->canAccess())
+            $this->_appObject->execute();
     }
 
     public function display() {
+        if ($this->canAccess())
+            $this->_appObject->display();
 
+        // Display an error page
+        else
+            die('Yep, you really shouldn\'t be here');
     }
 }

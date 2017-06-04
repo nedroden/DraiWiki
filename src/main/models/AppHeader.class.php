@@ -20,7 +20,7 @@ use DraiWiki\src\core\controllers\Registry;
 
 abstract class AppHeader {
 
-    protected $config;
+    protected $config, $title;
 
 	/**
 	 * Wether or not main templates should be shown. There are four possible values:
@@ -44,5 +44,22 @@ abstract class AppHeader {
 	protected function redirectTo($url) {
 		header('Location: ' . $url);
 		die;
+	}
+
+	public function execute() {
+		return;
+	}
+
+	public function display() {
+		return;
+	}
+
+	public function getAppInfo() {
+		$context = [
+			'title' => $this->title,
+			'permissions' => []
+		];
+
+		return $context;
 	}
 }

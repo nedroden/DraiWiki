@@ -36,5 +36,5 @@ spl_autoload_register(function($className) {
     if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . $filename))
         require $filename;
     else
-        die('Could not load class: ' . $filename);
+        die('<strong>[DraiWiki autoload]</strong> Could not load class: ' . $filename);
 });

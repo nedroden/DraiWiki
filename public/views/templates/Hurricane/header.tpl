@@ -30,7 +30,7 @@
                     </div>
                     <div class="col40 align_right" id="header_search">
                         <form action="{ $search_url }" method="post">
-                            <input type="text" placeholder="Search for" />
+                            <input type="text" placeholder="{$locale->read('main', 'search_for')}" />
                             <input type="submit" value="{$locale->read('main', 'go')}" />
                         </form>
                     </div>

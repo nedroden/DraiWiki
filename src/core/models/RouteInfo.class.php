@@ -18,9 +18,20 @@ if (!defined('DraiWiki')) {
 
 class RouteInfo {
 
-    private $_route;
+    private $_route, $_app, $_params;
 
     public function __construct($route) {
         $this->_route = $route;
+
+        $this->_app = !empty($route[0]) ? $route[0] : 'article';
+        $this->_params = !empty($route[1]) ? $route[1] : [];
+    }
+
+    public function getApp() {
+    	return $this->_app;
+    }
+
+    public function getParams() {
+    	return $this->_params;
     }
 }
