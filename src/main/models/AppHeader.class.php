@@ -37,11 +37,11 @@ abstract class AppHeader {
         $this->config = Registry::get('config');
     }
 
-	public function getIgnoreTemplates() : array {
+	public function getIgnoreTemplates() : string {
 		return $this->ignoreTemplates;
 	}
 
-	protected function redirectTo($url) : void {
+	protected function redirectTo(string $url) : void {
 		header('Location: ' . $url);
 		die;
 	}

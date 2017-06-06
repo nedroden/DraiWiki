@@ -44,7 +44,7 @@ class App {
         return $apps[$this->_currentApp];
     }
 
-    public function load($classPath) : void {
+    public function load(string $classPath) : void {
         if (class_exists($classPath)) {
             if ($this->_currentApp == 'article' && empty($this->_route->getParams()))
                 $this->_appObject = new $classPath(null, true);

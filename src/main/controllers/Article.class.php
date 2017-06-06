@@ -23,7 +23,7 @@ class Article extends AppHeader {
 
 	private $_model;
 
-	public function __construct($title, $isHomepage = false) {
+	public function __construct(?string $title, bool $isHomepage = false) {
 		$this->_model = new Model($title, $isHomepage);
 	}
 }

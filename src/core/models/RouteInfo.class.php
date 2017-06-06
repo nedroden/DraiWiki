@@ -20,7 +20,7 @@ class RouteInfo {
 
     private $_route, $_app, $_params;
 
-    public function __construct($route) {
+    public function __construct(array $route) {
         $this->_route = $route;
 
         $this->_app = !empty($route[0]) ? $route[0] : 'article';

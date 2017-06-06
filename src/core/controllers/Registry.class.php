@@ -34,7 +34,7 @@ class Registry {
      * @param <object> $object The object that should be added to the array
      * @return object The object you've just created
      */
-    public static function set($identifier, $object) {
+    public static function set(string $identifier, $object) {
         self::$_objects[$identifier] = $object;
         return $object;
     }
@@ -45,7 +45,7 @@ class Registry {
 	 * @todo If an object is not found, an error page should be displayed
      * @return object The object the identifier belongs to
      */
-    public static function get($identifier) {
+    public static function get(string $identifier) {
         return isset(self::$_objects[$identifier]) ? self::$_objects[$identifier] : null;
     }
 }

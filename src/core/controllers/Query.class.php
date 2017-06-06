@@ -24,7 +24,7 @@ abstract class Query {
 
     protected $query, $params;
 
-    public function __construct($query) {
+    public function __construct(string $query) {
         $this->_connection = Registry::get('connection');
         $this->_config = Registry::get('config');
 
@@ -35,7 +35,7 @@ abstract class Query {
         $this->connection = $this->_connection->getObject();
     }
 
-    public function setParams($params) : void {
+    public function setParams(array $params) : void {
         $this->_params = empty($this->_params) ? $params : array_merge($this->_params, $params);
     }
 

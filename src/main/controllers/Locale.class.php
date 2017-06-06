@@ -45,7 +45,7 @@ class Locale {
 		$this->loadFile('main');
 	}
 
-	public function loadFile($filename) : void {
+	public function loadFile(string $filename) : void {
 		if (file_exists($file = $this->_config->read('path') . '/locales/' . $this->_code . '/' . $filename . '.locale.php'))
 			$result = require_once $file;
 		else if ($this->_code != self::DEFAULT_LOCALE && file_exists($file = $this->_config->read('path') . '/locales/' . self::DEFAULT_LOCALE . '/' . $filename . '.locale.php'))
@@ -56,7 +56,7 @@ class Locale {
 		$this->_strings[$filename] = $result;
 	}
 
-	public function read($section, $key, $return = true) : ?string {
+	public function read(string $section, string $key, bool $return = true) : ?string {
 		if ($return && !empty($this->_strings[$section][$key]))
 			return $this->_strings[$section][$key];
 		else if (!$return && !empty($this->_strings[$section][$key]))
@@ -69,7 +69,7 @@ class Locale {
 		return null;
 	}
 
-	public function replace($section, $key, $value) : void {
+	public function replace(string $section, string $key, string $value) : void {
 		$this->_strings[$section][$key] = sprintf($this->_strings[$section][$key], $value);
 	}
 
@@ -84,7 +84,7 @@ class Locale {
 		return $infofile;
 	}
 
-	private function parseInfoFile($locale) : void {
+	private function parseInfoFile(string $locale) : void {
 		if (!function_exists('simplexml_load_file'))
 			die('SimpleXML extension not found.');
 

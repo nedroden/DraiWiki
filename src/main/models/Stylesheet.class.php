@@ -22,14 +22,14 @@ class Stylesheet {
 
 	private $_config, $_filename;
 
-    public function __construct($filename) {
+    public function __construct(string $filename) {
         $this->_config = new Config();
         $this->_filename = $filename;
     }
 
 	public function parse() : string {
 		if (!$this->doesExist())
-			return '-1';
+			return 'Not found.';
 
 		header('Content-type: text/css');
 		
@@ -39,10 +39,10 @@ class Stylesheet {
 		}
 
 		else
-			return '-1';
+			return 'Not found.';
 	}
 
-	private function applyImageUrl(&$stylesheet) : void {
+	private function applyImageUrl(string &$stylesheet) : void {
 		$stylesheet = str_replace('{IMAGE_URL}', $this->generateImageUrl(), $stylesheet);
 	}
 

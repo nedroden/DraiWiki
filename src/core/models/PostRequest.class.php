@@ -22,7 +22,7 @@ class PostRequest {
 
     private $_value, $_isEmpty;
 
-    public function __construct($key) {
+    public function __construct(string $key) {
         $this->_key = $key;
         $this->setValue();
     }

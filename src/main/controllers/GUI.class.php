@@ -61,12 +61,12 @@ class GUI {
         echo $this->_engine->get('footer.tpl', $this->_data);
     }
 
-    public function setData($data) : void {
+    public function setData(array $data) : void {
         foreach ($data as $key => $value)
             $this->_data->assign($key, $value);
     }
 
-    public function parseAndGet($tplName, $variables) : string {
+    public function parseAndGet(string $tplName, array $variables) : string {
         $data = new Data();
         foreach ($variables as $key => $value)
             $data->assign($key, $value);

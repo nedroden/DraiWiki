@@ -23,7 +23,7 @@ class QueryFactory {
      * @param string $type The type of query
      * @return Object
      */
-    public static function produce($type) : Query {
+    public static function produce(string $type) : Query {
         if ($type == 'select')
             return new SelectQuery();
         else if ($type == 'modify')

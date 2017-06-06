@@ -22,7 +22,7 @@ class Article extends ModelHeader {
 
 	private $_requestedArticle, $_isHomepage;
 
-	public function __construct($requestedArticle, $isHomepage) {
+	public function __construct(?string $requestedArticle, bool $isHomepage) {
 		$this->_requestedArticle = $requestedArticle;
 		$this->_isHomepage = $isHomepage;
 	}

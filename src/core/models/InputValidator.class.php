@@ -20,7 +20,7 @@ class InputValidator {
 
     private $_value;
 
-    public function __construct($value) {
+    public function __construct(string $value) {
         $this->_value = $value;
     }
 
@@ -28,11 +28,11 @@ class InputValidator {
         return empty($this->_value);
     }
 
-    public function isTooShort($min) {
+    public function isTooShort(int $min) {
         return strlen($this->_value) < $min;
     }
 
-    public function isTooLong($max) {
+    public function isTooLong(int $max) {
         return strlen($this->_value) > $max;
     }
 }

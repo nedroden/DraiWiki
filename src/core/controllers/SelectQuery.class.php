@@ -20,7 +20,7 @@ use PDOException;
 
 class SelectQuery extends Query {
 
-    public function __construct($query) {
+    public function __construct(string $query) {
     	parent::__construct($query);
     	$this->setPrefix();
     }
