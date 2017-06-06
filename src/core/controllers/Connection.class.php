@@ -22,7 +22,7 @@ use PDOException;
 
 class Connection {
 
-    private $_config;
+    private $_config, $_connection;
 
     public function __construct() {
         $this->_config = Registry::get('config');
@@ -34,11 +34,11 @@ class Connection {
     	// !!
     }
 
-    public function getObject() {
+    public function getObject() : PDO {
     	return $this->_connection;
     }
 
-    private function connect() {
+    private function connect() : void {
 		$this->_config = Registry::get('config');
 
 		try {
@@ -61,7 +61,7 @@ class Connection {
 		}
     }
 
-    private function destroyLoginData() {
+    private function destroyLoginData() : void {
         $this->_config->deleteDatabaseInfo();
     }
 }

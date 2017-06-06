@@ -27,9 +27,9 @@ class Stylesheet {
         $this->_filename = $filename;
     }
 
-	public function parse() {
+	public function parse() : string {
 		if (!$this->doesExist())
-			return -1;
+			return '-1';
 
 		header('Content-type: text/css');
 		
@@ -39,22 +39,22 @@ class Stylesheet {
 		}
 
 		else
-			return -1;
+			return '-1';
 	}
 
-	private function applyImageUrl(&$stylesheet) {
+	private function applyImageUrl(&$stylesheet) : void {
 		$stylesheet = str_replace('{IMAGE_URL}', $this->generateImageUrl(), $stylesheet);
 	}
 
-	private function generateImageUrl() {
+	private function generateImageUrl() : string {
 		return $this->_config->read('url') . '/public/views/images/' . $this->_config->read('images') . '/';
 	}
 
-	private function generatePath() {
+	private function generatePath() : string {
 		return $this->_config->read('path') . '/public/views/skins/' . $this->_config->read('skins') . '/' . $this->_filename . '.css';
 	}
 
-	private function doesExist() {
+	private function doesExist() : bool {
 		return file_exists($this->generatePath());
 	}
 }

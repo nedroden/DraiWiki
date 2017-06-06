@@ -35,20 +35,20 @@ abstract class Query {
         $this->connection = $this->_connection->getObject();
     }
 
-    public function setParams($params) {
+    public function setParams($params) : void {
         $this->_params = empty($this->_params) ? $params : array_merge($this->_params, $params);
     }
 
-    protected function setPrefix() {
+    protected function setPrefix() : void {
         if (!empty($this->_prefix))
             $this->query = str_replace('{db_prefix}', $this->_prefix, $this->query);
     }
 
-    public function insertLastId() {
+    public function insertLastId() : void {
         $this->_params['last_id'] = self::$_connection->getLastId();
     }
 
-    public function toString() {
+    public function toString() : string {
         return $this->_query;
     }
 }

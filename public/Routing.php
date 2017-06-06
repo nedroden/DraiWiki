@@ -25,7 +25,7 @@ use FastRoute;
  * Parse the current url and determine whether or not we should load a certain app.
  * @return string The app that should be loaded
  */
-function createRoutes() {
+function createRoutes() : array {
 
 	$router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $routeCollector) {
 	    $routeCollector->get('/article/{title}', 'article');

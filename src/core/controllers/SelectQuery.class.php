@@ -25,7 +25,7 @@ class SelectQuery extends Query {
     	$this->setPrefix();
     }
 
-    public function execute() {
+    public function execute() : ?array {
         try {
             $pendingQuery = $this->connection->prepare($this->query);
         }
@@ -42,5 +42,7 @@ class SelectQuery extends Query {
         catch (PDOException $e) {
             die('Could not execute query: ' . $e->getMessage());
         }
+
+        return null;
     }
 }

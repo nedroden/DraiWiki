@@ -23,12 +23,14 @@ class QueryFactory {
      * @param string $type The type of query
      * @return Object
      */
-    public static function produce($type) {
+    public static function produce($type) : Query {
         if ($type == 'select')
             return new SelectQuery();
         else if ($type == 'modify')
             return new ModificationQuery();
         else
             die('Unsupported query type.');
+
+        return null;
     }
 }
