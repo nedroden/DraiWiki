@@ -52,7 +52,7 @@ class Main {
 		$this->_route = Registry::set('route', new RouteInfo(createRoutes()));
     }
 
-    public function load() {
+    public function load() : void {
 		Registry::set('connection', new Connection());
 
 		$this->_locale = Registry::set('locale', new Locale());

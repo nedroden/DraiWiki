@@ -33,28 +33,28 @@ abstract class AppHeader {
 	 */
 	protected $ignoreTemplates = 'neither';
 
-    protected function loadConfig() {
+    protected function loadConfig() : void {
         $this->config = Registry::get('config');
     }
 
-	public function getIgnoreTemplates() {
+	public function getIgnoreTemplates() : array {
 		return $this->ignoreTemplates;
 	}
 
-	protected function redirectTo($url) {
+	protected function redirectTo($url) : void {
 		header('Location: ' . $url);
 		die;
 	}
 
-	public function execute() {
+	public function execute() : void {
 		return;
 	}
 
-	public function display() {
+	public function display() : void {
 		return;
 	}
 
-	public function getAppInfo() {
+	public function getAppInfo() : array {
 		$context = [
 			'title' => $this->title,
 			'permissions' => []

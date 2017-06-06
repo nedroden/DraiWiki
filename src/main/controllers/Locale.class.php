@@ -45,7 +45,7 @@ class Locale {
 		$this->loadFile('main');
 	}
 
-	public function loadFile($filename) {
+	public function loadFile($filename) : void {
 		if (file_exists($file = $this->_config->read('path') . '/locales/' . $this->_code . '/' . $filename . '.locale.php'))
 			$result = require_once $file;
 		else if ($this->_code != self::DEFAULT_LOCALE && file_exists($file = $this->_config->read('path') . '/locales/' . self::DEFAULT_LOCALE . '/' . $filename . '.locale.php'))
@@ -56,7 +56,7 @@ class Locale {
 		$this->_strings[$filename] = $result;
 	}
 
-	public function read($section, $key, $return = true) {
+	public function read($section, $key, $return = true) : ?string {
 		if ($return && !empty($this->_strings[$section][$key]))
 			return $this->_strings[$section][$key];
 		else if (!$return && !empty($this->_strings[$section][$key]))
@@ -69,11 +69,11 @@ class Locale {
 		return null;
 	}
 
-	public function replace($section, $key, $value) {
+	public function replace($section, $key, $value) : void {
 		$this->_strings[$section][$key] = sprintf($this->_strings[$section][$key], $value);
 	}
 
-	private function loadLocaleInfo() {
+	private function loadLocaleInfo() : string {
 		if (file_exists($this->_config->read('path') . '/locales/' . $this->_config->read('locale') . '/langinfo.xml'))
 			$infofile = $this->_config->read('locale');
 		else if ($this->_config->read('locale') != self::DEFAULT_LOCALE && file_exists($this->_config->read('path') . '/locales/' . self::DEFAULT_LOCALE) . '/langinfo.xml')
@@ -84,7 +84,7 @@ class Locale {
 		return $infofile;
 	}
 
-	private function parseInfoFile($locale) {
+	private function parseInfoFile($locale) : void {
 		if (!function_exists('simplexml_load_file'))
 			die('SimpleXML extension not found.');
 
@@ -96,7 +96,7 @@ class Locale {
 		$this->setLanguageInfo($parsedFile);
 	}
 
-	private function setLanguageInfo(SimpleXMLElement $info) {
+	private function setLanguageInfo(SimpleXMLElement $info) : void {
 		$this->_code = $info->code;
 		$this->_name = $info->name;
 		$this->_native = $info->native;
@@ -107,35 +107,35 @@ class Locale {
 		$this->_copyright = $info->copyright;
 	}
 
-	public function getCode() {
+	public function getCode() : string {
 		return $this->_code;
 	}
 
-	public function getName() {
+	public function getName() : string {
 		return $this->_name;
 	}
 
-	public function getNative() {
+	public function getNative() : string {
 		return $this->_native;
 	}
 
-	public function getDialect() {
+	public function getDialect() : string {
 		return $this->_dialect;
 	}
 
-	public function getAuthor() {
+	public function getAuthor() : string {
 		return $this->_author;
 	}
 
-	public function getSoftwareVersion() {
+	public function getSoftwareVersion() : string {
 		return $this->_softwareVersion;
 	}
 
-	public function getLocaleVersion() {
+	public function getLocaleVersion() : string {
 		return $this->_localeVersion;
 	}
 
-	public function getCopyright() {
+	public function getCopyright() : string {
 		return $this->_copyright;
 	}
 }

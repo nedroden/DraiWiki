@@ -29,7 +29,7 @@ class GUI {
     private $_data;
     private $_menu;
 
-    const DEFAULT_THEME = 'Hurricane';
+    private const DEFAULT_THEME = 'Hurricane';
 
     public function __construct() {
         $this->_config = Registry::get('config');
@@ -53,20 +53,20 @@ class GUI {
         ]);
     }
 
-    public function showHeader() {
+    public function showHeader() : void {
         echo $this->_engine->get('header.tpl', $this->_data);
     }
 
-    public function showFooter() {
+    public function showFooter() : void {
         echo $this->_engine->get('footer.tpl', $this->_data);
     }
 
-    public function setData($data) {
+    public function setData($data) : void {
         foreach ($data as $key => $value)
             $this->_data->assign($key, $value);
     }
 
-    public function parseAndGet($tplName, $variables) {
+    public function parseAndGet($tplName, $variables) : string {
         $data = new Data();
         foreach ($variables as $key => $value)
             $data->assign($key, $value);
@@ -74,7 +74,7 @@ class GUI {
         return $this->_engine->get($tplName . '.tpl', $data);
     }
 
-    private function setThemeInfo() {
+    private function setThemeInfo() : void {
         if (file_exists($this->_config->read('path') . '/public/views/templates/' . $this->_config->read('templates') . '/header.tpl'))
             $this->_templatePath = $this->_config->read('path') . '/public/views/templates/' . $this->_config->read('templates');
         else if ($this->_config->read('templates') != self::DEFAULT_THEME)
@@ -92,12 +92,12 @@ class GUI {
             die('Skins not found.');
     }
 
-    private function setCopyright() {
+    private function setCopyright() : void {
         $this->_data->assign('copyright', 'Powered by <a href="http://draiwiki.robertmonden.com" target="_blank">DraiWiki</a> ' . Main::WIKI_VERSION . ' |
             &copy; ' . date("Y") . ' <a href="http://robertmonden.com" target="_blank">Robert Monden</a>');
     }
 
-    private function generateMenu() {
+    private function generateMenu() : void {
         $menu = [
             'home' => [
                 'label' => 'home',
@@ -129,11 +129,11 @@ class GUI {
         $this->setData(['menu' => $visible_tabs]);
     }
 
-    public function getSkinUrl() {
+    public function getSkinUrl() : string {
         return $this->_skinUrl;
     }
 
-    public function getImageUrl() {
+    public function getImageUrl() : string {
         return $this->_imageUrl;
     }
 }

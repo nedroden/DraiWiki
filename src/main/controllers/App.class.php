@@ -32,7 +32,7 @@ class App {
         $this->load($classPath);
     }
 
-    private function detect() {
+    private function detect() : string {
         $apps = [
             'article' => 'DraiWiki\src\main\controllers\Article'
         ];
@@ -44,7 +44,7 @@ class App {
         return $apps[$this->_currentApp];
     }
 
-    public function load($classPath) {
+    public function load($classPath) : void {
         if (class_exists($classPath)) {
             if ($this->_currentApp == 'article' && empty($this->_route->getParams()))
                 $this->_appObject = new $classPath(null, true);
@@ -57,17 +57,17 @@ class App {
             die('App files not found.');
     }
 
-    private function canAccess() {
+    private function canAccess() : bool {
         // check for permissions here
         return true;
     }
 
-    public function execute() {
+    public function execute() : void {
         if ($this->canAccess())
             $this->_appObject->execute();
     }
 
-    public function display() {
+    public function display() : void {
         if ($this->canAccess())
             $this->_appObject->display();
 

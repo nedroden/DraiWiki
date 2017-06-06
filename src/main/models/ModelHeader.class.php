@@ -22,11 +22,11 @@ abstract class ModelHeader {
 
     protected $locale, $config;
 
-    protected function loadLocale() {
+    protected function loadLocale() : void {
         $this->locale = Registry::get('locale');
     }
 
-    protected function loadConfig() {
+    protected function loadConfig() : void {
         $this->config = Registry::get('config');
     }
 }
