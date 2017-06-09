@@ -42,10 +42,11 @@ class Registry {
     /**
      * Retrieve an object from the registry based on the identifier.
      * @param string $identfier The identifier of the object
+     * @param bool $ignoreErrors Throw can exception if object is not found? Set to false to throw exceptions
 	 * @todo If an object is not found, an error page should be displayed
      * @return object The object the identifier belongs to
      */
-    public static function get(string $identifier) {
+    public static function get(string $identifier, $ignoreErrors = false) {
         return isset(self::$_objects[$identifier]) ? self::$_objects[$identifier] : null;
     }
 }

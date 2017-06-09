@@ -17,17 +17,15 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\core\controllers\Registry;
-use DraiWiki\src\main\controllers\Main;
-use Dwoo\Core;
-use Dwoo\Data;
+use Dwoo\{Core, Data};
 
 class GUI {
 
-    private $_config, $_mainTemplate;
+    private $_config;
     private $_engine;
     private $_templatePath, $_skinUrl, $_imageUrl;
     private $_data;
-    private $_menu;
+    private $_copyright;
 
     private const DEFAULT_THEME = 'Hurricane';
 
@@ -49,7 +47,8 @@ class GUI {
         $this->setData([
             'skin_url' => $this->_skinUrl,
             'image_url' => $this->_imageUrl,
-            'locale' => $this->_locale
+            'locale' => $this->_locale,
+            'copyright' => $this->_copyright
         ]);
     }
 
@@ -66,12 +65,29 @@ class GUI {
             $this->_data->assign($key, $value);
     }
 
-    public function parseAndGet(string $tplName, array $variables) : string {
-        $data = new Data();
-        foreach ($variables as $key => $value)
-            $data->assign($key, $value);
+    public function parseAndGet(string $tplName, array $data, bool $canThrowException = true) : string {
+        if (file_exists($filename = $this->_templatePath . '/' . $tplName . '.tpl'))
+            $template = $filename;
+        else {
+            if ($canThrowException)
+                // Replace with exception
+                die('Template not found.');
+            else
+                die('Template not found.');
+        }
 
-        return $this->_engine->get($tplName . '.tpl', $data);
+        $data = array_merge([
+            'skin_url' => $this->_skinUrl,
+            'image_url' => $this->_imageUrl,
+            'locale' => $this->_locale,
+            'copyright' => $this->_copyright
+        ], $data);
+
+        $dataObject = new Data();
+        foreach ($data as $key => $value)
+            $dataObject->assign($key, $value);
+
+        return $this->_engine->get($tplName . '.tpl', $dataObject);
     }
 
     private function setThemeInfo() : void {
@@ -93,8 +109,8 @@ class GUI {
     }
 
     private function setCopyright() : void {
-        $this->_data->assign('copyright', 'Powered by <a href="http://draiwiki.robertmonden.com" target="_blank">DraiWiki</a> ' . Main::WIKI_VERSION . ' |
-            &copy; ' . date("Y") . ' <a href="http://robertmonden.com" target="_blank">Robert Monden</a>');
+        $this->_copyright = 'Powered by <a href="http://draiwiki.robertmonden.com" target="_blank">DraiWiki</a> ' . Main::WIKI_VERSION . ' |
+            &copy; ' . date("Y") . ' <a href="http://robertmonden.com" target="_blank">Robert Monden</a>';
     }
 
     private function generateMenu() : void {

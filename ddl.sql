@@ -83,3 +83,11 @@ CREATE TABLE IF NOT EXISTS drai_article_history (
     FOREIGN KEY (article_id) REFERENCES drai_article(id),
     FOREIGN KEY (user_id) REFERENCES drai_user(id)
 );
+
+CREATE TABLE IF NOT EXISTS drai_homepage (
+    article_id INT UNSINGED NOT NULL,
+    locale_id INT UNSIGNED NOT NULL,
+    PRIMARY KEY (article_id, locale_id),
+    FOREIGN KEY (article_id) REFERENCES drai_article(id),
+    FOREIGN KEY (locale_id) REFERENCES drai_locale(id)
+);

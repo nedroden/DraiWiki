@@ -27,7 +27,7 @@ class PostRequest {
         $this->setValue();
     }
 
-    private function setValue() {
+    private function setValue() : void {
         if (!empty($_POST[$this->_key])) {
             $this->_value = $_POST[$this->_key];
             $this->_isEmpty = false;
@@ -38,11 +38,11 @@ class PostRequest {
         }
     }
 
-    public function getIsEmpty() {
+    public function getIsEmpty() : bool {
         return $this->_isEmpty;
     }
 
-    public function getValue() {
+    public function getValue() : string {
         return $this->_value;
     }
 }

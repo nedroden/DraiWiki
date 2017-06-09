@@ -36,7 +36,7 @@ abstract class Query {
     }
 
     public function setParams(array $params) : void {
-        $this->_params = empty($this->_params) ? $params : array_merge($this->_params, $params);
+        $this->params = empty($this->_params) ? $params : array_merge($this->_params, $params);
     }
 
     protected function setPrefix() : void {
@@ -45,10 +45,10 @@ abstract class Query {
     }
 
     public function insertLastId() : void {
-        $this->_params['last_id'] = self::$_connection->getLastId();
+        $this->params['last_id'] = $this->_connection->getLastId();
     }
 
     public function toString() : string {
-        return $this->_query;
+        return $this->query;
     }
 }

@@ -16,7 +16,6 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
-use DraiWiki\src\core\controllers\Registry;
 use PDO;
 use PDOException;
 

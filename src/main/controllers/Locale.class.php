@@ -22,7 +22,6 @@ use SimpleXMLElement;
 class Locale {
 
 	private $_config;
-
 	private $_code;
 	private $_name;
 	private $_native;

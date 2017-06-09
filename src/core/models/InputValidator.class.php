@@ -24,7 +24,7 @@ class InputValidator {
         $this->_value = $value;
     }
 
-    public function isEmpty() {
+    public function isEmpty() : bool {
         return empty($this->_value);
     }
 

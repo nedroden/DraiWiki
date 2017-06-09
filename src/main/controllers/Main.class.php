@@ -17,18 +17,13 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\Config;
-use DraiWiki\src\core\controllers\Connection;
-use DraiWiki\src\core\controllers\Registry;
-use DraiWiki\src\core\controllers\SelectQuery;
-use DraiWiki\src\core\models\RouteInfo;
-use DraiWiki\src\main\controllers\App;
-use DraiWiki\src\main\controllers\GUI;
-use DraiWiki\src\main\controllers\Locale;
+use DraiWiki\src\core\controllers\{Connection, Registry};
+use DraiWiki\src\core\models\{RouteInfo, SettingsImporter};
 
 use function DraiWiki\createRoutes;
 
-require_once 'public/Config.php';
-require_once 'public/Routing.php';
+require_once __DIR__ . '/../../../public/Config.php';
+require_once __DIR__ . '/../../../public/Routing.php';
 
 class Main {
 
@@ -44,7 +39,7 @@ class Main {
 
 	private $_locale;
 
-	const WIKI_VERSION = '1.0 Alpha 1';
+	public const WIKI_VERSION = '1.0 Alpha 1';
 
     public function __construct() {
         $this->_config = Registry::set('config', new Config());
@@ -55,9 +50,11 @@ class Main {
     public function load() : void {
 		Registry::set('connection', new Connection());
 
+		SettingsImporter::execute();
+
 		$this->_locale = Registry::set('locale', new Locale());
 
-		$gui = new GUI();
+		$gui = Registry::set('gui', new GUI());
 		$gui->setData([
 			'url' => $this->_config->read('url'),
 			'wiki_name' => $this->_config->read('wiki_name'),
