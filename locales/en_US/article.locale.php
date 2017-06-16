@@ -17,18 +17,6 @@
  */
 
 return [
-	'home' => 'Home',
-	'login' => 'Login',
-	'register' => 'Register',
-
-	'search_for' => 'Search for',
-	'go' => 'Go',
-	'locale' => 'Locale',
-	'to_top' => 'To top',
-
-	'hello' => 'Hello, <strong>%s</strong>!',
-    'panel' => 'Panel',
-
-    'side_main' => 'Main',
-    'random' => 'Random article'
+    'editing' => 'Editing article: ',
+    'new_article' => 'New article'
 ];

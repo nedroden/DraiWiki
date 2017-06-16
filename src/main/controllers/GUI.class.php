@@ -29,6 +29,8 @@ class GUI {
 
     private const DEFAULT_THEME = 'Hurricane';
 
+    public static $gui_loaded = false;
+
     public function __construct() {
         $this->_config = Registry::get('config');
         $this->_locale = Registry::get('locale');
@@ -66,12 +68,9 @@ class GUI {
     }
 
     public function parseAndGet(string $tplName, array $data, bool $canThrowException = true) : string {
-        if (file_exists($filename = $this->_templatePath . '/' . $tplName . '.tpl'))
-            $template = $filename;
-        else {
+        if (!file_exists($this->_templatePath . '/' . $tplName . '.tpl')) {
             if ($canThrowException)
-                // Replace with exception
-                die('Template not found.');
+                die('Exception thrown.');
             else
                 die('Template not found.');
         }
@@ -106,6 +105,8 @@ class GUI {
             $this->_imageUrl = $this->_config->read('url') . '/public/views/images/' . self::DEFAULT_THEME;
         else
             die('Skins not found.');
+
+        self::$gui_loaded = true;
     }
 
     private function setCopyright() : void {
@@ -143,6 +144,60 @@ class GUI {
         }
 
         $this->setData(['menu' => $visible_tabs]);
+    }
+
+    public function displaySidebar(array $additionalItems) : void {
+        $items = [
+            'main' => [
+                'label' => 'side_main',
+                'visible' => true,
+                'items' => [
+                    'home' => [
+                        'label' => 'home',
+                        'href' => $this->_config->read('url') . '/index.php',
+                        'visible' => true
+                    ],
+                    'random' => [
+                        'label' => 'random',
+                        'href' => $this->_config->read('url') . '/index.php/random',
+                        'visible' => true
+                    ],
+                    'login' => [
+                        'label' => 'login',
+                        'href' => $this->_config->read('url') . '/index.php/login',
+                        'visible' => true
+                    ],
+                    'register' => [
+                        'label' => 'register',
+                        'href' => $this->_config->read('url') . '/index.php/register',
+                        'visible' => true
+                    ]
+                ]
+            ]
+        ];
+
+        $visibleTabs = [];
+
+        foreach ($items as $item) {
+            if ($item['visible']) {
+                // Replace the label placeholders with localized labels
+                $item['label'] = $this->_locale->read('main', $item['label']);
+
+                $visibleSubItems = [];
+                foreach ($item['items'] as $subItem) {
+                    $subItem['label'] = $this->_locale->read('main', $subItem['label']);
+
+                    if ($subItem['visible'])
+                        $visibleSubItems[] = $subItem;
+                }
+
+                // Only display items we can see
+                $item['items'] = $visibleSubItems;
+                $visibleTabs[] = $item;
+            }
+        }
+
+        echo $this->parseAndGet('sidebar', array_merge(['items' => $visibleTabs], $additionalItems));
     }
 
     public function getSkinUrl() : string {

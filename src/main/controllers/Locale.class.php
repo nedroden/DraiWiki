@@ -42,6 +42,7 @@ class Locale {
 		$this->parseInfoFile($infofile);
 
 		$this->loadFile('main');
+		$this->loadFile('error');
 	}
 
 	public function loadFile(string $filename) : void {

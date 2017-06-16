@@ -23,7 +23,7 @@ use FastRoute;
 
 /**
  * Parse the current url and determine whether or not we should load a certain app.
- * @return string The app that should be loaded
+ * @return array The app name + its parameters
  */
 function createRoutes() : array {
 
@@ -67,7 +67,7 @@ function createRoutes() : array {
 	if (!empty($routeInfo[1])) {
 		return [
 			'app' => $routeInfo[1],
-			'params' => (!empty($routeInfo[2]) ? $routeInfo[2] : [])
+			'params' => $routeInfo[2] ?? []
 		];
 	}
 	else {

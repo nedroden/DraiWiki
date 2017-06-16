@@ -18,11 +18,18 @@ if (!defined('DraiWiki')) {
 
 use DraiWiki\src\core\controllers\Registry;
 
-class CoreException extends Error {
+class DatabaseException extends Error {
+
+    private $_query;
+
+    public function __construct(string $detailedInfo, ?string $query) {
+        parent::__construct($detailedInfo);
+        $this->_query = $query;
+    }
 
     public function trigger() : void {
         $message = $this->generateMessage();
-        echo Registry::get('gui')->parseAndGet('core_exception', $message, false);
+        echo Registry::get('gui')->parseAndGet('database_exception', $message, false);
         die;
     }
 
@@ -33,9 +40,10 @@ class CoreException extends Error {
      */
     protected function generateMessage() : array {
         return [
-            'title' => $this->hasLocale ? $this->locale->read('error', 'fatal_core_exception') : 'Fatal core exception',
-            'body' => $this->hasLocale ? $this->locale->read('error', 'what_is_a_fatal_core_exception') : 'A fatal error occurred that prevented DraiWiki from running.',
+            'title' => $this->hasLocale ? $this->locale->read('error', 'database_exception') : 'Database exception',
+            'body' => $this->hasLocale ? $this->locale->read('error', 'what_is_a_database_exception') : 'Could not successfully execute database request.',
             'detailed' => $this->canViewDetailedInfo() && $this->hasLocale ? $this->locale->read('error', 'yes_you_can') .  '<em>' . $this->detailedInfo . '</em>' : NULL,
+            'query' => $this->_query,
             'backtrace' => $this->canViewDetailedInfo() ? $this->getBacktrace() : []
         ];
     }

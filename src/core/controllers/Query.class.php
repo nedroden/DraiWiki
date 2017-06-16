@@ -17,12 +17,13 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\core\Connection;
+use DraiWiki\src\main\controllers\GUI;
 
 abstract class Query {
 
     private $_connection, $_config, $_prefix;
 
-    protected $query, $params;
+    protected $query, $params, $hasTemplate;
 
     public function __construct(string $query) {
         $this->_connection = Registry::get('connection');
@@ -33,6 +34,13 @@ abstract class Query {
 
         $this->_prefix = $this->_config->read('db_prefix');
         $this->connection = $this->_connection->getObject();
+        $this->setPrefix();
+
+        $this->canUseTemplate();
+    }
+
+    private function canUseTemplate() : void {
+        $this->hasTemplate = GUI::$gui_loaded;
     }
 
     public function setParams(array $params) : void {

@@ -22,13 +22,17 @@ use DraiWiki\src\main\models\Article as Model;
 
 class Article extends AppHeader {
 
-	private $_model, $_route;
+	private $_model, $_route, $_view;
 
 	public function __construct(?string $title, bool $isHomepage = false) {
 		$this->_model = new Model($title, $isHomepage);
 		$this->_route = Registry::get('route');
 
 		$this->_model->setIsEditing($this->areWeEditing());
+		$this->setTitle($this->_model->getTitle());
+
+		$data = $this->_model->prepareData();
+		$this->_view = Registry::get('gui')->parseAndGet('article', $data, false);
 	}
 
     /**
@@ -37,6 +41,10 @@ class Article extends AppHeader {
      * @return bool This tells us if we're editing. Yep, really!
      */
 	private function areWeEditing() : bool {
-	    return !empty($this->_route->getParams()) && $this->_route->getParams()['action'] == 'edit';
+	    return !empty($this->_route->getParams()['action']) && $this->_route->getParams()['action'] == 'edit';
+    }
+
+    public function display() : void {
+        echo $this->_view;
     }
 }

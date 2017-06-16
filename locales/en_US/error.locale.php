@@ -21,5 +21,11 @@ return [
     'generic_error_message' => 'An error occurred. It is possible the error will go away after refreshing the page. If refreshing the page doesn\'t help, please try again later or contact the administrator',
     'fatal_core_exception' => 'Fatal core exception',
     'what_is_a_fatal_core_exception' => 'A fatal core exception has just occurred. A core exception is an error in one of the core classes of DraiWiki. These exceptions usually indicate missing files, but they can also be caused by other problems. Try refreshing the page to see if that helps or contact an administrator if you keep seeing this page.<br /><br />We sincerely apologize for any inconvenience this has caused you.',
-    'yes_you_can' => 'Since you are the administrator, we\'re allowed to tell you stuff. This error message might help you out:<br />'
+    'yes_you_can' => 'Since you are the administrator, we\'re allowed to tell you stuff. This error message might help you out:<br />',
+    'database_exception' => 'A database exception occurred',
+    'what_is_a_database_exception' => 'Unfortunately the serve has been unable to successfully handle your database request. Please try again in a few minutes.',
+
+    'query' => 'The exception was caused by the following query: ',
+    'no_homepage_found' => 'No homepage found. Did you run the installer?',
+    'homepage_id_not_a_number' => 'Homepage ID not a number. Not sure what happened here...'
 ];

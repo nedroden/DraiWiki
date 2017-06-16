@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>{$wiki_name}</title>
+		<title>{$title} | {$wiki_name}</title>
 		<link rel="stylesheet" type="text/css" href="{$skin_url}main" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="{$url}/favicon.png" sizes="16x16" type="image/png" />
@@ -26,10 +26,10 @@
 
 				<div id="content_header">
                     <div class="col60">
-                        Title placeholder
+                        {$title}
                     </div>
                     <div class="col40 align_right" id="header_search">
-                        <form action="{ $search_url }" method="post">
+                        <form action="index.php" method="post">
                             <input type="text" placeholder="{$locale->read('main', 'search_for')}" />
                             <input type="submit" value="{$locale->read('main', 'go')}" />
                         </form>
@@ -38,4 +38,3 @@
 				</div>
 			</div>
 			<div id="content">
-				<div class="col80">

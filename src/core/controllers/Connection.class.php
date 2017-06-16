@@ -29,10 +29,6 @@ class Connection {
         $this->destroyLoginData();
     }
 
-    public function __destruct() {
-    	// !!
-    }
-
     public function getObject() : PDO {
     	return $this->_connection;
     }
@@ -49,7 +45,7 @@ class Connection {
 			);
 		}
 		catch (PDOException $e) {
-			die('Could not establish a database connection.');
+            die('Could not establish a database connection.');
 		}
 
 		try {

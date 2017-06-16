@@ -1,6 +1,4 @@
 # DraiWiki
-https://draiwiki.robertmonden.com/
-
 ## 1. Introduction to DraiWiki
 ### 1.1. What is DraiWiki?
 DraiWiki is an upcoming open source wiki software that is designed to be customizable, neat-looking, secure and easy to use.
@@ -34,3 +32,10 @@ It also has built-in multi-language support, meaning you won't need an extension
 ### 2.3. Troubleshooting
 #### 2.3.1. Help! I don't have access to a terminal!
 If you're on a shared hosting that doesn't allow you to install Composer/NPM, don't worry. There's another solution. Just download the files to your computer and install the Composer and NPM packages from your computer's terminal. Then re-upload the files to your hosting. Happy writing!
+
+## 3. Open positions
+We're always looking to expand our team. Currently, the following positions are open:
+* Development
+* Quality Assurance
+
+Go to our forum to apply: https://draiwiki.robertmonden.com/forum

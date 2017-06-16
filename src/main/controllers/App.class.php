@@ -17,16 +17,18 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\core\controllers\Registry;
+use DraiWiki\src\core\models\Sanitizer;
 
 class App {
 
-    private $_route, $_currentApp, $_appObject;
+    private $_route, $_currentApp, $_appObject, $_appInfo, $_additionalSidebarItems;
 
     const DEFAULT_APP = 'article';
 
     public function __construct() {
         $this->_route = Registry::get('route');
         $this->_currentApp = $this->_route->getApp();
+        $this->_additionalMenuItems = [];
 
         $classPath = $this->detect();
         $this->load($classPath);
@@ -52,6 +54,8 @@ class App {
                 $this->_appObject = new $classPath($this->_route->getParams()['title']);
             else
                 $this->_appObject = new $classPath();
+
+            $this->_additionalSidebarItems = $this->_appObject->getSidebarItems();
         }
         else
             die('App files not found.');
@@ -62,17 +66,36 @@ class App {
         return true;
     }
 
+    protected function setTitle(string $title) : void {
+        $this->title = Sanitizer::ditchUnderscores($title);
+    }
+
     public function execute() : void {
         if ($this->canAccess())
             $this->_appObject->execute();
     }
 
     public function display() : void {
-        if ($this->canAccess())
+        if ($this->canAccess()) {
+            if ($this->_appInfo['has_sidebar'])
+                Registry::get('gui')->displaySidebar($this->_additionalSidebarItems);
+
             $this->_appObject->display();
+        }
 
         // Display an error page
         else
             die('Yep, you really shouldn\'t be here');
+    }
+
+    public function getHeaderContext() : array {
+        $info = $this->_appObject->getAppInfo();
+
+        $this->_appInfo = [
+            'title' => $info['title'],
+            'has_sidebar' => $info['has_sidebar']
+        ];
+
+        return $this->_appInfo;
     }
 }

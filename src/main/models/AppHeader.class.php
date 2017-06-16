@@ -17,10 +17,13 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\core\controllers\Registry;
+use DraiWiki\src\core\models\Sanitizer;
 
 abstract class AppHeader {
 
     protected $config, $title;
+
+    protected $hasSidebar = true;
 
 	/**
 	 * Wether or not main templates should be shown. There are four possible values:
@@ -46,6 +49,10 @@ abstract class AppHeader {
 		die;
 	}
 
+    protected function setTitle(string $title) : void {
+        $this->title = Sanitizer::ditchUnderscores($title);
+    }
+
 	public function execute() : void {
 		return;
 	}
@@ -57,9 +64,14 @@ abstract class AppHeader {
 	public function getAppInfo() : array {
 		$context = [
 			'title' => $this->title,
-			'permissions' => []
+			'permissions' => [],
+            'has_sidebar' => $this->hasSidebar
 		];
 
 		return $context;
 	}
+
+	public function getSidebarItems() {
+        return [];
+    }
 }

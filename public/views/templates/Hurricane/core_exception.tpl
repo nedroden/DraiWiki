@@ -19,8 +19,12 @@
             <p>{$body}</p>
 
             {if not $detailed eq ''}<hr />
-
                 <p>{$detailed}</p>
+                <div id="backtrace">
+                    {foreach $backtrace info}
+                        {$info}<br />
+                    {/foreach}
+                </div>
             {/if}
         </div>
         <div id="copyright">

@@ -16,6 +16,8 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use DraiWiki\src\errors\CoreException;
+
 class QueryFactory {
 
     /**
@@ -23,14 +25,16 @@ class QueryFactory {
      * @param string $type The type of query
      * @return Object
      */
-    public static function produce(string $type) : Query {
-        if ($type == 'select')
-            return new SelectQuery();
-        else if ($type == 'modify')
-            return new ModificationQuery();
-        else
-            die('Unsupported query type.');
-
-        return null;
+    public static function produce(string $type, string $query) : Query {
+        switch($type) {
+            case 'select':
+                return new SelectQuery($query);
+                break;
+            case 'modify':
+                return new ModificationQuery($query);
+                break;
+            default:
+                (new CoreException('Query type "' . $type . "' not supported'", false))->trigger();
+        }
     }
 }

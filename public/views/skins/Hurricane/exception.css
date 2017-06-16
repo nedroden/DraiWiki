@@ -69,3 +69,19 @@ em {
 .clear {
     clear: both;
 }
+
+#backtrace {
+    max-height: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin-top: 50px;
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
+    background: #e8e8e8;
+    padding: 10px;
+}
+
+.string_not_found {
+    color: red;
+    font-weight: bold;
+}

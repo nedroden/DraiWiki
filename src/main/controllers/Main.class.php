@@ -37,6 +37,9 @@ class Main {
 	 */
 	private $_route;
 
+    /**
+     * @var Locale $_locale The locale object; load it here because we might need it later
+     */
 	private $_locale;
 
 	public const WIKI_VERSION = '1.0 Alpha 1';
@@ -64,6 +67,8 @@ class Main {
 
 		$app = new App();
 		$app->execute();
+
+		$gui->setData($app->getHeaderContext());
 
 		$gui->showHeader();
 		$app->display();

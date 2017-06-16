@@ -315,6 +315,10 @@ input[type="submit"]:hover {
 	color: #113b60;
 }
 
+#sidebar h1 {
+	margin-bottom: -20px;
+}
+
 .sidebar_header {
 	background: #283044;
 	background: linear-gradient(-180deg, #283044, #262d42);

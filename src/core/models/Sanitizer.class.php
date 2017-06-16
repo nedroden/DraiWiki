@@ -29,4 +29,8 @@ class Sanitizer {
     public static function escapehtml(string $value, string $charset = 'UTF-8') {
     	return htmlspecialchars($value, ENT_NOQUOTES, $charset);
     }
+
+    public static function nullToString(string $replaceWith, ?string $source) : string {
+        return $source == NULL ? $replaceWith : $source;
+    }
 }

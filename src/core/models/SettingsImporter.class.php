@@ -16,14 +16,14 @@ if (!defined('DraiWiki')) {
     die('You\'re really not supposed to be here.');
 }
 
-use DraiWiki\src\core\controllers\{Registry, SelectQuery};
+use DraiWiki\src\core\controllers\{Registry, QueryFactory};
 
 class SettingsImporter {
 
     public static function execute() : void {
         $config = Registry::get('config');
 
-        $query = new SelectQuery('
+        $query = QueryFactory::produce('select', '
             SELECT `key`, `value`
                 FROM {db_prefix}setting
         ');

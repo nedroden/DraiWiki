@@ -16,21 +16,20 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use DraiWiki\src\errors\DatabaseException;
 use PDOException;
 
 class SelectQuery extends Query {
-
-    public function __construct(string $query) {
-    	parent::__construct($query);
-    	$this->setPrefix();
-    }
 
     public function execute() : ?array {
         try {
             $pendingQuery = $this->connection->prepare($this->query);
         }
         catch (PDOException $e) {
-            die('Could not execute query: ' . $e->getMessage());
+            if ($this->hasTemplate)
+                (new DatabaseException($e->getMessage(), $this->toString()))->trigger();
+
+            die('Could not prepare query.');
         }
         try {
             foreach ($this->params as $paramKey => $paramValue) {
@@ -40,9 +39,10 @@ class SelectQuery extends Query {
             return $pendingQuery->fetchAll();
         }
         catch (PDOException $e) {
-            die('Could not execute query: ' . $e->getMessage());
-        }
+            if ($this->hasTemplate)
+                (new DatabaseException($e->getMessage(), $this->toString()))->trigger();
 
-        return null;
+            die('Could not execute query.');
+        }
     }
 }

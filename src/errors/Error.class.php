@@ -17,11 +17,12 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\core\controllers\Registry;
+use DraiWiki\src\core\models\Sanitizer;
 use DraiWiki\src\main\controllers\GUI;
 
 class Error {
 
-    private $_hasGUI, $_GUI;
+    private $_hasGUI;
 
     protected $detailedInfo;
     protected $locale;
@@ -29,19 +30,10 @@ class Error {
     public function __construct(string $detailedInfo) {
         ob_clean();
 
-        $this->_hasGUI = false;
         $this->detailedInfo = $detailedInfo;
 
         $this->locale = Registry::get('locale', true);
         $this->hasLocale = $this->locale != NULL;
-
-        if ($this->hasLocale)
-            $this->locale->loadFile('error');
-    }
-
-    public function setGUI(GUI $gui) : void {
-        $this->_hasGUI = true;
-        $this->_GUI = $gui;
     }
 
     protected function canViewDetailedInfo() : bool {
@@ -50,9 +42,30 @@ class Error {
 
     protected function generateMessage() : array {
         return [
-            'title' => $this->hasLocale ? $this->_locale->read('error', 'something_went_wrong') : 'Something went wrong',
-            'body' => $this->hasLocale ? $this->_locale->read('error', 'generic_error_message') : 'An error occurred. Please contact the administrator.',
+            'title' => $this->hasLocale ? $this->locale->read('error', 'something_went_wrong') : 'Something went wrong',
+            'body' => $this->hasLocale ? $this->locale->read('error', 'generic_error_message') : 'An error occurred. Please contact the administrator.',
             'detailed' => $this->canViewDetailedInfo() ? $this->detailedInfo : NULL
         ];
+    }
+
+    protected function getBacktrace() : array {
+        $backtrace = debug_backtrace();
+        $parsedBacktrace = [];
+
+        $counter = 1;
+        for ($i = count($backtrace) - 1; $i > 2; $i--) {
+            $detail = $backtrace[$i];
+
+            if (!empty($detail['args']))
+                foreach ($detail['args'] as &$arg)
+                    $arg = Sanitizer::nullToString('NULL', $arg);
+
+            $parsedBacktrace[] = $counter++ . '. 
+                <strong>[' . ($detail['file'] ?? 'unknown') . ']</strong> 
+                Called method <em>' . ($detail['function'] ?? 'unknown') . '(' . (implode(',', $detail['args']) ?? '') .  ')</em> 
+                on line ' . ($detail['line'] ?? 'unknown');
+        }
+
+        return $parsedBacktrace;
     }
 }
