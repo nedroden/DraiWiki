@@ -56,9 +56,14 @@ class Error {
         for ($i = count($backtrace) - 1; $i > 2; $i--) {
             $detail = $backtrace[$i];
 
-            if (!empty($detail['args']))
-                foreach ($detail['args'] as &$arg)
+            if (!empty($detail['args'])) {
+                foreach ($detail['args'] as &$arg) {
+                    if (is_array($arg))
+                        $arg = 'array';
+
                     $arg = Sanitizer::nullToString('NULL', $arg);
+                }
+            }
 
             $parsedBacktrace[] = $counter++ . '. 
                 <strong>[' . ($detail['file'] ?? 'unknown') . ']</strong> 

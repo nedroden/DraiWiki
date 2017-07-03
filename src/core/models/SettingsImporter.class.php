@@ -31,8 +31,8 @@ class SettingsImporter {
         $result = $query->execute();
         $updatedSettings = [];
 
-        foreach ($result as $key => $value)
-            $updatedSettings[$key] = $value;
+        foreach ($result as $setting)
+            $updatedSettings[$setting['key']] = $setting['value'];
 
         $config->import($updatedSettings);
     }

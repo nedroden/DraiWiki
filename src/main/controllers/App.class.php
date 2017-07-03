@@ -12,23 +12,21 @@
 namespace DraiWiki\src\main\controllers;
 
 if (!defined('DraiWiki')) {
-	header('Location: ../index.php');
-	die('You\'re really not supposed to be here.');
+    header('Location: ../index.php');
+    die('You\'re really not supposed to be here.');
 }
 
 use DraiWiki\src\core\controllers\Registry;
-use DraiWiki\src\core\models\Sanitizer;
 
 class App {
 
-    private $_route, $_currentApp, $_appObject, $_appInfo, $_additionalSidebarItems;
+    private $_route, $_currentApp, $_appObject, $_appInfo;
 
     const DEFAULT_APP = 'article';
 
     public function __construct() {
         $this->_route = Registry::get('route');
         $this->_currentApp = $this->_route->getApp();
-        $this->_additionalMenuItems = [];
 
         $classPath = $this->detect();
         $this->load($classPath);
@@ -36,7 +34,10 @@ class App {
 
     private function detect() : string {
         $apps = [
-            'article' => 'DraiWiki\src\main\controllers\Article'
+            'article' => 'DraiWiki\src\main\controllers\Article',
+            'login' => 'DraiWiki\src\auth\controllers\Login',
+            'random' => 'DraiWiki\src\main\controllers\Random',
+            'register' => 'DraiWiki\src\auth\controllers\Registration'
         ];
 
         if (empty($apps[$this->_currentApp])) {
@@ -54,8 +55,6 @@ class App {
                 $this->_appObject = new $classPath($this->_route->getParams()['title']);
             else
                 $this->_appObject = new $classPath();
-
-            $this->_additionalSidebarItems = $this->_appObject->getSidebarItems();
         }
         else
             die('App files not found.');
@@ -66,10 +65,6 @@ class App {
         return true;
     }
 
-    protected function setTitle(string $title) : void {
-        $this->title = Sanitizer::ditchUnderscores($title);
-    }
-
     public function execute() : void {
         if ($this->canAccess())
             $this->_appObject->execute();
@@ -78,7 +73,7 @@ class App {
     public function display() : void {
         if ($this->canAccess()) {
             if ($this->_appInfo['has_sidebar'])
-                Registry::get('gui')->displaySidebar($this->_additionalSidebarItems);
+                Registry::get('gui')->displaySidebar($this->_appObject->getSidebarItems());
 
             $this->_appObject->display();
         }

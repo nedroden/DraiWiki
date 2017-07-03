@@ -57,6 +57,8 @@ CREATE TABLE IF NOT EXISTS drai_user (
     username VARCHAR(32) NOT NULL,
     password TEXT NOT NULL,
     email_address VARCHAR(32) NOT NULL,
+    sex INT NOT NULL DEFAULT 0,
+    birthdate DATE NOT NULL DEFAULT CURRENT_DATE(),
     first_name VARCHAR(20),
     last_name VARCHAR(30),
     ip_address VARCHAR(45) NOT NULL,
@@ -89,5 +91,12 @@ CREATE TABLE IF NOT EXISTS drai_homepage (
     locale_id INT UNSIGNED NOT NULL,
     PRIMARY KEY (article_id, locale_id),
     FOREIGN KEY (article_id) REFERENCES drai_article(id),
+    FOREIGN KEY (locale_id) REFERENCES drai_locale(id)
+);
+
+CREATE TABLE IF NOT EXISTS drai_agreement (
+    id INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    body LONGTEXT,
+    locale_id INT UNSIGNED,
     FOREIGN KEY (locale_id) REFERENCES drai_locale(id)
 );

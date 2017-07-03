@@ -30,5 +30,9 @@ return [
     'panel' => 'Panel',
 
     'side_main' => 'Main',
-    'random' => 'Random article'
+    'random' => 'Random article',
+
+    'current_article' => 'Current article',
+    'view_article' => 'Read article',
+    'edit_article' => 'Edit article'
 ];

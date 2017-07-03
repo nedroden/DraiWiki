@@ -16,12 +16,14 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
-use DraiWiki\src\core\controllers\Registry;
+use DraiWiki\src\core\controllers\{QueryFactory, Registry};
+use DraiWiki\src\errors\FatalError;
 use SimpleXMLElement;
 
 class Locale {
 
 	private $_config;
+	private $_id;
 	private $_code;
 	private $_name;
 	private $_native;
@@ -32,11 +34,13 @@ class Locale {
 	private $_copyright;
 
 	private $_strings;
+	private $_loadedFiles;
 
 	const DEFAULT_LOCALE = 'en_US';
 
 	public function __construct() {
 		$this->_config = Registry::get('config');
+		$this->_loadedFiles = [];
 
 		$infofile = $this->loadLocaleInfo();
 		$this->parseInfoFile($infofile);
@@ -46,6 +50,9 @@ class Locale {
 	}
 
 	public function loadFile(string $filename) : void {
+	    if (in_array($filename, $this->_loadedFiles))
+	        return;
+
 		if (file_exists($file = $this->_config->read('path') . '/locales/' . $this->_code . '/' . $filename . '.locale.php'))
 			$result = require_once $file;
 		else if ($this->_code != self::DEFAULT_LOCALE && file_exists($file = $this->_config->read('path') . '/locales/' . self::DEFAULT_LOCALE . '/' . $filename . '.locale.php'))
@@ -54,6 +61,7 @@ class Locale {
 			die('Requested locale file not found.');
 
 		$this->_strings[$filename] = $result;
+		$this->_loadedFiles[] = $filename;
 	}
 
 	public function read(string $section, string $key, bool $return = true) : ?string {
@@ -79,7 +87,7 @@ class Locale {
 		else if ($this->_config->read('locale') != self::DEFAULT_LOCALE && file_exists($this->_config->read('path') . '/locales/' . self::DEFAULT_LOCALE) . '/langinfo.xml')
 			$infofile = self::DEFAULT_LOCALE;
 		else
-			die('<h1>Language files not found</h1>');
+            (new FatalError('Language files not found.'))->trigger();
 
 		return $infofile;
 	}
@@ -105,7 +113,64 @@ class Locale {
 		$this->_softwareVersion = $info->software_version;
 		$this->_localeVersion = $info->locale_version;
 		$this->_copyright = $info->copyright;
+
+        $this->setLocaleID();
 	}
+
+	private function setLocaleID() : void {
+        $query = QueryFactory::produce('select', '
+            SELECT id, `code`
+                FROM {db_prefix}locale
+                WHERE `code` = :locale_code
+        ');
+
+        $query->setParams([
+            'locale_code' => $this->getCode()
+        ]);
+
+        $result = $query->execute();
+
+        foreach ($result as $locale) {
+            $this->_id = $locale['id'];
+            return;
+        }
+
+        (new FatalError('Call to non-existing locale. Did you run the installer?'))->trigger();
+    }
+
+    public function getHomepageID() : int {
+	    $query = QueryFactory::produce('select', '
+	        SELECT article_id
+	            FROM {db_prefix}homepage
+	            WHERE locale_id = :locale
+	            LIMIT 1
+	    ');
+
+	    $query->setParams([
+	        'locale' => $this->_id
+        ]);
+
+	    $result = $query->execute();
+
+	    $this->loadFile('article');
+
+	    $homepage = 0;
+        foreach ($result as $article) {
+            if (!is_numeric($article['article_id']))
+                (new FatalError($this->read('error', 'homepage_id_not_a_number')))->trigger();
+
+            $homepage = $article['article_id'];
+        }
+
+        if (count($result) == 0 || $homepage == 0)
+            (new FatalError($this->read('error', 'no_homepage_found')))->trigger();
+
+        return $homepage;
+    }
+
+	public function getID() : int {
+	    return $this->_id;
+    }
 
 	public function getCode() : string {
 		return $this->_code;

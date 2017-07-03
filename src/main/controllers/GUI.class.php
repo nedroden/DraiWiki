@@ -50,7 +50,9 @@ class GUI {
             'skin_url' => $this->_skinUrl,
             'image_url' => $this->_imageUrl,
             'locale' => $this->_locale,
-            'copyright' => $this->_copyright
+            'copyright' => $this->_copyright,
+            'node_url' => $this->_config->read('url') . '/node_modules',
+            'script_url' => $this->_config->read('url') . '/scripts'
         ]);
     }
 
@@ -78,8 +80,10 @@ class GUI {
         $data = array_merge([
             'skin_url' => $this->_skinUrl,
             'image_url' => $this->_imageUrl,
+            'node_url' => $this->_config->read('url') . '/node_modules',
             'locale' => $this->_locale,
-            'copyright' => $this->_copyright
+            'copyright' => $this->_copyright,
+            'script_url' => $this->_config->read('url') . '/scripts'
         ], $data);
 
         $dataObject = new Data();
@@ -177,6 +181,7 @@ class GUI {
         ];
 
         $visibleTabs = [];
+        $items = array_merge($items, $additionalItems);
 
         foreach ($items as $item) {
             if ($item['visible']) {
@@ -197,7 +202,7 @@ class GUI {
             }
         }
 
-        echo $this->parseAndGet('sidebar', array_merge(['items' => $visibleTabs], $additionalItems));
+        echo $this->parseAndGet('sidebar', ['items' => $visibleTabs]);
     }
 
     public function getSkinUrl() : string {

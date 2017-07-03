@@ -22,7 +22,6 @@
     "software"
   ],
   "dependencies": {
-    "angular": "^1.6.4",
     "simplemde": "^1.11.2"
   }
 }

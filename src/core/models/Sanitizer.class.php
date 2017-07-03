@@ -18,15 +18,15 @@ if (!defined('DraiWiki')) {
 
 class Sanitizer {
 
-    public static function ditchUnderscores(string $value) {
+    public static function ditchUnderscores(string $value) : string {
         return str_replace('_', ' ', $value);
     }
 
-    public static function addUnderscores(string $value) {
+    public static function addUnderscores(string $value) : string {
         return str_replace(' ', '_', $value);
     }
 
-    public static function escapehtml(string $value, string $charset = 'UTF-8') {
+    public static function escapehtml(string $value, string $charset = 'UTF-8') : string {
     	return htmlspecialchars($value, ENT_NOQUOTES, $charset);
     }
 

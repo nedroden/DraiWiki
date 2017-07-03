@@ -23,7 +23,7 @@ class RouteInfo {
     public function __construct(array $route) {
         $this->_route = $route;
 
-        $this->_app = !empty($route['action']) ? $route['action'] : 'article';
+        $this->_app = !empty($route['app']) ? $route['app'] : 'article';
         $this->_params = !empty($route['params']) ? $route['params'] : [];
     }
 

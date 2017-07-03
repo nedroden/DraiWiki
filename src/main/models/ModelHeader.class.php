@@ -29,4 +29,8 @@ abstract class ModelHeader {
     protected function loadConfig() : void {
         $this->config = Registry::get('config');
     }
+
+    public function prepareData() : array {
+        return [];
+    }
 }

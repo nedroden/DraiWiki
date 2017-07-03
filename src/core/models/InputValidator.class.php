@@ -29,10 +29,30 @@ class InputValidator {
     }
 
     public function isTooShort(int $min) {
-        return strlen($this->_value) < $min;
+        return $min == 0 ? false : strlen($this->_value) < $min;
     }
 
     public function isTooLong(int $max) {
-        return strlen($this->_value) > $max;
+        return $max == 0 ? false : strlen($this->_value) > $max;
+    }
+
+    public function getValue() : string {
+        return $this->_value;
+    }
+
+    public function aboveIntLimit() : bool {
+        return ((int) $this->_value) > PHP_INT_MAX;
+    }
+
+    public function containsHTML() : bool {
+        return $this->_value != strip_tags($this->_value);
+    }
+
+    public function containsSpaces() : bool {
+        return preg_match('/\s/', $this->_value);
+    }
+
+    public function isValidEmail() : bool {
+        return filter_var($this->_value, FILTER_VALIDATE_EMAIL);
     }
 }

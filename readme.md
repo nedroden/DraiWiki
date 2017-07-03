@@ -26,7 +26,7 @@ It also has built-in multi-language support, meaning you won't need an extension
 4. Use Composer to install the required packages (composer install)
 5. Use NPM to install the required JS libraries (npm install)
 6. Edit the configuration file in public/config. Make sure you also edit the BASE_DIRNAME setting
-7. Run the DDL (table creation) and DML (data insertion) .sql files: ddl.sql and dml.sql.
+7. Run the DDL (table creation) and DML (data insertion) .sql files: ddl.sql and data.sql.
 8. Enjoy!
 
 ### 2.3. Troubleshooting

@@ -16,15 +16,19 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use DraiWiki\src\core\controllers\Registry;
+
 class PostRequest {
 
     private $_key;
-
     private $_value, $_isEmpty;
+    private $_config;
 
     public function __construct(string $key) {
         $this->_key = $key;
         $this->setValue();
+
+        $this->_config = Registry::get('config');
     }
 
     private function setValue() : void {
@@ -44,5 +48,23 @@ class PostRequest {
 
     public function getValue() : string {
         return $this->_value;
+    }
+
+    public function escapeHTML() : void {
+        $this->_value = Sanitizer::escapeHTML($this->_value);
+    }
+
+    public function trim() : void {
+        $this->_value = trim($this->_value);
+    }
+
+    public function getHash() : string {
+        $salt = $this->_config->read('password_salt');
+
+        $value = $this->_value . $salt;
+        $value = hash('sha256', $salt . $value);
+        $value = hash('sha512', $value. $salt);
+
+        return $value;
     }
 }
