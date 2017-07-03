@@ -17,6 +17,7 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\Config;
+use DraiWiki\src\auth\models\User;
 use DraiWiki\src\core\controllers\{Connection, Registry};
 use DraiWiki\src\core\models\{RouteInfo, SettingsImporter};
 
@@ -56,6 +57,8 @@ class Main {
 		SettingsImporter::execute();
 
 		$this->_locale = Registry::set('locale', new Locale());
+
+		Registry::set('user', new User());
 
 		$gui = Registry::set('gui', new GUI());
 		$gui->setData([

@@ -4,7 +4,7 @@
         <div class="sidebar_header">{$item['label']}</div>
         <ul>
         {foreach $item['items'] subitem}
-            <li><a href="{$subitem['href']}" target="_self">{$subitem['label']}</a></li>
+            <li><a href="{$subitem['href']}" target="_self"{if not $subitem['id'] eq ''} id="{$subitem['id']}"{/if}>{$subitem['label']}</a></li>
         {/foreach}
         </ul>
     {/foreach}

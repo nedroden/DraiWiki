@@ -113,6 +113,10 @@ input[type="submit"]:hover {
     cursor: pointer;
 }
 
+.new_article_popup input {
+    width: 100%;
+}
+
 #header_search input {
     font-size: 16px;
     padding: 3px;

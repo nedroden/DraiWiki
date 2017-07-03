@@ -2,13 +2,16 @@
 <html>
     <head>
         <title>{$title} | {$wiki_name}</title>
+
         <link rel="stylesheet" type="text/css" href="{$skin_url}main" />
+        <link rel="stylesheet" type="text/css" href="{$node_url}/zebra_dialog/dist/css/flat/zebra_dialog.css" />
         <link rel="icon" href="{$url}/favicon.png" sizes="16x16" type="image/png" />
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<!-- <script type="text/javascript" src="{$node_url}/angular/angular.js"></script>
-        <script type="text/javascript" src="{$script_url}/dw-controller.js"></script> //-->
+		<script type="text/javascript" src="{$node_url}/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="{$node_url}/zebra_dialog/dist/zebra_dialog.min.js"></script>
+        <script type="text/javascript" src="{$script_url}/dw-controller.js"></script>
     </head>
     <body>
         <div id="wrapper">

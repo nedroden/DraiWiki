@@ -52,7 +52,9 @@ class GUI {
             'locale' => $this->_locale,
             'copyright' => $this->_copyright,
             'node_url' => $this->_config->read('url') . '/node_modules',
-            'script_url' => $this->_config->read('url') . '/scripts'
+            'script_url' => $this->_config->read('url') . '/scripts',
+            'wiki_version' => Main::WIKI_VERSION,
+            'teams' => $this->getTeamMembers()
         ]);
     }
 
@@ -114,8 +116,23 @@ class GUI {
     }
 
     private function setCopyright() : void {
-        $this->_copyright = 'Powered by <a href="http://draiwiki.robertmonden.com" target="_blank">DraiWiki</a> ' . Main::WIKI_VERSION . ' |
-            &copy; ' . date("Y") . ' <a href="http://robertmonden.com" target="_blank">Robert Monden</a>';
+        $this->_copyright = 'Powered by <a href="https://draiwiki.robertmonden.com" target="_blank" id="dw-about-link">DraiWiki</a> ' . Main::WIKI_VERSION . ' |
+            &copy; ' . date("Y") . ' <a href="https://robertmonden.com" target="_blank">Robert Monden</a>';
+    }
+
+    private function getTeamMembers() : array {
+        return [
+            'president' => [
+                'label' => $this->_locale->read('main', 'team_president'),
+                'members' => [
+                    'robert' => [
+                        'name' => 'Robert Monden',
+                        'website' => 'https://robertmonden.com',
+                        'email' => 'dev@robertmonden.com'
+                    ]
+                ]
+            ]
+        ];
     }
 
     private function generateMenu() : void {
