@@ -17,6 +17,7 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\core\controllers\Registry;
+use DraiWiki\src\errors\AccessError;
 
 class App {
 
@@ -36,6 +37,7 @@ class App {
         $apps = [
             'article' => 'DraiWiki\src\main\controllers\Article',
             'login' => 'DraiWiki\src\auth\controllers\Login',
+            'logout' => 'DraiWiki\src\auth\controllers\Logout',
             'random' => 'DraiWiki\src\main\controllers\Random',
             'register' => 'DraiWiki\src\auth\controllers\Registration'
         ];
@@ -61,8 +63,7 @@ class App {
     }
 
     private function canAccess() : bool {
-        // check for permissions here
-        return true;
+        return $this->_appObject->canAccess();
     }
 
     public function execute() : void {
@@ -79,8 +80,11 @@ class App {
         }
 
         // Display an error page
-        else
-            die('Yep, you really shouldn\'t be here');
+        else {
+            Registry::get('gui')->displaySidebar($this->_appObject->getSidebarItems());
+
+            (new AccessError())->trigger();
+        }
     }
 
     public function getHeaderContext() : array {

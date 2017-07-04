@@ -29,7 +29,7 @@ class Config {
             'db_prefix' => 'drai_',
 			'db_charset' => 'utf8mb4',
 
-            'path' => '/path/to/draiwiki',
+            'path' => '/path/to/DraiWiki',
             'url' => 'http://localhost/DraiWiki',
 
             'wiki_name' => 'DraiWiki',
@@ -38,7 +38,11 @@ class Config {
             'images' => 'Hurricane',
             'skins' => 'Hurricane',
 
-            'locale' => 'en_US'
+            'locale' => 'en_US',
+
+            'cookie_id' => 'dw_cookie_{add_key_here}',
+            'session_name' => 'dw_session_{add_key_here}',
+            'ssl_enabled' => false
         ];
     }
 

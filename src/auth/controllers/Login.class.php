@@ -16,7 +16,7 @@ if (!defined('DraiWiki')) {
     die('You\'re really not supposed to be here.');
 }
 
-use DraiWiki\src\auth\models\Login as Model;
+use DraiWiki\src\auth\models\{Login as Model, User};
 use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\main\models\AppHeader;
 
@@ -26,6 +26,7 @@ class Login extends AppHeader {
 
     public function __construct() {
         $this->loadConfig();
+        $this->loadUser();
         $this->hasSidebar = false;
 
         $this->_model = new Model();
@@ -33,8 +34,30 @@ class Login extends AppHeader {
 
         $this->setTitle($this->_model->getTitle());
 
+        if (!empty($_POST))
+            $this->handleLoginRequest();
+
         $data = $this->_model->prepareData() + ['errors' => $this->_errors];
         $this->_view = Registry::get('gui')->parseAndGet('login', $data, false);
+    }
+
+    private function handleLoginRequest() : void {
+        $this->_model->handlePostRequest();
+        $this->_model->validate($this->_errors);
+
+        if (empty($this->_errors)) {
+            $userInfo = $this->_model->getUserInfo();
+            $user = new User(null, $userInfo);
+            $user->login($this->_errors);
+
+            // We may not have had errors last time, but we should check if we've got any errors this time as well
+            if (empty($this->_errors))
+                $this->redirectTo($this->config->read('url') . '/index.php');
+        }
+    }
+
+    public function canAccess() : bool {
+        return $this->user->isGuest();
     }
 
     public function display() : void {

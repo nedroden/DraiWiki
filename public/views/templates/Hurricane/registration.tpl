@@ -16,27 +16,27 @@
     <div class="section_content">
         <form action="{$action}" method="post">
             <p>{$locale->read('auth', 'this_is_the_registration_page')}</p>
-            <label 	for="confirm_password">
+            <label 	for="username"{if not $errors['username'] eq ''} class="contains_error"{/if}>
                 {$locale->read('auth', 'username')}
             </label>
             <input 	type="text"
                       name="username"
                       placeholder="{$locale->read('auth', 'placeholder_username')}"
                       maxlength="{$max_username_length}"/><br />
-            <label 	for="password">
+            <label 	for="password"{if not $errors['password'] eq ''} class="contains_error"{/if}>
                 {$locale->read('auth', 'password')}
             </label>
             <input 	type="password"
                       name="password"
                       placeholder="{$locale->read('auth', 'placeholder_password')}"
                       maxlength="{$max_password_length}"/><br />
-            <label 	for="confirm_password">
+            <label 	for="confirm_password"{if not $errors['confirm_password'] eq ''} class="contains_error"{/if}>
                 {$locale->read('auth', 'confirm_password')}
             </label>
             <input 	type="password"
                       name="confirm_password"
                       maxlength="{$max_password_length}"/><br />
-            <label 	for="email">
+            <label 	for="email"{if not $errors['email'] eq '' or not $errors['email_address'] eq ''} class="contains_error"{/if}>
                 {$locale->read('auth', 'email')}
             </label>
             <input 	type="text"
@@ -44,14 +44,14 @@
                       placeholder="{$locale->read('auth', 'placeholder_email')}"
                       maxlength="{$max_email_length}"/><br />
             <hr class="upp_bot_mar" />
-            <label 	for="first_name">
+            <label 	for="first_name"{if not $errors['first_name'] eq ''} class="contains_error"{/if}>
                 {$locale->read('auth', 'first_name')}
             </label>
             <input 	type="text"
                       name="first_name"
                       placeholder="{$locale->read('auth', 'placeholder_first_name')}"
                       maxlength="{$max_first_name_length}"/><br />
-            <label 	for="last_name">
+            <label 	for="last_name"{if not $errors['last_name'] eq ''} class="contains_error"{/if}>
                 {$locale->read('auth', 'last_name')}
             </label>
             <input 	type="text"

@@ -17,6 +17,7 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\errors\DatabaseException;
+use PDO;
 use PDOException;
 
 class SelectQuery extends Query {
@@ -36,7 +37,7 @@ class SelectQuery extends Query {
                 $pendingQuery->bindValue(':' . $paramKey, $paramValue);
             }
             $pendingQuery->execute();
-            return $pendingQuery->fetchAll();
+            return $pendingQuery->fetchAll(PDO::FETCH_ASSOC);
         }
         catch (PDOException $e) {
             if ($this->hasTemplate)

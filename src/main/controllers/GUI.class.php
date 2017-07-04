@@ -26,6 +26,7 @@ class GUI {
     private $_templatePath, $_skinUrl, $_imageUrl;
     private $_data;
     private $_copyright;
+    private $_user;
 
     private const DEFAULT_THEME = 'Hurricane';
 
@@ -34,6 +35,7 @@ class GUI {
     public function __construct() {
         $this->_config = Registry::get('config');
         $this->_locale = Registry::get('locale');
+        $this->_user = Registry::get('user');
         $this->_engine = new Core();
 
         $this->_data = new Data();
@@ -44,7 +46,7 @@ class GUI {
         $this->_engine->setTemplateDir($this->_templatePath . '/');
 
         // Unfortunately we can't use sprintf in templates, so we have to do this manually
-        $this->_locale->replace('main', 'hello', 'Robert');
+        $this->_locale->replace('main', 'hello', $this->_user->getUsername());
 
         $this->setData([
             'skin_url' => $this->_skinUrl,
@@ -54,7 +56,8 @@ class GUI {
             'node_url' => $this->_config->read('url') . '/node_modules',
             'script_url' => $this->_config->read('url') . '/scripts',
             'wiki_version' => Main::WIKI_VERSION,
-            'teams' => $this->getTeamMembers()
+            'teams' => $this->getTeamMembers(),
+            'packages' => $this->getLibraries()
         ]);
     }
 
@@ -116,8 +119,7 @@ class GUI {
     }
 
     private function setCopyright() : void {
-        $this->_copyright = 'Powered by <a href="https://draiwiki.robertmonden.com" target="_blank" id="dw-about-link">DraiWiki</a> ' . Main::WIKI_VERSION . ' |
-            &copy; ' . date("Y") . ' <a href="https://robertmonden.com" target="_blank">Robert Monden</a>';
+        $this->_copyright = 'Powered by <a href="https://draiwiki.robertmonden.com" target="_blank" id="dw-about-link">DraiWiki</a> ' . Main::WIKI_VERSION;
     }
 
     private function getTeamMembers() : array {
@@ -135,6 +137,20 @@ class GUI {
         ];
     }
 
+    private function getLibraries() : array {
+        return [
+            ['name' => 'CodeMirror', 'href' => 'https://codemirror.net/'],
+            ['name' => 'CodeMirror spell checker', 'href' => 'https://codemirror.net/'],
+            ['name' => 'Dwoo', 'href' => 'http://dwoo.org'],
+            ['name' => 'jQuery', 'href' => 'https://jquery.com'],
+            ['name' => 'Marked', 'href' => 'https://github.com/chjj/marked'],
+            ['name' => 'Parsedown', 'href' => 'http://parsedown.org'],
+            ['name' => 'SimpleMDE', 'href' => 'https://simplemde.com'],
+            ['name' => 'Typo JS', 'href' => 'https://github.com/cfinke/Typo.js/'],
+            ['name' => 'Zebra Dialog', 'href' => 'https://github.com/stefangabos/Zebra_Dialog']
+        ];
+    }
+
     private function generateMenu() : void {
         $menu = [
             'home' => [
@@ -145,12 +161,17 @@ class GUI {
             'login' => [
                 'label' => 'login',
                 'href' => $this->_config->read('url') . '/index.php/login',
-                'visible' => true
+                'visible' => $this->_user->isGuest()
             ],
             'register' => [
                 'label' => 'register',
                 'href' => $this->_config->read('url') . '/index.php/register',
-                'visible' => true
+                'visible' => $this->_user->isGuest()
+            ],
+            'logout' => [
+                'label' => 'logout',
+                'href' => $this->_config->read('url') . '/index.php/logout',
+                'visible' => !$this->_user->isGuest()
             ]
         ];
 
@@ -186,12 +207,17 @@ class GUI {
                     'login' => [
                         'label' => 'login',
                         'href' => $this->_config->read('url') . '/index.php/login',
-                        'visible' => true
+                        'visible' => $this->_user->isGuest()
                     ],
                     'register' => [
                         'label' => 'register',
                         'href' => $this->_config->read('url') . '/index.php/register',
-                        'visible' => true
+                        'visible' => $this->_user->isGuest()
+                    ],
+                    'logout' => [
+                        'label' => 'logout',
+                        'href' => $this->_config->read('url') . '/index.php/logout',
+                        'visible' => !$this->_user->isGuest()
                     ]
                 ]
             ]

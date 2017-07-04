@@ -20,4 +20,10 @@ $(document).ready(function() {
             }
         );
     });
+
+    $("#to_top").click(function() {
+        $('html, body').animate({
+            scrollTop: $("#wrapper").offset().top
+        }, 700);
+    });
 });

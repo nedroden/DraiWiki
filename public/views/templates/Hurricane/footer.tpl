@@ -3,7 +3,7 @@
 
             <div id="copyright">
                 <div class="col33">{$copyright}</div>
-                <div class="col33 align_center"><a href="#wrapper">{$locale->read('main', 'to_top')}</a></div>
+                <div class="col33 align_center"><a id="to_top" href="#wrapper">{$locale->read('main', 'to_top')}</a></div>
                 <div class="col33 align_right">
                     <strong>{$locale->read('main', 'locale')}:</strong> {$locale_native}{if not copyright eq 'none'}<br />{$locale_copyright}{/if}
                 </div>
@@ -28,6 +28,13 @@
                         {/foreach}
                     </ul>
                 {/foreach}
+
+                <p>{$locale->read('main', 'about_libraries')}</p>
+                <ul>
+                    {foreach $packages package}
+                        <li><strong>{$package['name']} - </strong><a href="{$package['href']}" target="_blank">{$package['href']}</a></li>
+                    {/foreach}
+                </ul>
 
                 <hr class="upp_bot_mar" />
 

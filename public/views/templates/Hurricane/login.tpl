@@ -2,17 +2,28 @@
     <div class="section_header">
         {$locale->read('auth', 'user_login')}
     </div>
+
+    {if not $errors eq ''}
+        <div class="message_box error">
+            <ul>
+                {foreach $errors msg}
+                    <li>{$msg}</li>
+                {/foreach}
+            </ul>
+        </div>
+    {/if}
+
     <div class="section_content">
-        <form action="action" method="post">
+        <form action="{$action}" method="post">
             <p>{$locale->read('auth', 'please_enter_email')}</p>
-            <label 	for="email">
+            <label 	for="email"{if not $errors['email'] eq ''} class="contains_error"{/if}>
                 {$locale->read('auth', 'email')}
             </label>
             <input 	type="text"
                       name="email"
                       placeholder="{$locale->read('auth', 'placeholder_email')}"
                       maxlength="{$max_email_length}" /><br />
-            <label 	for="password">
+            <label 	for="password"{if not $errors['password'] eq ''} class="contains_error"{/if}>
                 {$locale->read('auth', 'password')}
             </label>
             <input 	type="password"

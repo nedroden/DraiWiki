@@ -19,6 +19,7 @@
 return [
     'logging_in' => 'Logging in',
     'user_login' => 'User authentication',
+    'logging_out' => 'Ending session',
 
     'email' => 'Email address:',
     'password' => 'Password:',
@@ -86,5 +87,7 @@ return [
     'sex_3' => 'Other',
 
     'username_in_use' => 'The specified username is already in use',
-    'email_address_in_use' => 'The specified email address is already used by another member'
+    'email_address_in_use' => 'The specified email address is already used by another member',
+
+    'email_or_password_not_found' => 'No account was found with the specified email address and password'
 ];

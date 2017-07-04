@@ -21,7 +21,7 @@ use DraiWiki\src\core\models\Sanitizer;
 
 abstract class AppHeader {
 
-    protected $config, $title;
+    protected $user, $config, $title, $requiredPermission;
 
     protected $hasSidebar = true;
 
@@ -38,6 +38,10 @@ abstract class AppHeader {
 
     protected function loadConfig() : void {
         $this->config = Registry::get('config');
+    }
+
+    protected function loadUser() : void {
+        $this->user = Registry::get('user');
     }
 
     public function getIgnoreTemplates() : string {
@@ -73,5 +77,12 @@ abstract class AppHeader {
 
     public function getSidebarItems() : array {
         return [];
+    }
+
+    public function canAccess() : bool {
+        if (empty($this->user))
+            $this->loadUser();
+
+        return empty($this->requiredPermission) ? true : $this->user->hasPermission($this->requiredPermission);
     }
 }

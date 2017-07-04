@@ -26,6 +26,7 @@ class Registration extends AppHeader {
 
     public function __construct() {
         $this->loadConfig();
+        $this->loadUser();
         $this->hasSidebar = false;
 
         $this->_model = new Model();
@@ -51,6 +52,10 @@ class Registration extends AppHeader {
             if (empty($this->_errors))
                 $this->redirectTo($this->config->read('url') . '/index.php/login');
         }
+    }
+
+    public function canAccess() : bool {
+        return $this->user->isGuest();
     }
 
     public function display() : void {

@@ -20,9 +20,7 @@ use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\core\models\Sanitizer;
 use DraiWiki\src\main\controllers\GUI;
 
-class Error {
-
-    private $_hasGUI;
+abstract class Error {
 
     protected $detailedInfo;
     protected $locale;

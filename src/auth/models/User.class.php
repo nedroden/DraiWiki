@@ -17,6 +17,7 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\core\controllers\QueryFactory;
+use DraiWiki\src\core\models\Session;
 use DraiWiki\src\main\models\ModelHeader;
 
 class User extends ModelHeader {
@@ -24,13 +25,17 @@ class User extends ModelHeader {
     // Note: passwords are hashed before they arrive here
     private $_id, $_username, $_password, $_firstName, $_lastName;
     private $_email, $_primaryGroup, $_groups;
-    private $_sex, $_birthdate, $_ip;
+    private $_sex, $_birthdate, $_ip, $_cookieLength;
+
+    private $_sessionUID = 0;
 
     public function __construct(int $specificUser = null, array $details = []) {
         $this->loadConfig();
         $this->loadLocale();
 
         $this->locale->loadFile('auth');
+
+        $this->setSessionUID();
 
         // If we're dealing with a registration we shouldn't attempt to load user information from the database
         if (empty($details) && empty($specificUser))
@@ -42,7 +47,27 @@ class User extends ModelHeader {
     }
 
     private function load(int $specificUser = null) : void {
+        $uid = $specificUser ?? $this->_sessionUID;
 
+        $query = QueryFactory::produce('select', '
+            SELECT id, username, email_address, sex, birthdate, first_name, last_name, 
+                    ip_address, registration_date, group_id, secondary_groups
+                FROM `{db_prefix}user`
+                WHERE id = :uid
+        ');
+
+        $query->setParams([
+            'uid' => $uid
+        ]);
+
+        foreach ($query->execute() as $user) {
+            $this->setUserInfo($user);
+            return;
+        }
+
+        $this->setUserInfo([
+            'group_id' => 5
+        ]);
     }
 
     private function validate() : array {
@@ -99,6 +124,8 @@ class User extends ModelHeader {
         $this->_sex = $details['sex'] ?? 0;
         $this->_birthdate = $details['birthdate'] ?? '';
         $this->_email = $details['email'] ?? 'nobody@example.com';
+
+        $this->_cookieLength = $details['cookie_length'] ?? 7 * 24 * 60 * 60;
     }
 
     public function create(array &$errors) : void {
@@ -110,7 +137,7 @@ class User extends ModelHeader {
 
         $query = QueryFactory::produce('modify', '
             INSERT
-                INTO {db_prefix}user (
+                INTO `{db_prefix}user` (
                     username, `password`, email_address, sex, birthdate, first_name, last_name, 
                     ip_address, group_id, secondary_groups
                 )
@@ -147,5 +174,105 @@ class User extends ModelHeader {
         $query->execute();
 
         unset($this->_password);
+    }
+
+    /**
+     * The user info should already have been set, so we have all the information we need.
+     * @param array $errors Any errors that may arise are added to this array (passed by reference).
+     * @return void
+     */
+    public function login(array &$errors) : void {
+        $query = QueryFactory::produce('select', '
+            SELECT id
+                FROM `{db_prefix}user`
+                WHERE email_address = :email
+                AND `password` = :passw
+        ');
+
+        $query->setParams([
+            'email' => $this->_email,
+            'passw' => $this->_password
+        ]);
+
+        foreach ($query->execute() as $record) {
+            $info = [
+                'ip' => $_SERVER['REMOTE_ADDR'],
+                'user_id' => $record['id'],
+                'user_agent' => $_SERVER['HTTP_USER_AGENT']
+            ];
+
+            $session = new Session($this->config->read('session_name') . '_sid');
+            $session->create($this->_cookieLength, false, $this->config->read('cookie_id') . '_sid', $info);
+            return;
+        }
+
+        $errors[] = $this->locale->read('auth', 'email_or_password_not_found');
+    }
+
+    public function setSessionUID() : void {
+        if (empty($_SESSION[$this->config->read('session_name') . '_sid']))
+            return;
+
+        $session = $_SESSION[$this->config->read('session_name') . '_sid'];
+
+        // Note: if one or more of these conditions is true, we should report it to the admin, since we'd be dealing with a security breach (session forgery)
+        if ($session['ip'] != $_SERVER['REMOTE_ADDR'] || $session['user_agent'] != $_SERVER['HTTP_USER_AGENT'])
+            return;
+
+        else
+            $this->_sessionUID = $session['user_id'];
+    }
+
+    public function logout() : void {
+        $session = new Session($this->config->read('session_name') . '_sid');
+        $session->destroy($this->config->read('cookie_id'));
+    }
+
+    public function hasPermission(string $key) : bool {
+        return false;
+    }
+
+    public function isGuest() : bool {
+        return $this->_id == 0;
+    }
+
+    public function getID() : int {
+        return $this->_id;
+    }
+
+    public function getUsername() : string {
+        return $this->_username;
+    }
+
+    public function getFirstName() : string {
+        return $this->_firstName;
+    }
+
+    public function getLastName() : string {
+        return $this->_lastName;
+    }
+
+    public function getEmail() : string {
+        return $this->_email;
+    }
+
+    public function getPrimaryGroup() : int {
+        return $this->_primaryGroup;
+    }
+
+    public function getGroups() : array {
+        return $this->_groups;
+    }
+
+    public function getSex() : int {
+        return $this->_sex;
+    }
+
+    public function getBirthdate() : string {
+        return $this->_birthdate;
+    }
+
+    public function getIP() : int {
+        return $this->_ip;
     }
 }

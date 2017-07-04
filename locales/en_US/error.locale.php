@@ -27,5 +27,8 @@ return [
 
     'query' => 'The exception was caused by the following query: ',
     'no_homepage_found' => 'No homepage found. Did you run the installer?',
-    'homepage_id_not_a_number' => 'Homepage ID not a number. Not sure what happened here...'
+    'homepage_id_not_a_number' => 'Homepage ID not a number. Not sure what happened here...',
+
+    'access_denied' => 'Access denied',
+    'access_denied_why' => 'You do not have access to this section.'
 ];
