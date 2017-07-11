@@ -3,6 +3,11 @@
     <head>
         <title>{$title} | {$wiki_name}</title>
 
+        <script type="text/javascript">
+            var please_confirm = '{$locale->read('script', 'please_confirm')}';
+            var ok = '{$locale->read('script', 'ok')}';
+        </script>
+
         <link rel="stylesheet" type="text/css" href="{$skin_url}main" />
         <link rel="stylesheet" type="text/css" href="{$node_url}/zebra_dialog/dist/css/flat/zebra_dialog.css" />
         <link rel="icon" href="{$url}/favicon.png" sizes="16x16" type="image/png" />
@@ -12,6 +17,18 @@
 		<script type="text/javascript" src="{$node_url}/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="{$node_url}/zebra_dialog/dist/zebra_dialog.min.js"></script>
         <script type="text/javascript" src="{$script_url}/dw-controller.js"></script>
+
+        {if $display_cookie_warning}
+        <link rel="stylesheet" type="text/css" href="{$node_url}/cookieconsent/build/cookieconsent.min.css" />
+        <script type="text/javascript" src="{$node_url}/cookieconsent/build/cookieconsent.min.js"></script>
+        <script type="text/javascript" src="{$script_url}/cookie.js"></script>
+
+        <script type="text/javascript">
+            var cookie_header = '{$locale->read('script', 'cookie_header')}';
+            var cookie_explained = '{$locale->read('script', 'cookie_explained')}';
+            var cookie_click_here = '{$locale->read('script', 'cookie_click_here')}';
+        </script>
+        {/if}
     </head>
     <body>
         <div id="wrapper">

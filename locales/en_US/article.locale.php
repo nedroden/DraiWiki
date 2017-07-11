@@ -18,5 +18,6 @@
 
 return [
     'editing' => 'Editing article: ',
+    'deleting' => 'Deleting article',
     'new_article' => 'New article'
 ];

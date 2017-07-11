@@ -24,6 +24,7 @@ abstract class AppHeader {
     protected $user, $config, $title, $requiredPermission;
 
     protected $hasSidebar = true;
+    protected $cantProceedException;
 
     /**
      * Whether or not main templates should be shown. There are four possible values:
@@ -53,7 +54,7 @@ abstract class AppHeader {
         die;
     }
 
-    protected function setTitle(string $title) : void {
+    public function setTitle(string $title) : void {
         $this->title = Sanitizer::ditchUnderscores($title);
     }
 
@@ -77,6 +78,10 @@ abstract class AppHeader {
 
     public function getSidebarItems() : array {
         return [];
+    }
+
+    public function getCantProceedException() : ?string {
+        return $this->cantProceedException;
     }
 
     public function canAccess() : bool {

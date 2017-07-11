@@ -18,24 +18,26 @@ if (!defined('DraiWiki')) {
 
 use DraiWiki\src\core\controllers\Registry;
 
-class AccessError extends Error {
+class CantProceedException extends Error {
 
-    private $_locale;
+    private $_locale, $_message;
 
-    public function __construct() {
+    public function __construct(string $message) {
         $this->_locale = Registry::get('locale');
         $this->_locale->loadFile('error');
+
+        $this->_message = $message;
     }
 
     public function trigger() : void {
         $message = $this->generateMessage();
-        echo Registry::get('gui')->parseAndGet('permission_error', $message, false);
+        echo Registry::get('gui')->parseAndGet('cant_proceed_exception', $message, false);
     }
 
     protected function generateMessage() : array {
         return [
-            'title' => $this->_locale->read('error', 'access_denied'),
-            'body' => $this->_locale->read('error', 'access_denied_why')
+            'title' => $this->_locale->read('error', 'cant_proceed_exception'),
+            'body' => $this->_message
         ];
     }
 }

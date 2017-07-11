@@ -47,6 +47,7 @@ class Locale {
 
 		$this->loadFile('main');
 		$this->loadFile('error');
+		$this->loadFile('script');
 	}
 
 	public function loadFile(string $filename) : void {

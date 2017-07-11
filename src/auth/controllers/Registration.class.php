@@ -31,14 +31,6 @@ class Registration extends AppHeader {
 
         $this->_model = new Model();
         $this->_errors = [];
-
-        $this->setTitle($this->_model->getTitle());
-
-        if (!empty($_POST))
-            $this->handlePostRequest();
-
-        $data = $this->_model->prepareData() + ['errors' => $this->_errors];
-        $this->_view = Registry::get('gui')->parseAndGet('registration', $data, false);
     }
 
     private function handlePostRequest() : void {
@@ -56,6 +48,22 @@ class Registration extends AppHeader {
 
     public function canAccess() : bool {
         return $this->user->isGuest();
+    }
+
+    public function execute() : void {
+        if ($this->config->read('disable_registration') == 1) {
+            $this->cantProceedException = 'registration_disabled';
+            $this->setTitle($this->_model->getRegistrationDisabledTitle());
+            return;
+        }
+
+        $this->setTitle($this->_model->getTitle());
+
+        if (!empty($_POST))
+            $this->handlePostRequest();
+
+        $data = $this->_model->prepareData() + ['errors' => $this->_errors];
+        $this->_view = Registry::get('gui')->parseAndGet('registration', $data, false);
     }
 
     public function display() : void {

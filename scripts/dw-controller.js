@@ -27,3 +27,16 @@ $(document).ready(function() {
         }, 700);
     });
 });
+
+function requestConfirm(url) {
+    new $.Zebra_Dialog(please_confirm, {
+            width: 700,
+            type: 'confirmation',
+            buttons: [{
+                caption: ok, callback: function() {
+                    window.location = url
+                }
+            }]
+        }
+    );
+}

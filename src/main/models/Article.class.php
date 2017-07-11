@@ -38,6 +38,8 @@ class Article extends ModelHeader {
     private $_tempInfo;
     private $_updatedTitle = false;
 
+    private $_subApp;
+
     public function __construct(?string $requestedArticle, bool $isHomepage) {
         $this->_requestedArticle = $requestedArticle;
         $this->_isHomepage = $isHomepage;
@@ -45,6 +47,7 @@ class Article extends ModelHeader {
 
         $this->loadLocale();
         $this->loadConfig();
+        $this->loadUser();
         $this->locale->loadFile('article');
         $this->locale->loadFile('editor');
         $this->load();
@@ -111,11 +114,13 @@ class Article extends ModelHeader {
             SELECT id
                 FROM {db_prefix}article
                 WHERE id = :id
+                AND `status` != :art_status
                 LIMIT 1
         ');
 
         $query->setParams([
-            'id' => $id
+            'id' => $id,
+            'art_status' => 2
         ]);
 
         foreach ($query->execute() as $entry)
@@ -130,12 +135,14 @@ class Article extends ModelHeader {
                 FROM {db_prefix}article
                 WHERE title = :title
                 AND id != :id
+                AND `status` != :art_status
                 LIMIT 1
         ');
 
         $query->setParams([
             'id' => $id,
-            'title' => $title
+            'title' => $title,
+            'art_status' => 2
         ]);
 
         foreach ($query->execute() as $entry)
@@ -145,14 +152,14 @@ class Article extends ModelHeader {
     }
 
     public function getTitle() : string {
-        /* Ok, this is a little confusing, but there are two properties
-           called "title". One of them, "_title" refers to the article
-           title, while the other, "title" refers to the page title. */
-        return !$this->_isEditing && !$this->_forceEdit ? $this->_title : $this->locale->read('article', 'editing') . $this->_title;
-    }
-
-    public function setIsEditing(bool $status) : void {
-        $this->_isEditing = $status;
+        switch ($this->_subApp) {
+            case 'delete':
+                return $this->locale->read('article', 'deleting');
+            case 'edit':
+                return $this->locale->read('article', 'editing') . $this->_title;
+            default:
+                return $this->_title;
+        }
     }
 
     public function prepareData() : array {
@@ -259,7 +266,7 @@ class Article extends ModelHeader {
                 'title' => $this->_title,
                 'locale_id' => $this->locale->getID(),
                 'status_nr' => 1,
-                'user_id' => 1,
+                'user_id' => $this->user->getID(),
                 'body' => $this->_bodyUnparsed
             ]);
         }
@@ -281,7 +288,7 @@ class Article extends ModelHeader {
 
             $params = [
                 'id' => $this->_id,
-                'user_id' => 1,
+                'user_id' => $this->user->getID(),
                 'body' => $this->_bodyUnparsed
             ];
 
@@ -306,11 +313,47 @@ class Article extends ModelHeader {
         }
     }
 
-    public function determineView() : string {
-        return ($this->_isEditing || $this->_forceEdit) ? 'editor' : 'article';
+    public function softDelete() : bool {
+        if ($this->_id == 0)
+            return false;
+
+        $query = QueryFactory::produce('modify', '
+            UPDATE {db_prefix}article
+                SET `status` = 2
+                WHERE id = :id
+        ');
+
+        $query->setParams(['id' => $this->_id]);
+        $query->execute();
+
+        return true;
     }
 
     public function getSafeTitle() : string {
         return $this->_titleSafe;
+    }
+
+    public function getID() : int {
+        return $this->_id;
+    }
+
+    public function getIsHomepage() : bool {
+        return $this->_id == $this->locale->getHomepageID();
+    }
+
+    public function getIsEditing() : bool {
+        return $this->_forceEdit || $this->_isEditing;
+    }
+
+    public function setIsEditing(bool $status) : void {
+        $this->_isEditing = $status;
+    }
+
+    public function determineView() : string {
+        return ($this->_isEditing || $this->_forceEdit) ? 'editor' : 'article';
+    }
+
+    public function setSubApp(string $subApp) : void {
+        $this->_subApp = $subApp;
     }
 }

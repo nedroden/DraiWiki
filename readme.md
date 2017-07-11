@@ -33,7 +33,10 @@ It also has built-in multi-language support, meaning you won't need an extension
 #### 2.3.1. Help! I don't have access to a terminal!
 If you're on a shared hosting that doesn't allow you to install Composer/NPM, don't worry. There's another solution. Just download the files to your computer and install the Composer and NPM packages from your computer's terminal. Then re-upload the files to your hosting. Happy writing!
 
-## 3. Open positions
+## 3. Known issues
+* Account activation is broken (registration with email activation disabled works fine)
+
+## 4. Open positions
 We're always looking to expand our team. Currently, the following positions are open:
 * Development
 * Quality Assurance

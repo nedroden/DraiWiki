@@ -57,7 +57,9 @@ class GUI {
             'script_url' => $this->_config->read('url') . '/scripts',
             'wiki_version' => Main::WIKI_VERSION,
             'teams' => $this->getTeamMembers(),
-            'packages' => $this->getLibraries()
+            'packages' => $this->getLibraries(),
+            'user' => $this->_user,
+            'display_cookie_warning' => $this->_config->read('display_cookie_warning') == 1
         ]);
     }
 
@@ -88,7 +90,8 @@ class GUI {
             'node_url' => $this->_config->read('url') . '/node_modules',
             'locale' => $this->_locale,
             'copyright' => $this->_copyright,
-            'script_url' => $this->_config->read('url') . '/scripts'
+            'script_url' => $this->_config->read('url') . '/scripts',
+            'user' => $this->_user
         ], $data);
 
         $dataObject = new Data();
@@ -141,10 +144,12 @@ class GUI {
         return [
             ['name' => 'CodeMirror', 'href' => 'https://codemirror.net/'],
             ['name' => 'CodeMirror spell checker', 'href' => 'https://codemirror.net/'],
+            ['name' => 'Cookie consent', 'href' => 'https://cookieconsent.insites.com'],
             ['name' => 'Dwoo', 'href' => 'http://dwoo.org'],
             ['name' => 'jQuery', 'href' => 'https://jquery.com'],
             ['name' => 'Marked', 'href' => 'https://github.com/chjj/marked'],
             ['name' => 'Parsedown', 'href' => 'http://parsedown.org'],
+            ['name' => 'SimpleMail', 'href' => 'https://github.com/eoghanobrien/php-simple-mail'],
             ['name' => 'SimpleMDE', 'href' => 'https://simplemde.com'],
             ['name' => 'Typo JS', 'href' => 'https://github.com/cfinke/Typo.js/'],
             ['name' => 'Zebra Dialog', 'href' => 'https://github.com/stefangabos/Zebra_Dialog']

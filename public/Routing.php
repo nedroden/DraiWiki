@@ -28,6 +28,7 @@ use FastRoute;
 function createRoutes() : array {
 
 	$router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $routeCollector) {
+	    $routeCollector->get('/activate/{code}', 'activate');
 	    $routeCollector->get('/article/{title}', 'article');
 		$routeCollector->addRoute(['GET', 'POST'], '/article/{title}/{action}', 'article');
 

@@ -17,11 +17,12 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\core\controllers\Registry;
-use DraiWiki\src\errors\AccessError;
+use DraiWiki\src\errors\{AccessError, CantProceedException};
 
 class App {
 
-    private $_route, $_currentApp, $_appObject, $_appInfo;
+    private $_route, $_currentApp, $_appObject, $_appInfo, $_locale;
+    private $_cantProceed;
 
     const DEFAULT_APP = 'article';
 
@@ -29,12 +30,17 @@ class App {
         $this->_route = Registry::get('route');
         $this->_currentApp = $this->_route->getApp();
 
+        $this->_locale = Registry::get('locale');
+
         $classPath = $this->detect();
         $this->load($classPath);
+
+        $this->_cantProceed = false;
     }
 
     private function detect() : string {
         $apps = [
+            'activate' => 'DraiWiki\src\auth\controllers\Activate',
             'article' => 'DraiWiki\src\main\controllers\Article',
             'login' => 'DraiWiki\src\auth\controllers\Login',
             'logout' => 'DraiWiki\src\auth\controllers\Logout',
@@ -67,19 +73,32 @@ class App {
     }
 
     public function execute() : void {
-        if ($this->canAccess())
+        if ($this->canAccess()) {
             $this->_appObject->execute();
+
+            if ($this->hasCantProceedException()) {
+                $this->_appObject->setTitle($this->_locale->read('error', 'something_went_wrong'));
+                $this->_cantProceed = true;
+            }
+        }
+        else
+            $this->_appObject->setTitle($this->_locale->read('error', 'access_denied'));
+    }
+
+    public function hasCantProceedException() : bool {
+        return !empty($this->_appObject->getCantProceedException());
     }
 
     public function display() : void {
-        if ($this->canAccess()) {
+        if ($this->canAccess() && !$this->_cantProceed) {
             if ($this->_appInfo['has_sidebar'])
                 Registry::get('gui')->displaySidebar($this->_appObject->getSidebarItems());
 
             $this->_appObject->display();
         }
-
-        // Display an error page
+        else if ($this->_cantProceed) {
+            (new CantProceedException($this->_locale->read('error', $this->_appObject->getCantProceedException())))->trigger();
+        }
         else {
             Registry::get('gui')->displaySidebar($this->_appObject->getSidebarItems());
 
@@ -91,7 +110,7 @@ class App {
         $info = $this->_appObject->getAppInfo();
 
         $this->_appInfo = [
-            'title' => $info['title'],
+            'title' => $this->canAccess() ? $info['title'] : $this->_locale->read('main', 'access_denied'),
             'has_sidebar' => $info['has_sidebar']
         ];
 

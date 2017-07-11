@@ -33,11 +33,6 @@ class DatabaseException extends Error {
         die;
     }
 
-    /**
-     * Core exceptions are a little different from regular exceptions. That is why we're overriding the error
-     * message generator.
-     * @return array
-     */
     protected function generateMessage() : array {
         return [
             'title' => $this->hasLocale ? $this->locale->read('error', 'database_exception') : 'Database exception',

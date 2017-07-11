@@ -42,10 +42,10 @@ class LogEntry {
         $query = QueryFactory::produce('modify', '
             INSERT
                 INTO {db_prefix}log_errors (
-                    message, `data`, type, dtime
+                    message, `data`, type, dtime, ip_address
                 )
                 VALUES (
-                    :message, :error_data, :type, NOW()
+                    :message, :error_data, :type, NOW(), :ip
                 )
         ');
 
@@ -61,7 +61,8 @@ class LogEntry {
         $query->setParams([
             'message' => $this->_message,
             'error_data' => $data,
-            'type' => $this->_data['error_type'] ?? 0
+            'type' => $this->_data['error_type'] ?? 0,
+            'ip' => $_SERVER['REMOTE_ADDR']
         ]);
 
         $query->execute();

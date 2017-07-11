@@ -89,5 +89,18 @@ return [
     'username_in_use' => 'The specified username is already in use',
     'email_address_in_use' => 'The specified email address is already used by another member',
 
-    'email_or_password_not_found' => 'No account was found with the specified email address and password'
+    'email_or_password_not_found' => 'No account was found with the specified email address and password',
+
+    'registration_disabled_title' => 'Registration disabled',
+    'registration_disabled' => 'At the moment it is not possible to register a new user account, as the wiki admin has disabled registration.',
+
+    'registration_mail_title' => 'Registration at %s',
+    'registration_mail_body' => 'Hello, {first_name}!<br /><br />
+Welcome to {wiki_name}. Before you can get started, there is one more thing you need to do: activate your user account. Luckily, that only takes a minute. Please
+click on the link below to activate your account:
+
+<a href="{activation_link}" target="_blank">{activation_link}</a>
+
+Regards,
+The {wiki_name} team'
 ];

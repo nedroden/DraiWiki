@@ -21,24 +21,38 @@ use DraiWiki\src\main\models\{AppHeader, Article as Model};
 
 class Article extends AppHeader {
 
-    private $_model, $_route, $_view;
+    private $_model, $_route, $_view, $_subApp;
 
     private $_errors = [];
 
     public function __construct(?string $title, bool $isHomepage = false) {
         $this->loadConfig();
+        $this->loadUser();
 
         $this->_model = new Model($title, $isHomepage);
         $this->_route = Registry::get('route');
 
-        if (!empty($_POST))
-            $this->handleEditRequest();
+        if (!empty($this->_route->getParams()['action']))
+            $this->takeActionMeasures();
 
-        $this->_model->setIsEditing($this->areWeEditing());
-        $this->setTitle($this->_model->getTitle());
+        if (!empty($this->_subApp))
+            $this->_model->setSubApp($this->_model->getIsEditing() && $this->canAccess('edit_articles') ? 'edit' : $this->_subApp);
+    }
 
-        $data = $this->_model->prepareData() + ['errors' => $this->_errors];
-        $this->_view = Registry::get('gui')->parseAndGet($this->_model->determineView(), $data, false);
+    private function takeActionMeasures() : void {
+        switch ($this->_route->getParams()['action']) {
+            case 'edit':
+                $this->requiredPermission = 'edit_articles';
+                $this->_subApp = 'edit';
+                $this->_model->setIsEditing(true);
+                break;
+            case 'delete':
+                $this->requiredPermission = 'soft_delete_articles';
+                $this->_subApp = 'delete';
+                break;
+            default:
+                $this->_subApp = 'unknown';
+        }
     }
 
     private function handleEditRequest() : void {
@@ -51,13 +65,31 @@ class Article extends AppHeader {
         }
     }
 
-    /**
-     * If we are editing, we need to tell so to the model. If we don't the model will
-     * get mad and divorce us. Not good! :(
-     * @return bool This tells us if we're editing. Yep, really!
-     */
-    private function areWeEditing() : bool {
-        return !empty($this->_route->getParams()['action']) && $this->_route->getParams()['action'] == 'edit';
+    private function delete() : void {
+        if ($this->_model->getIsHomepage()) {
+            $this->cantProceedException = 'cannot_delete_homepage';
+            return;
+        }
+
+        if ($this->_model->softDelete())
+            $this->redirectTo($this->config->read('url') . '/index.php');
+        else
+            $this->cantProceedException = 'cannot_delete_article';
+    }
+
+    public function execute() : void {
+        if (!empty($_POST) && $this->_subApp == 'edit')
+            $this->handleEditRequest();
+
+        $this->setTitle($this->_model->getTitle());
+
+        if ($this->_subApp == 'delete') {
+            $this->delete();
+            return;
+        }
+
+        $data = $this->_model->prepareData() + ['errors' => $this->_errors];
+        $this->_view = Registry::get('gui')->parseAndGet($this->_model->determineView(), $data, false);
     }
 
     public function display() : void {
@@ -78,7 +110,13 @@ class Article extends AppHeader {
                     'edit' => [
                         'label' => 'edit_article',
                         'href' => $this->config->read('url') . '/index.php/article/' . $this->_model->getSafeTitle() . '/edit',
-                        'visible' => true
+                        'visible' => $this->user->hasPermission('edit_articles')
+                    ],
+                    'delete' => [
+                        'label' => 'delete_article',
+                        'href' => $this->config->read('url') . '/index.php/article/' . $this->_model->getSafeTitle() . '/delete',
+                        'visible' => $this->user->hasPermission('soft_delete_articles'),
+                        'request_confirm' => true
                     ]
                 ]
             ]

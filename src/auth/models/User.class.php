@@ -17,25 +17,35 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\core\controllers\QueryFactory;
+use DraiWiki\src\core\models\LogEntry;
 use DraiWiki\src\core\models\Session;
 use DraiWiki\src\main\models\ModelHeader;
+use SimpleMail;
 
 class User extends ModelHeader {
 
     // Note: passwords are hashed before they arrive here
     private $_id, $_username, $_password, $_firstName, $_lastName;
-    private $_email, $_primaryGroup, $_groups;
+    private $_email, $_primaryGroup, $_groups, $_isActivated;
     private $_sex, $_birthdate, $_ip, $_cookieLength;
 
-    private $_sessionUID = 0;
+    private $_sessionUID;
+    private $_isRoot;
+
+    private $_permissions;
 
     public function __construct(int $specificUser = null, array $details = []) {
         $this->loadConfig();
         $this->loadLocale();
 
         $this->locale->loadFile('auth');
+        $this->locale->loadFile('error');
+        $this->_sessionUID = 0;
 
         $this->setSessionUID();
+
+        $this->_permissions = [];
+        $this->_isRoot = false;
 
         // If we're dealing with a registration we shouldn't attempt to load user information from the database
         if (empty($details) && empty($specificUser))
@@ -62,12 +72,58 @@ class User extends ModelHeader {
 
         foreach ($query->execute() as $user) {
             $this->setUserInfo($user);
+            $this->loadPermissions();
             return;
         }
 
         $this->setUserInfo([
             'group_id' => 5
         ]);
+
+        $this->loadPermissions();
+    }
+
+    private function loadPermissions() : void {
+        // If we're dealing with a root account, there's no need to load permissions
+        if (in_array(1, $this->_groups)) {
+            $this->_isRoot = true;
+            return;
+        }
+
+        // Load the permissions for each group the user belongs to
+        $query = QueryFactory::produce('select', '
+            SELECT p.permissions
+                FROM `{db_prefix}group` g
+                INNER JOIN {db_prefix}permission_group p ON (g.permission_group_id = p.id)
+                WHERE g.id IN (:ids)
+        ');
+
+        $query->setParams(['ids' => implode(',', $this->_groups)]);
+        $result = $query->execute();
+
+        $deniedPermissions = [];
+
+        foreach ($result as $profile) {
+            if (empty($profile['permissions']))
+                continue;
+
+            $permissions = explode(';', $profile['permissions']);
+
+            foreach ($permissions as $permission) {
+                $currentPermission = explode(':', $permission);
+
+                if ($currentPermission[1] == 'a')
+                    $this->_permissions[] = $currentPermission[0];
+                else
+                    $deniedPermissions[] = $currentPermission[0];
+            }
+        }
+
+        // Get rid of the permissions we shouldn't have
+        foreach ($deniedPermissions as $deniedPermission) {
+            if (isset($this->_permissions[$deniedPermission]))
+                unset($this->_permissions[$deniedPermission]);
+        }
     }
 
     private function validate() : array {
@@ -113,11 +169,11 @@ class User extends ModelHeader {
 
         // We're dealing with a new user here, so we don't have any secondary groups
         if (empty($details['group_id']))
-            $this->_groups = $this->_primaryGroup;
+            $this->_groups = [$this->_primaryGroup];
         else if (!empty($details['secondary_groups']))
-            $this->_groups = implode(', ', array_merge([$details['group_id']], $details['secondary_group']));
+            $this->_groups = array_merge([$details['group_id']], $details['secondary_groups']);
         else
-            $this->_groups = $details['group_id'];
+            $this->_groups = [$details['group_id']];
 
         $this->_ip = $details['ip'] ?? '127.0.0.1';
 
@@ -126,6 +182,8 @@ class User extends ModelHeader {
         $this->_email = $details['email'] ?? 'nobody@example.com';
 
         $this->_cookieLength = $details['cookie_length'] ?? 7 * 24 * 60 * 60;
+
+        $this->_isActivated = $details['activated'] ?? $this->config->read('enable_email_activation') == 1 ? 0 : 1;
     }
 
     public function create(array &$errors) : void {
@@ -139,23 +197,21 @@ class User extends ModelHeader {
             INSERT
                 INTO `{db_prefix}user` (
                     username, `password`, email_address, sex, birthdate, first_name, last_name, 
-                    ip_address, group_id, secondary_groups
+                    ip_address, group_id, secondary_groups, activated
                 )
                 VALUES (
                     :username, :passw, :email, :sex, :birthdate,
                     :first_name, :last_name, :ip_address,
-                    :group_id, :secondary_groups
+                    :group_id, :secondary_groups, :activated
                 )
         ');
 
-        $groups = explode(', ', $this->_groups);
-
         // Don't include the primary user groups as a secondary group
-        if (count($groups) == 0 || (count($groups) == 1 && $groups[0] == $this->_primaryGroup))
+        if (count($this->_groups) == 0 || (count($this->_groups) == 1 && $this->_groups[0] == $this->_primaryGroup))
             $groups = null;
         else {
-            unset($groups[0]);
-            $groups = count($groups) >= 1 ? implode(', ', $groups) : null;
+            unset($this->_groups[0]);
+            $this->_groups = count($this->_groups) >= 1 ? implode(', ', $this->_groups) : null;
         }
 
         $query->setParams([
@@ -168,12 +224,47 @@ class User extends ModelHeader {
             'last_name' => $this->_lastName,
             'ip_address' => $this->_ip,
             'group_id' => $this->_primaryGroup,
-            'secondary_groups' => $groups
+            'secondary_groups' => $this->_groups,
+            'activated' => $this->_isActivated
         ]);
 
         $query->execute();
 
         unset($this->_password);
+
+        if ($this->config->read('enable_email_activation') == 1 && $this->_isActivated == 0)
+            $this->sendVerificationMail();
+    }
+
+    private function sendVerificationMail() : void {
+        $activationCode = new ActivationCode($this->_id);
+
+        $replaceThis = [
+            '{wiki_name}',
+            '{first_name}',
+            '{activation_code}',
+            '{activation_link}'
+        ];
+
+        $replaceWith = [
+            $this->config->read('wiki_name'),
+            $this->_firstName,
+            $activationCode->getCode(),
+            $activationCode->getLink()
+        ];
+
+        $messageBody = str_replace($replaceThis, $replaceWith, $this->locale->read('auth', 'registration_mail_body'));
+
+        $email = SimpleMail::make()
+            ->setTo($this->_email, $this->_firstName . ' ' . $this->_lastName)
+            ->setFrom($this->config->read('wiki_email'), $this->config->read('wiki_name'))
+            ->setSubject(sprintf($this->locale->read('auth', 'registration_mail_title'), $this->config->read('wiki_name')))
+            ->setMessage($messageBody)
+            ->setHtml()
+            ->send();
+
+        if (!$email)
+            (new LogEntry($this->locale->read('error', 'could_not_send_mail'), 'error', ['email' => $this->_email]))->create();
     }
 
     /**
@@ -228,8 +319,27 @@ class User extends ModelHeader {
         $session->destroy($this->config->read('cookie_id'));
     }
 
+    /**
+     * Activates the user's account. Note: it is up to the developer to make
+     * sure a valid verification code was used. This function assumes it was.
+     * @return void
+     */
+    public function activate() : void {
+        $query = QueryFactory::produce('modify', '
+            UPDATE `{db_prefix}user`
+                SET activated = 1
+                WHERE id = :uid
+        ');
+
+        $query->setParams(['uid' => $this->_id]);
+        $query->execute();
+    }
+
     public function hasPermission(string $key) : bool {
-        return false;
+        if ($this->_isRoot)
+            return true;
+
+        return in_array($key, $this->_permissions);
     }
 
     public function isGuest() : bool {

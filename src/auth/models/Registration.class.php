@@ -138,4 +138,8 @@ class Registration extends ModelHeader {
         $user = new User(null, $userInfo);
         $user->create($errors);
     }
+
+    public function getRegistrationDisabledTitle() : string {
+        return $this->locale->read('auth', 'registration_disabled_title');
+    }
 }
