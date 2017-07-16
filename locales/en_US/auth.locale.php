@@ -92,7 +92,6 @@ return [
     'email_or_password_not_found' => 'No account was found with the specified email address and password',
 
     'registration_disabled_title' => 'Registration disabled',
-    'registration_disabled' => 'At the moment it is not possible to register a new user account, as the wiki admin has disabled registration.',
 
     'registration_mail_title' => 'Registration at %s',
     'registration_mail_body' => 'Hello, {first_name}!<br /><br />

@@ -27,6 +27,7 @@ class GUI {
     private $_data;
     private $_copyright;
     private $_user;
+    private $_teamMembers, $_libraries;
 
     private const DEFAULT_THEME = 'Hurricane';
 
@@ -48,6 +49,9 @@ class GUI {
         // Unfortunately we can't use sprintf in templates, so we have to do this manually
         $this->_locale->replace('main', 'hello', $this->_user->getUsername());
 
+        $this->setLibraries();
+        $this->setTeamMembers();
+
         $this->setData([
             'skin_url' => $this->_skinUrl,
             'image_url' => $this->_imageUrl,
@@ -56,8 +60,8 @@ class GUI {
             'node_url' => $this->_config->read('url') . '/node_modules',
             'script_url' => $this->_config->read('url') . '/scripts',
             'wiki_version' => Main::WIKI_VERSION,
-            'teams' => $this->getTeamMembers(),
-            'packages' => $this->getLibraries(),
+            'teams' => $this->_teamMembers,
+            'packages' => $this->_libraries,
             'user' => $this->_user,
             'display_cookie_warning' => $this->_config->read('display_cookie_warning') == 1
         ]);
@@ -125,8 +129,8 @@ class GUI {
         $this->_copyright = 'Powered by <a href="https://draiwiki.robertmonden.com" target="_blank" id="dw-about-link">DraiWiki</a> ' . Main::WIKI_VERSION;
     }
 
-    private function getTeamMembers() : array {
-        return [
+    private function setTeamMembers() : void {
+        $this->_teamMembers = [
             'president' => [
                 'label' => $this->_locale->read('main', 'team_president'),
                 'members' => [
@@ -140,14 +144,20 @@ class GUI {
         ];
     }
 
-    private function getLibraries() : array {
-        return [
+    private function setLibraries() : void {
+        $this->_libraries = [
+            ['name' => 'Chart.js', 'href' => 'http://chartjs.org'],
             ['name' => 'CodeMirror', 'href' => 'https://codemirror.net/'],
             ['name' => 'CodeMirror spell checker', 'href' => 'https://codemirror.net/'],
+            ['name' => 'Color convert', 'href' => 'https://github.com/Qix-/color-convert'],
+            ['name' => 'Color name', 'href' => 'https://github.com/colorjs/color-name'],
             ['name' => 'Cookie consent', 'href' => 'https://cookieconsent.insites.com'],
+            ['name' => 'DataTables', 'href' => 'https://datatables.net'],
             ['name' => 'Dwoo', 'href' => 'http://dwoo.org'],
+            ['name' => 'Font Awesome', 'href' => 'http://fontawesome.io/'],
             ['name' => 'jQuery', 'href' => 'https://jquery.com'],
             ['name' => 'Marked', 'href' => 'https://github.com/chjj/marked'],
+            ['name' => 'Moment', 'href' => 'http://momentjs.com'],
             ['name' => 'Parsedown', 'href' => 'http://parsedown.org'],
             ['name' => 'SimpleMail', 'href' => 'https://github.com/eoghanobrien/php-simple-mail'],
             ['name' => 'SimpleMDE', 'href' => 'https://simplemde.com'],
@@ -162,6 +172,11 @@ class GUI {
                 'label' => 'home',
                 'href' => $this->_config->read('url') . '/index.php',
                 'visible' => true
+            ],
+            'manage' => [
+                'label' => 'manage',
+                'href' => $this->_config->read('url') . '/index.php/management',
+                'visible' => $this->_user->hasPermission('manage_site')
             ],
             'login' => [
                 'label' => 'login',
@@ -208,6 +223,11 @@ class GUI {
                         'label' => 'random',
                         'href' => $this->_config->read('url') . '/index.php/random',
                         'visible' => true
+                    ],
+                    'manage' => [
+                        'label' => 'manage',
+                        'href' => $this->_config->read('url') . '/index.php/management',
+                        'visible' => $this->_user->hasPermission('manage_site')
                     ],
                     'login' => [
                         'label' => 'login',
@@ -259,5 +279,17 @@ class GUI {
 
     public function getImageUrl() : string {
         return $this->_imageUrl;
+    }
+
+    public function getCopyright() : string {
+        return $this->_copyright;
+    }
+
+    public function getTeamMembers() : array {
+        return $this->_teamMembers;
+    }
+
+    public function getLibraries() : array {
+        return $this->_libraries;
     }
 }

@@ -28,12 +28,20 @@ use FastRoute;
 function createRoutes() : array {
 
 	$router = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $routeCollector) {
+        // AJAX
+        $routeCollector->get('/management/{subapp}/ajax/{ajax_request}', 'management');
+        $routeCollector->get('/management/{subapp}/{section}/ajax/{ajax_request}', 'management');
+
 	    $routeCollector->get('/activate/{code}', 'activate');
 	    $routeCollector->get('/article/{title}', 'article');
 		$routeCollector->addRoute(['GET', 'POST'], '/article/{title}/{action}', 'article');
 
 		$routeCollector->get('/locale/{locale}', 'changelocale');
 		$routeCollector->get('/locale/{locale}/{article}', 'changelocale');
+
+        $routeCollector->get('/management', 'management');
+        $routeCollector->get('/management/{subapp}', 'management');
+        $routeCollector->get('/management/{subapp}/{section}', 'management');
 
 		$routeCollector->get('/random', 'random');
 
@@ -42,7 +50,7 @@ function createRoutes() : array {
 	    $routeCollector->get('/logout', 'logout');
 	});
 
-	// If DraiWiki is placed in a subdirectory, routing will not work, so we shouldn't include the directory in the url
+	// We need to do a few more things if we've placed DraiWiki in a subdirectory
 	$uri = $_SERVER['REQUEST_URI'];
 	$subdirs = explode('/', parse_url($uri, PHP_URL_PATH));
 	$currentLocation = '';
@@ -62,7 +70,7 @@ function createRoutes() : array {
 	    $uri = substr($uri, 0, $pos);
 	}
 
-	$uri = rawurldecode($uri);
+	$uri = rawurldecode(rtrim($uri, '/'));
 	$routeInfo = $router->dispatch($_SERVER['REQUEST_METHOD'], $uri);
 
 	if (!empty($routeInfo[1])) {

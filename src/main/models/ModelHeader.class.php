@@ -37,4 +37,8 @@ abstract class ModelHeader {
     public function prepareData() : array {
         return [];
     }
+
+    public function generateJSON() : string {
+        return '';
+    }
 }

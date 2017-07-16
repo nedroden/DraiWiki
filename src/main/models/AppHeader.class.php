@@ -25,6 +25,9 @@ abstract class AppHeader {
 
     protected $hasSidebar = true;
     protected $cantProceedException;
+    protected $ajax, $parsedAJAXRequest;
+
+    private $_ajaxRequest;
 
     /**
      * Whether or not main templates should be shown. There are four possible values:
@@ -89,5 +92,38 @@ abstract class AppHeader {
             $this->loadUser();
 
         return empty($this->requiredPermission) ? true : $this->user->hasPermission($this->requiredPermission);
+    }
+
+    protected function checkForAjax() : void {
+        $route = Registry::get('route');
+
+        if (!empty($route->getParams()['ajax_request'])) {
+            $this->ajax = true;
+            $this->ignoreTemplates = 'both';
+            $this->_ajaxRequest = $route->getParams()['ajax_request'];
+        }
+
+        else
+            $this->ajax = false;
+    }
+
+    public function parseAjaxRequest() : void {
+        $requests = explode(';', $this->_ajaxRequest);
+        $parameters = [];
+
+        foreach ($requests as $parts) {
+            $parsed = explode('_', $parts);
+
+            if (count($parsed) == 2)
+                $parameters[$parsed[0]] = $parsed[1];
+            else if (count($parsed) == 1)
+                $parameters[$parsed[0]] = 1;
+        }
+
+        $this->parsedAJAXRequest = $parameters;
+    }
+
+    public function printJSON() : void {
+        return;
     }
 }

@@ -72,10 +72,15 @@ class Main {
 		$app = new App();
 		$app->execute();
 
-		$gui->setData($app->getHeaderContext());
+		$headerContext = $app->getHeaderContext();
+		$gui->setData($headerContext);
 
-		$gui->showHeader();
+		if ($headerContext['ignore_templates'] != 'both' && $headerContext['ignore_templates'] != 'header')
+		    $gui->showHeader();
+
 		$app->display();
-		$gui->showFooter();
+
+        if ($headerContext['ignore_templates'] != 'both' && $headerContext['ignore_templates'] != 'footer')
+		    $gui->showFooter();
     }
 }

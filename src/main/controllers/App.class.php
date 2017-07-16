@@ -44,6 +44,7 @@ class App {
             'article' => 'DraiWiki\src\main\controllers\Article',
             'login' => 'DraiWiki\src\auth\controllers\Login',
             'logout' => 'DraiWiki\src\auth\controllers\Logout',
+            'management' => 'DraiWiki\src\admin\controllers\Management',
             'random' => 'DraiWiki\src\main\controllers\Random',
             'register' => 'DraiWiki\src\auth\controllers\Registration'
         ];
@@ -100,7 +101,8 @@ class App {
             (new CantProceedException($this->_locale->read('error', $this->_appObject->getCantProceedException())))->trigger();
         }
         else {
-            Registry::get('gui')->displaySidebar($this->_appObject->getSidebarItems());
+            if ($this->_currentApp != 'management')
+                Registry::get('gui')->displaySidebar($this->_appObject->getSidebarItems());
 
             (new AccessError())->trigger();
         }
@@ -111,9 +113,14 @@ class App {
 
         $this->_appInfo = [
             'title' => $this->canAccess() ? $info['title'] : $this->_locale->read('main', 'access_denied'),
-            'has_sidebar' => $info['has_sidebar']
+            'has_sidebar' => $info['has_sidebar'],
+            'ignore_templates' => $this->_appObject->getIgnoreTemplates()
         ];
 
         return $this->_appInfo;
+    }
+
+    public function getCurrentApp() : string {
+        return $this->_currentApp;
     }
 }

@@ -76,7 +76,7 @@ class Login extends ModelHeader {
 
     public function getUserInfo() : array {
         return [
-            'email' => $this->_userInfo['email']['value'],
+            'email_address' => $this->_userInfo['email']['value'],
             'password' => $this->_userInfo['password']['value']
         ];
     }

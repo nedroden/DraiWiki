@@ -53,7 +53,7 @@ a:hover {
 h1, h2, h3, h4, h5, h6 {
     color: #78a1bb;
     font-weight: normal;
-    margin: 10px 0px 0px 0px;
+    margin: 10px 0 0 0;
 }
 
 h1 {
@@ -63,15 +63,25 @@ h1 {
 
 h1.article_title {
     color: #3a3a3a;
-    margin-bottom: 0px;
+    margin-bottom: 10px;
     font-weight: normal;
     padding-left: 0;
     background: none;
     font-size: 230%;
 }
 
+#article_body h1 {
+    background: none;
+    padding-left: 0;
+    font-size: 180%;
+}
+
+#article_body h2 {
+    font-size: 150%;
+}
+
 hr {
-    border-width: 1px 0px 0px 0px;
+    border-width: 1px 0 0 0;
     border-color: #c6c6c6;
     border-style: solid
 }
@@ -113,10 +123,6 @@ input[type="submit"]:hover {
     cursor: pointer;
 }
 
-.new_article_popup input {
-    width: 100%;
-}
-
 #header_search input {
     font-size: 16px;
     padding: 3px;
@@ -152,14 +158,6 @@ input[type="submit"]:hover {
     background-position: left 5px center;
 }
 
-#topbar a:hover {
-    background: #6b6b6b;
-    background: url('{IMAGE_URL}menu_link.png') left center no-repeat, linear-gradient(-180deg, #424f70, #333d56);
-    background-position: left 5px center, left;
-    border-radius: 4px;
-    text-shadow: none;
-}
-
 #topbar #menu {
     float: left;
     width: 60%;
@@ -185,14 +183,15 @@ input[type="submit"]:hover {
 #header {
     background: #283044;
     background: radial-gradient(circle, #283044, #262d40);
-    font-size: 30px;
+    font-size: 40px;
     font-family: Verdana, Helvetica, Arial;
-    padding: 30px;
+    padding: 40px;
+    align-items: center;
 }
 
 #header, #header a {
     color: #fff;
-    text-shadow: 1px 2px 0 #000;
+    text-shadow: 1px 2px 0 #4f4f4f;
 }
 
 #content {
@@ -355,15 +354,19 @@ input[type="submit"]:hover {
 
 #sidebar ul {
     list-style: none;
-    padding: 8px;
-    margin: 0px 15px 0px 0px;
+    padding: 8px 0 8px 0;
+    margin: 0 15px 0 0;
     background: #efefef;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
 
 #sidebar ul li {
-    padding: 4px 2px 4px 0px;
+    padding: 6px 2px 6px 8px;
+}
+
+#sidebar ul li:hover {
+    background: #f7f7f7;
 }
 
 .sidebar_items {

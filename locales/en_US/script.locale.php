@@ -22,5 +22,7 @@ return [
 
     'cookie_header' => 'This site uses cookies.',
     'cookie_explained' => 'Cookies help us to improve your browsing experience and to keep you logged in. By using this site, you consent to the use of cookies.',
-    'cookie_click_here' => 'More information'
+    'cookie_click_here' => 'More information',
+
+    'table_search' => 'Search:'
 ];

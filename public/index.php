@@ -14,6 +14,8 @@ use DraiWiki\src\main\controllers\Main;
 ob_start();
 set_time_limit(25);
 
+ini_set('session.cookie_lifetime', 10 * 365 * 24 * 60 * 60);
+
 if (!defined('DraiWiki')) {
 	header('Location: ../index.php');
 	die('You\'re really not supposed to be here.');

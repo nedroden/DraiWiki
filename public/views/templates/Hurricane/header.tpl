@@ -44,8 +44,9 @@
                     </div>
                     <br class="clear" />
                 </div>
+
                 <div id="header">
-                    <a href="{$url}">{$wiki_name}</a>
+                    <a href="{$url}" target="_self">{$wiki_name}</a>
                 </div>
 
                 <div id="content_header">

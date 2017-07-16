@@ -21,6 +21,7 @@ return [
 	'login' => 'Login',
 	'register' => 'Register',
     'logout' => 'Logout',
+    'manage' => 'Management',
 
 	'search_for' => 'Search for',
 	'go' => 'Go',

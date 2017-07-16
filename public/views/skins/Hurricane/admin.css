@@ -1,0 +1,377 @@
+/**
+ * HURRICANE
+ * DraiWiki default theme
+ *
+ * @author		Robert Monden
+ * @copyright	DraiWiki development team, 2017
+ * @version		1.0 Alpha 1
+ */
+
+/* General styles */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background: #d7d7d9;
+    background: radial-gradient(circle, #f4f4f4, #c6c6c6);
+    font-family: Helvetica, "Trebuchet MS", Verdana, Arial;
+    font-size: 85%;
+    padding: 0;
+    margin: 0;
+    color: #1c1c1c;
+    position: relative;
+}
+
+a {
+    color: #5797e5;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #7d9cc1;
+}
+
+::selection {
+    background: #86b2d6;
+    color: #fff;
+}
+
+::-moz-selection {
+    background: #86b2d6;
+    color: #fff;
+}
+
+#copyright {
+    padding-top: 20px;
+    font-size: 12px;
+    text-align: center;
+}
+
+#copyright a {
+    color: #294a72;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #514f4f;
+    font-weight: normal;
+    margin: 10px 0 0 0;
+}
+
+hr {
+    border-width: 1px 0 0 0;
+    border-color: #c6c6c6;
+    border-style: solid
+}
+
+hr.upp_bot_mar {
+    margin: 20px 0px 20px 0px;
+}
+
+/* Form elements */
+input[type="text"], input[type="password"] {
+    border: 1px solid #d1d1d1;
+    border-radius: 5px;
+    color: #a5a5a5;
+    font-size: 20px;
+    padding: 6px;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="checkbox"]:focus, input[type="checkbox"]:checked {
+    border: 1px solid transparent;
+    border-radius: 5px;
+    box-shadow: 0px 0px 2px 1px #4cc4c2;
+    color: #3f3f3f;
+}
+
+input[type="submit"] {
+    border: 1px solid #385f75;
+    border-radius: 8px;
+    background: #5b96b7;
+    background: linear-gradient(-180deg, #5b96b7, #487893);
+    padding: 5px;
+    min-width: 100px;
+    color: #fff;
+}
+
+input[type="submit"]:hover {
+    border-radius: 8px;
+    background: #70b8e0;
+    background: linear-gradient(-180deg, #70b8e0, #5186a3);
+    cursor: pointer;
+}
+
+.wide {
+    width: 100%;
+}
+
+/* Styles for the top bar */
+#topbar {
+    padding: 10px 20px 10px 20px;
+    color: #3f3f3f;
+    background: #d8d8d8;
+    background: linear-gradient(-180deg, #e2e2e2, #d8d8d8);
+    line-height: 25px;
+    vertical-align: middle;
+    border-bottom: 1px solid #d8d8d8;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+}
+
+#topbar a {
+    color: #3f3f3f;
+}
+
+#topbar #siteinfo {
+    vertical-align: middle;
+    float: left;
+    width: 65%;
+    font-size: 130%;
+    font-weight: bold;
+    color: #636363;
+    letter-spacing: -1px;
+}
+
+#topbar #siteinfo a {
+    text-shadow: 1px 2px #dbdbdb;
+}
+
+#topbar #userinfo {
+    float: right;
+    width: 35%;
+    text-align: right;
+}
+
+/* Wrapper, header and body styles */
+#wrapper {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+}
+
+#content {
+    margin-top: 45px;
+}
+
+.content_section {
+    background: #fff;
+    padding: 20px;
+}
+
+/* Sections width */
+.col20 {
+    width: 20%;
+    float: left;
+}
+
+.col33 {
+    width: 33%;
+    float: left;
+}
+
+.col40 {
+    width: 40%;
+    float: left;
+}
+
+.col50 {
+    width: 50%;
+    float: left;
+}
+
+.col60 {
+    width: 60%;
+    float: left;
+}
+
+.col66 {
+    width: 66%;
+    float: left;
+}
+
+.col80 {
+    width: 80%;
+    float: left;
+}
+
+/* The sidebar */
+#sidebar {
+    padding: 10px;
+    background: #ededed;
+    height: 100%;
+    border-right: 1px solid #d8d8d8;
+    position: fixed;
+    bottom: 0;
+    top: 45px;
+    overflow-y: auto;
+}
+
+#sidebar a {
+    color: #212121;
+}
+
+#sidebar a:hover {
+    color: #113b60;
+}
+
+#sidebar h1 {
+    margin-bottom: -20px;
+}
+
+.sidebar_header {
+    padding: 8px;
+    margin: 10px 15px 0 0;
+    font-size: 140%;
+    letter-spacing: -1px;
+    color: #4f4f4f;
+}
+
+.sidebar_header:first-child {
+    margin: 5px 15px 0px 0px;
+}
+
+#sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#sidebar ul li {
+    padding: 3px 2px 3px 8px;
+}
+
+#sidebar ul li:hover {
+    background: #f7f7f7;
+}
+
+.sidebar_items {
+    padding: 10px;
+    margin-bottom: 20px;
+    background: #f9f9f9;
+}
+
+#sidebar ul li i {
+    width: 15px;
+    /* color: #474747; */
+    color: #5797e5;
+}
+
+/* Sections */
+#page_description {
+    padding: 20px 20px 30px 20px;
+    background: #5c99e8;
+    color: #fff;
+}
+
+#page_description h1, .section_description h2 {
+    color: #fff;
+}
+
+.section_description {
+    padding: 10px 20px 10px 20px;
+    background: #adbdd1;
+    color: #fff;
+}
+
+/* Server information table */
+#server_information {
+    width: 100%;
+    display: table;
+    border-spacing: 1px;
+}
+
+#server_information div {
+    display: table-row;
+}
+
+#server_information div span {
+    padding: 10px;
+    display: table-cell;
+}
+
+#server_information div span:first-child {
+    font-weight: bold;
+    width: 50%;
+    background: #edeff2;
+}
+
+#server_information div span:last-child {
+    width: 50%;
+}
+
+#server_information div.table_header span {
+    padding: 8px;
+    font-size: 140%;
+    letter-spacing: -1px;
+    color: #4f4f4f;
+    background: none;
+}
+
+/* Floats */
+.float_right {
+    float: right;
+}
+
+.float_left {
+    float: left;
+}
+
+.clear {
+    clear: both;
+}
+
+/* Responsive theming */
+@media only screen and (max-width: 800px) {
+    #content {
+        padding: 10px;
+    }
+
+    #topbar {
+        position: fixed;
+    }
+
+    canvas, #topbar span {
+        display: none!important;
+    }
+
+    #sidebar {
+        padding: 10px 0 10px 0;
+        position: static;
+        margin: 45px 0 0 0;
+        height: auto;
+    }
+
+    #sidebar ul {
+        margin: 0;
+    }
+
+    .sidebar_header {
+        margin: 5px 0 0 0;
+        width: 100%;
+    }
+
+    #content {
+        margin: 10px 0 0 0;
+    }
+
+    #content, .content_section {
+        width: 100%;
+        padding: 0;
+    }
+
+    [class*="col"] {
+        width: 100%;
+    }
+
+    #copyright div {
+        margin: 15px 0 0 0;
+        text-align: center;
+    }
+}

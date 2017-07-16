@@ -37,5 +37,7 @@ return [
     'cannot_delete_article' => 'Cannot delete article. Are you sure it exists?',
 
     'could_not_send_mail' => 'Unable to send activation mail',
-    'no_activation_code_given' => 'No activation code was given.'
+    'no_activation_code_given' => 'No activation code was given.',
+
+    'registration_disabled' => 'At the moment it is not possible to register a new user account, as the wiki admin has disabled registration.',
 ];

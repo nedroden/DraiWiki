@@ -167,6 +167,9 @@ class User extends ModelHeader {
 
         $this->_primaryGroup = $details['group_id'] ?? 4;
 
+        if (!empty($details['secondary_groups']) && !is_array($details['secondary_groups']))
+            $details['secondary_groups'] = [$details['secondary_groups']];
+
         // We're dealing with a new user here, so we don't have any secondary groups
         if (empty($details['group_id']))
             $this->_groups = [$this->_primaryGroup];
@@ -179,7 +182,7 @@ class User extends ModelHeader {
 
         $this->_sex = $details['sex'] ?? 0;
         $this->_birthdate = $details['birthdate'] ?? '';
-        $this->_email = $details['email'] ?? 'nobody@example.com';
+        $this->_email = $details['email_address'] ?? 'nobody@example.com';
 
         $this->_cookieLength = $details['cookie_length'] ?? 7 * 24 * 60 * 60;
 
