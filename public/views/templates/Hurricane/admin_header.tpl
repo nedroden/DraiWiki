@@ -7,6 +7,9 @@
             var please_confirm = '{$locale->read('script', 'please_confirm')}';
             var ok = '{$locale->read('script', 'ok')}';
             var table_search = '{$locale->read('script', 'table_search')}';
+            var failed_to_retrieve_ajax_data = '{$locale->read('script', 'failed_to_retrieve_ajax_data')}';
+
+            var showing_results = '{$locale->read('script', 'showing_results')}';
 
             var dw_url = '{$url}';
         </script>
@@ -20,6 +23,8 @@
 
         <script type="text/javascript" src="{$node_url}/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="{$node_url}/zebra_dialog/dist/zebra_dialog.min.js"></script>
+        <script type="text/javascript" src="{$node_url}/sprintf-js/dist/sprintf.min.js"></script>
+        <script type="text/javascript" src="{$script_url}/ajax.js"></script>
         <script type="text/javascript" src="{$script_url}/dw-controller.js"></script>
         <script type="text/javascript" src="{$script_url}/management.js"></script>
     </head>

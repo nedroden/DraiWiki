@@ -152,7 +152,6 @@ class GUI {
             ['name' => 'Color convert', 'href' => 'https://github.com/Qix-/color-convert'],
             ['name' => 'Color name', 'href' => 'https://github.com/colorjs/color-name'],
             ['name' => 'Cookie consent', 'href' => 'https://cookieconsent.insites.com'],
-            ['name' => 'DataTables', 'href' => 'https://datatables.net'],
             ['name' => 'Dwoo', 'href' => 'http://dwoo.org'],
             ['name' => 'Font Awesome', 'href' => 'http://fontawesome.io/'],
             ['name' => 'jQuery', 'href' => 'https://jquery.com'],
@@ -161,6 +160,7 @@ class GUI {
             ['name' => 'Parsedown', 'href' => 'http://parsedown.org'],
             ['name' => 'SimpleMail', 'href' => 'https://github.com/eoghanobrien/php-simple-mail'],
             ['name' => 'SimpleMDE', 'href' => 'https://simplemde.com'],
+            ['name' => 'Sprintf.js', 'href' => 'https://github.com/alexei/sprintf.js'],
             ['name' => 'Typo JS', 'href' => 'https://github.com/cfinke/Typo.js/'],
             ['name' => 'Zebra Dialog', 'href' => 'https://github.com/stefangabos/Zebra_Dialog']
         ];

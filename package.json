@@ -24,10 +24,10 @@
   "dependencies": {
     "chart.js": "^2.6.0",
     "cookieconsent": "^3.0.4",
-    "datatables": "^1.10.13",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
     "simplemde": "^1.11.2",
+    "sprintf-js": "^1.1.1",
     "zebra_dialog": "^1.4.0"
   }
 }

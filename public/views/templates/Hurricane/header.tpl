@@ -6,6 +6,7 @@
         <script type="text/javascript">
             var please_confirm = '{$locale->read('script', 'please_confirm')}';
             var ok = '{$locale->read('script', 'ok')}';
+            var failed_to_retrieve_ajax_data = '{$locale->read('script', 'failed_to_retrieve_ajax_data')}';
         </script>
 
         <link rel="stylesheet" type="text/css" href="{$skin_url}main" />

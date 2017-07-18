@@ -27,7 +27,9 @@ class User extends ModelHeader {
     // Note: passwords are hashed before they arrive here
     private $_id, $_username, $_password, $_firstName, $_lastName;
     private $_email, $_primaryGroup, $_groups, $_isActivated;
-    private $_sex, $_birthdate, $_ip, $_cookieLength;
+    private $_sex, $_birthdate, $_ip, $_cookieLength, $_registrationDate;
+
+    private $_primaryGroupInfo;
 
     private $_sessionUID;
     private $_isRoot;
@@ -60,10 +62,12 @@ class User extends ModelHeader {
         $uid = $specificUser ?? $this->_sessionUID;
 
         $query = QueryFactory::produce('select', '
-            SELECT id, username, email_address, sex, birthdate, first_name, last_name, 
-                    ip_address, registration_date, group_id, secondary_groups
-                FROM `{db_prefix}user`
-                WHERE id = :uid
+            SELECT u.id, u.username, u.email_address, u.sex, u.birthdate, u.first_name, u.last_name, 
+                    u.ip_address, u.registration_date, u.group_id, u.secondary_groups, DATE(u.registration_date) AS registration_date,
+                    g.title, g.color
+                FROM `{db_prefix}user` u
+                INNER JOIN `{db_prefix}group` g ON (g.id = u.group_id)
+                WHERE u.id = :uid
         ');
 
         $query->setParams([
@@ -182,11 +186,17 @@ class User extends ModelHeader {
 
         $this->_sex = $details['sex'] ?? 0;
         $this->_birthdate = $details['birthdate'] ?? '';
+        $this->_registrationDate = $details['registration_date'] ?? '';
         $this->_email = $details['email_address'] ?? 'nobody@example.com';
 
         $this->_cookieLength = $details['cookie_length'] ?? 7 * 24 * 60 * 60;
 
         $this->_isActivated = $details['activated'] ?? $this->config->read('enable_email_activation') == 1 ? 0 : 1;
+
+        $this->_primaryGroupInfo = [
+            'title' => $details['title'] ?? '??',
+            'color' => $details['color'] ?? '??'
+        ];
     }
 
     public function create(array &$errors) : void {
@@ -387,5 +397,17 @@ class User extends ModelHeader {
 
     public function getIP() : int {
         return $this->_ip;
+    }
+
+    public function getRegistrationDate() : string {
+        return $this->_registrationDate;
+    }
+
+    public function getPrimaryGroupInfo() : array {
+        return $this->_primaryGroupInfo;
+    }
+
+    public function getPrimaryGroupWithColor() : string {
+        return '<span style=\"color: #' .$this->_primaryGroupInfo['color'] . '\">' . $this->_primaryGroupInfo['title'] . '</span>';
     }
 }

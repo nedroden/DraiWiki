@@ -24,5 +24,9 @@ return [
     'cookie_explained' => 'Cookies help us to improve your browsing experience and to keep you logged in. By using this site, you consent to the use of cookies.',
     'cookie_click_here' => 'More information',
 
-    'table_search' => 'Search:'
+    'table_search' => 'Search:',
+
+    'failed_to_retrieve_ajax_data' => 'Could not load data.',
+
+    'showing_results' => 'Showing results %u to %u (of %u records)'
 ];

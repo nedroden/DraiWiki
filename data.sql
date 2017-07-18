@@ -141,5 +141,6 @@ INSERT INTO `drai_setting` (`key`, `value`) VALUES
   ('enable_email_activation', '0'),
   ('wiki_email', 'draiwiki@localhost'),
   ('activation_code_length', '24'),
-  ('display_cookie_warning', '1');
+  ('display_cookie_warning', '1'),
+  ('max_results_per_page', 20);
 COMMIT;

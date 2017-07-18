@@ -18,19 +18,44 @@ if (!defined('DraiWiki')) {
 
 use DraiWiki\src\auth\models\User;
 use DraiWiki\src\core\controllers\QueryFactory;
-use DraiWiki\src\main\models\ModelHeader;
+use DraiWiki\src\main\models\{ModelHeader, Table};
 
 class UserManagement extends ModelHeader {
 
-    private $_request, $_users;
-
-    private const MAX_USERS_PER_PAGE = 25;
+    private $_request, $_users, $_table;
 
     public function __construct() {
         $this->loadLocale();
         $this->loadConfig();
 
         $this->_users = [];
+        $this->_table = [];
+    }
+
+    private function createTable() : void {
+        $columns = [
+            'username',
+            'first_name',
+            'last_name',
+            'email_address',
+            'registration_date',
+            'primary_group',
+            'sex'
+        ];
+
+        $table = new Table('management', $columns, []);
+        $table->setID('user_list');
+
+        $table->create();
+        $this->_table = $table->returnTable();
+    }
+
+    public function prepareData() : array {
+        $this->createTable();
+
+        return [
+            'table' => $this->_table
+        ];
     }
 
     public function getPageDescription() : string {
@@ -46,11 +71,12 @@ class UserManagement extends ModelHeader {
     }
 
     public function loadUsers(int $start = 0) : void {
-        $end = $start + ($_REQUEST['length'] ?? self::MAX_USERS_PER_PAGE);
+        $end = ($_REQUEST['length'] ?? $this->config->read('max_results_per_page'));
 
         $query = QueryFactory::produce('select', '
             SELECT id
                 FROM `{db_prefix}user`
+                ORDER BY username ASC
                 LIMIT ' . $start . ', ' . $end);
 
         $result = $query->execute();
@@ -61,23 +87,32 @@ class UserManagement extends ModelHeader {
 
     private function getUserCount() : int {
         $query = QueryFactory::produce('select', '
-            SELECT COUNT(id) as num
+            SELECT COUNT(id) AS num
                 FROM `{db_prefix}user`
         ');
 
         foreach ($query->execute() as $record)
-            return $record['num'];
+            return (int) $record['num'];
 
         return 0;
+    }
+
+    private function getStart() : int {
+        if (!empty($_REQUEST['start']) && is_numeric($_REQUEST['start']) && ((int) $_REQUEST['start']) <= $this->getUserCount()) {
+            return (int) $_REQUEST['start'];
+        }
+        else
+            return 0;
     }
 
     public function generateJSON() : string {
         if ($this->_request == 'getlist') {
             $jsonRequest = '
             {
-                "draw": "' . (int) $_REQUEST['draw'] . '",
-                "recordsTotal": "' . $this->getUserCount() . '",
-                "recordsFiltered": "' . $this->getUserCount() . '",
+                "start": "' . $this->getStart() . '",
+                "end": "' . ($this->getStart() + $this->config->read('max_results_per_page')) . '",
+                "total_records": "' . $this->getUserCount() . '",
+                "displayed_records": "' . $this->config->read('max_results_per_page') . '",
                 "data": [';
 
             $jsonUsers = [];
@@ -88,6 +123,8 @@ class UserManagement extends ModelHeader {
                     "first_name": "' . $user->getFirstName() . '",
                     "last_name": "' . $user->getLastName() . '",
                     "email_address": "' . $user->getEmail() . '",
+                    "registration_date": "' . $user->getRegistrationDate() . '",
+                    "primary_group": "' . $user->getPrimaryGroupWithColor() . '",
                     "sex": "' . $this->locale->read('auth', 'sex_' . $user->getSex()) . '"
                 }';
             }

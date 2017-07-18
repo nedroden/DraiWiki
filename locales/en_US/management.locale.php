@@ -77,5 +77,7 @@ return [
     'first_name' => 'First name',
     'last_name' => 'Last name',
     'email_address' => 'Email address',
-    'sex' => 'Sex'
+    'sex' => 'Sex',
+    'registration_date' => 'Registration date',
+    'primary_group' => 'Primary group'
 ];
