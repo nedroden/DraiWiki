@@ -9,8 +9,6 @@
  */
 
 function activateUserTable() {
-    var result = null;
-
     performAJAXRequest('/management/users/ajax/getlist', {
         "start": 0
     }, updateUserList);
@@ -41,12 +39,12 @@ function updateUserList(msg, status, response) {
 }
 
 function displayPagination(currentStart, totalRecords, recordsPerPage) {
-    var numberOfPages = Math.round((totalRecords - 1) / recordsPerPage) + 1;
-    var currentPage = 1 + Math.round((Number(currentStart) + 1) / recordsPerPage);
+    let numberOfPages = Math.round((totalRecords - 1) / recordsPerPage) + 1;
+    let currentPage = 1 + Math.round((Number(currentStart) + 1) / recordsPerPage);
 
-    var pages = [];
+    let pages = [];
 
-    var i = 1;
+    let i = 1;
     while (i <= numberOfPages) {
         if (currentPage === i) {
             pages.push('<a href="javascript:void(0);" onclick="changeUserlistPage(\'' + i + '\', ' + recordsPerPage + ');" class="page page_current">' + i + '</a>');
