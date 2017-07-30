@@ -48,14 +48,14 @@ class Article extends ModelHeader {
         $this->loadLocale();
         $this->loadConfig();
         $this->loadUser();
-        $this->locale->loadFile('article');
-        $this->locale->loadFile('editor');
+        self::$locale->loadFile('article');
+        self::$locale->loadFile('editor');
         $this->load();
     }
 
     private function load() : void {
-        if (strlen($this->_requestedArticle) > $this->config->read('max_title_length'))
-            $this->_requestedArticle = $this->locale->read('article', 'new_article');
+        if (strlen($this->_requestedArticle) > self::$config->read('max_title_length'))
+            $this->_requestedArticle = self::$locale->read('article', 'new_article');
 
         $query = QueryFactory::produce('select', '
             SELECT a.id, a.title, a.locale_id, a.status, h.body
@@ -68,7 +68,7 @@ class Article extends ModelHeader {
         ');
 
         $query->setParams([
-            'article' => $this->_isHomepage ? $this->locale->getHomepageID() : Sanitizer::ditchUnderscores($this->_requestedArticle)
+            'article' => $this->_isHomepage ? self::$locale->getHomepageID() : Sanitizer::ditchUnderscores($this->_requestedArticle)
         ]);
 
         $result = $query->execute();
@@ -84,7 +84,7 @@ class Article extends ModelHeader {
 
     private function setArticleInfo(array $info) : void {
         $this->_id = $info['id'] ?? 0;
-        $this->_title = $info['title'] ?? Sanitizer::escapehtml($this->_requestedArticle) ?? $this->locale->read('article', 'new_article');
+        $this->_title = $info['title'] ?? Sanitizer::escapehtml($this->_requestedArticle) ?? self::$locale->read('article', 'new_article');
         $this->_titleSafe = Sanitizer::addUnderscores($this->_title);
 
         $this->_body = $this->_parsedown->text($info['body'] ?? '');
@@ -103,7 +103,7 @@ class Article extends ModelHeader {
         $data = [];
 
         if ($this->_isEditing || $this->_forceEdit) {
-            $data['action'] = $this->config->read('url') . '/index.php/article/' . $this->_titleSafe . '/edit';
+            $data['action'] = self::$config->read('url') . '/index.php/article/' . $this->_titleSafe . '/edit';
         }
 
         return $data;
@@ -154,9 +154,9 @@ class Article extends ModelHeader {
     public function getTitle() : string {
         switch ($this->_subApp) {
             case 'delete':
-                return $this->locale->read('article', 'deleting');
+                return self::$locale->read('article', 'deleting');
             case 'edit':
-                return $this->locale->read('article', 'editing') . $this->_title;
+                return self::$locale->read('article', 'editing') . $this->_title;
             default:
                 return $this->_title;
         }
@@ -197,24 +197,24 @@ class Article extends ModelHeader {
 
         // Make sure we have a valid id
         if (!is_numeric($id['value']) || $id['validator']->aboveIntLimit()) {
-            $errors['id'] = $this->locale->read('editor', 'invalid_id');
+            $errors['id'] = self::$locale->read('editor', 'invalid_id');
             return;
         }
 
         $id['value'] = (int) $id['value'];
 
         if ($id['value'] != 0 && !$this->existsById($id['value'])) {
-            $errors['id'] = $this->locale->read('editor', 'article_not_found');
+            $errors['id'] = self::$locale->read('editor', 'article_not_found');
             return;
         }
 
         // Check the length of the title
-        if ($title['validator']->isTooShort($minLength = (int) $this->config->read('min_title_length')))
-            $errors['title'] = sprintf($this->locale->read('editor', 'title_too_short'), $minLength);
-        else if ($title['validator']->isTooLong($maxLength = (int) $this->config->read('max_title_length')))
-            $errors['title'] = sprintf($this->locale->read('editor', 'title_too_long'), $maxLength);
+        if ($title['validator']->isTooShort($minLength = (int) self::$config->read('min_title_length')))
+            $errors['title'] = sprintf(self::$locale->read('editor', 'title_too_short'), $minLength);
+        else if ($title['validator']->isTooLong($maxLength = (int) self::$config->read('max_title_length')))
+            $errors['title'] = sprintf(self::$locale->read('editor', 'title_too_long'), $maxLength);
         else if ($title['validator']->containsHTML())
-            $errors['title'] = $this->locale->read('editor', 'title_no_html');
+            $errors['title'] = self::$locale->read('editor', 'title_no_html');
         else {
             if (Sanitizer::ditchUnderscores($title['value']) != Sanitizer::ditchUnderscores($this->_title))
                 $this->_updatedTitle = true;
@@ -225,13 +225,13 @@ class Article extends ModelHeader {
 
         // Check for duplicate titles
         if ($id['value'] == 0 && $this->existsByName($this->_title, $id['value']))
-            $errors['title'] = $this->locale->read('editor', 'title_already_in_use');
+            $errors['title'] = self::$locale->read('editor', 'title_already_in_use');
 
         // Body validation
-        if ($body['validator']->isTooShort($minLength = (int) $this->config->read('min_body_length')))
-            $errors['body'] = sprintf($this->locale->read('editor', 'body_too_short'), $minLength);
-        else if ($body['validator']->isTooLong($maxLength = (int) $this->config->read('max_body_length')))
-            $errors['body'] = sprintf($this->locale->read('editor', 'body_too_long'), $maxLength);
+        if ($body['validator']->isTooShort($minLength = (int) self::$config->read('min_body_length')))
+            $errors['body'] = sprintf(self::$locale->read('editor', 'body_too_short'), $minLength);
+        else if ($body['validator']->isTooLong($maxLength = (int) self::$config->read('max_body_length')))
+            $errors['body'] = sprintf(self::$locale->read('editor', 'body_too_long'), $maxLength);
         else
             $this->_bodyUnparsed = $body['value'] ?? '';
 
@@ -264,9 +264,9 @@ class Article extends ModelHeader {
 
             $query->setParams([
                 'title' => $this->_title,
-                'locale_id' => $this->locale->getID(),
+                'locale_id' => self::$locale->getID(),
                 'status_nr' => 1,
-                'user_id' => $this->user->getID(),
+                'user_id' => self::$user->getID(),
                 'body' => $this->_bodyUnparsed
             ]);
         }
@@ -288,7 +288,7 @@ class Article extends ModelHeader {
 
             $params = [
                 'id' => $this->_id,
-                'user_id' => $this->user->getID(),
+                'user_id' => self::$user->getID(),
                 'body' => $this->_bodyUnparsed
             ];
 
@@ -338,7 +338,7 @@ class Article extends ModelHeader {
     }
 
     public function getIsHomepage() : bool {
-        return $this->_id == $this->locale->getHomepageID();
+        return $this->_id == self::$locale->getHomepageID();
     }
 
     public function getIsEditing() : bool {

@@ -36,5 +36,8 @@
                 <p>{$locale->read('main', 'about_href')}</p>
             </div>
         </div>
+        {if not $debug_body eq ''}
+            {$debug_body}
+        {/if}
     </body>
 </html>

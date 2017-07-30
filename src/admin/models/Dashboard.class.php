@@ -36,10 +36,10 @@ class Dashboard extends ModelHeader {
             'draiwiki_version' => Main::WIKI_VERSION,
             'edits_this_week' => $this->getEditsThisWeek(),
 
-            'default_locale' => $this->config->read('locale'),
-            'default_templates' => $this->config->read('templates'),
-            'default_skins' => $this->config->read('skins'),
-            'default_images' => $this->config->read('images')
+            'default_locale' => self::$config->read('locale'),
+            'default_templates' => self::$config->read('templates'),
+            'default_skins' => self::$config->read('skins'),
+            'default_images' => self::$config->read('images')
         ];
     }
 
@@ -53,7 +53,7 @@ class Dashboard extends ModelHeader {
         foreach ($result as $record)
             return $record['db_version'];
 
-        return $this->locale->read('management', 'unknown');
+        return self::$locale->read('management', 'unknown');
     }
 
     private function getEditsThisWeek() : array {
@@ -103,10 +103,10 @@ class Dashboard extends ModelHeader {
     }
 
     public function getPageDescription() : string {
-        return $this->locale->read('management', 'dashboard_description');
+        return self::$locale->read('management', 'dashboard_description');
     }
 
     public function getTitle() : string {
-        return $this->locale->read('management', 'dashboard_title');
+        return self::$locale->read('management', 'dashboard_title');
     }
 }

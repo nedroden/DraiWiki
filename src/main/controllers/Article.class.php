@@ -61,7 +61,7 @@ class Article extends AppHeader {
 
         if (empty($this->_errors)) {
             $this->_model->update();
-            $this->redirectTo($this->config->read('url') . '/index.php/article/' . $this->_model->getSafeTitle());
+            $this->redirectTo(self::$config->read('url') . '/index.php/article/' . $this->_model->getSafeTitle());
         }
     }
 
@@ -72,7 +72,7 @@ class Article extends AppHeader {
         }
 
         if ($this->_model->softDelete())
-            $this->redirectTo($this->config->read('url') . '/index.php');
+            $this->redirectTo(self::$config->read('url') . '/index.php');
         else
             $this->cantProceedException = 'cannot_delete_article';
     }
@@ -104,18 +104,18 @@ class Article extends AppHeader {
                 'items' => [
                     'view' => [
                         'label' => 'view_article',
-                        'href' => $this->config->read('url') . '/index.php/article/' . $this->_model->getSafeTitle(),
+                        'href' => self::$config->read('url') . '/index.php/article/' . $this->_model->getSafeTitle(),
                         'visible' => true
                     ],
                     'edit' => [
                         'label' => 'edit_article',
-                        'href' => $this->config->read('url') . '/index.php/article/' . $this->_model->getSafeTitle() . '/edit',
-                        'visible' => $this->user->hasPermission('edit_articles')
+                        'href' => self::$config->read('url') . '/index.php/article/' . $this->_model->getSafeTitle() . '/edit',
+                        'visible' => self::$user->hasPermission('edit_articles')
                     ],
                     'delete' => [
                         'label' => 'delete_article',
-                        'href' => $this->config->read('url') . '/index.php/article/' . $this->_model->getSafeTitle() . '/delete',
-                        'visible' => $this->user->hasPermission('soft_delete_articles'),
+                        'href' => self::$config->read('url') . '/index.php/article/' . $this->_model->getSafeTitle() . '/delete',
+                        'visible' => self::$user->hasPermission('soft_delete_articles'),
                         'request_confirm' => true
                     ]
                 ]

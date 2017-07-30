@@ -18,6 +18,7 @@ if (!defined('DraiWiki')) {
 
 use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\errors\{AccessError, CantProceedException};
+use DraiWiki\src\main\models\DebugBarWrapper;
 
 class App {
 
@@ -53,6 +54,8 @@ class App {
             $this->_currentApp = self::DEFAULT_APP;
         }
 
+        DebugBarWrapper::report('App detected: ' . $this->_currentApp);
+
         return $apps[$this->_currentApp];
     }
 
@@ -64,6 +67,8 @@ class App {
                 $this->_appObject = new $classPath($this->_route->getParams()['title']);
             else
                 $this->_appObject = new $classPath();
+
+            DebugBarWrapper::report('App loaded');
         }
         else
             die('App files not found.');

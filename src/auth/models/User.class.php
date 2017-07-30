@@ -40,8 +40,8 @@ class User extends ModelHeader {
         $this->loadConfig();
         $this->loadLocale();
 
-        $this->locale->loadFile('auth');
-        $this->locale->loadFile('error');
+        self::$locale->loadFile('auth');
+        self::$locale->loadFile('error');
         $this->_sessionUID = 0;
 
         $this->setSessionUID();
@@ -152,7 +152,7 @@ class User extends ModelHeader {
                 $query->setParams(['email' => $this->_email]);
 
             foreach ($query->execute() as $record)
-                $errors[$key] = $this->locale->read('auth', $key . '_in_use');
+                $errors[$key] = self::$locale->read('auth', $key . '_in_use');
         }
 
         return $errors;
@@ -160,14 +160,14 @@ class User extends ModelHeader {
 
     private function setUserInfo(array $details) : void {
         $this->_id = $details['id'] ?? 0;
-        $this->_username = $details['username'] ?? $this->locale->read('auth', 'guest');
+        $this->_username = $details['username'] ?? self::$locale->read('auth', 'guest');
 
         /* Again, passwords are HASHED before they arrive here. Passwords are stored ONLY during the
          registration process and are removed as soon as the user has been added to the database */
         $this->_password = $details['password'] ?? '';
 
-        $this->_firstName = $details['first_name'] ?? $this->locale->read('auth', 'john');
-        $this->_lastName = $details['last_name'] ?? $this->locale->read('auth', 'doe');
+        $this->_firstName = $details['first_name'] ?? self::$locale->read('auth', 'john');
+        $this->_lastName = $details['last_name'] ?? self::$locale->read('auth', 'doe');
 
         $this->_primaryGroup = $details['group_id'] ?? 4;
 
@@ -191,7 +191,7 @@ class User extends ModelHeader {
 
         $this->_cookieLength = $details['cookie_length'] ?? 7 * 24 * 60 * 60;
 
-        $this->_isActivated = $details['activated'] ?? $this->config->read('enable_email_activation') == 1 ? 0 : 1;
+        $this->_isActivated = $details['activated'] ?? self::$config->read('enable_email_activation') == 1 ? 0 : 1;
 
         $this->_primaryGroupInfo = [
             'title' => $details['title'] ?? '??',
@@ -220,8 +220,8 @@ class User extends ModelHeader {
         ');
 
         // Don't include the primary user groups as a secondary group
-        if (count($this->_groups) == 0 || (count($this->_groups) == 1 && $this->_groups[0] == $this->_primaryGroup))
-            $groups = null;
+        if (count($this->_groups) == 0 || ((count($this->_groups) == 1 && $this->_groups[0] == $this->_primaryGroup)))
+            $this->_groups = null;
         else {
             unset($this->_groups[0]);
             $this->_groups = count($this->_groups) >= 1 ? implode(', ', $this->_groups) : null;
@@ -245,7 +245,7 @@ class User extends ModelHeader {
 
         unset($this->_password);
 
-        if ($this->config->read('enable_email_activation') == 1 && $this->_isActivated == 0)
+        if (self::$config->read('enable_email_activation') == 1 && $this->_isActivated == 0)
             $this->sendVerificationMail();
     }
 
@@ -260,24 +260,24 @@ class User extends ModelHeader {
         ];
 
         $replaceWith = [
-            $this->config->read('wiki_name'),
+            self::$config->read('wiki_name'),
             $this->_firstName,
             $activationCode->getCode(),
             $activationCode->getLink()
         ];
 
-        $messageBody = str_replace($replaceThis, $replaceWith, $this->locale->read('auth', 'registration_mail_body'));
+        $messageBody = str_replace($replaceThis, $replaceWith, self::$locale->read('auth', 'registration_mail_body'));
 
         $email = SimpleMail::make()
             ->setTo($this->_email, $this->_firstName . ' ' . $this->_lastName)
-            ->setFrom($this->config->read('wiki_email'), $this->config->read('wiki_name'))
-            ->setSubject(sprintf($this->locale->read('auth', 'registration_mail_title'), $this->config->read('wiki_name')))
+            ->setFrom(self::$config->read('wiki_email'), self::$config->read('wiki_name'))
+            ->setSubject(sprintf(self::$locale->read('auth', 'registration_mail_title'), self::$config->read('wiki_name')))
             ->setMessage($messageBody)
             ->setHtml()
             ->send();
 
         if (!$email)
-            (new LogEntry($this->locale->read('error', 'could_not_send_mail'), 'error', ['email' => $this->_email]))->create();
+            (new LogEntry(self::$locale->read('error', 'could_not_send_mail'), 'error', ['email' => $this->_email]))->create();
     }
 
     /**
@@ -305,19 +305,19 @@ class User extends ModelHeader {
                 'user_agent' => $_SERVER['HTTP_USER_AGENT']
             ];
 
-            $session = new Session($this->config->read('session_name') . '_sid');
-            $session->create($this->_cookieLength, false, $this->config->read('cookie_id') . '_sid', $info);
+            $session = new Session(self::$config->read('session_name') . '_sid');
+            $session->create($this->_cookieLength, false, self::$config->read('cookie_id') . '_sid', $info);
             return;
         }
 
-        $errors[] = $this->locale->read('auth', 'email_or_password_not_found');
+        $errors[] = self::$locale->read('auth', 'email_or_password_not_found');
     }
 
     public function setSessionUID() : void {
-        if (empty($_SESSION[$this->config->read('session_name') . '_sid']))
+        if (empty($_SESSION[self::$config->read('session_name') . '_sid']))
             return;
 
-        $session = $_SESSION[$this->config->read('session_name') . '_sid'];
+        $session = $_SESSION[self::$config->read('session_name') . '_sid'];
 
         // Note: if one or more of these conditions is true, we should report it to the admin, since we'd be dealing with a security breach (session forgery)
         if ($session['ip'] != $_SERVER['REMOTE_ADDR'] || $session['user_agent'] != $_SERVER['HTTP_USER_AGENT'])
@@ -328,8 +328,8 @@ class User extends ModelHeader {
     }
 
     public function logout() : void {
-        $session = new Session($this->config->read('session_name') . '_sid');
-        $session->destroy($this->config->read('cookie_id'));
+        $session = new Session(self::$config->read('session_name') . '_sid');
+        $session->destroy(self::$config->read('cookie_id'));
     }
 
     /**
@@ -357,6 +357,10 @@ class User extends ModelHeader {
 
     public function isGuest() : bool {
         return $this->_id == 0;
+    }
+
+    public function isRoot() : bool {
+        return $this->_isRoot;
     }
 
     public function getID() : int {

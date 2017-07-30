@@ -16,6 +16,7 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use DraiWiki\src\main\models\DebugBarWrapper;
 use PDO;
 use PDOException;
 
@@ -54,6 +55,8 @@ class Connection {
 		catch (PDOException $e) {
 			die('Could not set PDO error mode.');
 		}
+
+        DebugBarWrapper::report('Database connection established');
     }
 
     private function destroyLoginData() : void {

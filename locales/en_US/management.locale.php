@@ -21,11 +21,15 @@ return [
 
     'back_to_wiki' => 'Back to wiki',
 
+    'key' => 'Name',
+    'value' => 'Value',
+
     'side_main' => 'Main',
     'side_config' => 'Configuration',
     'side_users' => 'User management',
     'side_security' => 'Security',
     'side_extend' => 'Extend',
+    'side_help' => 'Help',
 
     'home' => 'Home',
     'logout' => 'Logout',
@@ -79,5 +83,13 @@ return [
     'email_address' => 'Email address',
     'sex' => 'Sex',
     'registration_date' => 'Registration date',
-    'primary_group' => 'Primary group'
+    'primary_group' => 'Primary group',
+
+    'manual' => 'Manual',
+    'detailed_system_information' => 'System information',
+
+    'sysinfo_description' => 'Detailed system information can be viewed here. If you need any help with your DraiWiki installation, generate one of these and include them in your support request or bug report.',
+
+    'server_operating_system' => 'Operating system:',
+    'server_architecture' => 'Server architecture:'
 ];

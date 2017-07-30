@@ -59,11 +59,11 @@ class UserManagement extends ModelHeader {
     }
 
     public function getPageDescription() : string {
-        return $this->locale->read('management', 'users_display_description');
+        return self::$locale->read('management', 'users_display_description');
     }
 
     public function getTitle() : string {
-        return $this->locale->read('management', 'users_display');
+        return self::$locale->read('management', 'users_display');
     }
 
     public function setRequest(string $request) : void {
@@ -71,7 +71,7 @@ class UserManagement extends ModelHeader {
     }
 
     public function loadUsers(int $start = 0) : void {
-        $end = ($_REQUEST['length'] ?? $this->config->read('max_results_per_page'));
+        $end = ($_REQUEST['length'] ?? self::$config->read('max_results_per_page'));
 
         $query = QueryFactory::produce('select', '
             SELECT id
@@ -107,12 +107,20 @@ class UserManagement extends ModelHeader {
 
     public function generateJSON() : string {
         if ($this->_request == 'getlist') {
+            $userCount = $this->getUserCount();
+
+            $start = $this->getStart();
+            $end = $this->getStart() + self::$config->read('max_results_per_page');
+
+            if ($end > $userCount)
+                $end = $start + ($userCount % self::$config->read('max_results_per_page'));
+
             $jsonRequest = '
             {
-                "start": "' . $this->getStart() . '",
-                "end": "' . ($this->getStart() + $this->config->read('max_results_per_page')) . '",
-                "total_records": "' . $this->getUserCount() . '",
-                "displayed_records": "' . $this->config->read('max_results_per_page') . '",
+                "start": "' . $start . '",
+                "end": "' . $end . '",
+                "total_records": "' . $userCount . '",
+                "displayed_records": "' . self::$config->read('max_results_per_page') . '",
                 "data": [';
 
             $jsonUsers = [];
@@ -125,7 +133,7 @@ class UserManagement extends ModelHeader {
                     "email_address": "' . $user->getEmail() . '",
                     "registration_date": "' . $user->getRegistrationDate() . '",
                     "primary_group": "' . $user->getPrimaryGroupWithColor() . '",
-                    "sex": "' . $this->locale->read('auth', 'sex_' . $user->getSex()) . '"
+                    "sex": "' . self::$locale->read('auth', 'sex_' . $user->getSex()) . '"
                 }';
             }
 

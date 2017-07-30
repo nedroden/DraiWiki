@@ -50,6 +50,7 @@ a:hover {
     padding-top: 20px;
     font-size: 12px;
     text-align: center;
+    margin-bottom: 20px;
 }
 
 #copyright a {
@@ -132,7 +133,7 @@ input[type="submit"]:hover {
 #topbar #siteinfo {
     vertical-align: middle;
     float: left;
-    width: 65%;
+    width: 20%;
     font-size: 130%;
     font-weight: bold;
     color: #636363;
@@ -143,9 +144,15 @@ input[type="submit"]:hover {
     text-shadow: 1px 2px #dbdbdb;
 }
 
+#topbar #status {
+    float: left;
+    width: 50%;
+    font-weight: bold;
+}
+
 #topbar #userinfo {
     float: right;
-    width: 35%;
+    width: 15%;
     text-align: right;
 }
 
@@ -281,32 +288,32 @@ input[type="submit"]:hover {
 }
 
 /* Server information table */
-#server_information {
+#server_information, .info_table {
     width: 100%;
     display: table;
     border-spacing: 1px;
 }
 
-#server_information div {
+#server_information div, .info_table div {
     display: table-row;
 }
 
-#server_information div span {
+#server_information div span, .info_table div span {
     padding: 10px;
     display: table-cell;
 }
 
-#server_information div span:first-child {
+#server_information div span:first-child, .info_table div span:first-child {
     font-weight: bold;
     width: 50%;
     background: #edeff2;
 }
 
-#server_information div span:last-child {
+#server_information div span:last-child, .info_table div span:last-child {
     width: 50%;
 }
 
-#server_information div.table_header span {
+#server_information div.table_header span, .info_table div.table_header span {
     padding: 8px;
     font-size: 140%;
     letter-spacing: -1px;
@@ -409,6 +416,32 @@ tr.selected td {
 
 .pagination .page_separator {
     background: #d3dde2;
+}
+
+/* Action bars */
+.action_bar {
+    margin: 20px;
+    padding: 10px 15px 10px 15px;
+    border: 1px solid #bcbcbc;
+    border-radius: 8px;
+    background: #e5e5e5;
+    font-size: 120%;
+    letter-spacing: -1px;
+}
+
+.action_bar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.action_bar ul li {
+    margin: 0 15px 0 0;
+    display: inline;
+}
+
+.action_bar, .action_bar a {
+    color: #717477;
 }
 
 /* Responsive theming */

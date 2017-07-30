@@ -41,7 +41,7 @@ class AccountActivation extends AppHeader {
     }
 
     public function canAccess() : bool {
-        return $this->user->isGuest();
+        return self::$user->isGuest();
     }
 
     public function execute() : void {

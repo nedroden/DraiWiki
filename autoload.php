@@ -15,9 +15,7 @@ if (!defined('DraiWiki')) {
 }
 
 spl_autoload_register(function($className) {
-    $parsedClassName = explode('\\', $className);
-
-    if (count($parsedClassName) > 1) {
+    if (count($parsedClassName = explode('\\', $className)) > 1) {
         /* We need to get rid of the 'DraiWiki' part, and since classes
            'public' folder do not have the 'public' part included in the
            namespace name, we might as well replace 'DraiWiki' with 'public'.
@@ -31,9 +29,12 @@ spl_autoload_register(function($className) {
             unset($parsedClassName[0]);
     }
 
-    $filename = implode(DIRECTORY_SEPARATOR, $parsedClassName) . '.class.php';
+    else
+        $parsedClassName = implode('\\', $parsedClassName);
 
-    if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . $filename))
+    $filename = implode('/', $parsedClassName) . '.class.php';
+
+    if (file_exists(__DIR__ . '/' . $filename))
         require $filename;
     else
         die('<strong>[DraiWiki autoload]</strong> Could not load class: ' . $filename);

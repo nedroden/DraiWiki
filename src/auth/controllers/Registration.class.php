@@ -42,16 +42,16 @@ class Registration extends AppHeader {
 
             // We may not have had errors last time, but we should check if we've got any errors this time as well
             if (empty($this->_errors))
-                $this->redirectTo($this->config->read('url') . '/index.php/login');
+                $this->redirectTo(self::$config->read('url') . '/index.php/login');
         }
     }
 
     public function canAccess() : bool {
-        return $this->user->isGuest();
+        return self::$user->isGuest();
     }
 
     public function execute() : void {
-        if ($this->config->read('disable_registration') == 1) {
+        if (self::$config->read('disable_registration') == 1) {
             $this->cantProceedException = 'registration_disabled';
             $this->setTitle($this->_model->getRegistrationDisabledTitle());
             return;

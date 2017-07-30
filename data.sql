@@ -11,6 +11,7 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
+SET FOREIGN_KEY_CHECKS = 0;
 
 --
 -- Database: `DraiWiki`
@@ -84,7 +85,7 @@ INSERT INTO `drai_article_history` (`id`, `article_id`, `user_id`, `body`, `upda
 
 INSERT INTO `drai_group` (`id`, `title`, `color`, `permission_group_id`) VALUES
   (1, 'Root', '000000', NULL),
-  (2, 'Administrator', '000000', 1),
+  (2, 'Administrator', 'db794e', 1),
   (3, 'Banned', '000000', 2),
   (4, 'Regular user', '000000', 4),
   (5, 'Guest', '000000', 5);
@@ -142,5 +143,14 @@ INSERT INTO `drai_setting` (`key`, `value`) VALUES
   ('wiki_email', 'draiwiki@localhost'),
   ('activation_code_length', '24'),
   ('display_cookie_warning', '1'),
-  ('max_results_per_page', 20);
+  ('max_results_per_page', '20');
+
+--
+-- Dumping data for table `drai_user`
+--
+
+INSERT INTO `drai_user` (`id`, `username`, `password`, `email_address`, `sex`, `birthdate`, `first_name`, `last_name`, `ip_address`, `registration_date`, `group_id`, `secondary_groups`, `activated`) VALUES
+  (1, 'root', '$2y$10$YUxKI0RfZDMyP284N0RTPOUE4ko1mljdwHNh.joGhu3HZYnxcyBvO', 'nobody@example.com', 0, '0000-00-00', 'Admin', 'Istrator', '127.0.0.1', '2017-07-30 18:41:48', 1, '', 1);
 COMMIT;
+
+SET FOREIGN_KEY_CHECKS = 1;

@@ -30,7 +30,7 @@ class Random extends AppHeader {
     }
 
     private function redirect(?string $title) : void {
-        $url = $this->config->read('url') . (!empty($title) ? '/index.php/article/' . $title : '');
+        $url = self::$config->read('url') . (!empty($title) ? '/index.php/article/' . $title : '');
         header('Location: ' . $url);
         die;
     }

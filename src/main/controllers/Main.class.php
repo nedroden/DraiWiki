@@ -20,11 +20,14 @@ use DraiWiki\Config;
 use DraiWiki\src\auth\models\User;
 use DraiWiki\src\core\controllers\{Connection, Registry};
 use DraiWiki\src\core\models\{RouteInfo, SessionHandler, SettingsImporter};
+use DraiWiki\src\main\models\DebugBarWrapper;
 
 use function DraiWiki\createRoutes;
+use const START_TIME;
 
 require_once __DIR__ . '/../../../public/Config.php';
 require_once __DIR__ . '/../../../public/Routing.php';
+require_once __DIR__ . '/../../ScriptExtensions.php';
 
 class Main {
 
@@ -46,9 +49,11 @@ class Main {
 	public const WIKI_VERSION = '1.0 Alpha 1';
 
     public function __construct() {
+        DebugBarWrapper::create();
         $this->_config = Registry::set('config', new Config());
+        $this->_route = Registry::set('route', new RouteInfo(createRoutes()));
 
-		$this->_route = Registry::set('route', new RouteInfo(createRoutes()));
+        DebugBarWrapper::report('Settings and route info loaded');
     }
 
     public function load() : void {

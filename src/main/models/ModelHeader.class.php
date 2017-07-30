@@ -20,18 +20,18 @@ use DraiWiki\src\core\controllers\Registry;
 
 abstract class ModelHeader {
 
-    protected $locale, $config, $user;
+    protected static $locale, $config, $user;
 
     protected function loadLocale() : void {
-        $this->locale = Registry::get('locale');
+        self::$locale = Registry::get('locale');
     }
 
     protected function loadConfig() : void {
-        $this->config = Registry::get('config');
+        self::$config = Registry::get('config');
     }
 
     public function loadUser() : void {
-        $this->user = Registry::get('user');
+        self::$user = Registry::get('user');
     }
 
     public function prepareData() : array {

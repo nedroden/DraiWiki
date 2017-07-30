@@ -22,7 +22,12 @@ class FatalError extends Error {
 
     public function trigger() : void {
         $message = $this->generateMessage();
-        echo Registry::get('gui')->parseAndGet('fatal_error', $message, false);
+
+        if (!empty($gui = Registry::get('gui', true)))
+            echo $gui->parseAndGet('fatal_error', $message, false);
+        else
+            echo $message;
+
         die;
     }
 }

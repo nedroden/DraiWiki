@@ -18,7 +18,6 @@ if (!defined('DraiWiki')) {
 
 use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\core\models\Sanitizer;
-use DraiWiki\src\main\controllers\GUI;
 
 abstract class Error {
 
@@ -30,8 +29,8 @@ abstract class Error {
 
         $this->detailedInfo = $detailedInfo;
 
-        $this->locale = Registry::get('locale', true);
-        $this->hasLocale = $this->locale != NULL;
+        self::$locale = Registry::get('locale', true);
+        $this->hasLocale = self::$locale != NULL;
     }
 
     protected function canViewDetailedInfo() : bool {
@@ -40,8 +39,8 @@ abstract class Error {
 
     protected function generateMessage() : array {
         return [
-            'title' => $this->hasLocale ? $this->locale->read('error', 'something_went_wrong') : 'Something went wrong',
-            'body' => $this->hasLocale ? $this->locale->read('error', 'generic_error_message') : 'An error occurred. Please contact the administrator.',
+            'title' => $this->hasLocale ? self::$locale->read('error', 'something_went_wrong') : 'Something went wrong',
+            'body' => $this->hasLocale ? self::$locale->read('error', 'generic_error_message') : 'An error occurred. Please contact the administrator.',
             'detailed' => $this->canViewDetailedInfo() ? $this->detailedInfo : NULL
         ];
     }

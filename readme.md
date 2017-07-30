@@ -14,13 +14,13 @@ It also has built-in multi-language support, meaning you won't need an extension
 ### 2.1. Server requirements
 #### 2.1.1. Minimum
 * PHP 7.1+
-* MariaDB / MySQL
+* MariaDB / MySQL (tested on MariaDB 10.1.25)
 * PDO extension
 * Composer
 * NPM
 
 ### 2.2. How to install
-1. Install Composer and NPM. If you're on a shared hosting and can't use the terminal, look at section 2.3
+1. Install Composer and NPM. If you're on a shared hosting and can't use the terminal, look at section 2.4
 2. cd to your http directory
 3. Run the following command in your command prompt or terminal: git clone https://github.com/Chistaen/DraiWiki.git
 4. Use Composer to install the required packages (composer install)
@@ -29,8 +29,17 @@ It also has built-in multi-language support, meaning you won't need an extension
 7. Run the DDL (table creation) and DML (data insertion) .sql files: ddl.sql and data.sql.
 8. Enjoy!
 
-### 2.3. Troubleshooting
-#### 2.3.1. Help! I don't have access to a terminal!
+### 2.3. Root account
+A root account is automatically created upon installation. At the time of writing it is not possible yet to disable the account entirely, but you should still avoid using the root account unless absolutely necessary. Benefits of the root account are:
+* Access to debug info
+* Unrestricted access to all sections (login/registration pages excluded, obviously)
+
+**Username:** root **Password:** password
+
+We recommend you change the password immediately after installation.
+
+### 2.4. Troubleshooting
+#### 2.4.1. Help! I don't have access to a terminal!
 If you're on a shared hosting that doesn't allow you to install Composer/NPM, don't worry. There's another solution. Just download the files to your computer and install the Composer and NPM packages from your computer's terminal. Then re-upload the files to your hosting. Happy writing!
 
 ## 3. Known issues

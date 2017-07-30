@@ -30,7 +30,7 @@ class Registration extends ModelHeader {
     public function __construct() {
         $this->loadLocale();
         $this->loadConfig();
-        $this->locale->loadFile('auth');
+        self::$locale->loadFile('auth');
 
         $this->_parsedown = new Parsedown();
         $this->getAgreement();
@@ -47,7 +47,7 @@ class Registration extends ModelHeader {
         ');
 
         $query->setParams([
-            'locale' => $this->locale->getID(),
+            'locale' => self::$locale->getID(),
             'default_locale' => self::DEFAULT_LOCALE_ID
         ]);
 
@@ -58,23 +58,23 @@ class Registration extends ModelHeader {
             }
         }
 
-        $this->_agreement = $this->locale->read('auth', 'no_agreement_found');
+        $this->_agreement = self::$locale->read('auth', 'no_agreement_found');
     }
 
     public function prepareData(): array {
         return [
-            'action' => $this->config->read('url') . '/index.php/register',
+            'action' => self::$config->read('url') . '/index.php/register',
             'agreement' => $this->_agreement,
-            'max_username_length' => $this->config->read('max_username_length'),
-            'max_password_length' => $this->config->read('max_password_length'),
-            'max_email_length' => $this->config->read('max_email_length'),
-            'max_first_name_length' => $this->config->read('max_first_name_length'),
-            'max_last_name_length' => $this->config->read('max_last_name_length')
+            'max_username_length' => self::$config->read('max_username_length'),
+            'max_password_length' => self::$config->read('max_password_length'),
+            'max_email_length' => self::$config->read('max_email_length'),
+            'max_first_name_length' => self::$config->read('max_first_name_length'),
+            'max_last_name_length' => self::$config->read('max_last_name_length')
         ];
     }
 
     public function getTitle() : string {
-        return $this->locale->read('auth', 'create_account');
+        return self::$locale->read('auth', 'create_account');
     }
 
     public function handlePostRequest() : void {
@@ -96,40 +96,40 @@ class Registration extends ModelHeader {
      */
     public function validate(array &$errors) : void {
         if (!isset($_POST['agreement_accept'])) {
-            $errors[] = $this->locale->read('auth', 'please_accept');
+            $errors[] = self::$locale->read('auth', 'please_accept');
             return;
         }
 
         foreach ($this->_formData as $key => $field) {
             if (!empty($field['value']) && (substr($field['value'], 0) == ' ' || substr($field['value'], -1) == ' ')) {
-                $errors[$key] = $this->locale->read('auth', 'oh_god_begin_end_spaces_' . $key);
+                $errors[$key] = self::$locale->read('auth', 'oh_god_begin_end_spaces_' . $key);
                 continue;
             }
 
-            if ($key != 'confirm_password' && $field['validator']->isTooShort($minLength = $this->config->read('min_' . $key . '_length')))
-                $errors[$key] = sprintf($this->locale->read('auth', $key . '_too_short'), $minLength);
-            else if ($key != 'confirm_password' && $field['validator']->isTooLong($maxLength = $this->config->read('max_' . $key . '_length')))
-                $errors[$key] = sprintf($this->locale->read('auth', $key . '_too_long'), $maxLength);
+            if ($key != 'confirm_password' && $field['validator']->isTooShort($minLength = self::$config->read('min_' . $key . '_length')))
+                $errors[$key] = sprintf(self::$locale->read('auth', $key . '_too_short'), $minLength);
+            else if ($key != 'confirm_password' && $field['validator']->isTooLong($maxLength = self::$config->read('max_' . $key . '_length')))
+                $errors[$key] = sprintf(self::$locale->read('auth', $key . '_too_long'), $maxLength);
 
             if ($key != 'confirm_password' && $field['validator']->containsHTML())
-                $errors[$key] = $this->locale->read('auth', 'no_html_' . $key);
+                $errors[$key] = self::$locale->read('auth', 'no_html_' . $key);
         }
 
         if (count($errors) == 0 && $this->_formData['password']['value'] != $this->_formData['confirm_password']['value'])
-            $errors['confirm_password'] = $this->locale->read('auth', 'no_password_match');
+            $errors['confirm_password'] = self::$locale->read('auth', 'no_password_match');
 
         if (empty($errors['password']) && $this->_formData['password']['validator']->containsSpaces())
-            $errors['password'] = $this->locale->read('auth', 'password_no_spaces');
+            $errors['password'] = self::$locale->read('auth', 'password_no_spaces');
 
         if (empty($errors['email']) && !$this->_formData['email']['validator']->isValidEmail())
-            $errors['email'] = $this->locale->read('auth', 'invalid_email');
+            $errors['email'] = self::$locale->read('auth', 'invalid_email');
     }
 
     public function createUser(array &$errors) : void {
         $userInfo = [
             'username' => $this->_formData['username']['value'],
             'password' => $this->_formData['password']['request']->getHash(),
-            'email' => $this->_formData['email']['value'],
+            'email_address' => $this->_formData['email']['value'],
             'first_name' => $this->_formData['first_name']['value'],
             'last_name' => $this->_formData['last_name']['value'],
             'ip_address' => $_SERVER['REMOTE_ADDR']
@@ -140,6 +140,6 @@ class Registration extends ModelHeader {
     }
 
     public function getRegistrationDisabledTitle() : string {
-        return $this->locale->read('auth', 'registration_disabled_title');
+        return self::$locale->read('auth', 'registration_disabled_title');
     }
 }

@@ -28,19 +28,19 @@ class Management extends ModelHeader {
         $this->loadConfig();
         $this->loadUser();
 
-        $this->locale->loadFile('management');
-        $this->_title = $this->locale->read('management', 'management_panel');
+        self::$locale->loadFile('management');
+        $this->_title = self::$locale->read('management', 'management_panel');
     }
 
     public function prepareData(): array {
         return [
             'sidebar' => $this->_sidebar,
             'title' => $this->_title,
-            'locale' => $this->locale,
-            'node_url' => $this->config->read('url') . '/node_modules',
-            'script_url' => $this->config->read('url') . '/scripts',
+            'locale' => self::$locale,
+            'node_url' => self::$config->read('url') . '/node_modules',
+            'script_url' => self::$config->read('url') . '/scripts',
             'wiki_version' => Main::WIKI_VERSION,
-            'user' => $this->user
+            'user' => self::$user
         ];
     }
 
@@ -53,20 +53,20 @@ class Management extends ModelHeader {
                     'home' => [
                         'label' => 'home',
                         'icon' => 'fa-home',
-                        'href' => $this->config->read('url') . '/index.php/management',
+                        'href' => self::$config->read('url') . '/index.php/management',
                         'visible' => true
                     ],
                     'wiki' => [
                         'label' => 'back_to_wiki',
                         'icon' => 'fa-book',
-                        'href' => $this->config->read('url') . '/index.php',
+                        'href' => self::$config->read('url') . '/index.php',
                         'visible' => true
                     ],
                     'logout' => [
                         'label' => 'logout',
                         'icon' => 'fa-sign-out',
-                        'href' => $this->config->read('url') . '/index.php/logout',
-                        'visible' => !$this->user->isGuest(),
+                        'href' => self::$config->read('url') . '/index.php/logout',
+                        'visible' => !self::$user->isGuest(),
                         'request_confirm' => true
                     ]
                 ]
@@ -78,13 +78,13 @@ class Management extends ModelHeader {
                     'general' => [
                         'label' => 'config_general',
                         'icon' => 'fa-wrench',
-                        'href' => $this->config->read('url') . '/index.php/management/settings/general',
+                        'href' => self::$config->read('url') . '/index.php/management/settings/general',
                         'visible' => true
                     ],
                     'database' => [
                         'label' => 'config_database',
                         'icon' => 'fa-database',
-                        'href' => $this->config->read('url') . '/index.php/management/settings/database',
+                        'href' => self::$config->read('url') . '/index.php/management/settings/database',
                         'visible' => true
                     ]
                 ]
@@ -96,19 +96,19 @@ class Management extends ModelHeader {
                     'list' => [
                         'label' => 'display_users',
                         'icon' => 'fa-user',
-                        'href' => $this->config->read('url') . '/index.php/management/users',
+                        'href' => self::$config->read('url') . '/index.php/management/users',
                         'visible' => true
                     ],
                     'groups' => [
                         'label' => 'manage_groups',
                         'icon' => 'fa-users',
-                        'href' => $this->config->read('url') . '/index.php/management/groups',
+                        'href' => self::$config->read('url') . '/index.php/management/groups',
                         'visible' => true
                     ],
                     'registration' => [
                         'label' => 'registration',
                         'icon' => 'fa-pencil',
-                        'href' => $this->config->read('url') . '/index.php/management/registration',
+                        'href' => self::$config->read('url') . '/index.php/management/registration',
                         'visible' => true
                     ],
                 ]
@@ -120,19 +120,19 @@ class Management extends ModelHeader {
                     'permissions' => [
                         'label' => 'permissions',
                         'icon' => 'fa-check',
-                        'href' => $this->config->read('url') . '/index.php/management/security/permissions',
+                        'href' => self::$config->read('url') . '/index.php/management/security/permissions',
                         'visible' => true
                     ],
                     'bans' => [
                         'label' => 'bans',
                         'icon' => 'fa-ban',
-                        'href' => $this->config->read('url') . '/index.php/management/security/banlist',
+                        'href' => self::$config->read('url') . '/index.php/management/security/banlist',
                         'visible' => true
                     ],
                     'log' => [
                         'label' => 'security_log',
                         'icon' => 'fa-file-text',
-                        'href' => $this->config->read('url') . '/index.php/management/security/log',
+                        'href' => self::$config->read('url') . '/index.php/management/security/log',
                         'visible' => true
                     ]
                 ]
@@ -144,17 +144,35 @@ class Management extends ModelHeader {
                     'locales' => [
                         'label' => 'locale_management',
                         'icon' => 'fa-language',
-                        'href' => $this->config->read('url') . '/index.php/management/settings/general',
+                        'href' => self::$config->read('url') . '/index.php/management/settings/general',
                         'visible' => true
                     ],
                     'themes' => [
                         'label' => 'theme_management',
                         'icon' => 'fa-paint-brush',
-                        'href' => $this->config->read('url') . '/index.php/management/settings/database',
+                        'href' => self::$config->read('url') . '/index.php/management/settings/database',
                         'visible' => true
                     ]
                 ]
             ],
+            'help' => [
+                'label' => 'side_help',
+                'visible' => true,
+                'items' => [
+                    'detailed_system_information' => [
+                        'label' => 'detailed_system_information',
+                        'icon' => 'fa-info',
+                        'href' => self::$config->read('url') . '/index.php/management/sysinfo',
+                        'visible' => true
+                    ],
+                    'manual' => [
+                        'label' => 'manual',
+                        'icon' => 'fa-question',
+                        'href' => self::$config->read('url') . '/index.php/management/manual',
+                        'visible' => true
+                    ]
+                ]
+            ]
         ];
 
         $visibleTabs = [];
@@ -162,11 +180,11 @@ class Management extends ModelHeader {
         foreach ($items as $item) {
             if ($item['visible']) {
                 // Replace the label placeholders with localized labels
-                $item['label'] = $this->locale->read('management', $item['label']);
+                $item['label'] = self::$locale->read('management', $item['label']);
 
                 $visibleSubItems = [];
                 foreach ($item['items'] as $subItem) {
-                    $subItem['label'] = $this->locale->read('management', $subItem['label']);
+                    $subItem['label'] = self::$locale->read('management', $subItem['label']);
 
                     if ($subItem['visible'])
                         $visibleSubItems[] = $subItem;

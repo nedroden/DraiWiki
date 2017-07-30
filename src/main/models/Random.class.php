@@ -40,7 +40,7 @@ class Random extends ModelHeader {
 
         $query->setParams([
             'article_status' => 1,
-            'locale' => $this->locale->getID()
+            'locale' => self::$locale->getID()
         ]);
 
         $result = $query->execute();

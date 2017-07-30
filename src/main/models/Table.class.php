@@ -29,7 +29,7 @@ class Table extends ModelHeader {
         $this->_data = $data;
 
         $this->loadLocale();
-        $this->locale->loadFile($localeFile);
+        self::$locale->loadFile($localeFile);
         $this->_localeFile = $localeFile;
 
         $this->_gui = Registry::get('gui');
@@ -38,7 +38,7 @@ class Table extends ModelHeader {
 
     public function create() : void {
         foreach ($this->_columns as &$column)
-            $column = $this->locale->read($this->_localeFile, $column);
+            $column = self::$locale->read($this->_localeFile, $column);
 
         $table = [
             'id' => $this->_id ?? 'my_table',

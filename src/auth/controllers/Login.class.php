@@ -52,12 +52,12 @@ class Login extends AppHeader {
 
             // We may not have had errors last time, but we should check if we've got any errors this time as well
             if (empty($this->_errors))
-                $this->redirectTo($this->config->read('url') . '/index.php');
+                $this->redirectTo(self::$config->read('url') . '/index.php');
         }
     }
 
     public function canAccess() : bool {
-        return $this->user->isGuest();
+        return self::$user->isGuest();
     }
 
     public function display() : void {

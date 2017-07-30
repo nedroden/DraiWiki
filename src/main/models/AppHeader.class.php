@@ -21,8 +21,9 @@ use DraiWiki\src\core\models\Sanitizer;
 
 abstract class AppHeader {
 
-    protected $user, $config, $title, $requiredPermission;
+    protected static $user, $config;
 
+    protected $title, $requiredPermission;
     protected $hasSidebar = true;
     protected $cantProceedException;
     protected $ajax, $parsedAJAXRequest;
@@ -41,11 +42,11 @@ abstract class AppHeader {
     protected $ignoreTemplates = 'neither';
 
     protected function loadConfig() : void {
-        $this->config = Registry::get('config');
+        self::$config = Registry::get('config');
     }
 
     protected function loadUser() : void {
-        $this->user = Registry::get('user');
+        self::$user = Registry::get('user');
     }
 
     public function getIgnoreTemplates() : string {
@@ -88,10 +89,10 @@ abstract class AppHeader {
     }
 
     public function canAccess() : bool {
-        if (empty($this->user))
+        if (empty(self::$user))
             $this->loadUser();
 
-        return empty($this->requiredPermission) ? true : $this->user->hasPermission($this->requiredPermission);
+        return empty($this->requiredPermission) ? true : self::$user->hasPermission($this->requiredPermission);
     }
 
     protected function checkForAjax() : void {

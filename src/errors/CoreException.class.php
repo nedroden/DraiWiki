@@ -22,7 +22,12 @@ class CoreException extends Error {
 
     public function trigger() : void {
         $message = $this->generateMessage();
-        echo Registry::get('gui')->parseAndGet('core_exception', $message, false);
+
+        if (!empty($gui = Registry::get('gui', true)))
+            echo $gui->parseAndGet('core_exception', $message, false);
+        else
+            echo $message;
+
         die;
     }
 
@@ -33,9 +38,9 @@ class CoreException extends Error {
      */
     protected function generateMessage() : array {
         return [
-            'title' => $this->hasLocale ? $this->locale->read('error', 'fatal_core_exception') : 'Fatal core exception',
-            'body' => $this->hasLocale ? $this->locale->read('error', 'what_is_a_fatal_core_exception') : 'A fatal error occurred that prevented DraiWiki from running.',
-            'detailed' => $this->canViewDetailedInfo() && $this->hasLocale ? $this->locale->read('error', 'yes_you_can') .  '<em>' . $this->detailedInfo . '</em>' : NULL,
+            'title' => $this->hasLocale ? self::$locale->read('error', 'fatal_core_exception') : 'Fatal core exception',
+            'body' => $this->hasLocale ? self::$locale->read('error', 'what_is_a_fatal_core_exception') : 'A fatal error occurred that prevented DraiWiki from running.',
+            'detailed' => $this->canViewDetailedInfo() && $this->hasLocale ? self::$locale->read('error', 'yes_you_can') .  '<em>' . $this->detailedInfo . '</em>' : NULL,
             'backtrace' => $this->canViewDetailedInfo() ? $this->getBacktrace() : []
         ];
     }

@@ -46,8 +46,8 @@ class Management extends AppHeader {
         $this->ignoreTemplates = 'both';
 
         // Regular permission errors don't work, so if a user doesn't have access to the management panel, just redirect to the wiki index
-        if (!$this->user->hasPermission('manage_site')) {
-            header('Location: ' . $this->config->read('url') . '/index.php');
+        if (!self::$user->hasPermission('manage_site')) {
+            header('Location: ' . self::$config->read('url') . '/index.php');
             die;
         }
     }
@@ -60,6 +60,7 @@ class Management extends AppHeader {
     private function detectApp() : string {
         $apps = [
             'dashboard' => 'DraiWiki\src\admin\controllers\Dashboard',
+            'sysinfo' => 'DraiWiki\src\admin\controllers\SysInfo',
             'users' => 'DraiWiki\src\admin\controllers\UserManagement'
         ];
 
@@ -80,13 +81,13 @@ class Management extends AppHeader {
          * @todo Move to model
          */
         $additionalData = [
-            'wiki_name' => $this->config->read('wiki_name'),
+            'wiki_name' => self::$config->read('wiki_name'),
             'skin_url' => $this->_gui->getSkinUrl(),
             'image_url' => $this->_gui->getImageUrl(),
             'copyright' => $this->_gui->getCopyright(),
             'teams' => $this->_gui->getTeamMembers(),
             'packages' => $this->_gui->getLibraries(),
-            'url' => $this->config->read('url'),
+            'url' => self::$config->read('url'),
             'page_description' => $this->_subApp->getPageDescription()
         ];
 

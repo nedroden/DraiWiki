@@ -17,6 +17,7 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\core\controllers\Registry;
+use DraiWiki\src\main\models\DebugBarWrapper;
 use Dwoo\{Core, Data};
 
 class GUI {
@@ -68,10 +69,14 @@ class GUI {
     }
 
     public function showHeader() : void {
+        $this->createDebugBar(false, 'head');
+
         echo $this->_engine->get('header.tpl', $this->_data);
     }
 
     public function showFooter() : void {
+        $this->createDebugBar(false, 'body');
+
         echo $this->_engine->get('footer.tpl', $this->_data);
     }
 
@@ -87,6 +92,9 @@ class GUI {
             else
                 die('Template not found.');
         }
+
+        if ($tplName == 'admin_header' || $tplName == 'admin_footer')
+            $data = array_merge($data, $this->createDebugBar(true));
 
         $data = array_merge([
             'skin_url' => $this->_skinUrl,
@@ -158,12 +166,20 @@ class GUI {
             ['name' => 'Marked', 'href' => 'https://github.com/chjj/marked'],
             ['name' => 'Moment', 'href' => 'http://momentjs.com'],
             ['name' => 'Parsedown', 'href' => 'http://parsedown.org'],
+            ['name' => 'PHP Debug Bar', 'href' => 'http://phpdebugbar.com/'],
             ['name' => 'SimpleMail', 'href' => 'https://github.com/eoghanobrien/php-simple-mail'],
             ['name' => 'SimpleMDE', 'href' => 'https://simplemde.com'],
             ['name' => 'Sprintf.js', 'href' => 'https://github.com/alexei/sprintf.js'],
             ['name' => 'Typo JS', 'href' => 'https://github.com/cfinke/Typo.js/'],
             ['name' => 'Zebra Dialog', 'href' => 'https://github.com/stefangabos/Zebra_Dialog']
         ];
+
+        /**
+         * Missing dependencies of the debug bar:
+         * - Installing symfony/polyfill-mbstring (v1.4.0): Loading from cache
+         * - Installing symfony/var-dumper (v3.3.5): Downloading (100%)
+         * - Installing psr/log (1.0.2): Loading from cache
+         */
     }
 
     private function generateMenu() : void {
@@ -271,6 +287,26 @@ class GUI {
         }
 
         echo $this->parseAndGet('sidebar', ['items' => $visibleTabs]);
+    }
+
+    private function createDebugBar(bool $return = false, string $part = 'both') : ?array {
+        $canView = $this->_user->isRoot();
+        $renderer = DebugBarWrapper::getRenderer();
+
+        $data = [];
+
+        if ($part == 'both' || $part == 'head')
+            $data['debug_head'] = $canView ? $renderer->renderHead() : null;
+
+        if ($part == 'both' || $part == 'body')
+            $data['debug_body'] = $canView ? $renderer->render() : null;
+
+        if (!$return)
+            $this->setData($data);
+        else
+            return $data;
+
+        return null;
     }
 
     public function getSkinUrl() : string {

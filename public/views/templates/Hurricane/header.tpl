@@ -30,6 +30,9 @@
             var cookie_click_here = '{$locale->read('script', 'cookie_click_here')}';
         </script>
         {/if}
+        {if not $debug_head eq ''}
+            {$debug_head}
+        {/if}
     </head>
     <body>
         <div id="wrapper">

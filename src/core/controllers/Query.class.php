@@ -56,7 +56,7 @@ abstract class Query {
         $this->params['last_id'] = $this->_connection->getLastId();
     }
 
-    public function toString() : string {
+    public function __toString() : string {
         return $this->query;
     }
 }

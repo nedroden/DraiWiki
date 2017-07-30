@@ -8,8 +8,8 @@
  * @license     Apache 2.0
  */
 
-CREATE DATABASE IF NOT EXISTS DraiWiki;
-USE DraiWiki;
+CREATE DATABASE IF NOT EXISTS DraiWiki_test;
+USE DraiWiki_test;
 
 CREATE TABLE IF NOT EXISTS drai_setting (
     `key` VARCHAR(32) NOT NULL,

@@ -23,7 +23,7 @@ use DraiWiki\src\errors\CoreException;
  *
  * @since 1.0 Alpha 1
  */
-class Registry {
+abstract class Registry {
 
     private const ENABLE_REVIEW = false;
 
