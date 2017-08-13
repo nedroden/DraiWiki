@@ -42,53 +42,37 @@ function displayPagination(currentStart, totalRecords, recordsPerPage) {
     let numberOfPages = Math.round((totalRecords - 1) / recordsPerPage);
     let currentPage = 1 + Math.round((Number(currentStart) + 1) / recordsPerPage);
 
+
+    // 1 + 
     let pages = [];
 
     let i = 1;
+
+    // '<a href="javascript:void(0);" onclick="changeUserlistPage(\'' + i + '\', ' + recordsPerPage + ');" class="page page_current">' + i + '</a>'
+    // pages.push('<a href="javascript:void(0);" onclick="changeUserlistPage(\'' + i + '\', ' + recordsPerPage + ');" class="page page_normal">' + i + '</a>');
+    // pages.push('<span class="page page_separator">...</span>');
+    seperator1 = false;
+    seperator2 = false;
     while (i <= numberOfPages) {
-        if (currentPage === i) {
-            pages.push('<a href="javascript:void(0);" onclick="changeUserlistPage(\'' + i + '\', ' + recordsPerPage + ');" class="page page_current">' + i + '</a>');
-            i++;
+        if(i == 1 || i == currentPage || (i <= currentPage + 2 && i >= currentPage - 2) || i == numberOfPages){
+            pages.push('<a href="javascript:void(0);" data-page="' + i + '" onclick="changeUserlistPage(\'' + i + '\', ' + recordsPerPage + ');" class="page page_normal">' + i + '</a>');
         }
-
-        else if (((numberOfPages - currentPage) <= 2 && currentPage - i <= 2) || (currentPage <= 4 && i <= 4)) {
-            pages.push('<a href="javascript:void(0);" onclick="changeUserlistPage(\'' + i + '\', ' + recordsPerPage + ');" class="page page_normal">' + i + '</a>');
-            i++;
+        else{
+            if(i < currentPage + 2 && seperator1 == false){
+                pages.push('<span class="page page_separator">...</span>');
+                seperator1 = true;
+            }
+            else{
+                if(i > currentPage - 2 && seperator2 == false){
+                    pages.push('<span class="page page_separator">...</span>');
+                    seperator2 = true;
+                }
+            }
         }
-
-        else if (i === 1 || i === numberOfPages || (currentPage - i <= 2 && currentPage - i >= 0) || (i > currentPage && i - currentPage <= 2)) {
-            pages.push('<a href="javascript:void(0);" onclick="changeUserlistPage(\'' + i + '\', ' + recordsPerPage + ');" class="page page_normal">' + i + '</a>');
-            i++;
-        }
-
-        else {
-            pages.push('<span class="page page_separator">...</span>');
-
-            if (numberOfPages - currentPage >= 2 && i < currentPage)
-                i = currentPage - 2;
-            else if (i <= (currentPage - 2))
-                i = currentPage - 2;
-            else if (i < currentPage)
-                i++;
-            else if (i > currentPage)
-                i = numberOfPages;
-        }
+        i++;
     }
 
     $('.pagination').html(pages.join(''));
-}
+    $('.pagination a.page[data-page="' + currentPage + '"]').removeClass('page_normal').addClass('page_current');
 
-function sysInfoToText() {
-    let table = $('.info_table');
-
-    if (table.length) {
-        let clipboardContent = '';
-
-        table.find('div').each(function() {
-            clipboardContent += $(this).find('span').first().text().slice(0, -1) + ' = ';
-            clipboardContent += $(this).find('span').last().text() + '\n';
-        });
-
-        alert(clipboardContent);
-    }
 }
