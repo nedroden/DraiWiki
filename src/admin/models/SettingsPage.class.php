@@ -88,7 +88,15 @@ class SettingsPage extends ModelHeader {
                     'min_length' => self::MIN_WIKI_EMAIL_LENGTH,
                     'max_length' => self::MAX_WIKI_EMAIL_LENGTH,
                     'type' => 'email'
-                ]
+                ],
+                'features',
+                'display_cookie_warning' => [
+                    'name' => 'display_cookie_warning',
+                    'label' => 'display_cookie_warning',
+                    'description' => 'display_cookie_warning_desc',
+                    'input_type' => 'checkbox',
+                    'input_description' => self::$locale->read('management', 'enable_this_feature')
+                ],
             ]
         ];
 
@@ -116,7 +124,7 @@ class SettingsPage extends ModelHeader {
             if (count($setting) == 2)
                 continue;
 
-            if ($setting['input_type'] != 'checkbox' || $setting['input_type'] != 'select') {
+            if ($setting['input_type'] != 'checkbox' && $setting['input_type'] != 'select') {
                 $settingInfo = [
                     'request' => new PostRequest($setting['name']),
                     'validator' => new InputValidator($_POST[$setting['name']] ?? ''),
@@ -150,15 +158,16 @@ class SettingsPage extends ModelHeader {
 
                 // If there's nothing wrong with the specified value for a setting, we might as well use it in the form
                 if (empty($errors[$setting['name']])) {
+                    if ($setting['value'] != $settingInfo['value'])
+                        $setting['updated'] = true;
+
                     $setting['value'] = $settingInfo['value'];
-                    $setting['updated'] = true;
                 }
             }
 
             else {
-                $settingValue = empty($_POST[$setting['name']]) ? 0 : 1;
+                $settingValue = isset($_POST[$setting['name']]) ? 1 : 0;
 
-                // No need to execute a query if nothing needs to be changed
                 if ($settingValue != $setting['value'])
                     $setting['updated'] = true;
 
@@ -169,7 +178,8 @@ class SettingsPage extends ModelHeader {
 
     public function updateSettings(): void {
         foreach ($this->_settings as $setting) {
-            if (empty($setting['updated']) || !$setting['updated'])
+            // If there are only two items, it means we're dealing with a header
+            if (count($setting) == 2 || (!empty($setting['updated']) && !$setting['updated']))
                 continue;
 
             $query = QueryFactory::produce('modify', '

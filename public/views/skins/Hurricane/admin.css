@@ -361,6 +361,10 @@ input[type="submit"]:hover {
     background: #fcfcfc;
 }
 
+.form_table p {
+    margin-top: 10px;
+}
+
 .crud_table {
     border: none;
     width: 100%;

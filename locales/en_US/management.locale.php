@@ -116,5 +116,11 @@ return [
     'wiki_email_too_long' => 'The email address you entered was too long. Email addresses can only be %u characters long',
     'invalid_email' => 'Invalid email address',
 
+    'features' => 'Features',
+    'display_cookie_warning' => 'Display cookie warning',
+    'display_cookie_warning_desc' => 'EU law requires all websites that use cookies to inform their users cookies are used. If you\'re on localhost, you can safely disable this option, but if you\'re not, you might want to leave it on.',
+
+    'enable_this_feature' => 'Enable this feature',
+
     'save' => 'Save'
 ];
