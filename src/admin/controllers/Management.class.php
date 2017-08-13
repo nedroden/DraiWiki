@@ -40,6 +40,7 @@ class Management extends AppHeader {
         $this->_gui = Registry::get('gui');
 
         $this->_model = new Model();
+        $this->_model->setActiveMenuItem($this->getActiveMenuItem());
         $this->_model->generateSidebar();
 
         // We have our own templates
@@ -60,6 +61,7 @@ class Management extends AppHeader {
     private function detectApp() : string {
         $apps = [
             'dashboard' => 'DraiWiki\src\admin\controllers\Dashboard',
+            'settings' => 'DraiWiki\src\admin\controllers\SettingsPage',
             'sysinfo' => 'DraiWiki\src\admin\controllers\SysInfo',
             'users' => 'DraiWiki\src\admin\controllers\UserManagement'
         ];
@@ -99,5 +101,9 @@ class Management extends AppHeader {
 
         else
             $this->_subApp->printJSON();
+    }
+
+    private function getActiveMenuItem() : string {
+        return $this->_currentSubApp != 'settings' ? $this->_currentSubApp : 'settings_' . ($this->_route->getParams()['section'] ?? 'general');
     }
 }

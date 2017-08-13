@@ -83,7 +83,7 @@ class Registration extends ModelHeader {
 
         foreach (['username', 'password', 'confirm_password', 'email', 'first_name', 'last_name'] as $field) {
             $this->_formData[$field] = [
-                'request' => new PostRequest($_POST[$field] ?? ''),
+                'request' => new PostRequest($field),
                 'validator' => new InputValidator($_POST[$field] ?? ''),
                 'value' => $_POST[$field] ?? ''
             ];

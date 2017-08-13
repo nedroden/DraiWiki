@@ -40,8 +40,8 @@ function createRoutes() : array {
 		$routeCollector->get('/locale/{locale}/{article}', 'changelocale');
 
         $routeCollector->get('/management', 'management');
-        $routeCollector->get('/management/{subapp}', 'management');
-        $routeCollector->get('/management/{subapp}/{section}', 'management');
+        $routeCollector->addRoute(['GET', 'POST'],'/management/{subapp}', 'management');
+        $routeCollector->addRoute(['GET', 'POST'],'/management/{subapp}/{section}', 'management');
 
 		$routeCollector->get('/random', 'random');
 

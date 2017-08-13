@@ -19,5 +19,7 @@
 return [
     'editing' => 'Editing article: ',
     'deleting' => 'Deleting article',
-    'new_article' => 'New article'
+    'new_article' => 'New article',
+
+    'last_updated_by' => 'Last updated by %s on %s'
 ];

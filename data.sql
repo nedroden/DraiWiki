@@ -143,7 +143,9 @@ INSERT INTO `drai_setting` (`key`, `value`) VALUES
   ('wiki_email', 'draiwiki@localhost'),
   ('activation_code_length', '24'),
   ('display_cookie_warning', '1'),
-  ('max_results_per_page', '20');
+  ('max_results_per_page', '20'),
+  ('date_format', 'F j, Y, g:i a'),
+  ('slogan', 'Write together');
 
 --
 -- Dumping data for table `drai_user`

@@ -38,6 +38,9 @@ class Article extends ModelHeader {
     private $_tempInfo;
     private $_updatedTitle = false;
 
+    private $_lastUpdatedUsername;
+    private $_lastUpdatedDate;
+
     private $_subApp;
 
     public function __construct(?string $requestedArticle, bool $isHomepage) {
@@ -58,9 +61,10 @@ class Article extends ModelHeader {
             $this->_requestedArticle = self::$locale->read('article', 'new_article');
 
         $query = QueryFactory::produce('select', '
-            SELECT a.id, a.title, a.locale_id, a.status, h.body
+            SELECT a.id, a.title, a.locale_id, a.status, h.body, h.updated, u.username
                 FROM {db_prefix}article a
                 INNER JOIN {db_prefix}article_history h ON (a.id = h.article_id)
+                INNER JOIN `{db_prefix}user` u ON (h.user_id = u.id)
                 WHERE ' . ($this->_isHomepage ? 'a.id' : 'a.title') . ' = :article
                 AND STATUS = 1
                 ORDER BY h.updated DESC
@@ -90,6 +94,9 @@ class Article extends ModelHeader {
         $this->_body = $this->_parsedown->text($info['body'] ?? '');
         $this->_bodyUnparsed = $info['body'] ?? '';
         $this->_bodySafeHTML = $this->_parsedown->setMarkupEscaped(true)->text($info['body'] ?? '');
+
+        $this->_lastUpdatedUsername = $info['username'] ?? self::$locale->read('auth', 'guest');
+        $this->_lastUpdatedDate = $info['updated'] ?? 'unknown';
 
         // Status IDs should be integers. Always.
         $status = !empty($info['status']) ? (int) $info['status'] : 0;
@@ -171,7 +178,8 @@ class Article extends ModelHeader {
             'title_real' => $this->_title,
             'body' => $this->_body,
             'body_unparsed' => $this->_bodyUnparsed,
-            'body_safe' => $this->_bodySafeHTML
+            'body_safe' => $this->_bodySafeHTML,
+            'last_updated_by' => $this->getLastUpdatedTime()
         ] + $additionalData;
     }
 
@@ -327,6 +335,10 @@ class Article extends ModelHeader {
         $query->execute();
 
         return true;
+    }
+
+    public function getLastUpdatedTime() : string {
+        return sprintf(self::$locale->read('article', 'last_updated_by'), $this->_lastUpdatedUsername, $this->_lastUpdatedDate);
     }
 
     public function getSafeTitle() : string {

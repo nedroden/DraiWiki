@@ -20,11 +20,9 @@ use DraiWiki\src\core\controllers\Registry;
 
 class AccessError extends Error {
 
-    private $_locale;
 
     public function __construct() {
-        $this->_locale = Registry::get('locale');
-        $this->_locale->loadFile('error');
+        $this->locale->loadFile('error');
     }
 
     public function trigger() : void {
@@ -34,8 +32,8 @@ class AccessError extends Error {
 
     protected function generateMessage() : array {
         return [
-            'title' => $this->_locale->read('error', 'access_denied'),
-            'body' => $this->_locale->read('error', 'access_denied_why')
+            'title' => $this->locale->read('error', 'access_denied'),
+            'body' => $this->locale->read('error', 'access_denied_why')
         ];
     }
 }

@@ -21,7 +21,7 @@ use DraiWiki\src\main\models\ModelHeader;
 
 class Management extends ModelHeader {
 
-    private $_sidebar, $_title;
+    private $_sidebar, $_title, $_activeMenuItem;
 
     public function __construct() {
         $this->loadLocale();
@@ -75,16 +75,16 @@ class Management extends ModelHeader {
                 'label' => 'side_config',
                 'visible' => true,
                 'items' => [
-                    'general' => [
+                    'settings_general' => [
                         'label' => 'config_general',
                         'icon' => 'fa-wrench',
                         'href' => self::$config->read('url') . '/index.php/management/settings/general',
                         'visible' => true
                     ],
-                    'database' => [
+                    'settings_database' => [
                         'label' => 'config_database',
                         'icon' => 'fa-database',
-                        'href' => self::$config->read('url') . '/index.php/management/settings/database',
+                        'href' => self::$config->read('url') . '/index.php/management/databasesettings',
                         'visible' => true
                     ]
                 ]
@@ -93,7 +93,7 @@ class Management extends ModelHeader {
                 'label' => 'side_users',
                 'visible' => true,
                 'items' => [
-                    'list' => [
+                    'users' => [
                         'label' => 'display_users',
                         'icon' => 'fa-user',
                         'href' => self::$config->read('url') . '/index.php/management/users',
@@ -120,19 +120,19 @@ class Management extends ModelHeader {
                     'permissions' => [
                         'label' => 'permissions',
                         'icon' => 'fa-check',
-                        'href' => self::$config->read('url') . '/index.php/management/security/permissions',
+                        'href' => self::$config->read('url') . '/index.php/management/permissions',
                         'visible' => true
                     ],
                     'bans' => [
                         'label' => 'bans',
                         'icon' => 'fa-ban',
-                        'href' => self::$config->read('url') . '/index.php/management/security/banlist',
+                        'href' => self::$config->read('url') . '/index.php/management/banlist',
                         'visible' => true
                     ],
                     'log' => [
                         'label' => 'security_log',
                         'icon' => 'fa-file-text',
-                        'href' => self::$config->read('url') . '/index.php/management/security/log',
+                        'href' => self::$config->read('url') . '/index.php/management/securitylog',
                         'visible' => true
                     ]
                 ]
@@ -159,7 +159,7 @@ class Management extends ModelHeader {
                 'label' => 'side_help',
                 'visible' => true,
                 'items' => [
-                    'detailed_system_information' => [
+                    'sysinfo' => [
                         'label' => 'detailed_system_information',
                         'icon' => 'fa-info',
                         'href' => self::$config->read('url') . '/index.php/management/sysinfo',
@@ -177,24 +177,33 @@ class Management extends ModelHeader {
 
         $visibleTabs = [];
 
-        foreach ($items as $item) {
+        foreach ($items as $key => $item) {
             if ($item['visible']) {
                 // Replace the label placeholders with localized labels
                 $item['label'] = self::$locale->read('management', $item['label']);
 
                 $visibleSubItems = [];
-                foreach ($item['items'] as $subItem) {
+                foreach ($item['items'] as $subItemKey => $subItem) {
                     $subItem['label'] = self::$locale->read('management', $subItem['label']);
 
                     if ($subItem['visible'])
-                        $visibleSubItems[] = $subItem;
+                        $visibleSubItems[$subItemKey] = $subItem;
+                }
+
+                if (empty($activeTabFound) && !empty($visibleSubItems[$this->_activeMenuItem])) {
+                    $visibleSubItems[$this->_activeMenuItem]['active'] = true;
+                    $activeTabFound = true;
                 }
 
                 // Only display items we can see
                 $item['items'] = $visibleSubItems;
-                $visibleTabs[] = $item;
+
+                $visibleTabs[$key] = $item;
             }
         }
+
+        if (empty($activeTabFound))
+            $visibleTabs['main']['items']['home']['active'] = true;
 
         $this->_sidebar = $visibleTabs;
     }
@@ -203,7 +212,11 @@ class Management extends ModelHeader {
         return $this->_sidebar;
     }
 
-    public function setTitle(string $value) : void {
-        $this->_title = $value;
+    public function setTitle(string $title) : void {
+        $this->_title = $title;
+    }
+
+    public function setActiveMenuItem(string $item) : void {
+        $this->_activeMenuItem = $item;
     }
 }

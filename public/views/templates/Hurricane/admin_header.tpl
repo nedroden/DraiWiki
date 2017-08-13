@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>{$title} | {$wiki_name}</title>
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
 
         <script type="text/javascript">
             var please_confirm = '{$locale->read('script', 'please_confirm')}';
@@ -24,6 +25,8 @@
         <script type="text/javascript" src="{$node_url}/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="{$node_url}/zebra_dialog/dist/zebra_dialog.min.js"></script>
         <script type="text/javascript" src="{$node_url}/sprintf-js/dist/sprintf.min.js"></script>
+
+        <script type="text/javascript" src="{$script_url}/actionbar.js"></script>
         <script type="text/javascript" src="{$script_url}/ajax.js"></script>
         <script type="text/javascript" src="{$script_url}/dw-controller.js"></script>
         <script type="text/javascript" src="{$script_url}/management.js"></script>
@@ -38,9 +41,6 @@
                     <div id="siteinfo">
                         <a href="{$url}/index.php/management" target="_self">{$wiki_name}</a><span>| {$locale->read('management', 'management_panel')}</span>
                     </div>
-                    <div id="status">
-                        Status message
-                    </div>
                     <div id="userinfo">
                         {$locale->read('main', 'hello', true)}
                     </div>
@@ -52,7 +52,7 @@
                     <div class="sidebar_header">{$item['label']}</div>
                     <ul>
                         {foreach $item['items'] subitem}
-                            <li>{if not $subitem['icon'] == ''}<i class="fa {$subitem['icon']}"></i> {/if}<a{if not $subitem['request_confirm'] == ''} onclick="requestConfirm('{$subitem['href']}');" href="javascript:void(0);"{else} href="{$subitem['href']}"{/if} target="_self"{if not $subitem['id'] eq ''} id="{$subitem['id']}"{/if}>{$subitem['label']}</a></li>
+                            <li>{if not $subitem['icon'] == ''}<i class="fa {$subitem['icon']}"></i> {/if}<a{if not $subitem['request_confirm'] == ''} onclick="requestConfirm('{$subitem['href']}');" href="javascript:void(0);"{else} href="{$subitem['href']}"{/if} target="_self"{if not $subitem['id'] eq ''} id="{$subitem['id']}"{/if}{if not $subitem['active'] == ''} class="active"{/if}>{$subitem['label']}</a></li>
                         {/foreach}
                     </ul>
                 {/foreach}

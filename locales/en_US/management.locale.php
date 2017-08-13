@@ -91,5 +91,30 @@ return [
     'sysinfo_description' => 'Detailed system information can be viewed here. If you need any help with your DraiWiki installation, generate one of these and include them in your support request or bug report.',
 
     'server_operating_system' => 'Operating system:',
-    'server_architecture' => 'Server architecture:'
+    'server_architecture' => 'Server architecture:',
+
+    'text_format' => 'Text format',
+
+    'settings_general' => 'General wiki settings',
+    'settings_general_description' => 'On this page you are able to edit the most common wiki settings.',
+
+    'settings_updated' => 'Settings updated',
+    'above_int_limit' => 'Value is above int limit',
+
+    'basic_settings' => 'Basic settings',
+    'wiki_name' => 'Wiki name:',
+    'wiki_name_desc' => 'The name of your wiki (e.g. My Wiki)',
+    'wiki_slogan' => 'Slogan',
+    'wiki_slogan_desc' => 'Your wiki\'s slogan',
+    'wiki_email' => 'Website email',
+    'wiki_email_desc' => 'This email address is used as sender when sending emails',
+
+    'wiki_name_too_short' => 'The wiki name you entered was too short. Wiki names must be at least %u characters long',
+    'wiki_name_too_long' => 'The wiki name you entered was too long. Wiki names can only be %u characters long',
+
+    'wiki_email_too_short' => 'The email address you entered was too short. Email addresses must be at least %u characters long',
+    'wiki_email_too_long' => 'The email address you entered was too long. Email addresses can only be %u characters long',
+    'invalid_email' => 'Invalid email address',
+
+    'save' => 'Save'
 ];

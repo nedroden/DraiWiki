@@ -16,8 +16,7 @@ if (!defined('DraiWiki')) {
     die('You\'re really not supposed to be here.');
 }
 
-use DraiWiki\src\core\controllers\QueryFactory;
-use DraiWiki\src\core\models\{InputValidator, PostRequest, Sanitizer};
+use DraiWiki\src\core\models\{InputValidator, PostRequest};
 use DraiWiki\src\main\models\ModelHeader;
 
 class Login extends ModelHeader {

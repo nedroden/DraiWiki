@@ -15,8 +15,8 @@
 body {
     background: #d7d7d9;
     background: radial-gradient(circle, #f4f4f4, #c6c6c6);
-    font-family: Helvetica, "Trebuchet MS", Verdana, Arial;
-    font-size: 85%;
+    font-family: "Noto Sans", Helvetica, "Trebuchet MS", Verdana, Arial;
+    font-size: 95%;
     padding: 0;
     margin: 0;
     color: #1c1c1c;
@@ -53,31 +53,13 @@ a:hover {
 h1, h2, h3, h4, h5, h6 {
     color: #78a1bb;
     font-weight: normal;
+    font-family: "Source Sans Pro", Helvetica, Verdana, Arial;
     margin: 10px 0 0 0;
 }
 
 h1 {
     padding-left: 20px;
     background: url('{IMAGE_URL}h1.png') left center no-repeat;
-}
-
-h1.article_title {
-    color: #3a3a3a;
-    margin-bottom: 10px;
-    font-weight: normal;
-    padding-left: 0;
-    background: none;
-    font-size: 230%;
-}
-
-#article_body h1 {
-    background: none;
-    padding-left: 0;
-    font-size: 180%;
-}
-
-#article_body h2 {
-    font-size: 150%;
 }
 
 hr {
@@ -97,6 +79,8 @@ input[type="text"], input[type="password"] {
     color: #a5a5a5;
     font-size: 20px;
     padding: 6px;
+    font-family: Roboto;
+    letter-spacing: -1px;
 }
 
 input[type="text"]:focus, input[type="password"]:focus, input[type="checkbox"]:focus, input[type="checkbox"]:checked {
@@ -114,6 +98,8 @@ input[type="submit"] {
     padding: 5px;
     min-width: 100px;
     color: #fff;
+    font-family: Roboto;
+    letter-spacing: -1px;
 }
 
 input[type="submit"]:hover {
@@ -148,6 +134,8 @@ input[type="submit"]:hover {
     color: #fff;
     background: #141414;
     background: linear-gradient(-180deg, #1a1a1a, #141414);
+    font-family: "Noto Sans", Helvetica, Calibri, Arial;
+    font-size: 95%;
 }
 
 #topbar a {
@@ -184,7 +172,7 @@ input[type="submit"]:hover {
     background: #283044;
     background: radial-gradient(circle, #283044, #262d40);
     font-size: 40px;
-    font-family: Verdana, Helvetica, Arial;
+    font-family: "Noto Sans", Verdana, Helvetica, Arial;
     padding: 40px;
     align-items: center;
 }
@@ -204,7 +192,7 @@ input[type="submit"]:hover {
 #content_header {
     padding: 8px 30px 8px 30px;
     font-size: 20px;
-    font-family: Arial;
+    font-family: "Noto Sans";
     color: #fff;
     background: #4a6699;
     background: linear-gradient(-90deg, #394f77, #4a6699);
@@ -359,10 +347,11 @@ input[type="submit"]:hover {
     background: #efefef;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+    font-family: Roboto;
 }
 
 #sidebar ul li {
-    padding: 6px 2px 6px 8px;
+    padding: 4px 2px 4px 8px;
 }
 
 #sidebar ul li:hover {
@@ -508,6 +497,33 @@ p {
 
 .cookie_link {
     text-decoration: underline;
+}
+
+/* Articles */
+h1.article_title {
+    color: #3a3a3a;
+    margin-bottom: 10px;
+    font-weight: normal;
+    padding-left: 0;
+    background: none;
+    font-size: 230%;
+}
+
+#article_body h1 {
+    background: none;
+    padding-left: 0;
+    font-size: 180%;
+}
+
+#article_body h2 {
+    font-size: 150%;
+}
+
+#last_updated_by {
+    padding-top: 10px;
+    font-size: 100%;
+    font-style: italic;
+    color: #999999;
 }
 
 /* Responsive theming */

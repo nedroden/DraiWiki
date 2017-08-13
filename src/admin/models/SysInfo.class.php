@@ -18,17 +18,17 @@ if (!defined('DraiWiki')) {
 
 use DraiWiki\src\core\controllers\QueryFactory;
 use DraiWiki\src\main\controllers\Main;
-use DraiWiki\src\main\models\{ModelHeader, Table};
+use DraiWiki\src\main\models\{
+    ActionBar, ModelHeader, Table
+};
 
 class SysInfo extends ModelHeader {
 
-    private $_table;
+    private $_table, $_actionBar;
 
     public function __construct() {
         $this->loadLocale();
         $this->loadConfig();
-
-        $this->_table = [];
     }
 
     private function createTable() : void {
@@ -45,10 +45,26 @@ class SysInfo extends ModelHeader {
         $this->_table = $table->returnTable();
     }
 
+    public function createActionBar() : void {
+        $items = [
+            'text_format' => [
+                'label' => 'text_format',
+                'icon' => 'fa-copy',
+                'action' => 'sysInfoToText()'
+            ]
+        ];
+
+        $actionBar = new ActionBar('management', $items);
+        $actionBar->create();
+        $this->_actionBar = $actionBar->getBar();
+    }
+
     public function prepareData() : array {
         $this->createTable();
+        $this->createActionBar();
 
         return [
+            'actionbar' => $this->_actionBar,
             'table' => $this->_table
         ];
     }

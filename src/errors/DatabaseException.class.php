@@ -35,9 +35,9 @@ class DatabaseException extends Error {
 
     protected function generateMessage() : array {
         return [
-            'title' => $this->hasLocale ? self::$locale->read('error', 'database_exception') : 'Database exception',
-            'body' => $this->hasLocale ? self::$locale->read('error', 'what_is_a_database_exception') : 'Could not successfully execute database request.',
-            'detailed' => $this->canViewDetailedInfo() && $this->hasLocale ? self::$locale->read('error', 'yes_you_can') .  '<em>' . $this->detailedInfo . '</em>' : NULL,
+            'title' => $this->hasLocale ? $this->locale->read('error', 'database_exception') : 'Database exception',
+            'body' => $this->hasLocale ? $this->locale->read('error', 'what_is_a_database_exception') : 'Could not successfully execute database request.',
+            'detailed' => $this->canViewDetailedInfo() && $this->hasLocale ? $this->locale->read('error', 'yes_you_can') .  '<em>' . $this->detailedInfo . '</em>' : NULL,
             'query' => $this->_query,
             'backtrace' => $this->canViewDetailedInfo() ? $this->getBacktrace() : []
         ];

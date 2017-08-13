@@ -3,6 +3,10 @@
     <head>
         <title>{$title} | {$wiki_name}</title>
 
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
         <script type="text/javascript">
             var please_confirm = '{$locale->read('script', 'please_confirm')}';
             var ok = '{$locale->read('script', 'ok')}';

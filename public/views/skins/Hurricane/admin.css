@@ -19,7 +19,7 @@ html, body {
 body {
     background: #d7d7d9;
     background: radial-gradient(circle, #f4f4f4, #c6c6c6);
-    font-family: Helvetica, "Trebuchet MS", Verdana, Arial;
+    font-family: "Noto Sans", Helvetica, "Trebuchet MS", Verdana, Arial;
     font-size: 85%;
     padding: 0;
     margin: 0;
@@ -144,15 +144,8 @@ input[type="submit"]:hover {
     text-shadow: 1px 2px #dbdbdb;
 }
 
-#topbar #status {
-    float: left;
-    width: 50%;
-    font-weight: bold;
-}
-
 #topbar #userinfo {
     float: right;
-    width: 15%;
     text-align: right;
 }
 
@@ -228,6 +221,10 @@ input[type="submit"]:hover {
     color: #113b60;
 }
 
+#sidebar a.active {
+    font-weight: bold;
+}
+
 #sidebar h1 {
     margin-bottom: -20px;
 }
@@ -287,11 +284,11 @@ input[type="submit"]:hover {
     color: #fff;
 }
 
-/* Server information table */
+/* Tables */
 #server_information, .info_table {
     width: 100%;
     display: table;
-    border-spacing: 1px;
+    border-spacing: 0;
 }
 
 #server_information div, .info_table div {
@@ -299,14 +296,15 @@ input[type="submit"]:hover {
 }
 
 #server_information div span, .info_table div span {
-    padding: 10px;
+    padding: 20px 10px 20px 10px;
     display: table-cell;
+    border-bottom: 1px solid #ededed;
 }
 
 #server_information div span:first-child, .info_table div span:first-child {
     font-weight: bold;
     width: 50%;
-    background: #edeff2;
+    background: #f9f9f9;
 }
 
 #server_information div span:last-child, .info_table div span:last-child {
@@ -321,20 +319,48 @@ input[type="submit"]:hover {
     background: none;
 }
 
-/* Floats */
-.float_right {
-    float: right;
+#settings_page {
+    width: 90%;
+    margin: auto;
 }
 
-.float_left {
-    float: left;
+.form_table {
+    padding: 20px 0;
 }
 
-.clear {
-    clear: both;
+.form_table span {
+    font-style: italic;
 }
 
-/* Tables */
+.form_table input[type="text"], #auth_area input[type="password"] {
+    width: 100%;
+    margin: 3px 0px 20px 0px;
+}
+
+.form_table label {
+    margin-left: 3px;
+    color: #727272;
+    font-size: 110%;
+    font-weight: bold;
+}
+
+.form_table div {
+    padding: 10px;
+    border-bottom: 1px solid #ededed;
+}
+
+.form_table h1 {
+    margin: 10px;
+}
+
+.form_table div:nth-child(odd) {
+    background: #f9f9f9;
+}
+
+.form_table div:nth-child(even) {
+    background: #fcfcfc;
+}
+
 .crud_table {
     border: none;
     width: 100%;
@@ -350,10 +376,12 @@ input[type="submit"]:hover {
 }
 
 .crud_table thead th {
-    color: #fff;
+    color: #3f3f3f;
     background: #d8d8d8;
-    background: linear-gradient(180deg, #728db2, #5e7696);
+    background: linear-gradient(-180deg, #e2e2e2, #d8d8d8);
     font-weight: normal;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .crud_table thead th:first-child {
@@ -418,6 +446,19 @@ tr.selected td {
     background: #d3dde2;
 }
 
+/* Floats */
+.float_right {
+    float: right;
+}
+
+.float_left {
+    float: left;
+}
+
+.clear {
+    clear: both;
+}
+
 /* Action bars */
 .action_bar {
     margin: 20px;
@@ -442,6 +483,47 @@ tr.selected td {
 
 .action_bar, .action_bar a {
     color: #717477;
+}
+
+.action_bar i {
+    margin-right: 5px;
+}
+
+/* Messages */
+.message_box {
+    margin: 20px 0px 20px 0px;
+}
+
+.info {
+    border: 1px solid #78a1bb;
+    background: #ebf5ee;
+    color: #283044;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.notice {
+    border: 1px solid #f4f1bb;
+    background: #fffde5;
+    color: #353532;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.success {
+    border: 1px solid #78bb7b;
+    background: #ebf5eb;
+    color: #2f4428;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.error {
+    border: 1px solid #bb7878;
+    background: #f5ebeb;
+    color: #442828;
+    padding: 15px;
+    border-radius: 10px;
 }
 
 /* Responsive theming */

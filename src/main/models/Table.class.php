@@ -47,7 +47,9 @@ class Table extends ModelHeader {
             'rows' => $this->_data
         ];
 
-        $this->_view = $this->_gui->parseAndGet('table', $table, false);
+        $template = $this->_type == 'form' ? 'table_form' : 'table';
+
+        $this->_view = $this->_gui->parseAndGet($template, $table, false);
     }
 
     public function returnTable() : string {

@@ -20,13 +20,12 @@ use DraiWiki\src\core\controllers\Registry;
 
 class CantProceedException extends Error {
 
-    private $_locale, $_message;
+    private $_message, $_locale;
 
-    public function __construct(string $message) {
-        $this->_locale = Registry::get('locale');
-        $this->_locale->loadFile('error');
-
+    public function __construct($message) {
         $this->_message = $message;
+        $this->_locale = Registry::get('locale', true);
+        $this->_locale->loadFile('error');
     }
 
     public function trigger() : void {

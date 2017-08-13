@@ -36,6 +36,10 @@ class InputValidator {
         return $max == 0 ? false : strlen($this->_value) > $max;
     }
 
+    public function isNumeric() {
+        return is_numeric($this->_value);
+    }
+
     public function getValue() : string {
         return $this->_value;
     }

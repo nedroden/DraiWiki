@@ -39,7 +39,7 @@ function updateUserList(msg, status, response) {
 }
 
 function displayPagination(currentStart, totalRecords, recordsPerPage) {
-    let numberOfPages = Math.round((totalRecords - 1) / recordsPerPage) + 1;
+    let numberOfPages = Math.round((totalRecords - 1) / recordsPerPage);
     let currentPage = 1 + Math.round((Number(currentStart) + 1) / recordsPerPage);
 
     let pages = [];
@@ -51,7 +51,7 @@ function displayPagination(currentStart, totalRecords, recordsPerPage) {
             i++;
         }
 
-        else if (((numberOfPages - currentPage) < 4 && currentPage - i <= 4) || (currentPage <= 4 && i <= 4)) {
+        else if (((numberOfPages - currentPage) <= 2 && currentPage - i <= 2) || (currentPage <= 4 && i <= 4)) {
             pages.push('<a href="javascript:void(0);" onclick="changeUserlistPage(\'' + i + '\', ' + recordsPerPage + ');" class="page page_normal">' + i + '</a>');
             i++;
         }
@@ -64,10 +64,10 @@ function displayPagination(currentStart, totalRecords, recordsPerPage) {
         else {
             pages.push('<span class="page page_separator">...</span>');
 
-            if (numberOfPages - currentPage > 4 && i < currentPage)
+            if (numberOfPages - currentPage >= 2 && i < currentPage)
                 i = currentPage - 2;
-            else if (i <= (currentPage - 4))
-                i = currentPage - 3;
+            else if (i <= (currentPage - 2))
+                i = currentPage - 2;
             else if (i < currentPage)
                 i++;
             else if (i > currentPage)
@@ -76,4 +76,19 @@ function displayPagination(currentStart, totalRecords, recordsPerPage) {
     }
 
     $('.pagination').html(pages.join(''));
+}
+
+function sysInfoToText() {
+    let table = $('.info_table');
+
+    if (table.length) {
+        let clipboardContent = '';
+
+        table.find('div').each(function() {
+            clipboardContent += $(this).find('span').first().text().slice(0, -1) + ' = ';
+            clipboardContent += $(this).find('span').last().text() + '\n';
+        });
+
+        alert(clipboardContent);
+    }
 }
