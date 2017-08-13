@@ -71,5 +71,19 @@ function displayPagination(currentStart, totalRecords, recordsPerPage) {
 
     $('.pagination').html(pages.join(''));
     $('.pagination a.page[data-page="' + currentPage + '"]').removeClass('page_normal').addClass('page_current');
+}
 
+function sysInfoToText() {
+    let table = $('.info_table');
+
+    if (table.length) {
+        let clipboardContent = '';
+
+        table.find('div').each(function() {
+            clipboardContent += $(this).find('span').first().text().slice(0, -1) + ' = ';
+            clipboardContent += $(this).find('span').last().text() + '\n';
+        });
+
+        alert(clipboardContent);
+    }
 }
