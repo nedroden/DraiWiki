@@ -28,7 +28,7 @@ class SelectQuery extends Query {
         }
         catch (PDOException $e) {
             if ($this->hasTemplate)
-                (new DatabaseException($e->getMessage(), $this->__toString()))->trigger();
+                (new DatabaseException($e->getMessage(), $this))->trigger();
 
             die('Could not prepare query.');
         }
@@ -41,7 +41,7 @@ class SelectQuery extends Query {
         }
         catch (PDOException $e) {
             if ($this->hasTemplate)
-                (new DatabaseException($e->getMessage(), $this->__toString()))->trigger();
+                (new DatabaseException($e->getMessage(), $this))->trigger();
 
             die('Could not execute query.');
         }
