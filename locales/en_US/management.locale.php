@@ -175,7 +175,7 @@ return [
 
     'manage_uploads' => 'Manage uploads',
     'upload_settings' => 'Configuration',
-    'upload_settings_description' => 'Settings related to file upload can be altered here',
+    'upload_settings_description' => 'Settings related to file uploading can be altered here',
 
     'upload_management' => 'Upload management',
     'upload_management_description' => 'This section allows you to manage the file uploading process.'

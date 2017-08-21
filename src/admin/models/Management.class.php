@@ -162,13 +162,13 @@ class Management extends ModelHeader {
                     'locales' => [
                         'label' => 'locale_management',
                         'icon' => 'fa-language',
-                        'href' => self::$config->read('url') . '/index.php/management/settings/general',
+                        'href' => self::$config->read('url') . '/index.php/management/locales',
                         'visible' => true
                     ],
                     'themes' => [
                         'label' => 'theme_management',
                         'icon' => 'fa-paint-brush',
-                        'href' => self::$config->read('url') . '/index.php/management/settings/database',
+                        'href' => self::$config->read('url') . '/index.php/management/themes',
                         'visible' => true
                     ]
                 ]
