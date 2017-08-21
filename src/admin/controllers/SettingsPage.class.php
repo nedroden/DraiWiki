@@ -41,7 +41,7 @@ class SettingsPage extends AppHeader {
     public function execute() : void {
         $this->_model->loadSettings();
 
-        if (!empty($_POST) && !empty($_POST['form_submitted']))
+        if (!empty($_POST))
             $this->handleSettingsUpdateRequest();
 
         $this->_model->generateTable();
