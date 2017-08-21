@@ -119,8 +119,64 @@ return [
     'features' => 'Features',
     'display_cookie_warning' => 'Display cookie warning',
     'display_cookie_warning_desc' => 'EU law requires all websites that use cookies to inform their users cookies are used. If you\'re on localhost, you can safely disable this option, but if you\'re not, you might want to leave it on.',
+    'date_format' => 'Default date format',
+    'date_format_desc' => 'The value of this setting is used as the default date format. Click <a href="http://php.net/manual/en/function.date.php" target="_blank">here</a> for more information about date formats.',
 
     'enable_this_feature' => 'Enable this feature',
 
-    'save' => 'Save'
+    'settings_registration' => 'Registration settings',
+    'settings_registration_description' => 'Here you can edit registration-related settings.',
+
+    'general_registration_settings' => 'General',
+    'enable_registration' => 'Enable registration',
+    'enable_registration_desc' => 'When registration is disabled, the registration page can no longer be accessed. Existing users are still able to log in.',
+    'enable_email_activation' => 'Enable email activation',
+    'enable_email_activation_desc' => 'Should new user accounts be activated through an activation code sent by email?',
+
+    'paths_and_urls' => 'Paths and urls',
+    'base_path' => 'Base path',
+    'base_path_desc' => 'This is the absolute path to your DraiWiki installation, without the trailing slash.',
+    'base_url' => 'Base url',
+    'base_url_desc' => 'This is the url to your DraiWiki installation, excluding the \'/index.php\' part (e.g. http://localhost/DraiWiki).',
+
+    'cookies_and_sessions' => 'Cookies and sessions',
+    'cookie_id' => 'Cookie name',
+    'cookie_id_desc' => 'This name is used when creating cookies. You usually don\'t have to change this, but if you do, make sure to choose a combination of random letters, numbers and other characters. Also, be advised that if you change this, users who are currently logged in, will be logged out.',
+
+    'session_name' => 'Session name',
+    'session_name_desc' => 'This name is used as the session id. You usually don\'t need to change this.',
+
+    'site_and_file_maintenance' => 'Site maintenance',
+    'maintenance_actions' => 'Maintenance actions',
+
+    'general_maintenance' => 'General maintenance actions',
+    'general_maintenance_description' => 'Here you can perform general maintenance actions, such as removing obsolete data. Click on any of the action titles to perform the corresponding action.',
+
+    'check_version' => 'Perform version check',
+    'check_version_description' => 'This action sends you to the DraiWiki site and allows you to check whether or not you\'re using an up-to-date version of DraiWiki.',
+    'remove_old_sessions' => 'Remove old sessions',
+    'remove_old_sessions_description' => 'Remove all sessions older than X days.',
+
+    'generate_new_salt' => 'Generate new password salt',
+    'generate_new_salt_description' => 'DraiWiki adds a string of random characters to passwords before they are hashed. This is an additional layer of security that is meant to keep users\' passwords safe. Keep in mind that performing this action will invalidate all current passwords.',
+
+    'image_uploading' => 'Image uploading',
+    'gd_image_upload' => 'Use GD module for image uploading',
+    'gd_image_upload_desc' => 'An additional layer of security that should prevent XSS injection through images. Keep in mind that this requires the GD module for PHP. If that extension is not installed, this feature will not work.',
+
+    'save' => 'Save',
+
+    'recent_edits' => 'Recent edits',
+    'recent_edits_description' => 'A list of the most recent edits (sorted by date) can be found here.',
+
+    'article' => 'Article',
+    'date' => 'Date',
+    'updated_by' => 'Updated by',
+
+    'manage_uploads' => 'Manage uploads',
+    'upload_settings' => 'Configuration',
+    'upload_settings_description' => 'Settings related to file upload can be altered here',
+
+    'upload_management' => 'Upload management',
+    'upload_management_description' => 'This section allows you to manage the file uploading process.'
 ];

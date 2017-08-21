@@ -205,7 +205,6 @@ input[type="submit"]:hover {
 #sidebar {
     padding: 10px;
     background: #ededed;
-    height: 100%;
     border-right: 1px solid #d8d8d8;
     position: fixed;
     bottom: 0;
@@ -223,10 +222,6 @@ input[type="submit"]:hover {
 
 #sidebar a.active {
     font-weight: bold;
-}
-
-#sidebar h1 {
-    margin-bottom: -20px;
 }
 
 .sidebar_header {
@@ -247,6 +242,10 @@ input[type="submit"]:hover {
     margin: 0;
 }
 
+#sidebar ul:last-child {
+    margin-bottom: 30px;
+}
+
 #sidebar ul li {
     padding: 3px 2px 3px 8px;
 }
@@ -263,7 +262,6 @@ input[type="submit"]:hover {
 
 #sidebar ul li i {
     width: 15px;
-    /* color: #474747; */
     color: #5797e5;
 }
 
@@ -332,7 +330,7 @@ input[type="submit"]:hover {
     font-style: italic;
 }
 
-.form_table input[type="text"], #auth_area input[type="password"] {
+.form_table input[type="text"], #form_area input[type="password"] {
     width: 100%;
     margin: 3px 0px 20px 0px;
 }
@@ -528,6 +526,50 @@ tr.selected td {
     color: #442828;
     padding: 15px;
     border-radius: 10px;
+}
+
+.string_not_found {
+    color: red;
+    font-weight: bold;
+}
+
+/* Wiki maintenance */
+.maintenance_action {
+    padding: 15px;
+    margin: 15px auto;
+    width: 50%;
+}
+
+.maintenance_action p, .maintenance_action h1 {
+    color: #fff;
+}
+
+.maintenance_action h1 {
+    margin-bottom: 0;
+}
+
+.maintenance_action p {
+    margin-top: 0;
+}
+
+.maintenance_color_1 { background: #4286f4; }
+.maintenance_color_2 { background: #5ebc7d; }
+.maintenance_color_3 { background: #bcb3a7; }
+.maintenance_color_4 { background: #494a51; }
+.maintenance_color_5 { background: #b79a64; }
+.maintenance_color_6 { background: #b2e22f; }
+
+/* Text positions */
+.align_left {
+    text-align: left;
+}
+
+.align_right {
+    text-align: right;
+}
+
+.align_center {
+    text-align: center;
 }
 
 /* Responsive theming */

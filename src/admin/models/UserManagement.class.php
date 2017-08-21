@@ -29,7 +29,7 @@ class UserManagement extends ModelHeader {
         $this->loadConfig();
 
         $this->_users = [];
-        $this->_table = [];
+        $this->_table = null;
     }
 
     private function createTable() : void {
@@ -71,7 +71,7 @@ class UserManagement extends ModelHeader {
     }
 
     public function loadUsers(int $start = 0) : void {
-        $end = ($_REQUEST['length'] ?? self::$config->read('max_results_per_page'));
+        $end = !empty($_REQUEST['length']) && is_numeric($_REQUEST['length']) ? (int) $_REQUEST['length'] : self::$config->read('max_results_per_page');
 
         $query = QueryFactory::produce('select', '
             SELECT id
@@ -110,7 +110,7 @@ class UserManagement extends ModelHeader {
             $userCount = $this->getUserCount();
 
             $start = $this->getStart();
-            $end = $this->getStart() + self::$config->read('max_results_per_page');
+            $end = $start + self::$config->read('max_results_per_page');
 
             if ($end > $userCount)
                 $end = $start + ($userCount % self::$config->read('max_results_per_page'));

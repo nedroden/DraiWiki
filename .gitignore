@@ -3,3 +3,7 @@
 vendor
 node_modules
 public/Config.php
+public/uploads/images/*.png
+public/uploads/images/*.jpg
+public/uploads/images/*.jpeg
+public/uploads/images/*.gif

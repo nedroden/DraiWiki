@@ -40,4 +40,9 @@ return [
     'no_activation_code_given' => 'No activation code was given.',
 
     'registration_disabled' => 'At the moment it is not possible to register a new user account, as the wiki admin has disabled registration.',
+
+    'could_not_upload_image' => 'Could not upload image',
+    'could_not_assign_name' => 'Unable to rename the original file, because the integer limit was reached. We suppose congratulations are in order.',
+
+    'image_not_found' => 'Could not load the requested image. Are you sure it exists?'
 ];

@@ -37,6 +37,15 @@
     </script>
 </div>
 <div class="section_description">
+    <h2>{$locale->read('management', 'recent_edits')}</h2>
+    {$locale->read('management', 'recent_edits_description')}
+</div>
+<div class="content_section">
+    {$recent_edits_table}
+
+    <script type="text/javascript">activateRecentEditsTable();</script>
+</div>
+<div class="section_description">
     <h2>{$locale->read('management', 'server_information')}</h2>
     {$locale->read('management', 'server_information_description')}
 </div>

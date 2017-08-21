@@ -43,6 +43,8 @@ class App {
         $apps = [
             'activate' => 'DraiWiki\src\auth\controllers\Activate',
             'article' => 'DraiWiki\src\main\controllers\Article',
+            'imageviewer' => 'DraiWiki\src\tools\controllers\ImageViewer',
+            'imageupload' => 'DraiWiki\src\tools\controllers\ImageUploader',
             'login' => 'DraiWiki\src\auth\controllers\Login',
             'logout' => 'DraiWiki\src\auth\controllers\Logout',
             'management' => 'DraiWiki\src\admin\controllers\Management',

@@ -19,12 +19,18 @@ if (!defined('DraiWiki')) {
 use DraiWiki\src\core\controllers\QueryFactory;
 use DraiWiki\src\main\controllers\Main;
 use DraiWiki\src\main\models\ModelHeader;
+use DraiWiki\src\main\models\Table;
 
 class Dashboard extends ModelHeader {
+
+    private $_request;
+
+    private const MAX_EDITS_PER_PAGE = 10;
 
     public function __construct() {
         $this->loadLocale();
         $this->loadConfig();
+        $this->loadUser();
     }
 
     public function prepareData(): array {
@@ -39,7 +45,9 @@ class Dashboard extends ModelHeader {
             'default_locale' => self::$config->read('locale'),
             'default_templates' => self::$config->read('templates'),
             'default_skins' => self::$config->read('skins'),
-            'default_images' => self::$config->read('images')
+            'default_images' => self::$config->read('images'),
+
+            'recent_edits_table' => $this->getRecentEditsTable()
         ];
     }
 
@@ -102,11 +110,112 @@ class Dashboard extends ModelHeader {
         ];
     }
 
+    private function getRecentEditsTable() : string {
+        $columns = [
+            'article',
+            'updated_by',
+            'date'
+        ];
+
+        $table = new Table('management', $columns, $this->getLastEdits());
+        $table->setID('user_list');
+
+        $table->create();
+        return $table->returnTable();
+    }
+
     public function getPageDescription() : string {
         return self::$locale->read('management', 'dashboard_description');
     }
 
     public function getTitle() : string {
         return self::$locale->read('management', 'dashboard_title');
+    }
+
+    public function setRequest(string $request) : void {
+        $this->_request = $request;
+    }
+
+    private function getStart(int $recordCount) : int {
+        if (!empty($_REQUEST['start']) && is_numeric($_REQUEST['start']) && ((int) $_REQUEST['start']) <= $recordCount) {
+            return (int) $_REQUEST['start'];
+        }
+        else
+            return 0;
+    }
+
+    private function getLastEdits(int $start = 0) : array {
+        $edits = [];
+
+        $query = QueryFactory::produce('select', '
+            SELECT h.updated, a.title, u.username
+                FROM {db_prefix}article_history h
+                INNER JOIN {db_prefix}article a ON (h.article_id = a.id)
+                INNER JOIN {db_prefix}user u ON (h.user_id = u.id)
+                ORDER BY h.updated DESC
+                LIMIT ' . $start . ', ' . self::MAX_EDITS_PER_PAGE);
+
+        foreach ($query->execute() as $record) {
+            $edits[] = [
+                'title' => $record['title'],
+                'username' => $record['username'],
+                'updated' => $record['updated']
+            ];
+        }
+
+        return $edits;
+    }
+
+    private function getLastEditsCount() : int {
+        $query = QueryFactory::produce('select', '
+            SELECT COUNT(id) as num
+                FROM {db_prefix}article_history
+        ');
+
+        $result = $query->execute();
+
+        foreach ($result as $record)
+            return (int) $record['num'];
+
+        return 0;
+    }
+
+    public function generateJSON() : string {
+        if ($this->_request == 'getrecentedits') {
+            $recordCount = $this->getLastEditsCount();
+
+            $start = $this->getStart($recordCount);
+            $end = $start + self::MAX_EDITS_PER_PAGE;
+
+            if ($end > $recordCount)
+                $end = $start + ($recordCount % self::MAX_EDITS_PER_PAGE);
+
+            $jsonRequest = '
+            {
+                "start": "' . $start . '",
+                "end": "' . $end . '",
+                "total_records": "' . $recordCount . '",
+                "displayed_records": "' . self::MAX_EDITS_PER_PAGE . '",
+                "data": [';
+
+            $jsonEdits = [];
+            foreach ($this->getLastEdits($start) as $record) {
+                $jsonEdits[] = '
+                {
+                    "title": "' . $record['title'] . '",
+                    "username": "' . $record['username'] . '",
+                    "updated": "' . $record['updated'] . '"
+                }';
+            }
+
+            $jsonRequest .= implode(',', $jsonEdits) . '
+                ]
+            }';
+
+            return $jsonRequest;
+        }
+
+        else
+            return '';
     }
 }

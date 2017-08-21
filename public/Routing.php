@@ -32,12 +32,19 @@ function createRoutes() : array {
         $routeCollector->get('/management/{subapp}/ajax/{ajax_request}', 'management');
         $routeCollector->get('/management/{subapp}/{section}/ajax/{ajax_request}', 'management');
 
+        $routeCollector->get('/stylesheet/{id}', 'stylesheet');
+
 	    $routeCollector->get('/activate/{code}', 'activate');
 	    $routeCollector->get('/article/{title}', 'article');
 		$routeCollector->addRoute(['GET', 'POST'], '/article/{title}/{action}', 'article');
 
 		$routeCollector->get('/locale/{locale}', 'changelocale');
 		$routeCollector->get('/locale/{locale}/{article}', 'changelocale');
+
+		$routeCollector->get('/resources', 'resources');
+		$routeCollector->get('/image/{filename}', 'imageviewer');
+
+		$routeCollector->addRoute(['GET', 'POST'], '/imageupload', 'imageupload');
 
         $routeCollector->get('/management', 'management');
         $routeCollector->addRoute(['GET', 'POST'],'/management/{subapp}', 'management');

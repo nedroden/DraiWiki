@@ -30,6 +30,7 @@
         <script type="text/javascript" src="{$script_url}/ajax.js"></script>
         <script type="text/javascript" src="{$script_url}/dw-controller.js"></script>
         <script type="text/javascript" src="{$script_url}/management.js"></script>
+        <script type="text/javascript" src="{$script_url}/table.js"></script>
         {if not $debug_head eq ''}
             {$debug_head}
         {/if}
@@ -39,7 +40,7 @@
             <div id="header_section">
                 <div id="topbar">
                     <div id="siteinfo">
-                        <a href="{$url}/index.php/management" target="_self">{$wiki_name}</a><span>| {$locale->read('management', 'management_panel')}</span>
+                        <a href="{$url}/index.php/management" target="_self">{$wiki_name}</a><span> | {$locale->read('management', 'management_panel')}</span>
                     </div>
                     <div id="userinfo">
                         {$locale->read('main', 'hello', true)}

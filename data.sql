@@ -145,7 +145,20 @@ INSERT INTO `drai_setting` (`key`, `value`) VALUES
   ('display_cookie_warning', '1'),
   ('max_results_per_page', '20'),
   ('date_format', 'F j, Y, g:i a'),
-  ('slogan', 'Write together');
+  ('slogan', 'Write together'),
+  ('path', '/srv/http/DraiWiki'),
+  ('url', 'http://localhost/DraiWiki'),
+  ('session_name', 'dw_session_Kalkhjasld'),
+  ('cookie_id', 'dw_cookie_328970asdf__4jdam'),
+  ('wiki_name', 'DraiWiki'),
+  ('max_image_width', '300'),
+  ('max_image_height', '300'),
+  ('max_image_size_kb', '1024'),
+  ('allowed_image_extensions', 'png;jpg;jpeg;gif'),
+  ('gd_image_upload', '1'),
+  ('min_image_width', '20'),
+  ('min_image_height', '20'),
+  ('max_image_description_length', '500');
 
 --
 -- Dumping data for table `drai_user`

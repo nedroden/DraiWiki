@@ -16,14 +16,14 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
-use DraiWiki\Config;
+use DraiWiki\src\core\controllers\Registry;
 
 class Stylesheet {
 
 	private $_config, $_filename;
 
     public function __construct(string $filename) {
-        $this->_config = new Config();
+        $this->_config = Registry::get('config');
         $this->_filename = $filename;
     }
 

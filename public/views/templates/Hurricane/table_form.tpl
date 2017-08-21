@@ -4,6 +4,7 @@
             <h1>{$item['label']}</h1>
         {else}
             <div>
+                <input type="hidden" name="form_submitted" value="1"/>
                 <label for="{$item['name']}">
                     {$item['label']}
                 </label><br />

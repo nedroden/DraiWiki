@@ -20,10 +20,9 @@ use DraiWiki\Config;
 use DraiWiki\src\auth\models\User;
 use DraiWiki\src\core\controllers\{Connection, Registry};
 use DraiWiki\src\core\models\{RouteInfo, SessionHandler, SettingsImporter};
-use DraiWiki\src\main\models\DebugBarWrapper;
+use DraiWiki\src\main\models\{DebugBarWrapper, Stylesheet};
 
 use function DraiWiki\createRoutes;
-use const START_TIME;
 
 require_once __DIR__ . '/../../../public/Config.php';
 require_once __DIR__ . '/../../../public/Routing.php';
@@ -59,9 +58,12 @@ class Main {
     public function load() : void {
 		Registry::set('connection', new Connection());
 
+        SettingsImporter::execute();
+
 		new SessionHandler();
 
-		SettingsImporter::execute();
+		if ($this->_route->getApp() == 'stylesheet')
+		    $this->loadStylesheet();
 
 		$this->_locale = Registry::set('locale', new Locale());
         Registry::set('user', new User());
@@ -87,5 +89,11 @@ class Main {
 
         if ($headerContext['ignore_templates'] != 'both' && $headerContext['ignore_templates'] != 'footer')
 		    $gui->showFooter();
+    }
+
+    public function loadStylesheet() : void {
+        $stylesheet = new Stylesheet($this->_route->getParams()['id']);
+        echo $stylesheet->parse();
+        die;
     }
 }

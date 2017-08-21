@@ -409,25 +409,30 @@ p {
 }
 
 /* Registration and login pages */
-#auth_area {
+#form_area {
 	width: 40%;
 	margin: 20px auto;
 }
 
-#auth_area .info {
+#form_area .info {
 	margin-bottom: 20px;
 }
 
-#auth_area input[type="text"], #auth_area input[type="password"] {
+#form_area input[type="text"], #form_area input[type="password"], #form_area input[type="file"] {
 	width: 100%;
 	margin: 3px 0px 20px 0px;
 }
 
-#auth_area label {
+#form_area label {
 	margin-left: 3px;
 	color: #727272;
 	font-size: 110%;
 	text-shadow: 1px 1px #e0e0e0;
+}
+
+.editor_form {
+    width: 50%!important;
+    margin: auto;
 }
 
 #agreement {
@@ -526,6 +531,50 @@ h1.article_title {
     color: #999999;
 }
 
+/* Tables */
+.info_table {
+    width: 100%;
+    display: table;
+    border-spacing: 0;
+}
+
+.info_table div {
+    display: table-row;
+}
+
+.info_table div span {
+    padding: 20px 10px 20px 10px;
+    display: table-cell;
+    border-bottom: 1px solid #ededed;
+}
+
+.info_table div span:first-child {
+    font-weight: bold;
+    width: 50%;
+    background: #f9f9f9;
+}
+
+.info_table div span:last-child {
+    width: 50%;
+}
+
+.info_table div.table_header span {
+    padding: 8px;
+    font-size: 140%;
+    letter-spacing: -1px;
+    color: #4f4f4f;
+    background: none;
+}
+
+/* Images */
+.image {
+    width: 100%;
+}
+
+.image img {
+    max-width: 100%;
+}
+
 /* Responsive theming */
 @media only screen and (max-width: 800px) {
     #content {
@@ -549,7 +598,7 @@ h1.article_title {
         display: none;
     }
 
-    #auth_area {
+    #form_area {
         width: 100%;
     }
 

@@ -121,7 +121,7 @@ class GUI {
         else
             die('Templates not found.');
 
-        $this->_skinUrl = $this->_config->read('url') . '/stylesheet.php?id=';
+        $this->_skinUrl = $this->_config->read('url') . '/index.php/stylesheet/';
 
         if (file_exists($this->_config->read('path') . '/public/views/images/' . $this->_config->read('images') . '/index.php'))
             $this->_imageUrl = $this->_config->read('url') . '/public/views/images/' . $this->_config->read('images');
@@ -259,6 +259,22 @@ class GUI {
                         'label' => 'logout',
                         'href' => $this->_config->read('url') . '/index.php/logout',
                         'visible' => !$this->_user->isGuest()
+                    ]
+                ]
+            ],
+            'tools' => [
+                'label' => 'side_tools',
+                'visible' => true,
+                'items' => [
+                    'upload_images' => [
+                        'label' => 'upload_images',
+                        'href' => $this->_config->read('url') . '/index.php/imageupload',
+                        'visible' => $this->_user->hasPermission('upload_images')
+                    ],
+                    'resources' => [
+                        'label' => 'resources',
+                        'href' => $this->_config->read('url') . '/index.php/resources',
+                        'visible' => true
                     ]
                 ]
             ]

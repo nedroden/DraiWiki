@@ -32,6 +32,7 @@ return [
     'sidebar' => 'Navigation',
 
     'side_main' => 'Main',
+    'side_tools' => 'Tools',
     'random' => 'Random article',
 
     'current_article' => 'Current article',
@@ -49,5 +50,8 @@ return [
     'about_href' => 'If you are interested in learning more about DraiWiki, feel free to take a look around on our <a href="https://draiwiki.robertmonden.com/forum" target="_blank">community forums</a> or the official <a href="https://github.com/Chistaen/DraiWiki.git" target="_blank">Github repository</a>.',
     'about_libraries' => 'The software also includes several packages and libraries. Thus, we would like to take the time to thank and mention them as well: ',
 
-    'access_denied' => 'Access denied'
+    'access_denied' => 'Access denied',
+
+    'upload_images' => 'Upload images',
+    'resources' => 'Resources'
 ];

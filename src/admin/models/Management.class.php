@@ -105,10 +105,10 @@ class Management extends ModelHeader {
                         'href' => self::$config->read('url') . '/index.php/management/groups',
                         'visible' => true
                     ],
-                    'registration' => [
+                    'settings_registration' => [
                         'label' => 'registration',
                         'icon' => 'fa-pencil',
-                        'href' => self::$config->read('url') . '/index.php/management/registration',
+                        'href' => self::$config->read('url') . '/index.php/management/settings/registration',
                         'visible' => true
                     ],
                 ]
@@ -135,6 +135,24 @@ class Management extends ModelHeader {
                         'href' => self::$config->read('url') . '/index.php/management/securitylog',
                         'visible' => true
                     ]
+                ]
+            ],
+            'site_and_file_maintenance' => [
+                'label' => 'site_and_file_maintenance',
+                'visible' => true,
+                'items' => [
+                    'generalmaintenance' => [
+                        'label' => 'maintenance_actions',
+                        'icon' => 'fa-line-chart',
+                        'href' => self::$config->read('url') . '/index.php/management/generalmaintenance',
+                        'visible' => true
+                    ],
+                    'manageuploads' => [
+                        'label' => 'manage_uploads',
+                        'icon' => 'fa-upload',
+                        'href' => self::$config->read('url') . '/index.php/management/manageuploads',
+                        'visible' => true
+                    ],
                 ]
             ],
             'extend' => [
@@ -191,19 +209,23 @@ class Management extends ModelHeader {
                 }
 
                 if (empty($activeTabFound) && !empty($visibleSubItems[$this->_activeMenuItem])) {
+                    $item['has_active'] = true;
                     $visibleSubItems[$this->_activeMenuItem]['active'] = true;
                     $activeTabFound = true;
                 }
 
                 // Only display items we can see
                 $item['items'] = $visibleSubItems;
+                $item['key'] = $key;
 
                 $visibleTabs[$key] = $item;
             }
         }
 
-        if (empty($activeTabFound))
+        if (empty($activeTabFound)) {
+            $visibleTabs['main']['has_active'] = true;
             $visibleTabs['main']['items']['home']['active'] = true;
+        }
 
         $this->_sidebar = $visibleTabs;
     }

@@ -27,6 +27,7 @@
         <link rel="stylesheet" type="text/css" href="{$node_url}/cookieconsent/build/cookieconsent.min.css" />
         <script type="text/javascript" src="{$node_url}/cookieconsent/build/cookieconsent.min.js"></script>
         <script type="text/javascript" src="{$script_url}/cookie.js"></script>
+        <script type="text/javascript" src="{$script_url}/table.js"></script>
 
         <script type="text/javascript">
             var cookie_header = '{$locale->read('script', 'cookie_header')}';

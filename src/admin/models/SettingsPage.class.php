@@ -27,10 +27,12 @@ class SettingsPage extends ModelHeader {
     private const MIN_WIKI_TITLE_LENGTH = 3;
     private const MIN_WIKI_SLOGAN_LENGTH = 3;
     private const MIN_WIKI_EMAIL_LENGTH = 8;
+    private const MIN_DATE_FORMAT_LENGTH = 4;
 
     private const MAX_WIKI_TITLE_LENGTH = 30;
     private const MAX_WIKI_SLOGAN_LENGTH = 100;
     private const MAX_WIKI_EMAIL_LENGTH = 40;
+    private const MAX_DATE_FORMAT_LENGTH = 30;
 
     public function __construct(string $section) {
         $this->loadLocale();
@@ -39,7 +41,7 @@ class SettingsPage extends ModelHeader {
         $this->_settingsSection = $section;
     }
 
-    public function prepareData(): array {
+    public function prepareData() : array {
         return [
             'table' => $this->_table,
             'action' => self::$config->read('url') . '/index.php/management/settings/' . $this->_settingsSection
@@ -59,7 +61,7 @@ class SettingsPage extends ModelHeader {
         $this->_table = $table->returnTable();
     }
 
-    public function loadSettings(): void {
+    public function loadSettings() : void {
         $settings = [
             'general' => [
                 'basic_settings',
@@ -97,6 +99,75 @@ class SettingsPage extends ModelHeader {
                     'input_type' => 'checkbox',
                     'input_description' => self::$locale->read('management', 'enable_this_feature')
                 ],
+                'date_format' => [
+                    'name' => 'date_format',
+                    'label' => 'date_format',
+                    'description' => 'date_format_desc',
+                    'input_type' => 'text',
+                    'min_length' => self::MIN_DATE_FORMAT_LENGTH,
+                    'max_length' => self::MAX_DATE_FORMAT_LENGTH
+                ],
+                'paths_and_urls',
+                'path' => [
+                    'name' => 'path',
+                    'label' => 'base_path',
+                    'description' => 'base_path_desc',
+                    'input_type' => 'text',
+                    'min_length' => 1,
+                    'max_length' => 0
+                ],
+                'url' => [
+                    'name' => 'url',
+                    'label' => 'base_url',
+                    'description' => 'base_url_desc',
+                    'input_type' => 'text',
+                    'min_length' => 1,
+                    'max_length' => 0
+                ],
+                'cookies_and_sessions',
+                'cookie_id' => [
+                    'name' => 'cookie_id',
+                    'label' => 'cookie_id',
+                    'description' => 'cookie_id_desc',
+                    'input_type' => 'text',
+                    'min_length' => 1,
+                    'max_length' => 0
+                ],
+                'session_name' => [
+                    'name' => 'session_name',
+                    'label' => 'session_name',
+                    'description' => 'session_name_desc',
+                    'input_type' => 'text',
+                    'min_length' => 1,
+                    'max_length' => 0
+                ],
+            ],
+            'registration' => [
+                'general_registration_settings',
+                'enable_registration' => [
+                    'name' => 'enable_registration',
+                    'label' => 'enable_registration',
+                    'description' => 'enable_registration_desc',
+                    'input_type' => 'checkbox',
+                    'input_description' => self::$locale->read('management', 'enable_this_feature')
+                ],
+                'enable_email_activation' => [
+                    'name' => 'enable_email_activation',
+                    'label' => 'enable_email_activation',
+                    'description' => 'enable_email_activation_desc',
+                    'input_type' => 'checkbox',
+                    'input_description' => self::$locale->read('management', 'enable_this_feature')
+                ]
+            ],
+            'uploads' => [
+                'image_uploading',
+                'gd_image_upload' => [
+                    'name' => 'gd_image_upload',
+                    'label' => 'gd_image_upload',
+                    'description' => 'gd_image_upload_desc',
+                    'input_type' => 'checkbox',
+                    'input_description' => self::$locale->read('management', 'enable_this_feature')
+                ],
             ]
         ];
 
@@ -109,6 +180,7 @@ class SettingsPage extends ModelHeader {
             $setting['label'] = self::$locale->read('management', $setting['label']);
             $setting['description'] = self::$locale->read('management', $setting['description']);
 
+            // If this field was entered correctly, we should remember it
             if (isset($this->_validSettings[$setting['name']]))
                 $setting['value'] = $this->_validSettings[$settings['name']];
             else
@@ -118,7 +190,7 @@ class SettingsPage extends ModelHeader {
         $this->_settings = $settings[$this->_settingsSection];
     }
 
-    public function validateSettings(array &$errors): void {
+    public function validateSettings(array &$errors) : void {
         foreach ($this->_settings as &$setting) {
             // If there are only two items, it means we're dealing with a header
             if (count($setting) == 2)
@@ -176,7 +248,7 @@ class SettingsPage extends ModelHeader {
         }
     }
 
-    public function updateSettings(): void {
+    public function updateSettings() : void {
         foreach ($this->_settings as $setting) {
             // If there are only two items, it means we're dealing with a header
             if (count($setting) == 2 || (!empty($setting['updated']) && !$setting['updated']))

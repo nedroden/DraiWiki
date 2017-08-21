@@ -16,21 +16,20 @@ if (!defined('DraiWiki')) {
     die('You\'re really not supposed to be here.');
 }
 
-use DraiWiki\src\admin\models\Dashboard as Model;
+use DraiWiki\src\admin\models\{SettingsPage, UploadManagement as Model};
 use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\main\models\AppHeader;
 
-class Dashboard extends AppHeader {
+class UploadManagement extends AppHeader {
 
-    private $_model, $_view;
+    private $_model, $_view, $_settingsPage;
 
     public function __construct() {
-        $this->checkForAjax();
-
-        if ($this->ajax)
-            $this->parseAjaxRequest();
-
         $this->_model = new Model();
+        $this->_settingsPage = new SettingsPage('uploads');
+
+        $this->_settingsPage->loadSettings();
+        $this->_settingsPage->generateTable();
     }
 
     public function getTitle() : string {
@@ -42,17 +41,10 @@ class Dashboard extends AppHeader {
     }
 
     public function execute() : void {
-        if ($this->ajax && !empty($this->parsedAJAXRequest['getrecentedits']))
-            $this->_model->setRequest('getrecentedits');
-
-        $this->_view = Registry::get('gui')->parseAndGet('admin_dashboard', $this->_model->prepareData(), false);
+        $this->_view = Registry::get('gui')->parseAndGet('admin_uploads', array_merge(['settings' => $this->_settingsPage->prepareData()['table']], $this->_model->prepareData()), false);
     }
 
     public function display() : void {
         echo $this->_view;
-    }
-
-    public function printJSON() : void {
-        echo $this->_model->generateJSON();
     }
 }

@@ -20,8 +20,8 @@ use DraiWiki\src\core\controllers\Registry;
 
 class AccessError extends Error {
 
-
     public function __construct() {
+        $this->locale = Registry::get('locale', true);
         $this->locale->loadFile('error');
     }
 

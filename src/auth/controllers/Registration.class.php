@@ -51,7 +51,7 @@ class Registration extends AppHeader {
     }
 
     public function execute() : void {
-        if (self::$config->read('disable_registration') == 1) {
+        if (self::$config->read('enable_registration') == 0) {
             $this->cantProceedException = 'registration_disabled';
             $this->setTitle($this->_model->getRegistrationDisabledTitle());
             return;

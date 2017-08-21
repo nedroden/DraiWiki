@@ -116,3 +116,14 @@ CREATE TABLE IF NOT EXISTS drai_activation_code (
     creation_date DATETIME NOT NULL DEFAULT NOW(),
     FOREIGN KEY (user_id) REFERENCES drai_user(id)
 );
+
+CREATE TABLE IF NOT EXISTS drai_upload (
+    id INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    original_name TEXT NOT NULL,
+    uploaded_name TEXT NOT NULL,
+    description LONGTEXT,
+    user_id INT UNSIGNED NOT NULL,
+    type TINYTEXT NOT NULL,
+    upload_date DATETIME NOT NULL DEFAULT NOW(),
+    FOREIGN KEY (user_id) REFERENCES drai_user(id)
+);

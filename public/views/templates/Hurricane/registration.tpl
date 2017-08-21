@@ -1,4 +1,4 @@
-<div id="auth_area">
+<div id="form_area">
     <div class="section_header">
         {$locale->read('auth', 'user_registration')}
     </div>

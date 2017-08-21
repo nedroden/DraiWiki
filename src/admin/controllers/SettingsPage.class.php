@@ -26,7 +26,11 @@ class SettingsPage extends AppHeader {
 
     public function __construct() {
         $this->_route = Registry::get('route');
-        $this->_model = new Model($this->_route->getParams()['section'] ?? 'general');
+
+        $sections = ['general', 'registration'];
+        $section = !in_array($this->_route->getParams()['section'], ($sections ?? '')) ? 'general' : $this->_route->getParams()['section'];
+
+        $this->_model = new Model($section);
 
         $this->_errors = [];
 
@@ -37,7 +41,7 @@ class SettingsPage extends AppHeader {
     public function execute() : void {
         $this->_model->loadSettings();
 
-        if (!empty($_POST))
+        if (!empty($_POST) && !empty($_POST['form_submitted']))
             $this->handleSettingsUpdateRequest();
 
         $this->_model->generateTable();
@@ -49,7 +53,7 @@ class SettingsPage extends AppHeader {
         echo $this->_view;
     }
 
-    private function handleSettingsUpdateRequest(): void {
+    private function handleSettingsUpdateRequest() : void {
         $this->_model->validateSettings($this->_errors);
         $this->_submitted = true;
 

@@ -13,11 +13,13 @@ It also has built-in multi-language support, meaning you won't need an extension
 ## 2. Installation
 ### 2.1. Server requirements
 #### 2.1.1. Minimum
-* PHP 7.1+
+* PHP 7.1+ with the PDO and Fileinfo extensions enabled
 * MariaDB / MySQL (tested on MariaDB 10.1.25)
-* PDO extension
 * Composer
 * NPM
+
+#### 2.1.2. Optional, but recommended
+* GD extension
 
 ### 2.2. How to install
 1. Install Composer and NPM. If you're on a shared hosting and can't use the terminal, look at section 2.4
@@ -42,10 +44,13 @@ We recommend you change the password immediately after installation.
 #### 2.4.1. Help! I don't have access to a terminal!
 If you're on a shared hosting that doesn't allow you to install Composer/NPM, don't worry. There's another solution. Just download the files to your computer and install the Composer and NPM packages from your computer's terminal. Then re-upload the files to your hosting. Happy writing!
 
-## 3. Known issues
+## 3. Get involved
+If you're interested in helping out with DraiWiki's development, feel free to submit pull requests! Have a look at the issue tracker and self-assign any issues you find interesting.
+
+## 4. Known issues
 * Account activation is broken (registration with email activation disabled works fine)
 
-## 4. Open positions
+## 5. Open positions
 We're always looking to expand our team. Currently, the following positions are open:
 * Development
 * Quality Assurance
