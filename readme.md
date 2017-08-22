@@ -1,4 +1,7 @@
 # DraiWiki
+
+**Note:** Although search functionality is not implemented yet, for a more up-to-date version of the documentation, have a look at our official [wiki](https://draiwiki.robertmonden.com/wiki/index.php). The installation guide can be found [here](https://draiwiki.robertmonden.com/wiki/index.php/article/Installation_guide).
+
 ## 1. Introduction to DraiWiki
 ### 1.1. What is DraiWiki?
 DraiWiki is an upcoming open source wiki software that is designed to be customizable, neat-looking, secure and easy to use.
@@ -13,7 +16,7 @@ It also has built-in multi-language support, meaning you won't need an extension
 ## 2. Installation
 ### 2.1. Server requirements
 #### 2.1.1. Minimum
-* PHP 7.1+ with the PDO and Fileinfo extensions enabled
+* PHP 7.1+ with the PDO, SimpleXML and Fileinfo extensions enabled
 * MariaDB / MySQL (tested on MariaDB 10.1.25)
 * Composer
 * NPM

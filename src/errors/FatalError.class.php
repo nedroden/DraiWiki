@@ -26,7 +26,7 @@ class FatalError extends Error {
         if (!empty($gui = Registry::get('gui', true)))
             echo $gui->parseAndGet('fatal_error', $message, false);
         else
-            echo $message;
+            echo $message['body'];
 
         die;
     }

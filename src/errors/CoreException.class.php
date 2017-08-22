@@ -26,7 +26,7 @@ class CoreException extends Error {
         if (!empty($gui = Registry::get('gui', true)))
             echo $gui->parseAndGet('core_exception', $message, false);
         else
-            echo $message;
+            echo $message['body'];
 
         die;
     }

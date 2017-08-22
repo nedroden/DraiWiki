@@ -10,9 +10,13 @@
  */
 
 use DraiWiki\Config;
-use DraiWiki\src\core\controllers\Connection;
+use DraiWiki\src\auth\models\User;
+use DraiWiki\src\core\controllers\{Connection, Registry};
+use DraiWiki\src\core\models\SettingsImporter;
+use DraiWiki\src\main\controllers\Locale;
 
 define('DraiWiki', 1);
+define('EntryPointEmulation', 1);
 
 require __DIR__ . '/../public/Config.php';
 require __DIR__ . '/../autoload.php';
@@ -29,9 +33,15 @@ require __DIR__ . '/../autoload.php';
  */
 
 function start(?Config &$config) : void {
-    $config = new Config();
+    $config = Registry::set('config', new Config());
 }
 
 function connectToDatabase(?Connection &$connection) : void {
+    $connection = Registry::set('connection', new Connection());
+    SettingsImporter::execute();
+}
 
+function loadEnvironment() : void {
+    Registry::set('locale', new Locale());
+    Registry::set('user', new User());
 }

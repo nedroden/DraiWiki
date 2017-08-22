@@ -16,7 +16,6 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
-use DraiWiki\src\core\Connection;
 use DraiWiki\src\main\controllers\GUI;
 
 abstract class Query {
@@ -36,7 +35,11 @@ abstract class Query {
         $this->connection = $this->_connection->getObject();
         $this->setPrefix();
 
-        $this->canUseTemplate();
+        // If we're using an emulated entry point, we don't have (nor do we need) a template
+        if (!defined('EntryPointEmulation') && !defined('ForceTemplateLookup'))
+            $this->canUseTemplate();
+        else
+            $this->hasTemplate = false;
     }
 
     private function canUseTemplate() : void {

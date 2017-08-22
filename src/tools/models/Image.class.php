@@ -63,11 +63,14 @@ class Image extends ModelHeader {
             switch ($this->_extension) {
                 case 'gif':
                     $image = imagecreatefromgif($uploadedFileName);
+                    break;
                 case 'png':
                     $image = imagecreatefrompng($uploadedFileName);
+                    break;
                 case 'jpg':
                 case 'jpeg':
                     $image = imagecreatefromjpeg($uploadedFileName);
+                    break;
                 default:
                     $image = rename($uploadedFileName, $this->_destination . '/' . $filename . '.' . $this->_extension);
                     $noFunction = true;
@@ -242,5 +245,9 @@ class Image extends ModelHeader {
 
     public function getUploadDate() : string {
         return $this->_uploadDate;
+    }
+
+    public function getExtension() : string {
+        return pathinfo($this->_originalName, PATHINFO_EXTENSION);
     }
 }

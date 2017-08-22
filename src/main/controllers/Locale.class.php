@@ -42,8 +42,8 @@ class Locale {
 		$this->_config = Registry::get('config');
 		$this->_loadedFiles = [];
 
-		$infofile = $this->loadLocaleInfo();
-		$this->parseInfoFile($infofile);
+		$infoFile = $this->loadLocaleInfo();
+		$this->parseInfoFile($infoFile);
 
 		$this->loadFile('main');
 		$this->loadFile('error');
@@ -84,13 +84,13 @@ class Locale {
 
 	private function loadLocaleInfo() : string {
 		if (file_exists($this->_config->read('path') . '/locales/' . $this->_config->read('locale') . '/langinfo.xml'))
-			$infofile = $this->_config->read('locale');
+			$infoFile = $this->_config->read('locale');
 		else if ($this->_config->read('locale') != self::DEFAULT_LOCALE && file_exists($this->_config->read('path') . '/locales/' . self::DEFAULT_LOCALE) . '/langinfo.xml')
-			$infofile = self::DEFAULT_LOCALE;
+			$infoFile = self::DEFAULT_LOCALE;
 		else
             (new FatalError('Language files not found.'))->trigger();
 
-		return $infofile;
+		return $infoFile ?? '';
 	}
 
 	private function parseInfoFile(string $locale) : void {

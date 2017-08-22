@@ -56,7 +56,8 @@ class Connection {
 			die('Could not set PDO error mode.');
 		}
 
-        DebugBarWrapper::report('Database connection established');
+        if (!defined('EntryPointEmulation'))
+            DebugBarWrapper::report('Database connection established');
     }
 
     private function destroyLoginData() : void {

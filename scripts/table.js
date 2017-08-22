@@ -50,7 +50,7 @@ function updateTable(response) {
     result = response.responseJSON;
 
     // Display a message similar to 'Showing X of X results'
-    $('.count').html(sprintf(showing_results, result.start, result.end, result.total_records));
+    $('.count').html(sprintf(showing_results, Number(result.start) + 1, result.end, result.total_records));
 
     displayPagination(result.start, result.total_records, result.displayed_records);
 }

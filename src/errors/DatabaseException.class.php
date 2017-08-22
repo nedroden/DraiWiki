@@ -29,7 +29,12 @@ class DatabaseException extends Error {
 
     public function trigger() : void {
         $message = $this->generateMessage();
-        echo Registry::get('gui')->parseAndGet('database_exception', $message, false);
+
+        if (!empty($gui = Registry::get('gui', true)))
+            echo Registry::get('gui')->parseAndGet('database_exception', $message, false);
+        else
+            echo $message['body'], (!empty($message['detailed']) ? '<br />' . $message['detailed'] : null);
+
         die;
     }
 
