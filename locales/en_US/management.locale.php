@@ -84,6 +84,7 @@ return [
     'sex' => 'Sex',
     'registration_date' => 'Registration date',
     'primary_group' => 'Primary group',
+    'manage_buttons' => 'Manage',
 
     'manual' => 'Manual',
     'detailed_system_information' => 'System information',
@@ -187,5 +188,12 @@ return [
     'file_type' => 'Type of file',
 
     'file_avatar' => 'Avatar',
-    'file_uploaded_image' => 'Image'
+    'file_uploaded_image' => 'Image',
+
+    'edit_user' => 'Edit',
+    'remove_user' => 'Delete',
+
+    'cannot_delete_yourself' => 'You cannot delete yourself',
+    'account_not_found' => 'User account not found',
+    'cannot_delete_root' => 'You can disable the root account, but you cannot delete it'
 ];

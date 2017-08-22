@@ -332,6 +332,20 @@ class User extends ModelHeader {
         $session->destroy(self::$config->read('cookie_id'));
     }
 
+    public function delete() : void {
+        $query = QueryFactory::produce('modify', '
+            DELETE
+                FROM {db_prefix}user
+                WHERE id = :id
+        ');
+
+        $query->setParams([
+            'id' => $this->_id
+        ]);
+
+        $query->execute();
+    }
+
     /**
      * Activates the user's account. Note: it is up to the developer to make
      * sure a valid verification code was used. This function assumes it was.

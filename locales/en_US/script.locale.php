@@ -17,7 +17,7 @@
  */
 
 return [
-    'please_confirm' => 'Are you sure you want to proceed? Click the [ok] button if you are sure. If you want to abort, click on the close button or anywhere outside this dialog.',
+    'please_confirm' => 'Are you sure you want to proceed? Click the [okay] button if you are sure. If you want to abort, click on the close button or anywhere outside this dialog.',
     'ok' => 'okay',
 
     'cookie_header' => 'This site uses cookies.',

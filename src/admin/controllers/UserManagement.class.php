@@ -22,7 +22,7 @@ use DraiWiki\src\main\models\AppHeader;
 
 class UserManagement extends AppHeader {
 
-    private $_model, $_view, $_route;
+    private $_model, $_view, $_errors;
 
     public function __construct() {
         $this->checkForAjax();
@@ -31,7 +31,13 @@ class UserManagement extends AppHeader {
             $this->parseAjaxRequest();
 
         $this->_model = new Model();
-        $this->_route = Registry::get('route');
+        $this->_errors = [];
+
+        $route = Registry::get('route');
+        $params = $route->getParams();
+
+        if (!empty($params['action']) && $params['action'] == 'delete' && !empty($params['id']))
+            $this->_model->deleteUser($this->_errors, $params['id']);
     }
 
     public function getTitle() : string {
@@ -55,7 +61,7 @@ class UserManagement extends AppHeader {
         else
             $this->_model->loadUsers(0);
 
-        $this->_view = Registry::get('gui')->parseAndGet('admin_users_list', $this->_model->prepareData(), false);
+        $this->_view = Registry::get('gui')->parseAndGet('admin_users_list', array_merge($this->_model->prepareData(), ['errors' => $this->_errors]), false);
     }
 
     public function display() : void {

@@ -49,6 +49,7 @@ function createRoutes() : array {
         $routeCollector->get('/management', 'management');
         $routeCollector->addRoute(['GET', 'POST'],'/management/{subapp}', 'management');
         $routeCollector->addRoute(['GET', 'POST'],'/management/{subapp}/{section}', 'management');
+        $routeCollector->addRoute(['GET', 'POST'],'/management/{subapp}/{action}/{id}', 'management');
 
 		$routeCollector->get('/random', 'random');
 

@@ -347,7 +347,7 @@ input[type="submit"]:hover {
     background: #efefef;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    font-family: Roboto;
+    font-family: Roboto, Verdana, Arial;
 }
 
 #sidebar ul li {
@@ -514,11 +514,19 @@ h1.article_title {
     font-size: 230%;
 }
 
+#article_body {
+    word-wrap: break-word;
+}
+
 #article_body h1 {
     background: none;
     padding: 0 0 5px 0;
     font-size: 180%;
     border-bottom: 1px solid #e8e8e8;
+}
+
+#article_body pre {
+    white-space: pre-wrap;
 }
 
 #article_body h2 {

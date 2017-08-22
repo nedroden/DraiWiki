@@ -27,9 +27,12 @@ class UserManagement extends ModelHeader {
     public function __construct() {
         $this->loadLocale();
         $this->loadConfig();
+        $this->loadUser();
 
         $this->_users = [];
         $this->_table = null;
+
+        self::$locale->loadFile('management');
     }
 
     private function createTable() : void {
@@ -40,7 +43,8 @@ class UserManagement extends ModelHeader {
             'email_address',
             'registration_date',
             'primary_group',
-            'sex'
+            'sex',
+            'manage_buttons'
         ];
 
         $table = new Table('management', $columns, []);
@@ -133,7 +137,8 @@ class UserManagement extends ModelHeader {
                     "email_address": "' . $user->getEmail() . '",
                     "registration_date": "' . $user->getRegistrationDate() . '",
                     "primary_group": "' . $user->getPrimaryGroupWithColor() . '",
-                    "sex": "' . self::$locale->read('auth', 'sex_' . $user->getSex()) . '"
+                    "sex": "' . self::$locale->read('auth', 'sex_' . $user->getSex()) . '",
+                    "manage_buttons": "' . $this->generateManagementLinks($user->getID()) . '"
                 }';
             }
 
@@ -146,5 +151,35 @@ class UserManagement extends ModelHeader {
 
         else
             return '';
+    }
+
+    public function deleteUser(&$errors, int $id) : void {
+        if ($id == self::$user->getID()) {
+            $errors[] = self::$locale->read('management', 'cannot_delete_yourself');
+            return;
+        }
+
+        $user = new User($id);
+
+        if ($user->isGuest()) {
+            $errors[] = self::$locale->read('management', 'account_not_found');
+            return;
+        }
+        else if ($user->isRoot()) {
+            $errors[] = self::$locale->read('management', 'cannot_delete_root');
+            return;
+        }
+
+        $user->delete();
+    }
+
+    /**
+     * Generates management action links (i.e. edit | remove). Apologies for the mess, but since
+     * these links are used in JSon, double quotes have to be escaped.
+     * @param int $userID
+     * @return string
+     */
+    private function generateManagementLinks(int $userID) : string {
+        return '<a href=\"' . self::$config->read('url') . '/index.php/management/edituser/' . $userID . '\">' . self::$locale->read('management', 'edit_user') . '</a> | <a href=\"javascript:void(0);\" onclick=\"requestConfirm(\'' . self::$config->read('url') . '/index.php/management/users/delete/' . $userID . '\')\">' . self::$locale->read('management', 'remove_user') . '</a>';
     }
 }
