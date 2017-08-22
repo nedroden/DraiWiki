@@ -509,15 +509,16 @@ h1.article_title {
     color: #3a3a3a;
     margin-bottom: 10px;
     font-weight: normal;
-    padding-left: 0;
+    padding: 0;
     background: none;
     font-size: 230%;
 }
 
 #article_body h1 {
     background: none;
-    padding-left: 0;
+    padding: 0 0 5px 0;
     font-size: 180%;
+    border-bottom: 1px solid #e8e8e8;
 }
 
 #article_body h2 {

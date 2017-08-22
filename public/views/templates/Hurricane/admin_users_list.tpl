@@ -2,4 +2,4 @@
                 {$table}
             </div>
 
-            <script type="text/javascript">activateUserTable();</script>
+            <script type="text/javascript">activateTable('/management/users/ajax/getlist');</script>

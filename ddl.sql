@@ -14,7 +14,7 @@ USE DraiWiki_test;
 CREATE TABLE IF NOT EXISTS drai_setting (
     `key` VARCHAR(32) NOT NULL,
     `value` VARCHAR(255) NOT NULL
-);
+) CHARACTER SET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS drai_log_errors (
     id INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS drai_log_errors (
     type SMALLINT NOT NULL,
     dtime DATETIME NOT NULL,
     ip_address VARCHAR(45)
-);
+) CHARACTER SET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS drai_log_updates (
     id INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -32,18 +32,18 @@ CREATE TABLE IF NOT EXISTS drai_log_updates (
     dtime DATETIME NOT NULL,
     performed_by INT NOT NULL,
     status SMALLINT NOT NULL
-);
+) CHARACTER SET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS drai_locale (
     id INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
     code CHAR(5) NOT NULL
-);
+) CHARACTER SET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS drai_permission_group (
     id INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
     title VARCHAR(20) NOT NULL,
     permissions LONGTEXT
-);
+) CHARACTER SET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS drai_group (
     id INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS drai_group (
     color CHAR(6) NOT NULL DEFAULT '000000',
     permission_group_id INT UNSIGNED,
     FOREIGN KEY (permission_group_id) REFERENCES drai_permission_group(id)
-);
+) CHARACTER SET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS drai_user (
     id INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS drai_user (
     secondary_groups TEXT,
     activated INT NOT NULL DEFAULT 0,
     FOREIGN KEY (group_id) REFERENCES drai_group(id)
-);
+) CHARACTER SET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS drai_article (
     id INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS drai_article (
     locale_id INT UNSIGNED NOT NULL,
     status INT NOT NULL DEFAULT 0,
     FOREIGN KEY (locale_id) REFERENCES drai_locale(id)
-);
+) CHARACTER SET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS drai_article_history (
     id INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS drai_article_history (
     updated DATETIME NOT NULL DEFAULT NOW(),
     FOREIGN KEY (article_id) REFERENCES drai_article(id),
     FOREIGN KEY (user_id) REFERENCES drai_user(id)
-);
+) CHARACTER SET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS drai_homepage (
     article_id INT UNSIGNED NOT NULL,
@@ -94,20 +94,20 @@ CREATE TABLE IF NOT EXISTS drai_homepage (
     PRIMARY KEY (article_id, locale_id),
     FOREIGN KEY (article_id) REFERENCES drai_article(id),
     FOREIGN KEY (locale_id) REFERENCES drai_locale(id)
-);
+) CHARACTER SET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS drai_agreement (
     id INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
     body LONGTEXT,
     locale_id INT UNSIGNED,
     FOREIGN KEY (locale_id) REFERENCES drai_locale(id)
-);
+) CHARACTER SET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS drai_session (
     session_key VARCHAR(32) NOT NULL PRIMARY KEY,
     data TEXT NOT NULL,
     created_at BIGINT(20) NOT NULL
-);
+) CHARACTER SET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS drai_activation_code (
     id INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS drai_activation_code (
     code CHAR(20) NOT NULL,
     creation_date DATETIME NOT NULL DEFAULT NOW(),
     FOREIGN KEY (user_id) REFERENCES drai_user(id)
-);
+) CHARACTER SET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS drai_upload (
     id INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -126,4 +126,4 @@ CREATE TABLE IF NOT EXISTS drai_upload (
     type TINYTEXT NOT NULL,
     upload_date DATETIME NOT NULL DEFAULT NOW(),
     FOREIGN KEY (user_id) REFERENCES drai_user(id)
-);
+) CHARACTER SET=utf8mb4;

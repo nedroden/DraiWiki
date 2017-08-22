@@ -24,11 +24,15 @@ class SettingsPage extends AppHeader {
 
     private $_model, $_view, $_route, $_errors, $_submitted;
 
-    public function __construct() {
-        $this->_route = Registry::get('route');
+    public function __construct(?string $section = null) {
+        $sections = ['general', 'registration', 'uploads'];
 
-        $sections = ['general', 'registration'];
-        $section = !in_array($this->_route->getParams()['section'], ($sections ?? '')) ? 'general' : $this->_route->getParams()['section'];
+        if (empty($section)) {
+            $this->_route = Registry::get('route');
+            $section = !in_array($this->_route->getParams()['section'], ($sections ?? '')) ? 'general' : $this->_route->getParams()['section'];
+        }
+        else
+            $section = in_array($section, $sections) ? $section : 'general';
 
         $this->_model = new Model($section);
 
@@ -64,6 +68,10 @@ class SettingsPage extends AppHeader {
                 return;
             }
         }
+    }
+
+    public function setAction(string $action) : void {
+        $this->_model->setAction($action);
     }
 
     public function getTitle() : string {

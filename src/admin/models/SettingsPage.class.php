@@ -22,7 +22,7 @@ use DraiWiki\src\main\models\{ModelHeader, Table};
 
 class SettingsPage extends ModelHeader {
 
-    private $_validSettings, $_table, $_settings, $_settingsSection;
+    private $_validSettings, $_table, $_settings, $_settingsSection, $_action;
 
     private const MIN_WIKI_TITLE_LENGTH = 3;
     private const MIN_WIKI_SLOGAN_LENGTH = 3;
@@ -44,7 +44,7 @@ class SettingsPage extends ModelHeader {
     public function prepareData() : array {
         return [
             'table' => $this->_table,
-            'action' => self::$config->read('url') . '/index.php/management/settings/' . $this->_settingsSection
+            'action' => $this->_action ?? self::$config->read('url') . '/index.php/management/settings/' . $this->_settingsSection
         ];
     }
 
@@ -273,5 +273,9 @@ class SettingsPage extends ModelHeader {
 
     public function getPageDescription() : string {
         return self::$locale->read('management', 'settings_' . $this->_settingsSection . '_description');
+    }
+
+    public function setAction(string $action) : void {
+        $this->_action = $action;
     }
 }

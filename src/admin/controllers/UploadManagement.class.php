@@ -16,7 +16,7 @@ if (!defined('DraiWiki')) {
     die('You\'re really not supposed to be here.');
 }
 
-use DraiWiki\src\admin\models\{SettingsPage, UploadManagement as Model};
+use DraiWiki\src\admin\models\UploadManagement as Model;
 use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\main\models\AppHeader;
 
@@ -25,11 +25,14 @@ class UploadManagement extends AppHeader {
     private $_model, $_view, $_settingsPage;
 
     public function __construct() {
+        $this->checkForAjax();
+
+        if ($this->ajax)
+            $this->parseAjaxRequest();
+
+        $this->loadConfig();
         $this->_model = new Model();
         $this->_settingsPage = new SettingsPage('uploads');
-
-        $this->_settingsPage->loadSettings();
-        $this->_settingsPage->generateTable();
     }
 
     public function getTitle() : string {
@@ -41,10 +44,20 @@ class UploadManagement extends AppHeader {
     }
 
     public function execute() : void {
-        $this->_view = Registry::get('gui')->parseAndGet('admin_uploads', array_merge(['settings' => $this->_settingsPage->prepareData()['table']], $this->_model->prepareData()), false);
+        if ($this->ajax && !empty($this->parsedAJAXRequest['getlist']))
+            $this->_model->setRequest('getlist');
+
+        $this->_settingsPage->setAction(self::$config->read('url') . '/index.php/management/manageuploads');
+        $this->_settingsPage->execute();
+        $this->_view = Registry::get('gui')->parseAndGet('admin_uploads', $this->_model->prepareData(), false);
     }
 
     public function display() : void {
         echo $this->_view;
+        $this->_settingsPage->display();
+    }
+
+    public function printJSON() : void {
+        echo $this->_model->generateJSON();
     }
 }

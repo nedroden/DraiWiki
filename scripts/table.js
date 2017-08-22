@@ -8,6 +8,17 @@
  * @license     Apache 2.0
  */
 
+// Since we need the url later, we're saving it right here
+let url = null;
+
+function activateTable(setUrl) {
+    url = setUrl;
+
+    performAJAXRequest(url, {
+        "start": 0
+    }, updateList);
+}
+
 function displayPagination(currentStart, totalRecords, recordsPerPage) {
     let numberOfPages = Math.round((totalRecords - 1) / recordsPerPage);
     let currentPage = 1 + Math.round((Number(currentStart) + 1) / recordsPerPage);

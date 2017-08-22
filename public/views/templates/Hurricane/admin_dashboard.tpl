@@ -43,7 +43,7 @@
 <div class="content_section">
     {$recent_edits_table}
 
-    <script type="text/javascript">activateRecentEditsTable();</script>
+    <script type="text/javascript">activateTable('/management/dashboard/ajax/getrecentedits');</script>
 </div>
 <div class="section_description">
     <h2>{$locale->read('management', 'server_information')}</h2>

@@ -8,24 +8,6 @@
  * @license     Apache 2.0
  */
 
-let url = null;
-
-function activateUserTable() {
-    url = '/management/users/ajax/getlist';
-
-    performAJAXRequest(url, {
-        "start": 0
-    }, updateList);
-}
-
-function activateRecentEditsTable() {
-    url = '/management/dashboard/ajax/getrecentedits';
-
-    performAJAXRequest(url, {
-        "start": 0
-    }, updateList);
-}
-
 function sysInfoToText() {
     let table = $('.info_table');
 

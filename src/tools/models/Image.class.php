@@ -32,9 +32,9 @@ class Image extends ModelHeader {
     private $_user;
     private $_uploadDate;
 
-    private const DEFAULT_IMAGE_TYPE = 'upload';
+    private const DEFAULT_IMAGE_TYPE = 'uploaded_image';
 
-    public function __construct(string $type = 'image', string $originalName, ?string $tempName = '', ?string $description = '') {
+    public function __construct(string $type = self::DEFAULT_IMAGE_TYPE, string $originalName, ?string $tempName = '', ?string $description = '') {
         $this->loadConfig();
         $this->loadUser();
 
@@ -177,7 +177,7 @@ class Image extends ModelHeader {
     }
 
     private function setType(string $type) : void {
-        $types = ['avatar' => 'avatars', 'image' => 'images'];
+        $types = ['avatar' => 'avatars', 'uploaded_image' => 'images'];
 
         $this->_type = array_key_exists($type, $types) ? $type : self::DEFAULT_IMAGE_TYPE;
         $this->_destination = self::$config->read('path') . '/public/uploads/' . $types[$this->_type];
@@ -235,6 +235,10 @@ class Image extends ModelHeader {
         return $this->_description;
     }
 
+    public function getPath() : string {
+        return $this->_destination . '/' . $this->_uploadedName;
+    }
+
     public function getUrl() : string {
         return $this->_destinationUrl . '/' . $this->_uploadedName;
     }
@@ -249,5 +253,9 @@ class Image extends ModelHeader {
 
     public function getExtension() : string {
         return pathinfo($this->_originalName, PATHINFO_EXTENSION);
+    }
+
+    public function getUploadedExtension() : string {
+        return pathinfo($this->_uploadedName, PATHINFO_EXTENSION);
     }
 }

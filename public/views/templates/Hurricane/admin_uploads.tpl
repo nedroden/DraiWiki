@@ -1,10 +1,9 @@
 <div class="content_section">
-    Table
+    {$table}
+
+    <script type="text/javascript">activateTable('/management/manageuploads/ajax/getlist');</script>
 </div>
 <div class="section_description">
     <h2>{$locale->read('management', 'upload_settings')}</h2>
     {$locale->read('management', 'upload_settings_description')}
-</div>
-<div class="content_section">
-    {$settings}
 </div>

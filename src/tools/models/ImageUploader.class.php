@@ -86,7 +86,7 @@ class ImageUploader extends ModelHeader {
     }
 
     public function upload(array &$errors) : void {
-        $this->_image = new Image('image', $_FILES['file']['name'], $_FILES['file']['tmp_name'], ($this->_imageDescription ?? null));
+        $this->_image = new Image('uploaded_image', $_FILES['file']['name'], $_FILES['file']['tmp_name'], ($this->_imageDescription ?? null));
         $this->_image->upload($errors);
     }
 }

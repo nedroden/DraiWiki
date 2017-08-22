@@ -448,6 +448,11 @@ tr.selected td {
     background: #d3dde2;
 }
 
+.image_preview {
+    max-height: 75px;
+    max-width: 75px;
+}
+
 /* Floats */
 .float_right {
     float: right;

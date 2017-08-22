@@ -178,5 +178,14 @@ return [
     'upload_settings_description' => 'Settings related to file uploading can be altered here',
 
     'upload_management' => 'Upload management',
-    'upload_management_description' => 'This section allows you to manage the file uploading process.'
+    'upload_management_description' => 'This section allows you to manage the file uploading process.',
+
+    'preview' => 'Preview',
+    'filename' => 'Filename',
+    'poster' => 'Uploaded by',
+    'upload_date' => 'Upload date',
+    'file_type' => 'Type of file',
+
+    'file_avatar' => 'Avatar',
+    'file_uploaded_image' => 'Image'
 ];

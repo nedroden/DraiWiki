@@ -36,12 +36,12 @@ $image = new Image('image', $_GET['filename']);
 $image->load();
 
 $mimeTypes = require_once($config->read('path') . '/src/MimeTypes.php');
-if (empty($mimeTypes[$image->getExtension()]))
+if (empty($mimeTypes[$image->getUploadedExtension()]))
     die('Could not determine image mime type');
 
-if (!file_exists($image->getUploadedName()))
+if (!file_exists($image->getPath()))
     die('File not found.');
 
 // Display the image
-header('Content-Type: ' . $mimeTypes[$image->getExtension()]);
-echo readfile($image->getUploadedName());
+header('Content-Type: ' . $mimeTypes[$image->getUploadedExtension()]);
+echo readfile($image->getPath());
