@@ -135,5 +135,7 @@ The {wiki_name} team',
     'birthdate' => 'Birth date',
     'registration_date' => 'Registration date',
 
-    'save' => 'Save settings'
+    'save' => 'Save settings',
+
+    'html_nope' => 'HTML is not allowed'
 ];

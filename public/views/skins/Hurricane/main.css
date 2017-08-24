@@ -79,7 +79,7 @@ input[type="text"], input[type="password"] {
     color: #a5a5a5;
     font-size: 20px;
     padding: 6px;
-    font-family: Roboto;
+    font-family: Roboto, Verdana, Arial;
     letter-spacing: -1px;
 }
 
@@ -93,19 +93,20 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="checkbox"]:f
 input[type="submit"] {
     border: 1px solid #385f75;
     border-radius: 8px;
-    background: #5b96b7;
-    background: linear-gradient(-180deg, #5b96b7, #487893);
-    padding: 5px;
+    background: #6f7172;
+    background: linear-gradient(-180deg, #6f7172, #555759);
+    padding: 10px;
     min-width: 100px;
     color: #fff;
-    font-family: Roboto;
+    font-family: Roboto, Verdana, Arial;
     letter-spacing: -1px;
+    font-size: 100%;
 }
 
 input[type="submit"]:hover {
     border-radius: 8px;
     background: #70b8e0;
-    background: linear-gradient(-180deg, #70b8e0, #5186a3);
+    background: linear-gradient(-180deg, #878787, #6d6c6c);
     cursor: pointer;
 }
 
@@ -116,12 +117,14 @@ input[type="submit"]:hover {
 
 #header_search input[type="text"] {
     width: 70%;
-    padding: 3px 3px 3px 8px;
+    padding: 5px 5px 5px 8px;
     border-color: #fcfcfc;
 }
 
 #header_search input[type="submit"] {
     max-width: 20%;
+    padding: 5px;
+    margin: 0;
 }
 
 .wide {
@@ -594,7 +597,7 @@ h1.article_title {
 
 /* Account settings */
 #account_section {
-    width: 70%;
+    width: 90%;
     margin: auto;
 }
 
@@ -604,7 +607,12 @@ h1.article_title {
 }
 
 #settings_left {
-    padding: 20px 0;
+    padding: 20px 50px 0;
+    text-align: right;
+}
+
+#settings_left h1 {
+    background: none;
 }
 
 /* Tables */
@@ -672,7 +680,7 @@ h1.article_title {
         display: none;
     }
 
-    #form_area {
+    #form_area, #account_section {
         width: 100%;
     }
 

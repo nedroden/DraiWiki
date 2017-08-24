@@ -71,7 +71,7 @@ class AccountManager extends ModelHeader {
                 'value' => $this->_user->getUsername()
             ],
             'email' => [
-                'name' => 'email',
+                'name' => 'email_address',
                 'label' => 'email_title',
                 'description' => 'email_desc',
                 'input_type' => 'text',
@@ -230,6 +230,11 @@ class AccountManager extends ModelHeader {
 
             if ((substr($validator->getValue(), 0) == ' ' || substr($validator->getValue(), -1) == ' ')) {
                 $errors[$field['name']] = self::$locale->read('auth', 'oh_god_begin_end_spaces_' . $field['name']);
+                continue;
+            }
+
+            if ($validator->containsHTML()) {
+                $errors[$field['name']] = self::$locale->read('auth', 'html_nope');
                 continue;
             }
 

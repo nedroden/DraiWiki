@@ -18,6 +18,9 @@
 
     <div id="settings_left" class="col33">
         <h1 id="account_name">{$user->getUsername()}</h1>
+
+        <!-- Avatar placeholder //-->
+        <img src="http://www.infragistics.com/media/8948/anonymous_200.gif" width="100px" height="100px" />
         <ul id="account_info">
             <li>{$locale->read('auth', 'registration_date')}: {$user->getRegistrationDate()}</li>
             <li>{$locale->read('auth', 'birthdate')}: {$user->getBirthDate()}</li>

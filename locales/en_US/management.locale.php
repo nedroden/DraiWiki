@@ -197,5 +197,10 @@ return [
 
     'cannot_delete_yourself' => 'You cannot delete yourself',
     'account_not_found' => 'User account not found',
-    'cannot_delete_root' => 'You can disable the root account, but you cannot delete it'
+    'cannot_delete_root' => 'You can disable the root account, but you cannot delete it',
+
+    'statistics' => 'Statistics',
+    'number_of_edits_stats' => 'Number of edits:',
+    'number_of_articles' => 'Number of articles:',
+    'number_of_users' => 'Number of activated users:'
 ];

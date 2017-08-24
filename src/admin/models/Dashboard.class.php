@@ -43,6 +43,10 @@ class Dashboard extends ModelHeader {
             'draiwiki_version' => Main::WIKI_VERSION,
             'edits_this_week' => $this->getEditsThisWeek(),
 
+            'total_number_of_edits' => $this->getLastEditsCount(),
+            'total_number_of_articles' => $this->getArticleCount(),
+            'total_number_of_users' => $this->getUserCount(),
+
             'default_locale' => self::$config->read('locale'),
             'default_templates' => self::$config->read('templates'),
             'default_skins' => self::$config->read('skins'),
@@ -135,6 +139,32 @@ class Dashboard extends ModelHeader {
 
     public function setRequest(string $request) : void {
         $this->_request = $request;
+    }
+
+    private function getUserCount() : int {
+        $query = QueryFactory::produce('select', '
+            SELECT COUNT(id) as num
+                FROM {db_prefix}user
+                WHERE activated = 1
+        ');
+
+        foreach ($query->execute() as $record)
+            return $record['num'];
+
+        return 0;
+    }
+
+    private function getArticleCount() : int {
+        $query = QueryFactory::produce('select', '
+            SELECT COUNT(id) as num
+                FROM {db_prefix}article
+                WHERE `status` = 1
+        ');
+
+        foreach ($query->execute() as $record)
+            return $record['num'];
+
+        return 0;
     }
 
     private function getStart(int $recordCount) : int {

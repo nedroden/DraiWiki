@@ -130,7 +130,7 @@ class User extends ModelHeader {
         }
     }
 
-    private function validate() : array {
+    private function validate(?string $username = null, ?string $email = null) : array {
         $errors = [];
 
         $queries = [
@@ -147,9 +147,9 @@ class User extends ModelHeader {
             $query = QueryFactory::produce('select', $rawQuery);
 
             if ($key == 'username')
-                $query->setParams(['username' => $this->_username]);
+                $query->setParams(['username' => $username ?? $this->_username]);
             else if ($key == 'email_address')
-                $query->setParams(['email' => $this->_email]);
+                $query->setParams(['email' => $email ?? $this->_email]);
 
             foreach ($query->execute() as $record)
                 $errors[$key] = self::$locale->read('auth', $key . '_in_use');
@@ -363,7 +363,18 @@ class User extends ModelHeader {
     }
 
     public function update(array $info, array &$errors) : void {
-        // check for duplicate user names and emails here
+        if (!empty($info['username']) || !empty($info['email_address'])) {
+            $inUseErrors = $this->validate($info['username'] ?? null, $info['email_address'] ?? null);
+
+            if (!empty($inUseErrors['username']) && !empty($info['username'])) {
+                $errors['username'] = $inUseErrors['username'];
+                return;
+            }
+            else if (!empty($inUseErrors['email_address']) && !empty($info['email_address'])) {
+                $errors['email_address'] = $inUseErrors['email_address'];
+                return;
+            }
+        }
 
         foreach ($info as $key => $value) {
             $query = QueryFactory::produce('modify', '

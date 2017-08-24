@@ -97,6 +97,23 @@
             <span>{$default_images}</span>
         </div>
 
+        <div class="table_header">
+            <span>{$locale->read('management', 'statistics')}</span>
+            <span></span>
+        </div>
+        <div>
+            <span>{$locale->read('management', 'number_of_articles')}</span>
+            <span>{$total_number_of_articles}</span>
+        </div>
+        <div>
+            <span>{$locale->read('management', 'number_of_edits_stats')}</span>
+            <span>{$total_number_of_edits}</span>
+        </div>
+        <div>
+            <span>{$locale->read('management', 'number_of_users')}</span>
+            <span>{$total_number_of_users}</span>
+        </div>
+
         <br class="clear" />
     </div>
 </div>
