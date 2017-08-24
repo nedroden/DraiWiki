@@ -43,6 +43,8 @@ function createRoutes() : array {
 
 		$routeCollector->get('/resources', 'resources');
 		$routeCollector->get('/image/{filename}', 'imageviewer');
+        $routeCollector->addRoute(['GET', 'POST'], '/account/{section}', 'account');
+        $routeCollector->addRoute(['GET', 'POST'], '/account/{section}/{id}', 'account');
 
 		$routeCollector->addRoute(['GET', 'POST'], '/imageupload', 'imageupload');
 

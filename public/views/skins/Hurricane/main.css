@@ -255,6 +255,14 @@ input[type="submit"]:hover {
     border-radius: 10px;
 }
 
+.success {
+    border: 1px solid #78bb7b;
+    background: #ebf5eb;
+    color: #2f4428;
+    padding: 15px;
+    border-radius: 10px;
+}
+
 .error {
     border: 1px solid #bb7878;
     background: #f5ebeb;
@@ -584,8 +592,65 @@ h1.article_title {
     max-width: 100%;
 }
 
+/* Account settings */
+#account_section {
+    width: 70%;
+    margin: auto;
+}
+
+#account_info {
+    list-style: none;
+    padding: 0;
+}
+
+#settings_left {
+    padding: 20px 0;
+}
+
+/* Tables */
+.form_table {
+    padding: 20px 0;
+}
+
+.form_table span {
+    font-style: italic;
+}
+
+.form_table input[type="text"], #form_area input[type="password"] {
+    width: 100%;
+    margin: 3px 0px 20px 0px;
+}
+
+.form_table label {
+    margin-left: 3px;
+    color: #727272;
+    font-size: 110%;
+    font-weight: bold;
+}
+
+.form_table div {
+    padding: 10px;
+    border-bottom: 1px solid #ededed;
+}
+
+.form_table h1 {
+    margin: 10px;
+}
+
+.form_table div:nth-child(odd) {
+    background: #f9f9f9;
+}
+
+.form_table div:nth-child(even) {
+    background: #fcfcfc;
+}
+
+.form_table p {
+    margin-top: 10px;
+}
+
 /* Responsive theming */
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 900px) {
     #content {
         padding: 10px;
     }

@@ -122,6 +122,8 @@ return [
     'display_cookie_warning_desc' => 'EU law requires all websites that use cookies to inform their users cookies are used. If you\'re on localhost, you can safely disable this option, but if you\'re not, you might want to leave it on.',
     'date_format' => 'Default date format',
     'date_format_desc' => 'The value of this setting is used as the default date format. Click <a href="http://php.net/manual/en/function.date.php" target="_blank">here</a> for more information about date formats.',
+    'datetime_format' => 'Default datetime format',
+    'datetime_format_desc' => 'The value of this setting is used as the default datetime format. Click <a href="http://php.net/manual/en/function.date.php" target="_blank">here</a> for more information about date formats.',
 
     'enable_this_feature' => 'Enable this feature',
 

@@ -158,7 +158,8 @@ INSERT INTO `drai_setting` (`key`, `value`) VALUES
   ('gd_image_upload', '1'),
   ('min_image_width', '20'),
   ('min_image_height', '20'),
-  ('max_image_description_length', '500');
+  ('max_image_description_length', '500'),
+  ('datetime_format', 'F j, Y, g:i:a');
 
 --
 -- Dumping data for table `drai_user`

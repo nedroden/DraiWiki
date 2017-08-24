@@ -180,6 +180,6 @@ class UserManagement extends ModelHeader {
      * @return string
      */
     private function generateManagementLinks(int $userID) : string {
-        return '<a href=\"' . self::$config->read('url') . '/index.php/management/edituser/' . $userID . '\">' . self::$locale->read('management', 'edit_user') . '</a> | <a href=\"javascript:void(0);\" onclick=\"requestConfirm(\'' . self::$config->read('url') . '/index.php/management/users/delete/' . $userID . '\')\">' . self::$locale->read('management', 'remove_user') . '</a>';
+        return '<a href=\"' . self::$config->read('url') . '/index.php/account/settings/' . $userID . '\">' . self::$locale->read('management', 'edit_user') . '</a> | <a href=\"javascript:void(0);\" onclick=\"requestConfirm(\'' . self::$config->read('url') . '/index.php/management/users/delete/' . $userID . '\')\">' . self::$locale->read('management', 'remove_user') . '</a>';
     }
 }

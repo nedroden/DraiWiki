@@ -245,6 +245,11 @@ class GUI {
                         'href' => $this->_config->read('url') . '/index.php/management',
                         'visible' => $this->_user->hasPermission('manage_site')
                     ],
+                    'account_settings' => [
+                        'label' => 'account_settings',
+                        'href' => $this->_config->read('url') . '/index.php/account/settings',
+                        'visible' => !$this->_user->isGuest()
+                    ],
                     'login' => [
                         'label' => 'login',
                         'href' => $this->_config->read('url') . '/index.php/login',

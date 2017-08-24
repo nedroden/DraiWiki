@@ -22,6 +22,7 @@ return [
 	'register' => 'Register',
     'logout' => 'Logout',
     'manage' => 'Management',
+    'account_settings' => 'Account settings',
 
 	'search_for' => 'Search for',
 	'go' => 'Go',

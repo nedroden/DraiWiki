@@ -44,5 +44,8 @@ return [
     'could_not_upload_image' => 'Could not upload image',
     'could_not_assign_name' => 'Unable to rename the original file, because the integer limit was reached. We suppose congratulations are in order.',
 
-    'image_not_found' => 'Could not load the requested image. Are you sure it exists?'
+    'image_not_found' => 'Could not load the requested image. Are you sure it exists?',
+    'user_not_found' => 'User not found',
+
+    'section_not_found' => 'Section not found'
 ];

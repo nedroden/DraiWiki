@@ -61,6 +61,7 @@ class Management extends AppHeader {
     private function detectApp() : string {
         $apps = [
             'dashboard' => 'DraiWiki\src\admin\controllers\Dashboard',
+            'edituser' => 'DraiWiki\src\admin\controllers\ProfileManager',
             'generalmaintenance' => 'DraiWiki\src\admin\controllers\GeneralMaintenance',
             'manageuploads' => 'DraiWiki\src\admin\controllers\UploadManagement',
             'settings' => 'DraiWiki\src\admin\controllers\SettingsPage',

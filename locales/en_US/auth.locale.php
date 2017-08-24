@@ -81,6 +81,7 @@ return [
     'john' => 'John',
     'doe' => 'Doe',
 
+    'sex' => 'Gender:',
     'sex_0' => 'Unspecified',
     'sex_1' => 'Male',
     'sex_2' => 'Female',
@@ -101,5 +102,38 @@ click on the link below to activate your account:
 <a href="{activation_link}" target="_blank">{activation_link}</a>
 
 Regards,
-The {wiki_name} team'
+The {wiki_name} team',
+
+
+    'username_desc' => 'The username is used to identify a user',
+    'email_title' => 'Email address:',
+    'email_desc' => 'The email address is used for logging in',
+
+    'personal_information' => 'Personal information',
+    'account_configuration' => 'Account settings',
+
+    'first_name_desc' => 'Your full first name',
+    'last_name_desc' => 'Your last name. Entering both surnames (if applicable) is not required',
+    'sex_desc' => 'Please enter your gender. If you prefer not to disclose this information, select \'unspecified\'',
+    'activate_account' => 'Uncheck this option to deactivate the user\'s account',
+
+    'activated' => 'Account activation:',
+    'activated_desc' => 'If you wish, you can disable the user\'s account by unchecking the box below. Keep in mind that this does not prevent the user from reactivating their account by requesting a new activation code.',
+
+    'field_empty_username' => 'The username cannot be empty',
+    'field_empty_email' => 'The email cannot be empty',
+    'first_empty_first_name' => 'The first name field cannot be empty',
+    'field_empty_last_name' => 'The last name field cannot be empty',
+    'field_empty_sex' => 'Please select a gender',
+
+    'select_value_does_not_exist' => 'Your ingenuity is admirable, but that doesn\'t mean the wiki doesn\'t validate user input before using it! The selected value doesn\'t exist.',
+
+    'settings_have_been_saved' => 'The settings have been saved',
+
+    'edit_settings' => 'Account settings',
+
+    'birthdate' => 'Birth date',
+    'registration_date' => 'Registration date',
+
+    'save' => 'Save settings'
 ];

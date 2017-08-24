@@ -362,6 +362,25 @@ class User extends ModelHeader {
         $query->execute();
     }
 
+    public function update(array $info, array &$errors) : void {
+        // check for duplicate user names and emails here
+
+        foreach ($info as $key => $value) {
+            $query = QueryFactory::produce('modify', '
+                UPDATE {db_prefix}user
+                    SET ' . $key . ' = :info_value
+                    WHERE id = :uid
+            ');
+
+            $query->setParams([
+                'info_value' => $value,
+                'uid' => $this->_id
+            ]);
+
+            $query->execute();
+        }
+    }
+
     public function hasPermission(string $key) : bool {
         if ($this->_isRoot)
             return true;
@@ -427,5 +446,9 @@ class User extends ModelHeader {
 
     public function getPrimaryGroupWithColor() : string {
         return '<span style=\"color: #' .$this->_primaryGroupInfo['color'] . '\">' . $this->_primaryGroupInfo['title'] . '</span>';
+    }
+
+    public function getIsActivated() : int {
+        return $this->_isActivated;
     }
 }

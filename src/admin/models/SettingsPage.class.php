@@ -107,6 +107,14 @@ class SettingsPage extends ModelHeader {
                     'min_length' => self::MIN_DATE_FORMAT_LENGTH,
                     'max_length' => self::MAX_DATE_FORMAT_LENGTH
                 ],
+                'datetime_format' => [
+                    'name' => 'datetime_format',
+                    'label' => 'datetime_format',
+                    'description' => 'datetime_format_desc',
+                    'input_type' => 'text',
+                    'min_length' => self::MIN_DATE_FORMAT_LENGTH,
+                    'max_length' => self::MAX_DATE_FORMAT_LENGTH
+                ],
                 'paths_and_urls',
                 'path' => [
                     'name' => 'path',

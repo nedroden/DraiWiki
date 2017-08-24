@@ -13,6 +13,12 @@
                     <input type="text" name="{$item['name']}"{if not $item['value'] eq ''} value="{$item['value']}"{/if} />
                 {elseif $item['input_type'] eq 'checkbox'}
                     <p><input type="checkbox" name="{$item['name']}"{if $item['value'] eq 1} checked{/if} />{if not $item['input_description'] eq ''} {$item['input_description']}{/if}</p>
+                {elseif $item['input_type'] eq 'select'}
+                    <select name="{$item['name']}">
+                    {foreach $item['options'] option}
+                        <option value="{$option['value']}"{if not $option['selected'] eq ''} selected{/if}>{$option['label']}</option>
+                    {/foreach}
+                    </select>
                 {/if}
             </div>
         {/if}
