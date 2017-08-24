@@ -82,7 +82,7 @@ return [
     'doe' => 'Doe',
 
     'sex' => 'Gender:',
-    'sex_0' => 'Unspecified',
+    'sex_0' => 'Not specified',
     'sex_1' => 'Male',
     'sex_2' => 'Female',
     'sex_3' => 'Other',
@@ -114,7 +114,7 @@ The {wiki_name} team',
 
     'first_name_desc' => 'Your full first name',
     'last_name_desc' => 'Your last name. Entering both surnames (if applicable) is not required',
-    'sex_desc' => 'Please enter your gender. If you prefer not to disclose this information, select \'unspecified\'',
+    'sex_desc' => 'Please enter your gender. If you prefer not to disclose this information, select \'not specified\'',
     'activate_account' => 'Uncheck this option to deactivate the user\'s account',
 
     'activated' => 'Account activation:',

@@ -21,7 +21,7 @@ use DraiWiki\src\core\controllers\Registry;
 class PostRequest {
 
     private $_key;
-    private $_value, $_isEmpty;
+    private $_value, $_isEmpty, $_isSet;
     private $_config;
 
     public function __construct(string $key) {
@@ -35,15 +35,21 @@ class PostRequest {
         if (!empty($_POST[$this->_key])) {
             $this->_value = $_POST[$this->_key];
             $this->_isEmpty = false;
+            $this->_isSet = true;
         }
         else {
             $this->_value = '';
             $this->_isEmpty = true;
+            $this->_isSet = isset($_POST[$this->_key]);
         }
     }
 
     public function getIsEmpty() : bool {
         return $this->_isEmpty;
+    }
+
+    public function getIsSet() : bool {
+        return $this->_isSet;
     }
 
     public function getValue() : string {

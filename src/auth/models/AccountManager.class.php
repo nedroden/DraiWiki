@@ -188,7 +188,7 @@ class AccountManager extends ModelHeader {
                 continue;
             }
 
-            if ($request->getIsEmpty() && empty($field['optional'])) {
+            if (($request->getIsEmpty() && empty($field['optional']) && $field['input_type'] != 'select') || (!$request->getIsset() && empty($field['optional']))) {
                 $errors[$field['name']] = self::$locale->read('auth', 'field_empty_' . $field['name']);
                 continue;
             }
@@ -240,8 +240,20 @@ class AccountManager extends ModelHeader {
                     $errors[$field['name']] = sprintf(self::$locale->read('auth', $field['name'] . '_too_long'), $maxLength);
             }
 
-            if (empty($errors[$field['name']]))
+            if (empty($errors[$field['name']])) {
+                if ($field['input_type'] == 'select') {
+                    foreach ($field['options'] as &$option) {
+                        if ($option['value'] == $validator->getValue()) {
+                            $option['selected'] = true;
+                            continue;
+                        }
+                        else
+                            $option['selected'] = false;
+                    }
+                }
+
                 $field['value'] = $validator->getValue();
+            }
         }
     }
 
