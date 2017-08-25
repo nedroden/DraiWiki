@@ -131,7 +131,7 @@ class UserManagement extends ModelHeader {
             foreach ($this->_users as $user) {
                 $jsonUsers[] = '
                 {
-                    "username": "' . $user->getUsername() . '",
+                    "username": "' . ($user->getIsActivated() == 1 ? $user->getUsername() : '<em>' . $user->getUsername() . '</em>') . '",
                     "first_name": "' . $user->getFirstName() . '",
                     "last_name": "' . $user->getLastName() . '",
                     "email_address": "' . $user->getEmail() . '",

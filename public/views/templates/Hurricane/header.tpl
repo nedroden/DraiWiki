@@ -68,7 +68,7 @@
                             <input type="submit" value="{$locale->read('main', 'go')}" />
                         </form>
                     </div>
-                    <br class="clear"/>
+                    <br class="clear" />
                 </div>
             </div>
             <div id="content">

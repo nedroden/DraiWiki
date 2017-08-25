@@ -26,6 +26,12 @@ if (!file_exists(__DIR__ . '/../vendor/autoload.php') || !file_exists(__DIR__ . 
 	die;
 }
 
+/* This will enable detailed error messages before the permissions are loaded. Keep in mind that
+ * this means detailed error messages will be visible to everyone. Once permissions are loaded,
+ * permissions will be used to determine whether or not debug information will be shown.
+ */
+const DEBUG_ALWAYS = true;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 $main = new Main();
 $main->load();

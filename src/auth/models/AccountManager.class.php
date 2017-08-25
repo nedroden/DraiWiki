@@ -183,7 +183,7 @@ class AccountManager extends ModelHeader {
 
             if ($field['input_type'] == 'checkbox') {
                 $newValue = $request->getIsEmpty() ? 0 : 1;
-                $field['updated'] = $newValue == $field['value'];
+                $field['updated'] = $newValue != $field['value'];
                 $field['value'] = $newValue;
                 continue;
             }

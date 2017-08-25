@@ -90,7 +90,7 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="checkbox"]:f
 }
 
 input[type="submit"] {
-    border: 1px solid #385f75;
+    border: 1px solid #686868;
     border-radius: 8px;
     background: #6f7172;
     background: linear-gradient(-180deg, #6f7172, #555759);

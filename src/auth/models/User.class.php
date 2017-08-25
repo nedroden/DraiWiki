@@ -63,7 +63,7 @@ class User extends ModelHeader {
 
         $query = QueryFactory::produce('select', '
             SELECT u.id, u.username, u.email_address, u.sex, u.birthdate, u.first_name, u.last_name, 
-                    u.ip_address, u.registration_date, u.group_id, u.secondary_groups, DATE(u.registration_date) AS registration_date,
+                    u.ip_address, u.registration_date, u.group_id, u.secondary_groups, u.activated, DATE(u.registration_date) AS registration_date,
                     g.title, g.color
                 FROM `{db_prefix}user` u
                 INNER JOIN `{db_prefix}group` g ON (g.id = u.group_id)
@@ -191,7 +191,10 @@ class User extends ModelHeader {
 
         $this->_cookieLength = $details['cookie_length'] ?? 7 * 24 * 60 * 60;
 
-        $this->_isActivated = $details['activated'] ?? self::$config->read('enable_email_activation') == 1 ? 0 : 1;
+        if ($this->_id == 0)
+            $this->_isActivated = $details['activated'] ?? 0;
+        else
+            $this->_isActivated = self::$config->read('enable_email_activation') == 1 ? $details['activated'] : 1;
 
         $this->_primaryGroupInfo = [
             'title' => $details['title'] ?? '??',
