@@ -122,7 +122,8 @@ class App {
         $this->_appInfo = [
             'title' => $this->canAccess() ? $info['title'] : $this->_locale->read('main', 'access_denied'),
             'has_sidebar' => $info['has_sidebar'],
-            'ignore_templates' => $this->_appObject->getIgnoreTemplates()
+            'ignore_templates' => $this->_appObject->getIgnoreTemplates(),
+            'header' => $this->_appObject->getAdditionalHeaders()
         ];
 
         return $this->_appInfo;

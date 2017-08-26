@@ -41,7 +41,7 @@ abstract class Error {
         return [
             'title' => $this->hasLocale ? $this->locale->read('error', 'something_went_wrong') : 'Something went wrong',
             'body' => $this->hasLocale ? $this->locale->read('error', 'generic_error_message') : 'An error occurred. Please contact the administrator.',
-            'detailed' => $this->canViewDetailedInfo() ? $this->detailedInfo : NULL
+            'detailed' => DEBUG_ALWAYS || $this->canViewDetailedInfo() ? $this->detailedInfo : NULL
         ];
     }
 

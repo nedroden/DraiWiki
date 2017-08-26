@@ -38,6 +38,10 @@
         {if not $debug_head eq ''}
             {$debug_head}
         {/if}
+
+        {if not $header eq ''}
+            {$header}
+        {/if}
     </head>
     <body>
         <div id="wrapper">

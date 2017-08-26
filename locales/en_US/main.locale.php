@@ -39,6 +39,7 @@ return [
     'current_article' => 'Current article',
     'view_article' => 'Read article',
     'edit_article' => 'Edit article',
+    'print_article' => 'View in printable format',
     'delete_article' => 'Delete article',
 
     'team_president' => 'President',

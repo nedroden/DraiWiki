@@ -50,6 +50,11 @@ class Article extends AppHeader {
                 $this->requiredPermission = 'soft_delete_articles';
                 $this->_subApp = 'delete';
                 break;
+            case 'print':
+                $this->requiredPermission = 'print_articles';
+                $this->hasSidebar = false;
+                $this->_subApp = 'print';
+                break;
             default:
                 $this->_subApp = 'unknown';
         }
@@ -107,6 +112,11 @@ class Article extends AppHeader {
                         'href' => self::$config->read('url') . '/index.php/article/' . $this->_model->getSafeTitle(),
                         'visible' => true
                     ],
+                    'print' => [
+                        'label' => 'print_article',
+                        'href' => self::$config->read('url') . '/index.php/article/' . $this->_model->getSafeTitle() . '/print',
+                        'visible' => self::$user->hasPermission('print_articles')
+                    ],
                     'edit' => [
                         'label' => 'edit_article',
                         'href' => self::$config->read('url') . '/index.php/article/' . $this->_model->getSafeTitle() . '/edit',
@@ -121,5 +131,11 @@ class Article extends AppHeader {
                 ]
             ]
         ];
+    }
+
+    public function getAdditionalHeaders() : ?string {
+        return $this->_subApp == 'print' ? '
+            <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet">
+            <link rel="stylesheet" type="text/css" href="' . self::$config->read('url') . '/index.php/stylesheet/print" />' : null;
     }
 }

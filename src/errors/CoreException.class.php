@@ -40,8 +40,8 @@ class CoreException extends Error {
         return [
             'title' => $this->hasLocale ? $this->locale->read('error', 'fatal_core_exception') : 'Fatal core exception',
             'body' => $this->hasLocale ? $this->locale->read('error', 'what_is_a_fatal_core_exception') : 'A fatal error occurred that prevented DraiWiki from running.',
-            'detailed' => $this->canViewDetailedInfo() && $this->hasLocale ? $this->locale->read('error', 'yes_you_can') .  '<em>' . $this->detailedInfo . '</em>' : NULL,
-            'backtrace' => $this->canViewDetailedInfo() ? $this->getBacktrace() : []
+            'detailed' => DEBUG_ALWAYS || $this->canViewDetailedInfo() && $this->hasLocale ? $this->locale->read('error', 'yes_you_can') .  '<em>' . $this->detailedInfo . '</em>' : NULL,
+            'backtrace' => DEBUG_ALWAYS || $this->canViewDetailedInfo() ? $this->getBacktrace() : []
         ];
     }
 }

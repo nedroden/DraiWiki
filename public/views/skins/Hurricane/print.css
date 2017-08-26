@@ -1,0 +1,36 @@
+/**
+ * HURRICANE
+ * DraiWiki default theme
+ *
+ * @author		Robert Monden
+ * @copyright	DraiWiki development team, 2017
+ * @version		1.0 Alpha 1
+ */
+
+body {
+    background: none;
+    font-size: 100%;
+    width: 100%;
+}
+
+body, h1, h2, h3, h4, h5, h6 {
+    font-family: "EB Garamond", "Times New Roman", "Courier New", Verdana!important;
+    letter-spacing: 0.5px;
+}
+
+#header_section, #copyright .align_center, #copyright .align_right {
+    display: none;
+}
+
+.col60, #content {
+    width: 100%;
+}
+
+#content {
+    padding-top: 0;
+    margin-top: 10px;
+}
+
+.phpdebugbar {
+    display: none;
+}

@@ -127,4 +127,8 @@ abstract class AppHeader {
     public function printJSON() : void {
         return;
     }
+
+    public function getAdditionalHeaders() : ?string {
+        return null;
+    }
 }
