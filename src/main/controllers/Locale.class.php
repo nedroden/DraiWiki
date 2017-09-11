@@ -28,21 +28,24 @@ class Locale {
 	private $_name;
 	private $_native;
 	private $_dialect;
+	private $_continent;
 	private $_author;
 	private $_softwareVersion;
 	private $_localeVersion;
 	private $_copyright;
+	private $_user;
 
 	private $_strings;
 	private $_loadedFiles;
 
-	const DEFAULT_LOCALE = 'en_US';
+	private const FALLBACK_LOCALE = 'en_US';
 
-	public function __construct() {
+	public function __construct(?int $localeID = null) {
 		$this->_config = Registry::get('config');
+		$this->_user = Registry::get('user');
 		$this->_loadedFiles = [];
 
-		$infoFile = $this->loadLocaleInfo();
+		$infoFile = $this->loadLocaleInfo($localeID);
 		$this->parseInfoFile($infoFile);
 
 		$this->loadFile('main');
@@ -56,7 +59,7 @@ class Locale {
 
 		if (file_exists($file = $this->_config->read('path') . '/locales/' . $this->_code . '/' . $filename . '.locale.php'))
 			$result = require_once $file;
-		else if ($this->_code != self::DEFAULT_LOCALE && file_exists($file = $this->_config->read('path') . '/locales/' . self::DEFAULT_LOCALE . '/' . $filename . '.locale.php'))
+		else if ($this->_code != self::FALLBACK_LOCALE && file_exists($file = $this->_config->read('path') . '/locales/' . self::FALLBACK_LOCALE . '/' . $filename . '.locale.php'))
 			$result = require_once $file;
 		else
 			die('Requested locale file not found.');
@@ -65,14 +68,14 @@ class Locale {
 		$this->_loadedFiles[] = $filename;
 	}
 
-	public function read(string $section, string $key, bool $return = true) : ?string {
+	public function read(string $section, string $key, bool $return = true, bool $returnNull = false) : ?string {
 		if ($return && !empty($this->_strings[$section][$key]))
 			return $this->_strings[$section][$key];
 		else if (!$return && !empty($this->_strings[$section][$key]))
 			echo $this->_strings[$section][$key];
-		else if ($return)
+		else if ($return && !$returnNull)
 			return '<span class="string_not_found">String not found: ' . $section . '.' . $key . '</span>';
-		else
+		else if (!$returnNull)
 			echo '<span class="string_not_found">String not found ', $section, '.', $key , '</span>';
 
 		return null;
@@ -82,11 +85,35 @@ class Locale {
 		$this->_strings[$section][$key] = sprintf($this->_strings[$section][$key], $value);
 	}
 
-	private function loadLocaleInfo() : string {
-		if (file_exists($this->_config->read('path') . '/locales/' . $this->_config->read('locale') . '/langinfo.xml'))
-			$infoFile = $this->_config->read('locale');
-		else if ($this->_config->read('locale') != self::DEFAULT_LOCALE && file_exists($this->_config->read('path') . '/locales/' . self::DEFAULT_LOCALE) . '/langinfo.xml')
-			$infoFile = self::DEFAULT_LOCALE;
+	private function loadLocaleInfo(?int $localeID = null) : string {
+	    $localeLoadID = $this->_user->getLocaleID();
+	    $preferredLanguage = $this->detectLanguageSwitch();
+
+	    if (!empty($localeID) || empty($preferredLanguage)) {
+	        $query = QueryFactory::produce('select', '
+	            SELECT id, `code`
+	                FROM {db_prefix}locale
+	                WHERE id = :locale_id
+	        ');
+
+	        $query->setParams([
+	            'locale_id' => $localeID ?? $localeLoadID
+            ]);
+
+	        foreach($query->execute() as $locale) {
+                $localeLoadCode = $locale['code'];
+                $this->_id = $locale['id'];
+            }
+        }
+        else
+            $localeLoadCode = $preferredLanguage;
+
+		if (file_exists($this->_config->read('path') . '/locales/' . $localeLoadCode . '/langinfo.xml'))
+			$infoFile = $localeLoadCode;
+		else if (file_exists($this->_config->read('path') . '/locales/' . self::FALLBACK_LOCALE) . '/langinfo.xml') {
+            $infoFile = self::FALLBACK_LOCALE;
+            $this->_id = null;
+        }
 		else
             (new FatalError('Language files not found.'))->trigger();
 
@@ -114,8 +141,10 @@ class Locale {
 		$this->_softwareVersion = $info->software_version;
 		$this->_localeVersion = $info->locale_version;
 		$this->_copyright = $info->copyright;
+		$this->_continent = $info->continent;
 
-        $this->setLocaleID();
+		if (empty($this->_id))
+            $this->setLocaleID();
 	}
 
 	private function setLocaleID() : void {
@@ -126,7 +155,7 @@ class Locale {
         ');
 
         $query->setParams([
-            'locale_code' => $this->getCode()
+            'locale_code' => $this->_code
         ]);
 
         $result = $query->execute();
@@ -169,6 +198,28 @@ class Locale {
         return $homepage;
     }
 
+    private function detectLanguageSwitch() : ?string {
+        if (!empty($_SESSION[$this->_config->read('session_name') . '_locale_pref']) && !empty($locale = $_SESSION[$this->_config->read('session_name') . '_locale_pref']['locale_code'])) {
+            if (strlen($locale) != 5 || !preg_match('/([a-zA-Z]{2})\_([a-zA-Z]{2})/', $locale))
+                return null;
+
+            $query = QueryFactory::produce('select', '
+                SELECT id
+                    FROM {db_prefix}locale
+                    WHERE `code` = :lang_code
+            ');
+
+            $query->setParams([
+                'lang_code' => $locale
+            ]);
+
+            foreach ($query->execute() as $record)
+                return $locale;
+        }
+
+	    return null;
+    }
+
 	public function getID() : int {
 	    return $this->_id;
     }
@@ -188,6 +239,10 @@ class Locale {
 	public function getDialect() : string {
 		return $this->_dialect;
 	}
+
+	public function getContinent() : string {
+	    return $this->_continent;
+    }
 
 	public function getAuthor() : string {
 		return $this->_author;

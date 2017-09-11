@@ -20,8 +20,8 @@ echo "Preparing to release version $1"
 # --------------------------------------------------------------
 # Create the release directory, but only if it doesn't exist yet
 # --------------------------------------------------------------
-sudo mkdir -p -m 770 "$RELEASEDIR"
-sudo chown -R "$USER" "$RELEASEDIR"
+mkdir -p -m 770 "$RELEASEDIR"
+chown -R "$USER" "$RELEASEDIR"
 
 DESTINATION="$RELEASEDIR/$1"
 
@@ -39,14 +39,14 @@ if [ -d "$RELEASEDIR/$1" ]; then
 fi
 
 if [ "$OVERWRITE_EXISTING" == 1 ]; then
-    sudo rm -rf "$DESTINATION"
+    rm -rf "$DESTINATION"
 fi
 
 # ---------------------------------------
 # Create a new directory for this release
 # ---------------------------------------
-sudo mkdir -m 770 "$DESTINATION"
-sudo chown -R "$USER" "$DESTINATION"
+mkdir -m 770 "$DESTINATION"
+chown -R "$USER" "$DESTINATION"
 
 echo "$DESTINATION/${1// /_}.tar.gz"
 

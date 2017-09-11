@@ -8,9 +8,6 @@
  * @license     Apache 2.0
  */
 
-CREATE DATABASE IF NOT EXISTS DraiWiki_test;
-USE DraiWiki_test;
-
 CREATE TABLE IF NOT EXISTS drai_setting (
     `key` VARCHAR(32) NOT NULL,
     `value` VARCHAR(255) NOT NULL
@@ -58,6 +55,7 @@ CREATE TABLE IF NOT EXISTS drai_user (
     username VARCHAR(32) NOT NULL,
     password TEXT NOT NULL,
     email_address VARCHAR(32) NOT NULL,
+    locale_id INT UNSIGNED NOT NULL,
     sex INT NOT NULL DEFAULT 0,
     birthdate DATE,
     first_name VARCHAR(20),
@@ -73,8 +71,9 @@ CREATE TABLE IF NOT EXISTS drai_user (
 CREATE TABLE IF NOT EXISTS drai_article (
     id INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
     title VARCHAR(60) NOT NULL,
+    group_id INT UNSIGNED DEFAULT 0,
     locale_id INT UNSIGNED NOT NULL,
-    status INT NOT NULL DEFAULT 0,
+    status INT NOT NULL DEFAULT 1,
     FOREIGN KEY (locale_id) REFERENCES drai_locale(id)
 ) CHARACTER SET=utf8mb4;
 

@@ -31,15 +31,21 @@ function createRoutes() : array {
         // AJAX
         $routeCollector->get('/management/{subapp}/ajax/{ajax_request}', 'management');
         $routeCollector->get('/management/{subapp}/{section}/ajax/{ajax_request}', 'management');
+        $routeCollector->addRoute(['GET', 'POST'], '/article/{title}/{action}/ajax/{ajax_request}', 'article');
+        $routeCollector->get('/find/ajax/{ajax_request}', 'findarticle');
 
         $routeCollector->get('/stylesheet/{id}', 'stylesheet');
 
 	    $routeCollector->get('/activate/{code}', 'activate');
 	    $routeCollector->get('/article/{title}', 'article');
 		$routeCollector->addRoute(['GET', 'POST'], '/article/{title}/{action}', 'article');
+		$routeCollector->addRoute(['GET', 'POST'], '/article/{title}/{action}/{id}', 'article');
 
-		$routeCollector->get('/locale/{locale}', 'changelocale');
-		$routeCollector->get('/locale/{locale}/{article}', 'changelocale');
+		$routeCollector->addRoute(['GET', 'POST'], '/find', 'findarticle');
+
+        $routeCollector->post('/locale', 'changelocale');
+		$routeCollector->addRoute(['GET', 'POST'], '/locale/{code}', 'changelocale');
+		$routeCollector->get('/locale/{code}/{article}', 'changelocale');
 
 		$routeCollector->get('/resources', 'resources');
 		$routeCollector->get('/image/{filename}', 'imageviewer');

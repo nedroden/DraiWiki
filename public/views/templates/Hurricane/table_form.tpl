@@ -19,6 +19,7 @@
                         <option value="{$option['value']}"{if not $option['selected'] eq ''} selected{/if}>{$option['label']}</option>
                     {/foreach}
                     </select>
+                    <br class="clear" />
                 {/if}
             </div>
         {/if}

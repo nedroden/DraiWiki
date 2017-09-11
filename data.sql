@@ -109,11 +109,11 @@ INSERT INTO `drai_locale` (`id`, `code`) VALUES
 --
 
 INSERT INTO `drai_permission_group` (`id`, `title`, `permissions`) VALUES
-  (1, 'Admin', 'edit_articles:a;soft_delete_articles:a;manage_site:a;print_articles:a'),
-  (2, 'Banned', 'edit_articles:d;soft_delete_articles:d;print_articles:d'),
-  (3, 'Moderator', 'edit_articles:a;soft_delete_articles:a,print_articles:a'),
-  (4, 'Regular user', 'edit_articles:a;print_articles:a'),
-  (5, 'Guest', NULL);
+  (1, 'Admin', 'edit_articles:a;soft_delete_articles:a;manage_site:a;print_articles:a;view_article_history:a;upload_images:a'),
+  (2, 'Banned', 'edit_articles:d;soft_delete_articles:d;print_articles:d;view_article_history:d;upload_images:d'),
+  (3, 'Moderator', 'edit_articles:a;soft_delete_articles:a,print_articles:a;view_article_history:a;upload_images:a'),
+  (4, 'Regular user', 'edit_articles:a;print_articles:a;view_article_history:a;upload_images:a'),
+  (5, 'Guest', 'print_articles:a;view_article_history:a');
 
 --
 -- Dumping data for table `drai_setting`
@@ -138,7 +138,7 @@ INSERT INTO `drai_setting` (`key`, `value`) VALUES
   ('templates', 'Hurricane'),
   ('images', 'Hurricane'),
   ('skins', 'Hurricane'),
-  ('enable_registration', '0'),
+  ('enable_registration', '1'),
   ('enable_email_activation', '0'),
   ('wiki_email', 'draiwiki@localhost'),
   ('activation_code_length', '24'),
@@ -159,7 +159,11 @@ INSERT INTO `drai_setting` (`key`, `value`) VALUES
   ('min_image_width', '20'),
   ('min_image_height', '20'),
   ('max_image_description_length', '500'),
-  ('datetime_format', 'F j, Y, g:i:a');
+  ('datetime_format', 'F j, Y, g:i:a'),
+  ('locale', '1'),
+  ('max_search_term_length', '60'),
+  ('max_finder_body_length', '750'),
+  ('min_search_term_length', '3');
 
 --
 -- Dumping data for table `drai_user`

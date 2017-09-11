@@ -33,7 +33,6 @@ class Config {
             'images' => 'Hurricane',
             'skins' => 'Hurricane',
 
-            'locale' => 'en_US',
             'ssl_enabled' => false
         ];
     }

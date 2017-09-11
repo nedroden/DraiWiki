@@ -30,7 +30,7 @@ class SelectQuery extends Query {
             if ($this->hasTemplate)
                 (new DatabaseException($e->getMessage(), $this))->trigger();
 
-            die('Could not prepare query.');
+            die('Could not prepare query.' . (defined('DEBUG_ALWAYS') ? '<br />' . $e->getMessage() : null));
         }
         try {
             foreach ($this->params as $paramKey => $paramValue) {
@@ -43,7 +43,7 @@ class SelectQuery extends Query {
             if ($this->hasTemplate)
                 (new DatabaseException($e->getMessage(), $this))->trigger();
 
-            die('Could not execute query.');
+            die('Could not execute query.' . (defined('DEBUG_ALWAYS') ? '<br />' . $e->getMessage() : null));
         }
     }
 }

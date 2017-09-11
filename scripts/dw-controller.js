@@ -8,7 +8,7 @@
  * @license     Apache 2.0
  */
 
-$(document).ready(function() {
+$(function() {
     $('#dw-about-link').on('click', function (e) {
         e.preventDefault();
         new $.Zebra_Dialog({
@@ -26,6 +26,15 @@ $(document).ready(function() {
             scrollTop: $("#wrapper").offset().top
         }, 700);
     });
+
+    $('#wrapper select').select2();
+
+    let localeSwitcher = $('#locale_switcher');
+    if (localeSwitcher.length) {
+        localeSwitcher.change(function () {
+            $(this).closest('form').trigger('submit');
+        });
+    }
 });
 
 function requestConfirm(url) {

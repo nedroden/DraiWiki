@@ -17,33 +17,31 @@
  */
 
 return [
-	'home' => 'Home',
-	'login' => 'Login',
-	'register' => 'Register',
-    'logout' => 'Logout',
-    'manage' => 'Management',
-    'account_settings' => 'Account settings',
-    'find_article' => 'Find an article',
+	'home' => 'Voorpagina',
+	'login' => 'Inloggen',
+	'register' => 'Registreren',
+    'logout' => 'Uitloggen',
+    'manage' => 'Beheer',
+    'account_settings' => 'Accountinstellingen',
 
-	'search_for' => 'Find an article...',
-	'go' => 'Go',
-	'locale' => 'Locale',
-	'to_top' => 'To top',
+	'search_for' => 'Zoeken naar',
+	'go' => 'Ga',
+	'locale' => 'Taal',
+	'to_top' => 'Naar boven',
 
-	'hello' => 'Hello, <strong>%s</strong>!',
-    'sidebar' => 'Navigation',
+	'hello' => 'Hallo, <strong>%s</strong>!',
+    'sidebar' => 'Navigatie',
 
-    'side_main' => 'Main',
-    'side_tools' => 'Tools',
-    'random' => 'Random article',
+    'side_main' => 'Algemeen',
+    'side_tools' => 'Hulpmiddelen',
+    'random' => 'Willekeurig artikel',
 
-    'current_article' => 'Current article',
-    'view_article' => 'Read article',
-    'edit_article' => 'Edit article',
-    'print_article' => 'View in printable format',
-    'delete_article' => 'Delete article',
-    'view_history' => 'View history',
-    'assign_translations' => 'Assign translations',
+    'current_article' => 'Huidig artikel',
+    'view_article' => 'Lees artikel',
+    'edit_article' => 'Bewerk artikel',
+    'print_article' => 'Bekijk in printbaar formaat',
+    'delete_article' => 'Verwijder artikel',
+    'view_history' => 'Geschiedenis',
 
     'team_president' => 'President',
 
@@ -57,16 +55,16 @@ return [
 
     'access_denied' => 'Access denied',
 
-    'upload_images' => 'Upload images',
-    'resources' => 'Resources',
+    'upload_images' => 'Afbeeldingen uploaden',
+    'resources' => 'Bibliotheek',
 
-    'languages' => 'In other languages',
+    'languages' => 'In andere talen',
 
-    'continent_africa' => 'Africa',
-    'continent_asia' => 'Asia',
-    'continent_europe' => 'Europe',
-    'continent_northamerica' => 'North America',
-    'continent_southamerica' => 'South America',
-    'continent_oceania' => 'Oceania',
-    'continent_other' => 'Other'
+    'continent_africa' => 'Afrika',
+    'continent_asia' => 'Azië',
+    'continent_europe' => 'Europa',
+    'continent_northamerica' => 'Noord-Amerika',
+    'continent_southamerica' => 'Zuid-Amerika',
+    'continent_oceania' => 'Oceanië',
+    'continent_other' => 'Anders'
 ];

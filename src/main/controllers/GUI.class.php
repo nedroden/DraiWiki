@@ -16,6 +16,7 @@ if (!defined('DraiWiki')) {
     die('You\'re really not supposed to be here.');
 }
 
+use DraiWiki\src\core\controllers\QueryFactory;
 use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\main\models\DebugBarWrapper;
 use Dwoo\{Core, Data};
@@ -64,7 +65,8 @@ class GUI {
             'teams' => $this->_teamMembers,
             'packages' => $this->_libraries,
             'user' => $this->_user,
-            'display_cookie_warning' => $this->_config->read('display_cookie_warning') == 1
+            'display_cookie_warning' => $this->_config->read('display_cookie_warning') == 1,
+            'locale_continents' => $this->getLocalesByContinent()
         ]);
     }
 
@@ -167,6 +169,7 @@ class GUI {
             ['name' => 'Moment', 'href' => 'http://momentjs.com'],
             ['name' => 'Parsedown', 'href' => 'http://parsedown.org'],
             ['name' => 'PHP Debug Bar', 'href' => 'http://phpdebugbar.com/'],
+            ['name' => 'Select2', 'href' => 'https://select2.github.io'],
             ['name' => 'SimpleMail', 'href' => 'https://github.com/eoghanobrien/php-simple-mail'],
             ['name' => 'SimpleMDE', 'href' => 'https://simplemde.com'],
             ['name' => 'Sprintf.js', 'href' => 'https://github.com/alexei/sprintf.js'],
@@ -271,6 +274,11 @@ class GUI {
                 'label' => 'side_tools',
                 'visible' => true,
                 'items' => [
+                    'find_article' => [
+                        'label' => 'find_article',
+                        'href' => $this->_config->read('url') . '/index.php/find',
+                        'visible' => $this->_user->hasPermission('find_article')
+                    ],
                     'upload_images' => [
                         'label' => 'upload_images',
                         'href' => $this->_config->read('url') . '/index.php/imageupload',
@@ -291,11 +299,13 @@ class GUI {
         foreach ($items as $item) {
             if ($item['visible']) {
                 // Replace the label placeholders with localized labels
-                $item['label'] = $this->_locale->read('main', $item['label']);
+                if (empty($item['hardcoded']) || !$item['hardcoded'])
+                    $item['label'] = $this->_locale->read('main', $item['label']);
 
                 $visibleSubItems = [];
                 foreach ($item['items'] as $subItem) {
-                    $subItem['label'] = $this->_locale->read('main', $subItem['label']);
+                    if (empty($subItem['hardcoded']) || !$subItem['hardcoded'])
+                        $subItem['label'] = $this->_locale->read('main', $subItem['label']);
 
                     if ($subItem['visible'])
                         $visibleSubItems[] = $subItem;
@@ -308,6 +318,63 @@ class GUI {
         }
 
         echo $this->parseAndGet('sidebar', ['items' => $visibleTabs]);
+    }
+
+    private function getLocalesByContinent() : array {
+        $query = QueryFactory::produce('select', '
+            SELECT id
+                FROM {db_prefix}locale
+                WHERE id != :locale_id
+        ');
+
+        $query->setParams([
+            'locale_id' => $this->_locale->getID()
+        ]);
+
+        $locales = [];
+        foreach ($query->execute() as $foundLocale) {
+            $locale = new Locale($foundLocale['id']);
+
+            $localeContinent = $locale->getContinent();
+
+            if (empty($locales[$localeContinent])) {
+                $locales[$localeContinent] = [
+                    'label' => $this->_locale->read('main', 'continent_' . $localeContinent, true, true) ?? $this->_locale->read('main', 'continent_other'),
+                    'locales' => []
+                ];
+            }
+
+            $locales[$localeContinent]['locales'][] = [
+                'native' => $locale->getNative(),
+                'code' => $locale->getCode()
+            ];
+        }
+
+        $currentLocaleContinent = $this->_locale->getContinent();
+        if (empty($locales[$currentLocaleContinent])) {
+            $locales[$currentLocaleContinent] = [
+                'label' => $this->_locale->read('main', 'continent_' . $currentLocaleContinent, true, true) ?? $this->_locale->read('main', 'continent_other'),
+                'locales' => []
+            ];
+        }
+
+        $locales[$currentLocaleContinent]['locales'][] = [
+            'native' => $this->_locale->getNative(),
+            'code' => $this->_locale->getCode(),
+            'selected' => true
+        ];
+
+        uasort($locales, function(array $a, array $b) {
+            return $a['label'] <=> $b['label'];
+        });
+
+        foreach ($locales as $locale) {
+            uasort($locale['locales'], function(array $a, array $b) {
+                return $a['native'] <=> $b['native'];
+            });
+        }
+
+        return $locales;
     }
 
     private function createDebugBar(bool $return = false, string $part = 'both') : ?array {

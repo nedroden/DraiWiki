@@ -35,13 +35,11 @@ class User extends ModelHeader {
     private $_isRoot;
 
     private $_permissions;
+    private $_localeID;
 
     public function __construct(int $specificUser = null, array $details = []) {
         $this->loadConfig();
-        $this->loadLocale();
 
-        self::$locale->loadFile('auth');
-        self::$locale->loadFile('error');
         $this->_sessionUID = 0;
 
         $this->setSessionUID();
@@ -62,7 +60,7 @@ class User extends ModelHeader {
         $uid = $specificUser ?? $this->_sessionUID;
 
         $query = QueryFactory::produce('select', '
-            SELECT u.id, u.username, u.email_address, u.sex, u.birthdate, u.first_name, u.last_name, 
+            SELECT u.id, u.username, u.email_address, u.sex, u.birthdate, u.first_name, u.last_name, u.locale_id,
                     u.ip_address, u.registration_date, u.group_id, u.secondary_groups, u.activated, DATE(u.registration_date) AS registration_date,
                     g.title, g.color
                 FROM `{db_prefix}user` u
@@ -160,14 +158,14 @@ class User extends ModelHeader {
 
     private function setUserInfo(array $details) : void {
         $this->_id = $details['id'] ?? 0;
-        $this->_username = $details['username'] ?? self::$locale->read('auth', 'guest');
+        $this->_username = $details['username'] ?? (!empty(self::$locale) ? self::$locale->read('auth', 'guest') : null);
 
         /* Again, passwords are HASHED before they arrive here. Passwords are stored ONLY during the
          registration process and are removed as soon as the user has been added to the database */
         $this->_password = $details['password'] ?? '';
 
-        $this->_firstName = $details['first_name'] ?? self::$locale->read('auth', 'john');
-        $this->_lastName = $details['last_name'] ?? self::$locale->read('auth', 'doe');
+        $this->_firstName = $details['first_name'] ?? (!empty(self::$locale) ? self::$locale->read('auth', 'john') : null);
+        $this->_lastName = $details['last_name'] ?? (!empty(self::$locale) ? self::$locale->read('auth', 'doe') : null);
 
         $this->_primaryGroup = $details['group_id'] ?? 4;
 
@@ -200,6 +198,8 @@ class User extends ModelHeader {
             'title' => $details['title'] ?? '??',
             'color' => $details['color'] ?? '??'
         ];
+
+        $this->_localeID = $details['locale_id'] ?? self::$config->read('locale');
     }
 
     public function create(array &$errors) : void {
@@ -212,11 +212,11 @@ class User extends ModelHeader {
         $query = QueryFactory::produce('modify', '
             INSERT
                 INTO `{db_prefix}user` (
-                    username, `password`, email_address, sex, birthdate, first_name, last_name, 
+                    username, `password`, email_address, locale_id, sex, birthdate, first_name, last_name, 
                     ip_address, group_id, secondary_groups, activated
                 )
                 VALUES (
-                    :username, :passw, :email, :sex, :birthdate,
+                    :username, :passw, :email, :locale_id, :sex, :birthdate,
                     :first_name, :last_name, :ip_address,
                     :group_id, :secondary_groups, :activated
                 )
@@ -234,6 +234,7 @@ class User extends ModelHeader {
             'username' => $this->_username,
             'passw' => $this->_password,
             'email' => $this->_email,
+            'locale_id' => $this->_localeID,
             'sex' => $this->_sex,
             'birthdate' => $this->_birthdate,
             'first_name' => $this->_firstName,
@@ -395,6 +396,18 @@ class User extends ModelHeader {
         }
     }
 
+    public function updateInfoWithLocale() : void {
+        $this->loadLocale();
+        self::$locale->loadFile('auth');
+        self::$locale->loadFile('error');
+
+        if (empty($this->_username)) {
+            $this->_username = self::$locale->read('auth', 'guest');
+            $this->_firstName = self::$locale->read('auth', 'john');
+            $this->_lastName = self::$locale->read('auth', 'doe');
+        }
+    }
+
     public function hasPermission(string $key) : bool {
         if ($this->_isRoot)
             return true;
@@ -432,6 +445,10 @@ class User extends ModelHeader {
 
     public function getPrimaryGroup() : int {
         return $this->_primaryGroup;
+    }
+
+    public function getLocaleID() : int {
+        return $this->_localeID;
     }
 
     public function getGroups() : array {

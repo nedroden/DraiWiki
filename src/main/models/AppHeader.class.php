@@ -74,7 +74,8 @@ abstract class AppHeader {
         $context = [
             'title' => $this->title,
             'permissions' => [],
-            'has_sidebar' => $this->hasSidebar
+            'has_sidebar' => $this->hasSidebar,
+            'ajax' => $this->ajax
         ];
 
         return $context;
@@ -101,6 +102,7 @@ abstract class AppHeader {
         if (!empty($route->getParams()['ajax_request'])) {
             $this->ajax = true;
             $this->ignoreTemplates = 'both';
+            $this->hasSidebar = false;
             $this->_ajaxRequest = $route->getParams()['ajax_request'];
         }
 

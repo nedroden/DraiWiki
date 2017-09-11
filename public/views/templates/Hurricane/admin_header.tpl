@@ -16,6 +16,7 @@
         </script>
 
         <link rel="stylesheet" type="text/css" href="{$skin_url}admin" />
+        <link rel="stylesheet" type="text/css" href="{$node_url}/select2/dist/css/select2.min.css" />
         <link rel="stylesheet" type="text/css" href="{$node_url}/zebra_dialog/dist/css/flat/zebra_dialog.css" />
         <link rel="stylesheet" type="text/css" href="{$node_url}/font-awesome/css/font-awesome.min.css" />
         <link rel="icon" href="{$url}/favicon.png" sizes="16x16" type="image/png" />
@@ -23,6 +24,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <script type="text/javascript" src="{$node_url}/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="{$node_url}/select2/dist/js/select2.min.js"></script>
         <script type="text/javascript" src="{$node_url}/zebra_dialog/dist/zebra_dialog.min.js"></script>
         <script type="text/javascript" src="{$node_url}/sprintf-js/dist/sprintf.min.js"></script>
 

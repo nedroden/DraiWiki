@@ -22,13 +22,12 @@ return [
     'new_article' => 'New article',
     'history' => 'Viewing article history',
 
-    'last_updated_by' => 'Last updated by %s on %s',
+    'last_updated_by' => 'Als laatst bewerkt door %s op %s',
 
     'username' => 'User',
     'updated' => 'Date',
 
     'historical_version' => 'You are viewing a historical version of this article. To go to the current version, click on the \'read article\' link in the sidebar',
 
-    'assign_translations' => 'Assign translations',
-    'assign_translations_what' => 'This page allows you to link an article to articles in another languages. These links are used for identifying a certain article as a translation of another. Search for an article and click on the title, and the wiki software automatically adds the current article to the translation group of the selected article.'
+    'assign_translations' => 'Assign translations'
 ];

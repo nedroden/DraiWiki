@@ -65,8 +65,9 @@ class Main {
 		if ($this->_route->getApp() == 'stylesheet')
 		    $this->loadStylesheet();
 
-		$this->_locale = Registry::set('locale', new Locale());
-        Registry::set('user', new User());
+        $user = Registry::set('user', new User());
+        $this->_locale = Registry::set('locale', new Locale());
+        $user->updateInfoWithLocale();
 
 		$gui = Registry::set('gui', new GUI());
 		$gui->setData([

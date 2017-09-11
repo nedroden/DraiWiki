@@ -52,13 +52,20 @@ class Login extends ModelHeader {
             'value' => $_POST['email'] ?? ''
         ];
 
-        $this->_userInfo['password'] = [
-            'value' => (new PostRequest($_POST['password']))->getHash(),
-            'validator' => new InputValidator($_POST['password'])
-        ];
+        if (!empty($_POST['password'])) {
+            $this->_userInfo['password'] = [
+                'value' => (new PostRequest('password'))->getHash(),
+                'validator' => new InputValidator($_POST['password'])
+            ];
+        }
     }
 
     public function validate(array &$errors) : void {
+        if (empty($this->_userInfo['password'])) {
+            $errors['password'] = self::$locale->read('auth', 'please_enter_password');
+            return;
+        }
+
         foreach ($this->_userInfo as $key => $field) {
             if ($field['validator']->isTooShort($minLength = self::$config->read('min_' . $key . '_length')))
                 $errors[$key] = sprintf(self::$locale->read('auth', $key . '_too_short'), $minLength);

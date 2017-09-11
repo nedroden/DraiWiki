@@ -41,16 +41,18 @@ class App {
 
     private function detect() : string {
         $apps = [
-            'account' => 'DraiWiki\src\auth\controllers\AccountManager',
-            'activate' => 'DraiWiki\src\auth\controllers\Activate',
-            'article' => 'DraiWiki\src\main\controllers\Article',
-            'imageviewer' => 'DraiWiki\src\tools\controllers\ImageViewer',
-            'imageupload' => 'DraiWiki\src\tools\controllers\ImageUploader',
-            'login' => 'DraiWiki\src\auth\controllers\Login',
-            'logout' => 'DraiWiki\src\auth\controllers\Logout',
-            'management' => 'DraiWiki\src\admin\controllers\Management',
-            'random' => 'DraiWiki\src\main\controllers\Random',
-            'register' => 'DraiWiki\src\auth\controllers\Registration'
+            'account'       => 'DraiWiki\src\auth\controllers\AccountManager',
+            'activate'      => 'DraiWiki\src\auth\controllers\Activate',
+            'article'       => 'DraiWiki\src\main\controllers\Article',
+            'changelocale'  => 'DraiWiki\src\main\controllers\LocaleSwitcher',
+            'findarticle'   => 'DraiWiki\src\tools\controllers\ArticleFinder',
+            'imageviewer'   => 'DraiWiki\src\tools\controllers\ImageViewer',
+            'imageupload'   => 'DraiWiki\src\tools\controllers\ImageUploader',
+            'login'         => 'DraiWiki\src\auth\controllers\Login',
+            'logout'        => 'DraiWiki\src\auth\controllers\Logout',
+            'management'    => 'DraiWiki\src\admin\controllers\Management',
+            'random'        => 'DraiWiki\src\main\controllers\Random',
+            'register'      => 'DraiWiki\src\auth\controllers\Registration'
         ];
 
         if (empty($apps[$this->_currentApp])) {
@@ -100,10 +102,14 @@ class App {
 
     public function display() : void {
         if ($this->canAccess() && !$this->_cantProceed) {
-            if ($this->_appInfo['has_sidebar'])
-                Registry::get('gui')->displaySidebar($this->_appObject->getSidebarItems());
+            if (!$this->_appInfo['ajax'] || $this->_currentApp == 'management') {
+                if ($this->_appInfo['has_sidebar'])
+                    Registry::get('gui')->displaySidebar($this->_appObject->getSidebarItems());
 
-            $this->_appObject->display();
+                $this->_appObject->display();
+            }
+            else
+                $this->_appObject->printJSON();
         }
         else if ($this->_cantProceed) {
             (new CantProceedException($this->_locale->read('error', $this->_appObject->getCantProceedException())))->trigger();
@@ -123,7 +129,8 @@ class App {
             'title' => $this->canAccess() ? $info['title'] : $this->_locale->read('main', 'access_denied'),
             'has_sidebar' => $info['has_sidebar'],
             'ignore_templates' => $this->_appObject->getIgnoreTemplates(),
-            'header' => $this->_appObject->getAdditionalHeaders()
+            'header' => $this->_appObject->getAdditionalHeaders(),
+            'ajax' => $info['ajax']
         ];
 
         return $this->_appInfo;

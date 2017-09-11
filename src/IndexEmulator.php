@@ -17,8 +17,10 @@ use DraiWiki\src\main\controllers\Locale;
 
 define('DraiWiki', 1);
 define('EntryPointEmulation', 1);
+define('DEBUG_ALWAYS', false);
 
 require __DIR__ . '/../public/Config.php';
+require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../autoload.php';
 
 /**
@@ -42,6 +44,8 @@ function connectToDatabase(?Connection &$connection) : void {
 }
 
 function loadEnvironment() : void {
+    $user = Registry::set('user', new User());
     Registry::set('locale', new Locale());
-    Registry::set('user', new User());
+
+    $user->updateInfoWithLocale();
 }

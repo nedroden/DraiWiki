@@ -18,6 +18,7 @@ if (!defined('DraiWiki')) {
 
 use DraiWiki\src\core\controllers\QueryFactory;
 use DraiWiki\src\core\models\{InputValidator, PostRequest, Sanitizer};
+use DraiWiki\src\main\controllers\Locale;
 use Parsedown;
 
 class Article extends ModelHeader {
@@ -42,8 +43,13 @@ class Article extends ModelHeader {
     private $_lastUpdatedDate;
 
     private $_subApp;
+    private $_historyTable;
+    private $_request;
+    private $_viewingOldVersion = false;
+    private $_articleLocale;
+    private $_group;
 
-    public function __construct(?string $requestedArticle, bool $isHomepage) {
+    public function __construct(?string $requestedArticle, bool $isHomepage, ?int $historicalVersion = null) {
         $this->_requestedArticle = $requestedArticle;
         $this->_isHomepage = $isHomepage;
         $this->_parsedown = new Parsedown();
@@ -51,22 +57,28 @@ class Article extends ModelHeader {
         $this->loadLocale();
         $this->loadConfig();
         $this->loadUser();
+
         self::$locale->loadFile('article');
         self::$locale->loadFile('editor');
-        $this->load();
+        self::$locale->loadFile('find');
+
+        $this->load($historicalVersion);
     }
 
-    private function load() : void {
+    private function load(?int $historicalVersion = null) : void {
         if (strlen($this->_requestedArticle) > self::$config->read('max_title_length'))
             $this->_requestedArticle = self::$locale->read('article', 'new_article');
 
+        $historicalVersion = is_numeric($historicalVersion) ? $historicalVersion : null;
+
         $query = QueryFactory::produce('select', '
-            SELECT a.id, a.title, a.locale_id, a.status, h.body, h.updated, u.username
+            SELECT a.id, a.title, a.locale_id, a.status, a.group_id, h.body, h.updated, u.username
                 FROM {db_prefix}article a
                 INNER JOIN {db_prefix}article_history h ON (a.id = h.article_id)
                 INNER JOIN `{db_prefix}user` u ON (h.user_id = u.id)
                 WHERE ' . ($this->_isHomepage ? 'a.id' : 'a.title') . ' = :article
-                AND STATUS = 1
+                ' . (!empty($historicalVersion) ? 'AND h.id = ' . $historicalVersion : '') . '
+                AND `status` = 1
                 ORDER BY h.updated DESC
                 LIMIT 1
         ');
@@ -76,6 +88,15 @@ class Article extends ModelHeader {
         ]);
 
         $result = $query->execute();
+
+        if (!empty($historicalVersion) && count($result) != 0)
+            $this->_viewingOldVersion = true;
+
+        // @todo Add error message if a historical version doesn't exist
+        else if (!empty($historicalVersion) && count($result) == 0) {
+            $this->load();
+            return;
+        }
 
         if (count($result) == 0) {
             $this->_forceEdit = true;
@@ -104,6 +125,10 @@ class Article extends ModelHeader {
         $this->_details = [
             'status' => $status
         ];
+
+        $this->_articleLocale = !empty($info['locale_id']) ? new Locale($info['locale_id']) : self::$locale->getID();
+
+        $this->_group = $info['group_id'] ?? 0;
     }
 
     private function getAdditionalData() : array {
@@ -112,6 +137,9 @@ class Article extends ModelHeader {
         if ($this->_isEditing || $this->_forceEdit) {
             $data['action'] = self::$config->read('url') . '/index.php/article/' . $this->_titleSafe . '/edit';
         }
+
+        if (!empty($this->_historyTable))
+            $data['history_table'] = $this->_historyTable;
 
         return $data;
     }
@@ -164,6 +192,10 @@ class Article extends ModelHeader {
                 return self::$locale->read('article', 'deleting');
             case 'edit':
                 return self::$locale->read('article', 'editing') . $this->_title;
+            case 'translations':
+                return self::$locale->read('article', 'assign_translations');
+            case 'history':
+                return self::$locale->read('article', 'history');
             default:
                 return $this->_title;
         }
@@ -176,10 +208,12 @@ class Article extends ModelHeader {
             'id' => $this->_id,
             'title' => ucfirst($this->_title),
             'title_real' => $this->_title,
+            'title_safe' => $this->_titleSafe,
             'body' => $this->_body,
             'body_unparsed' => $this->_bodyUnparsed,
             'body_safe' => $this->_bodySafeHTML,
-            'last_updated_by' => $this->getLastUpdatedTime()
+            'last_updated_by' => $this->getLastUpdatedTime(),
+            'historical_version' => $this->_viewingOldVersion
         ] + $additionalData;
     }
 
@@ -337,6 +371,140 @@ class Article extends ModelHeader {
         return true;
     }
 
+    public function getHistory(int $start = 0) : array {
+        $query = QueryFactory::produce('select', '
+            SELECT h.id, h.updated, u.username
+                FROM {db_prefix}article_history h
+                LEFT JOIN {db_prefix}user u ON (u.id = h.user_id)
+                WHERE article_id = :article_id
+                ORDER BY updated DESC
+                LIMIT ' . $start . ', ' . self::$config->read('max_results_per_page'));
+
+        $query->setParams([
+            'article_id' => $this->_id
+        ]);
+
+        $result = [];
+        foreach ($query->execute() as $article) {
+            $result[] = [
+                'updated' => '<a href=\"' . self::$config->read('url') . '/index.php/article/' . $this->_titleSafe . '/history/' . $article['id'] . '\">' . $article['updated'] . '</a>',
+                'username' => $article['username']
+            ];
+        }
+
+        return $result;
+    }
+
+    public function createHistoryTable() : void {
+        $columns = [
+            'updated',
+            'username'
+        ];
+
+        $table = new Table('article', $columns, []);
+        $table->setID('user_list');
+
+        $table->create();
+        $this->_historyTable = $table->returnTable();
+    }
+
+    private function getHistoryCount() : int {
+        $query = QueryFactory::produce('select', '
+            SELECT COUNT(id) AS num
+                FROM `{db_prefix}article_history`
+                WHERE article_id = :article_id
+        ');
+
+        $query->setParams([
+            'article_id' => $this->_id
+        ]);
+
+        foreach ($query->execute() as $record)
+            return (int) $record['num'];
+
+        return 0;
+    }
+
+    private function getStart() : int {
+        if (!empty($_REQUEST['start']) && is_numeric($_REQUEST['start']) && ((int) $_REQUEST['start']) <= $this->getHistoryCount()) {
+            return (int) $_REQUEST['start'];
+        }
+        else
+            return 0;
+    }
+
+    public function generateJSON() : string {
+        if ($this->_request == 'getlist') {
+            $historyCount = $this->getHistoryCount();
+
+            $start = $this->getStart();
+            $end = $start + self::$config->read('max_results_per_page');
+
+            if ($end > $historyCount)
+                $end = $start + ($historyCount % self::$config->read('max_results_per_page'));
+
+            $jsonRequest = '
+            {
+                "start": "' . $start . '",
+                "end": "' . $end . '",
+                "total_records": "' . $historyCount . '",
+                "displayed_records": "' . self::$config->read('max_results_per_page') . '",
+                "data": [';
+
+            $jsonHistory = [];
+            foreach ($this->getHistory() as $article) {
+                $jsonHistory[] = '
+                {
+                    "updated": "' . $article['updated'] . '",
+                    "username": "' . $article['username'] . '"
+                }';
+            }
+
+            $jsonRequest .= implode(',', $jsonHistory) . '
+                ]
+            }';
+
+            return $jsonRequest;
+        }
+
+        else
+            return '';
+    }
+
+    public function getSidebarLanguages() : array {
+        if ($this->_forceEdit || $this->_isEditing)
+            return [];
+
+        $query = QueryFactory::produce('select', '
+			SELECT a.title, a.locale_id
+				FROM {db_prefix}article a
+				INNER JOIN {db_prefix}locale l ON (a.locale_id = l.id)
+				WHERE a.locale_id != :locale
+				AND a.group_id = :group
+				AND a.group_id != 0
+		');
+
+        $query->setParams([
+            'locale' => $this->_articleLocale->getID(),
+            'group' => $this->_group
+        ]);
+
+        $result = $query->execute();
+        $locales = [];
+        foreach ($result as $locale) {
+            $localeObject = $locale['locale_id'] == self::$locale->getID() ? self::$locale : new Locale($locale['locale_id']);
+
+            $locales[] = [
+                'label' => $localeObject->getNative(),
+                'href' => self::$config->read('url') . '/index.php/locale/' . $localeObject->getCode() . '/' . Sanitizer::addUnderscores($locale['title']),
+                'visible' => true,
+                'hardcoded' => true
+            ];
+        }
+
+        return $locales;
+    }
+
     public function getLastUpdatedTime() : string {
         return sprintf(self::$locale->read('article', 'last_updated_by'), $this->_lastUpdatedUsername, $this->_lastUpdatedDate);
     }
@@ -357,15 +525,37 @@ class Article extends ModelHeader {
         return $this->_forceEdit || $this->_isEditing;
     }
 
+    public function getArticleLocale() : Locale {
+        return $this->_articleLocale;
+    }
+
+    public function getGroup() : int {
+        return $this->_group;
+    }
+
     public function setIsEditing(bool $status) : void {
         $this->_isEditing = $status;
     }
 
     public function determineView() : string {
-        return ($this->_isEditing || $this->_forceEdit) ? 'editor' : 'article';
+        if ($this->_isEditing || $this->_forceEdit)
+            return 'editor';
+
+        switch ($this->_subApp) {
+            case 'translations':
+                return 'assign_translations';
+            case 'history':
+                return 'history';
+            default:
+                return 'article';
+        }
     }
 
     public function setSubApp(string $subApp) : void {
         $this->_subApp = $subApp;
+    }
+
+    public function setRequest(string $request) : void {
+        $this->_request = $request;
     }
 }

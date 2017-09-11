@@ -18,12 +18,13 @@ body, h1, h2, h3, h4, h5, h6 {
     letter-spacing: 0.5px;
 }
 
-#header_section, #copyright .align_center, #copyright .align_right {
+#header_section, #copyright .align_center, #copyright .align_right, #content_header {
     display: none;
 }
 
 .col60, #content {
     width: 100%;
+    border: 0;
 }
 
 #content {

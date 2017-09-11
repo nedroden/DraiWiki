@@ -1,5 +1,4 @@
 <div id="sidebar" class="col20">
-<h1>{$locale->read('main', 'sidebar')}</h1>
     {foreach $items item}
         <div class="sidebar_header">{$item['label']}</div>
         <ul>
