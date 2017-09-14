@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table>
+    <name>agreement</name>
+    <columns>
+        <column>
+            <name></name>
+            <type></type>
+            <unsigned>1</unsigned>
+            <incr>1</incr>
+            <is_pkey>1</is_pkey>
+            <null>0</null>
+        </column>
+    </columns>
+</table>

@@ -15,7 +15,6 @@ use DraiWiki\src\core\controllers\{Connection, Registry};
 use DraiWiki\src\core\models\SettingsImporter;
 use DraiWiki\src\main\controllers\Locale;
 
-define('DraiWiki', 1);
 define('EntryPointEmulation', 1);
 define('DEBUG_ALWAYS', false);
 

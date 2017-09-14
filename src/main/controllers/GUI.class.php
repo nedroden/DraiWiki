@@ -173,6 +173,7 @@ class GUI {
             ['name' => 'SimpleMail', 'href' => 'https://github.com/eoghanobrien/php-simple-mail'],
             ['name' => 'SimpleMDE', 'href' => 'https://simplemde.com'],
             ['name' => 'Sprintf.js', 'href' => 'https://github.com/alexei/sprintf.js'],
+            ['name' => 'TypeWatch', 'href' => 'https://github.com/dennyferra/TypeWatch'],
             ['name' => 'Typo JS', 'href' => 'https://github.com/cfinke/Typo.js/'],
             ['name' => 'Zebra Dialog', 'href' => 'https://github.com/stefangabos/Zebra_Dialog']
         ];

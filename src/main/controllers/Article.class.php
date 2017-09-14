@@ -95,6 +95,10 @@ class Article extends AppHeader {
         }
     }
 
+    private function handleTranslationAssignmentRequest() : void {
+
+    }
+
     private function delete() : void {
         if ($this->_model->getIsHomepage()) {
             $this->cantProceedException = 'cannot_delete_homepage';
@@ -110,6 +114,8 @@ class Article extends AppHeader {
     public function execute() : void {
         if (!empty($_POST) && $this->_subApp == 'edit')
             $this->handleEditRequest();
+        else if (!empty($_POST) && $this->_subApp == 'translations')
+            $this->handleTranslationAssignmentRequest();
 
         if ($this->ajax && !empty($this->parsedAJAXRequest['getlist'])) {
             $this->_model->setRequest('getlist');
