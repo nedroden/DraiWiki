@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <table>
     <name>agreement</name>
+    <charset>utf8mb4</charset>
     <columns>
         <column>
             <name></name>

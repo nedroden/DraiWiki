@@ -37,9 +37,11 @@ function start(?Config &$config) : void {
     $config = Registry::set('config', new Config());
 }
 
-function connectToDatabase(?Connection &$connection) : void {
+function connectToDatabase(?Connection &$connection, bool $loadSettings = true) : void {
     $connection = Registry::set('connection', new Connection());
-    SettingsImporter::execute();
+
+    if ($loadSettings)
+        SettingsImporter::execute();
 }
 
 function loadEnvironment() : void {

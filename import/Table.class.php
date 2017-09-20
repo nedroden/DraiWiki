@@ -17,25 +17,34 @@ use SimpleXMLElement;
 class Table {
 
     private $_name;
-    private $_type;
-    private $_isUnsigned;
-    private $_autoIncrement;
-    private $_isPrimaryKey;
-    private $_canBeNull;
+    private $_columns;
+    private $_charset;
+
+    /**
+     * @todo Replace with user-defined variable
+     */
+    private const DB_PREFIX = 'drai_';
 
     public function __construct(SimpleXMLElement $xmlElement) {
-        $this->_name = $xmlElement['name'];
-        $this->_type = $xmlElement['type'] ?? 'text';
-        $this->_isUnsigned = $xmlElement['unsigned'] ?? 0;
-        $this->_autoIncrement = $xmlElement['incr'] ?? 0;
-        $this->_isPrimaryKey = $xmlElement['is_pkey'] ?? 0;
-        $this->_canBeNull = $xmlElement['null'] ?? 0;
+        $this->_name = $xmlElement->name;
+        $this->_charset = $xmlElement->charset;
+
+        $this->_columns = [];
+
+        foreach ($xmlElement->_columns as $column)
+            $this->_columns[] = new Column($this->_name, $column);
     }
 
     public function checkIfExists() : bool {
         $query = QueryFactory::produce('select', '
-            
+            SHOW TABLES LIKE :name
         ');
+
+        $query->setParams([
+            'name' => self::DB_PREFIX . $this->_name
+        ]);
+
+        return count($query->execute()) > 0;
     }
 
     public function create() : void {
@@ -52,25 +61,5 @@ class Table {
 
     public function getName() : string {
         return $this->_name;
-    }
-
-    public function getType() : string {
-        return $this->_type;
-    }
-
-    public function getUnsigned() : bool {
-        return $this->_isUnsigned;
-    }
-
-    public function getAutoIncrement() : bool {
-        return $this->_autoIncrement;
-    }
-
-    public function getIsPrimaryKey() : bool {
-        return $this->_isPrimaryKey;
-    }
-
-    public function getCanBeNull() : bool {
-        return $this->_canBeNull;
     }
 }

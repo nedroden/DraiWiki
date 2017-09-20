@@ -39,7 +39,6 @@ class Importer {
     }
 
     public function loadTables() : void {
-
         $files = scandir(__DIR__ . '/../tables');
 
         foreach ($files as $file) {
@@ -71,7 +70,9 @@ class Importer {
 
 // Start index emulation
 $config = null;
+$connection = null;
 start($config);
+connectToDatabase($connection);
 
 // Start importing
 $importer = new Importer();
