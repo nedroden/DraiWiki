@@ -17,7 +17,7 @@
  */
 
 return [
-    'something_went_wrong' => 'Something went wrong',
+    'something_went_wrong' => 'Κάτο πήγε στραβά',
     'generic_error_message' => 'An error occurred. It is possible the error will go away after refreshing the page. If refreshing the page doesn\'t help, please try again later or contact the administrator',
     'fatal_core_exception' => 'Fatal core exception',
     'what_is_a_fatal_core_exception' => 'A fatal core exception has just occurred. A core exception is an error in one of the core classes of DraiWiki. These exceptions usually indicate missing files, but they can also be caused by other problems. Try refreshing the page to see if that helps or contact an administrator if you keep seeing this page.<br /><br />We sincerely apologize for any inconvenience this has caused you.',
