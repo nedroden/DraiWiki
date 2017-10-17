@@ -31,7 +31,7 @@ class Table {
 
         $this->_columns = [];
 
-        foreach ($xmlElement->_columns as $column)
+        foreach ($xmlElement->columns as $column)
             $this->_columns[] = new Column($this->_name, $column);
     }
 

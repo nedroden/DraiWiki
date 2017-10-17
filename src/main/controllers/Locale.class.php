@@ -108,7 +108,7 @@ class Locale {
         else
             $localeLoadCode = $preferredLanguage;
 
-		if (file_exists($this->_config->read('path') . '/locales/' . $localeLoadCode . '/langinfo.xml'))
+		if (!empty($localeLoadCode) && file_exists($this->_config->read('path') . '/locales/' . $localeLoadCode . '/langinfo.xml'))
 			$infoFile = $localeLoadCode;
 		else if (file_exists($this->_config->read('path') . '/locales/' . self::FALLBACK_LOCALE) . '/langinfo.xml') {
             $infoFile = self::FALLBACK_LOCALE;
