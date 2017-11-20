@@ -117,6 +117,11 @@ abstract class AppHeader {
         foreach ($requests as $parts) {
             $parsed = explode('_', $parts);
 
+            /*
+             * Since this is a little confusing, let me explain. You can add values to 'requests' by
+             * separating the key and value with an underscore. So, for example, if you need your
+             * results to start at 15, you could do something like /ajax/start_15.
+             */
             if (count($parsed) == 2)
                 $parameters[$parsed[0]] = $parsed[1];
             else if (count($parsed) == 1)

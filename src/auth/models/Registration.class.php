@@ -19,7 +19,7 @@ if (!defined('DraiWiki')) {
 use DraiWiki\src\core\controllers\QueryFactory;
 use DraiWiki\src\core\models\{InputValidator, PostRequest};
 use DraiWiki\src\main\models\ModelHeader;
-use Parsedown;
+use Aidantwoods\SecureParsedown\SecureParsedown;
 
 class Registration extends ModelHeader {
 
@@ -32,7 +32,8 @@ class Registration extends ModelHeader {
         $this->loadConfig();
         self::$locale->loadFile('auth');
 
-        $this->_parsedown = new Parsedown();
+        $this->_parsedown = new SecureParsedown();
+        $this->_parsedown->setSafeMode(true);
         $this->getAgreement();
 
         $this->_formData = [];

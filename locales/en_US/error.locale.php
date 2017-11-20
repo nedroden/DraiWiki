@@ -47,5 +47,7 @@ return [
     'image_not_found' => 'Could not load the requested image. Are you sure it exists?',
     'user_not_found' => 'User not found',
 
-    'section_not_found' => 'Section not found'
+    'section_not_found' => 'Section not found',
+    'invalid_article' => 'Article not found or no article specified',
+    'group_invalid_locale' => 'Invalid locale group. Keep in mind that you cannot add two articles written in the same language to the same translation group.'
 ];

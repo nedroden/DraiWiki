@@ -109,8 +109,8 @@ INSERT INTO `drai_locale` (`id`, `code`) VALUES
 --
 
 INSERT INTO `drai_permission_group` (`id`, `title`, `permissions`) VALUES
-  (1, 'Admin', 'edit_articles:a;soft_delete_articles:a;manage_site:a;print_articles:a;view_article_history:a;upload_images:a;print_articles:a;find_article:a;assign_translations:a'),
-  (2, 'Banned', 'edit_articles:d;soft_delete_articles:d;print_articles:d;view_article_history:d;upload_images:d;print_articles:d;find_article:d;assign_translations:d'),
+  (1, 'Admin', 'edit_articles:a;soft_delete_articles:a;manage_site:a;print_articles:a;view_article_history:a;upload_images:a;print_articles:a;find_article:a;assign_translations:a;remove_from_translation_group:a'),
+  (2, 'Banned', 'edit_articles:d;soft_delete_articles:d;print_articles:d;view_article_history:d;upload_images:d;print_articles:d;find_article:d;assign_translations:d;remove_from_translation_group:d'),
   (3, 'Moderator', 'edit_articles:a;soft_delete_articles:a,print_articles:a;view_article_history:a;upload_images:a;print_articles:a;find_article:a;assign_translations:a'),
   (4, 'Regular user', 'edit_articles:a;print_articles:a;view_article_history:a;upload_images:a;print_articles:a;find_article:a;assign_translations:a'),
   (5, 'Guest', 'print_articles:a;view_article_history:a;print_articles:a;find_article:a');

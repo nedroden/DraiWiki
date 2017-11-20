@@ -4,8 +4,56 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f9fd9a8534338c66103132e3ce0e1318",
+    "content-hash": "67ab2970127e8a20b5c8ad7085fb84ad",
     "packages": [
+        {
+            "name": "aidantwoods/secureparsedown",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aidantwoods/SecureParsedown.git",
+                "reference": "11130c1823d9900ce6334a93101eecf3f22564ed"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aidantwoods/SecureParsedown/zipball/11130c1823d9900ce6334a93101eecf3f22564ed",
+                "reference": "11130c1823d9900ce6334a93101eecf3f22564ed",
+                "shasum": ""
+            },
+            "require": {
+                "erusev/parsedown": "^1.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Aidantwoods\\SecureParsedown\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aidan Woods",
+                    "email": "aidantwoods@gmail.com",
+                    "homepage": "https://aidanwoods.com"
+                }
+            ],
+            "description": "A Parsedown extension for Security.",
+            "homepage": "https://github.com/aidantwoods/SecureParsedown/wiki",
+            "keywords": [
+                "markdown",
+                "parsedown",
+                "parser",
+                "secure",
+                "secureparsedown"
+            ],
+            "time": "2017-07-02T03:21:51+00:00"
+        },
         {
             "name": "dwoo/dwoo",
             "version": "1.3.6",

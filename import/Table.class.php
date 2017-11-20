@@ -26,12 +26,12 @@ class Table {
     private const DB_PREFIX = 'drai_';
 
     public function __construct(SimpleXMLElement $xmlElement) {
-        $this->_name = $xmlElement->name;
-        $this->_charset = $xmlElement->charset;
+        $this->_name = $xmlElement['name'];
+        $this->_charset = $xmlElement['charset'];
 
         $this->_columns = [];
 
-        foreach ($xmlElement->columns as $column)
+        foreach ($xmlElement['columns'] as $column)
             $this->_columns[] = new Column($this->_name, $column);
     }
 

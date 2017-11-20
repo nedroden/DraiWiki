@@ -20,7 +20,7 @@ use DraiWiki\src\core\controllers\QueryFactory;
 use DraiWiki\src\core\models\InputValidator;
 use DraiWiki\src\core\models\Sanitizer;
 use DraiWiki\src\main\models\ModelHeader;
-use Parsedown;
+use Aidantwoods\SecureParsedown\SecureParsedown;
 
 /**
  * Class ArticleFinder
@@ -96,12 +96,18 @@ class ArticleFinder extends ModelHeader {
     private $_request;
 
     /**
+     * @var bool $_ignoreLocales If set to false, this will only load articles written in the interface language
+     */
+    private $_ignoreLocales;
+
+    /**
      * Creates a new object of the ArticleFinder class.
      * @param string $unparsedSearchTerms The value of $_POST['search_terms']
      * @param int $start When to start adding found articles to the articles array
      * @param int $maxResults How many articles should be displayed per page?
+     * @param bool $ignoreLocales If set to true, the article finder will load results from ALL locales
      */
-    public function __construct(?string $unparsedSearchTerms = '', int $start = 0, int $maxResults = 15) {
+    public function __construct(?string $unparsedSearchTerms = '', int $start = 0, int $maxResults = 15, bool $ignoreLocales = false) {
         $this->_unparsedSearchTerms = trim($unparsedSearchTerms);
         $this->loadLocale();
         $this->loadUser();
@@ -109,9 +115,11 @@ class ArticleFinder extends ModelHeader {
         $this->_start = $start;
         $this->_maxResults = $maxResults;
         $this->_hasLoadedArticles = false;
+        $this->_ignoreLocales = $ignoreLocales;
 
         self::$locale->loadFile('find');
-        $this->_parsedown = new Parsedown();
+        $this->_parsedown = new SecureParsedown();
+        $this->_parsedown->setSafeMode(true);
     }
 
     /**
@@ -213,7 +221,7 @@ class ArticleFinder extends ModelHeader {
     }
 
     /**
-     * Uses the parsed search terms to find matching articles
+     * Use the parsed search terms to find matching articles
      * @return void
      */
     public function loadResults() : void {
@@ -265,13 +273,17 @@ class ArticleFinder extends ModelHeader {
                 FROM {db_prefix}article_history h
                 INNER JOIN {db_prefix}article a ON (a.id = h.article_id)
                 ' . $conditions . '
-                AND a.locale_id = :locale_id
+                ' . ($this->_ignoreLocales ? '' : 'AND a.locale_id = :locale_id') . '
                 AND a.status = 1
                 GROUP BY a.id
                 ORDER BY h.updated DESC
         ');
 
-        $query->setParams(array_merge($params, ['locale_id' => self::$locale->getID()]));
+        if (!$this->_ignoreLocales)
+            $query->setParams(array_merge($params, ['locale_id' => self::$locale->getID()]));
+        else
+            $query->setParams($params);
+
         $this->sort($query->execute());
         $this->_hasLoadedArticles = true;
     }
@@ -432,11 +444,13 @@ class ArticleFinder extends ModelHeader {
 
             $json = [];
             foreach ($this->_articles as $article) {
+                // This code will be replaced asap with json_encode
                 $json[] = '
                 {
-                    "title": "' . addslashes($article['title']) . '",
-                    "body": "' . addslashes($article['body_shortened']) . '",
-                    "href": "' . addslashes($article['href']) . '"
+                    "id": ' . $article['id'] . ',
+                    "title": "' . str_replace("\n", '<br />', addcslashes($article['title'], '"')) . '",
+                    "body": "' . str_replace("\n", '<br />', addcslashes($article['body_shortened'], '"')) . '",
+                    "href": "' . str_replace("\n", '<br />', addcslashes($article['href'], '"')) . '"
                 }';
             }
 

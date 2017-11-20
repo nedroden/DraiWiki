@@ -767,7 +767,7 @@ tr.selected td {
 }
 
 /* The article finder */
-#search {
+#search, #assign_translations_box {
     font-size: 200%;
     width: 100%;
     margin-top: 15px;
@@ -831,6 +831,11 @@ h1 .highlighted {
 
 #translation_assignment #results {
     padding: 20px;
+}
+
+.translation_group_search_result a {
+    margin-left: 20px;
+    color: #727272;
 }
 
 /* Responsive theming */

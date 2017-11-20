@@ -18,7 +18,7 @@ if (!defined('DraiWiki')) {
 
 use DraiWiki\src\main\models\ModelHeader;
 use DraiWiki\src\main\models\Table;
-use Parsedown;
+use Aidantwoods\SecureParsedown\SecureParsedown;
 
 class ImageViewer extends ModelHeader {
 
@@ -30,7 +30,8 @@ class ImageViewer extends ModelHeader {
 
         self::$locale->loadFile('tools');
 
-        $this->_parsedown = new Parsedown();
+        $this->_parsedown = new SecureParsedown();
+        $this->_parsedown->setSafeMode(true);
     }
 
     public function loadImage() : bool {

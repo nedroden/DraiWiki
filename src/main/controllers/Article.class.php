@@ -96,7 +96,18 @@ class Article extends AppHeader {
     }
 
     private function handleTranslationAssignmentRequest() : void {
+        if (!empty($_POST['article_id'])) {
+            $error = $this->_model->updateGroupId();
 
+            if (!empty($error)) {
+                $this->cantProceedException = $error;
+                return;
+            }
+
+            $this->redirectTo(self::$config->read('url') . '/index.php/article/' . $this->_model->getSafeTitle());
+        }
+        else
+            $this->cantProceedException = 'invalid_article';
     }
 
     private function delete() : void {
@@ -190,7 +201,7 @@ class Article extends AppHeader {
 
     public function getAdditionalHeaders() : ?string {
         return $this->_subApp == 'print' && self::$user->hasPermission('print_articles') ? '
-            <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet" />
             <link rel="stylesheet" type="text/css" href="' . self::$config->read('url') . '/index.php/stylesheet/print" />' : null;
     }
 

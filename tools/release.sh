@@ -11,11 +11,11 @@ OVERWRITE_EXISTING=0
 echo ":: DraiWiki release utility"
 
 if [ -z "$1" ]; then
-    echo "[error] No version number specified."
+    echo "==> Error: No version number specified."
     exit
 fi
 
-echo "Preparing to release version $1"
+echo "==> Preparing to release version $1"
 
 # --------------------------------------------------------------
 # Create the release directory, but only if it doesn't exist yet
@@ -29,7 +29,7 @@ DESTINATION="$RELEASEDIR/$1"
 # Overwrite the existing directory if there is one
 # ------------------------------------------------
 if [ -d "$RELEASEDIR/$1" ]; then
-    echo "Directory already exists. Overwrite? [Y/n]"
+    echo "==> Directory already exists. Overwrite? [Y/n]"
 
     read canOverwrite
 

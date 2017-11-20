@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/Chistaen/DraiWiki.git"
+    "url": "git+ssh://git@github.com/nedroden/DraiWiki.git"
   },
   "author": "Robert Monden",
   "license": "SEE LICENSE IN 'LICENSE'",
   "bugs": {
-    "url": "https://github.com/Chistaen/DraiWiki/issues"
+    "url": "https://github.com/nedroden/DraiWiki/issues"
   },
-  "homepage": "https://github.com/Chistaen/DraiWiki#readme",
+  "homepage": "https://github.com/nedroden/DraiWiki#readme",
   "keywords": [
     "revolutionary",
     "wiki",

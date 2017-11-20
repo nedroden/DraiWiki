@@ -66,8 +66,8 @@ class LocaleSwitcher extends ModelHeader {
 
         $this->_destination = self::$config->read('url');
 
-        if (!empty($route['article']))
-            $this->_destination .= '/index.php/article/' . Sanitizer::addUnderscores($route['article']);
+        if (!empty($this->_params['article']))
+            $this->_destination .= '/index.php/article/' . Sanitizer::addUnderscores($this->_params['article']);
 
         return true;
     }

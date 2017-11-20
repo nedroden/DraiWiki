@@ -23,5 +23,5 @@ function loadMoreSearchResults(start_at, current_terms) {
             $('#more_results').hide();
         else
             $('#more_results').click(loadMoreSearchResults(end, current_terms));
-    })
+    });
 }

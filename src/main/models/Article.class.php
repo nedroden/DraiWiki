@@ -19,7 +19,7 @@ if (!defined('DraiWiki')) {
 use DraiWiki\src\core\controllers\QueryFactory;
 use DraiWiki\src\core\models\{InputValidator, PostRequest, Sanitizer};
 use DraiWiki\src\main\controllers\Locale;
-use Parsedown;
+use Aidantwoods\SecureParsedown\SecureParsedown;;
 
 class Article extends ModelHeader {
 
@@ -52,7 +52,8 @@ class Article extends ModelHeader {
     public function __construct(?string $requestedArticle, bool $isHomepage, ?int $historicalVersion = null) {
         $this->_requestedArticle = $requestedArticle;
         $this->_isHomepage = $isHomepage;
-        $this->_parsedown = new Parsedown();
+        $this->_parsedown = new SecureParsedown();
+        $this->_parsedown->setSafeMode(true);
 
         $this->loadLocale();
         $this->loadConfig();
@@ -136,6 +137,15 @@ class Article extends ModelHeader {
 
         if ($this->_isEditing || $this->_forceEdit) {
             $data['action'] = self::$config->read('url') . '/index.php/article/' . $this->_titleSafe . '/edit';
+        }
+        else if ($this->_subApp == 'translations') {
+            $data['action'] = self::$config->read('url') . '/index.php/article/' . $this->_titleSafe . '/assigntranslations';
+
+            // Yep. We know. Really. But unfortunately Dwoo doesn't have a built-in sprintf function, so we have to do it like this
+            $data['remove_text'] = sprintf(self::$locale->read('article', 'declare_independence_desc'),
+                            self::$config->read('url') . '/index.php/' . $this->_titleSafe . '/removetranslationgroup');
+
+            $data['can_declare_independence'] = self::$user->hasPermission('remove_from_translation_group') && $this->_id != self::$locale->getHomepageID();
         }
 
         if (!empty($this->_historyTable))
@@ -503,6 +513,72 @@ class Article extends ModelHeader {
         }
 
         return $locales;
+    }
+
+    public function updateGroupId() : string {
+        $articleId = $_POST['article_id'] ?? 0;
+
+        if (!is_numeric($articleId) || (int) $articleId === 0)
+            return 'invalid_article';
+        else if ((int) $articleId == self::$locale->getId())
+            return 'group_invalid_locale';
+
+        $query = QueryFactory::produce('select', '
+            SELECT id, group_id, locale_id
+                FROM {db_prefix}article
+                WHERE id = :id
+        ');
+
+        $query->setParams(['id' => (int) $articleId]);
+        $result = $query->execute();
+
+        if (count($result) == 0)
+            return 'invalid_article';
+
+        foreach ($result as $article) {
+            $newGroupId = (int) $article['group_id'];
+
+            if ($newGroupId == 0) {
+                $query = QueryFactory::produce('select', '
+                    SELECT MAX(group_id) as group_id
+                        FROM {db_prefix}article
+                ');
+
+                foreach ($query->execute() as $highGroupNumberArticle)
+                    $newGroupId = (int) $highGroupNumberArticle['group_id'] + 1;
+
+                $query = QueryFactory::produce('modify', '
+                    UPDATE {db_prefix}article
+                        SET group_id = :group_id
+                        WHERE id = :id
+                ');
+
+                $query->setParams([
+                    'id' => $article['id'],
+                    'group_id' => $newGroupId
+                ]);
+
+                $query->execute();
+            }
+
+            $query = QueryFactory::produce('modify', '
+                UPDATE {db_prefix}article
+                    SET group_id = :group_id
+                    WHERE id = :id
+            ');
+
+            $query->setParams([
+                'group_id' => $newGroupId,
+                'id' => $this->_id
+            ]);
+
+            $query->execute();
+
+            $this->_group = (int) $article['group_id'];
+            break;
+        }
+
+        return '';
     }
 
     public function getLastUpdatedTime() : string {

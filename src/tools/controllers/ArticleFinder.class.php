@@ -38,7 +38,7 @@ class ArticleFinder extends AppHeader {
 
     public function execute() : void {
         if ($this->ajax && !empty($this->parsedAJAXRequest['getresults'])) {
-            $this->_model = new Model($_REQUEST['terms'] ?? null, $_REQUEST['start'] ?? 0);
+            $this->_model = new Model($_REQUEST['terms'] ?? null, $_REQUEST['start'] ?? 0, 15, !empty($this->parsedAJAXRequest['ignorelocales']));
             $this->_model->setRequest('getresults');
         }
         else

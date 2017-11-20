@@ -2,9 +2,9 @@
 <locale>
 	<code>el_GR</code>
 	<name>Greek</name>
-	<native>Greece</native>
-	<dialect>Greek</dialect>
-	<continent>Europe</continent>
+	<native>Ελληνικά</native>
+	<dialect>Greece</dialect>
+	<continent>europe</continent>
 
 	<author>Stefanos Vichas</author>
 	<software_version>1.0 Alpha 1</software_version>
