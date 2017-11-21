@@ -18,9 +18,7 @@ if (!defined('DraiWiki')) {
 
 use DraiWiki\src\core\controllers\QueryFactory;
 use DraiWiki\src\main\controllers\Main;
-use DraiWiki\src\main\models\{
-    ActionBar, ModelHeader, Table
-};
+use DraiWiki\src\main\models\{ActionBar, ModelHeader, Table};
 
 class SysInfo extends ModelHeader {
 

@@ -11,11 +11,6 @@
 
 namespace DraiWiki\src\core\models;
 
-if (!defined('DraiWiki')) {
-    header('Location: ../index.php');
-    die('You\'re really not supposed to be here.');
-}
-
 /**
  * Class ConfigHeader
  * This class contains the required methods for reading, manipulating and importing settings. As

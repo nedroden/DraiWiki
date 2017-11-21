@@ -48,6 +48,8 @@ return [
     'locale_management' => 'Locales',
     'theme_management' => 'Themes',
 
+    'locales_description' => 'Locales can be installed and managed here.',
+
     'dashboard_description' => 'Welcome to the management section. This is your dashboard, which is meant to provide an overview of things that are currently going on.',
     'dashboard_title' => 'Dashboard',
 

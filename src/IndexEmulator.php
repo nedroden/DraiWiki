@@ -16,8 +16,10 @@ use DraiWiki\src\core\models\SettingsImporter;
 use DraiWiki\src\main\controllers\Locale;
 
 define('EntryPointEmulation', 1);
+define('DraiWiki', 1);
 define('DEBUG_ALWAYS', false);
 
+require __DIR__ . '/../src/core/models/ConfigHeader.class.php';
 require __DIR__ . '/../public/Config.php';
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../autoload.php';
