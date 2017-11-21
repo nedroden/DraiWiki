@@ -41,6 +41,7 @@ class App {
 
     private function detect() : string {
         $apps = [
+            'about'         => 'DraiWiki\src\main\controllers\About',
             'account'       => 'DraiWiki\src\auth\controllers\AccountManager',
             'activate'      => 'DraiWiki\src\auth\controllers\Activate',
             'article'       => 'DraiWiki\src\main\controllers\Article',

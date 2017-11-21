@@ -9,17 +9,6 @@
  */
 
 $(function() {
-    $('#dw-about-link').on('click', function (e) {
-        e.preventDefault();
-        new $.Zebra_Dialog({
-                width: 600,
-                source: {inline: $('#dw-about').html()},
-                animation_speed_hide: 300,
-                type: false,
-                buttons: []
-            }
-        );
-    });
 
     $("#to_top").click(function() {
         $('html, body').animate({

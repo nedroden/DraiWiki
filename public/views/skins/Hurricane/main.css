@@ -838,6 +838,11 @@ h1 .highlighted {
     color: #727272;
 }
 
+/* The about page */
+#about_page_logo {
+    padding-top: 20px;
+}
+
 /* Responsive theming */
 @media only screen and (max-width: 900px) {
     #content {

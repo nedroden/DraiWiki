@@ -64,6 +64,8 @@ function createRoutes() : array {
 	    $routeCollector->addRoute(['GET', 'POST'], '/register', 'register');
 	    $routeCollector->addRoute(['GET', 'POST'], '/login', 'login');
 	    $routeCollector->get('/logout', 'logout');
+
+	    $routeCollector->get('/about', 'about');
 	});
 
 	// We need to do a few more things if we've placed DraiWiki in a subdirectory

@@ -51,9 +51,6 @@ class GUI {
         // Unfortunately we can't use sprintf in templates, so we have to do this manually
         $this->_locale->replace('main', 'hello', $this->_user->getUsername());
 
-        $this->setLibraries();
-        $this->setTeamMembers();
-
         $this->setData([
             'skin_url' => $this->_skinUrl,
             'image_url' => $this->_imageUrl,
@@ -99,13 +96,15 @@ class GUI {
             $data = array_merge($data, $this->createDebugBar(true));
 
         $data = array_merge([
+            'base_url' => $this->_config->read('url'),
             'skin_url' => $this->_skinUrl,
             'image_url' => $this->_imageUrl,
             'node_url' => $this->_config->read('url') . '/node_modules',
             'locale' => $this->_locale,
             'copyright' => $this->_copyright,
             'script_url' => $this->_config->read('url') . '/scripts',
-            'user' => $this->_user
+            'user' => $this->_user,
+            'wiki_version' => Main::WIKI_VERSION
         ], $data);
 
         $dataObject = new Data();
@@ -136,54 +135,7 @@ class GUI {
     }
 
     private function setCopyright() : void {
-        $this->_copyright = 'Powered by <a href="https://draiwiki.robertmonden.com" target="_blank" id="dw-about-link">DraiWiki</a> ' . Main::WIKI_VERSION;
-    }
-
-    private function setTeamMembers() : void {
-        $this->_teamMembers = [
-            'president' => [
-                'label' => $this->_locale->read('main', 'team_president'),
-                'members' => [
-                    'robert' => [
-                        'name' => 'Robert Monden',
-                        'website' => 'https://robertmonden.com',
-                        'email' => 'dev@robertmonden.com'
-                    ]
-                ]
-            ]
-        ];
-    }
-
-    private function setLibraries() : void {
-        $this->_libraries = [
-            ['name' => 'Chart.js', 'href' => 'http://chartjs.org'],
-            ['name' => 'CodeMirror', 'href' => 'https://codemirror.net/'],
-            ['name' => 'CodeMirror spell checker', 'href' => 'https://codemirror.net/'],
-            ['name' => 'Color convert', 'href' => 'https://github.com/Qix-/color-convert'],
-            ['name' => 'Color name', 'href' => 'https://github.com/colorjs/color-name'],
-            ['name' => 'Cookie consent', 'href' => 'https://cookieconsent.insites.com'],
-            ['name' => 'Dwoo', 'href' => 'http://dwoo.org'],
-            ['name' => 'Font Awesome', 'href' => 'http://fontawesome.io/'],
-            ['name' => 'jQuery', 'href' => 'https://jquery.com'],
-            ['name' => 'Marked', 'href' => 'https://github.com/chjj/marked'],
-            ['name' => 'Moment', 'href' => 'http://momentjs.com'],
-            ['name' => 'Parsedown', 'href' => 'http://parsedown.org'],
-            ['name' => 'PHP Debug Bar', 'href' => 'http://phpdebugbar.com/'],
-            ['name' => 'Select2', 'href' => 'https://select2.github.io'],
-            ['name' => 'SimpleMail', 'href' => 'https://github.com/eoghanobrien/php-simple-mail'],
-            ['name' => 'SimpleMDE', 'href' => 'https://simplemde.com'],
-            ['name' => 'Sprintf.js', 'href' => 'https://github.com/alexei/sprintf.js'],
-            ['name' => 'TypeWatch', 'href' => 'https://github.com/dennyferra/TypeWatch'],
-            ['name' => 'Typo JS', 'href' => 'https://github.com/cfinke/Typo.js/'],
-            ['name' => 'Zebra Dialog', 'href' => 'https://github.com/stefangabos/Zebra_Dialog']
-        ];
-
-        /**
-         * Missing dependencies of the debug bar:
-         * - Installing symfony/polyfill-mbstring (v1.4.0): Loading from cache
-         * - Installing symfony/var-dumper (v3.3.5): Downloading (100%)
-         * - Installing psr/log (1.0.2): Loading from cache
-         */
+        $this->_copyright = 'Powered by <a href="' . $this->_config->read('url') . '/index.php/about" target="_blank">DraiWiki</a> ' . Main::WIKI_VERSION;
     }
 
     private function generateMenu() : void {
@@ -408,13 +360,5 @@ class GUI {
 
     public function getCopyright() : string {
         return $this->_copyright;
-    }
-
-    public function getTeamMembers() : array {
-        return $this->_teamMembers;
-    }
-
-    public function getLibraries() : array {
-        return $this->_libraries;
     }
 }

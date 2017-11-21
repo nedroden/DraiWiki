@@ -143,7 +143,7 @@ class Article extends ModelHeader {
 
             // Yep. We know. Really. But unfortunately Dwoo doesn't have a built-in sprintf function, so we have to do it like this
             $data['remove_text'] = sprintf(self::$locale->read('article', 'declare_independence_desc'),
-                            self::$config->read('url') . '/index.php/' . $this->_titleSafe . '/removetranslationgroup');
+                            self::$config->read('url') . '/index.php/article/' . $this->_titleSafe . '/removetranslationgroup');
 
             $data['can_declare_independence'] = self::$user->hasPermission('remove_from_translation_group') && $this->_id != self::$locale->getHomepageID();
         }
@@ -579,6 +579,20 @@ class Article extends ModelHeader {
         }
 
         return '';
+    }
+
+    public function removeFromTranslationGroup() : void {
+        $query = QueryFactory::produce('modify', '
+            UPDATE {db_prefix}article
+                SET group_id = 0
+                WHERE id = :id
+        ');
+
+        $query->setParams([
+            'id' => $this->_id
+        ]);
+
+        $query->execute();
     }
 
     public function getLastUpdatedTime() : string {

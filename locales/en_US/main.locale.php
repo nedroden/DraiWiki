@@ -31,7 +31,6 @@ return [
 	'to_top' => 'To top',
 
 	'hello' => 'Hello, <strong>%s</strong>!',
-    'sidebar' => 'Navigation',
 
     'side_main' => 'Main',
     'side_tools' => 'Tools',
@@ -45,8 +44,6 @@ return [
     'view_history' => 'View history',
     'assign_translations' => 'Assign translations',
 
-    'team_president' => 'President',
-
     'website' => 'website',
     'email' => 'email',
 
@@ -54,6 +51,9 @@ return [
     'about_thank_you' => 'DraiWiki has been made possible largely by its users. Without you, creating it wouldn\'t have been possible. Special thanks go to the following team members:',
     'about_href' => 'If you are interested in learning more about DraiWiki, feel free to take a look around on our <a href="https://draiwiki.robertmonden.com/forum" target="_blank">community forums</a> or the official <a href="https://github.com/Chistaen/DraiWiki.git" target="_blank">Github repository</a>.',
     'about_libraries' => 'The software also includes several packages and libraries. Thus, we would like to take the time to thank and mention them as well: ',
+
+    'team_members' => 'Team members',
+    'libraries' => 'Libraries',
 
     'access_denied' => 'Access denied',
 
@@ -68,5 +68,7 @@ return [
     'continent_northamerica' => 'North America',
     'continent_southamerica' => 'South America',
     'continent_oceania' => 'Oceania',
-    'continent_other' => 'Other'
+    'continent_other' => 'Other',
+
+    'about_this_software' => 'About this software'
 ];

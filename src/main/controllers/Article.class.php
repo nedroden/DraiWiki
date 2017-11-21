@@ -80,6 +80,10 @@ class Article extends AppHeader {
                 $this->requiredPermission = 'assign_translations';
                 $this->_subApp = 'translations';
                 break;
+            case 'removetranslationgroup':
+                $this->requiredPermission = 'remove_from_translation_group';
+                $this->_subApp = 'removetranslationgroup';
+                break;
             default:
                 $this->_subApp = 'unknown';
         }
@@ -137,6 +141,12 @@ class Article extends AppHeader {
 
         if ($this->_subApp == 'delete') {
             $this->delete();
+            return;
+        }
+
+        else if ($this->_subApp == 'removetranslationgroup') {
+            $this->_model->removeFromTranslationGroup();
+            $this->redirectTo(self::$config->read('url') . '/index.php/article/' . $this->_model->getSafeTitle());
             return;
         }
 

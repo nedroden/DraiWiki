@@ -90,8 +90,6 @@ class Management extends AppHeader {
             'skin_url' => $this->_gui->getSkinUrl(),
             'image_url' => $this->_gui->getImageUrl(),
             'copyright' => $this->_gui->getCopyright(),
-            'teams' => $this->_gui->getTeamMembers(),
-            'packages' => $this->_gui->getLibraries(),
             'url' => self::$config->read('url'),
             'page_description' => $this->_subApp->getPageDescription()
         ];
