@@ -23,7 +23,7 @@
                       name="title"
                       value="{$title}"
                       class="wide" /><br /><br />
-            <textarea id="editor" name="body">{$body_unparsed}</textarea>
+            <textarea id="editor" name="body">{$body_text_area}</textarea>
             <input type="submit" value="{$locale->read('editor', 'save')}" />
         </form>
 

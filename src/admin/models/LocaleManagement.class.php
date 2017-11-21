@@ -17,40 +17,77 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\core\controllers\QueryFactory;
+use DraiWiki\src\main\controllers\Locale;
 use DraiWiki\src\main\models\{ModelHeader, Table};
 
 class LocaleManagement extends ModelHeader {
 
-    private $_table;
+    private $_installedLocalesTable;
+    private $_locales;
 
     public function __construct() {
         $this->loadLocale();
         $this->loadConfig();
     }
 
-    private function createTable() : void {
+    private function createInstalledLocalesTable() : void {
         $columns = [
-            'key',
-            'value'
+            'id',
+            'code',
+            'native',
+            'dialect',
+            'software_version',
+            'locale_version'
         ];
 
-        $table = new Table('management', $columns, $this->getLocales());
+        $this->_locales = $this->getLocales();
+
+        $table = new Table('management', $columns, $this->_locales);
         $table->setID('user_list');
-        $table->setType('info_table');
 
         $table->create();
-        $this->_table = $table->returnTable();
+        $this->_installedLocalesTable = $table->returnTable();
     }
 
     private function getLocales() : array {
-        return [];
+        $query = QueryFactory::produce('select', '
+            SELECT id
+                FROM {db_prefix}locale
+        ');
+
+        $result = $query->execute();
+        $locales = [];
+
+        // @todo Throw error message
+        if (count($result) == 0) {
+            die('Could not load locales');
+        }
+
+        foreach ($result as $locale) {
+            $obj = new Locale($locale['id']);
+
+            $locales[] = [
+                $obj->getID(),
+                $obj->getCode(),
+                $obj->getNative(),
+                $obj->getDialect(),
+                $obj->getSoftwareVersion(),
+                $obj->getLocaleVersion()
+            ];
+        }
+
+        uasort($locales, function(array $a, array $b) {
+            return $a[2] <=> $b[2];
+        });
+
+        return $locales;
     }
 
     public function prepareData() : array {
-        $this->createTable();
+        $this->createInstalledLocalesTable();
 
         return [
-            'table' => $this->_table
+            'installed_locales' => $this->_installedLocalesTable
         ];
     }
 

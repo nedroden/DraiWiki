@@ -207,5 +207,18 @@ return [
     'statistics' => 'Statistics',
     'number_of_edits_stats' => 'Number of edits:',
     'number_of_articles' => 'Number of articles:',
-    'number_of_users' => 'Number of activated users:'
+    'number_of_users' => 'Number of activated users:',
+
+    'installed_locales' => 'Installed locales',
+
+    'id' => 'ID',
+    'code' => 'Language code',
+    'native' => 'Name',
+    'dialect' => 'Dialect',
+    'software_version' => 'Software version',
+    'locale_version' => 'Locale version',
+
+    'install_new_locale' => 'Install new locale',
+    'install_new_locale_description' => 'Locales can be installed here.',
+    'upload_before_install' => 'Before you can install a new locale, its files need to be in the /locales directory. Only then will they appear in this list. If you\'re not sure how to do this, have a look at the other folders in that directory.'
 ];

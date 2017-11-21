@@ -31,8 +31,9 @@ class Article extends ModelHeader {
      * @var string $_body Parsed article body with HTML not escaped
      * @var string $_bodyUnparsed Raw article body
      * @var string $_bodySafeHTML Parsed article body with HTML escaped
+     * @var string $_htmlTextArea Raw article body suitable for text areas
      */
-    private $_body, $_bodyUnparsed, $_bodySafeHTML;
+    private $_body, $_bodyUnparsed, $_bodySafeHTML, $_htmlTextArea;
 
     private $_forceEdit, $_isEditing;
     private $_parsedown;
@@ -116,6 +117,7 @@ class Article extends ModelHeader {
         $this->_body = $this->_parsedown->text($info['body'] ?? '');
         $this->_bodyUnparsed = $info['body'] ?? '';
         $this->_bodySafeHTML = $this->_parsedown->setMarkupEscaped(true)->text($info['body'] ?? '');
+        $this->_htmlTextArea = htmlspecialchars($info['body'] ?? '', ENT_NOQUOTES, 'UTF-8');
 
         $this->_lastUpdatedUsername = $info['username'] ?? self::$locale->read('auth', 'guest');
         $this->_lastUpdatedDate = $info['updated'] ?? 'unknown';
@@ -222,6 +224,7 @@ class Article extends ModelHeader {
             'body' => $this->_body,
             'body_unparsed' => $this->_bodyUnparsed,
             'body_safe' => $this->_bodySafeHTML,
+            'body_text_area' => $this->_htmlTextArea,
             'last_updated_by' => $this->getLastUpdatedTime(),
             'historical_version' => $this->_viewingOldVersion
         ] + $additionalData;
