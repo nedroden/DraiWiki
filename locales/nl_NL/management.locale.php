@@ -17,41 +17,41 @@
  */
 
 return [
-    'management_panel' => 'Beheerderspaneel',
+    'management_panel' => 'Management panel',
 
-    'back_to_wiki' => 'Terug naar wiki',
+    'back_to_wiki' => 'Back to wiki',
 
-    'key' => 'Naam',
-    'value' => 'Waarde',
+    'key' => 'Name',
+    'value' => 'Value',
 
-    'side_main' => 'Algemeen',
-    'side_config' => 'Configuratie',
-    'side_users' => 'Gebruikersbeheer',
-    'side_security' => 'Veiligheid',
-    'side_extend' => 'Uitbreiden',
+    'side_main' => 'Main',
+    'side_config' => 'Configuration',
+    'side_users' => 'User management',
+    'side_security' => 'Security',
+    'side_extend' => 'Extend',
     'side_help' => 'Help',
 
-    'home' => 'Start',
-    'logout' => 'Uitloggen',
+    'home' => 'Home',
+    'logout' => 'Logout',
 
-    'config_database' => 'Server- en database-instellingen',
-    'config_general' => 'Algemene instellingen',
+    'config_database' => 'Server and database settings',
+    'config_general' => 'General settings',
 
-    'display_users' => 'Gebruikerslijst',
-    'manage_groups' => 'Beheer groepen',
-    'permissions' => 'Rechten',
-    'bans' => 'Banlijst',
+    'display_users' => 'Display users',
+    'manage_groups' => 'Manage groups',
+    'permissions' => 'Permissions',
+    'bans' => 'Ban list',
 
-    'registration' => 'Registratie-instellingen',
+    'registration' => 'Registration settings',
 
     'security_log' => 'Security log',
-    'locale_management' => 'Taalpakketten',
-    'theme_management' => 'Thema\'s',
+    'locale_management' => 'Locales',
+    'theme_management' => 'Themes',
 
     'dashboard_description' => 'Welcome to the management section. This is your dashboard, which is meant to provide an overview of things that are currently going on.',
     'dashboard_title' => 'Dashboard',
 
-    'server_information' => 'Serverinformatie',
+    'server_information' => 'Server information',
     'server_information_description' => 'Version numbers and other useful information can be viewed here.',
 
     'unknown' => 'unknown',
@@ -77,7 +77,7 @@ return [
     'users_display' => 'Display users',
     'users_display_description' => 'View, modify and delete user accounts.',
 
-    'username' => 'Gebruikersnaam',
+    'username' => 'Username',
     'first_name' => 'First name',
     'last_name' => 'Last name',
     'email_address' => 'Email address',
@@ -86,8 +86,8 @@ return [
     'primary_group' => 'Primary group',
     'manage_buttons' => 'Manage',
 
-    'manual' => 'Handleiding',
-    'detailed_system_information' => 'Systeemsinformatie',
+    'manual' => 'Manual',
+    'detailed_system_information' => 'System information',
 
     'sysinfo_description' => 'Detailed system information can be viewed here. If you need any help with your DraiWiki installation, generate one of these and include them in your support request or bug report.',
 
@@ -149,8 +149,8 @@ return [
     'session_name' => 'Session name',
     'session_name_desc' => 'This name is used as the session id. You usually don\'t need to change this.',
 
-    'site_and_file_maintenance' => 'Websitebeheer',
-    'maintenance_actions' => 'Onderhoudsactie\'s',
+    'site_and_file_maintenance' => 'Site maintenance',
+    'maintenance_actions' => 'Maintenance actions',
 
     'general_maintenance' => 'General maintenance actions',
     'general_maintenance_description' => 'Here you can perform general maintenance actions, such as removing obsolete data. Click on any of the action titles to perform the corresponding action.',
@@ -176,7 +176,7 @@ return [
     'date' => 'Date',
     'updated_by' => 'Updated by',
 
-    'manage_uploads' => 'Bestandsbeheer',
+    'manage_uploads' => 'Manage uploads',
     'upload_settings' => 'Configuration',
     'upload_settings_description' => 'Settings related to file uploading can be altered here',
 

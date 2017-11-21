@@ -114,7 +114,7 @@ The {wiki_name} team',
 
     'first_name_desc' => 'Your full first name',
     'last_name_desc' => 'Your last name. Entering both surnames (if applicable) is not required',
-    'sex_desc' => 'Please enter your gender. If you prefer not to disclose this information, select \'not specified\'',
+    'sex_desc' => 'Please select your gender. If you prefer not to disclose this information, select \'not specified\'',
     'activate_account' => 'Uncheck this option to deactivate the user\'s account',
 
     'activated' => 'Account activation:',
@@ -137,5 +137,6 @@ The {wiki_name} team',
 
     'save' => 'Save settings',
 
-    'html_nope' => 'HTML is not allowed'
+    'html_nope' => 'HTML is not allowed',
+    'please_enter_password' => 'Please enter your password'
 ];

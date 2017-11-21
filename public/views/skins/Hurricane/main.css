@@ -181,7 +181,6 @@ select {
 #header {
     background: #283044;
     background: radial-gradient(circle, #283044, #262d40);
-    font-size: 40px;
     font-family: "Noto Sans", Verdana, Helvetica, Arial;
     padding: 40px;
     align-items: center;
@@ -190,6 +189,10 @@ select {
 #header, #header a {
     color: #fff;
     text-shadow: 1px 2px 0 #4f4f4f;
+}
+
+#header a {
+    font-size: 40px;
 }
 
 #content {

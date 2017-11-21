@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>{$title} | {$wiki_name}</title>
+        <title>{$title} | {$wiki_name}{if not $slogan eq ''} | {$slogan}{/if}</title>
 
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
@@ -38,9 +38,9 @@
         <script type="text/javascript" src="{$script_url}/cookie.js"></script>
 
         <script type="text/javascript">
-            var cookie_header = '{$locale->read('script', 'cookie_header')}';
-            var cookie_explained = '{$locale->read('script', 'cookie_explained')}';
-            var cookie_click_here = '{$locale->read('script', 'cookie_click_here')}';
+            const cookie_header = '{$locale->read('script', 'cookie_header')}';
+            const cookie_explained = '{$locale->read('script', 'cookie_explained')}';
+            const cookie_click_here = '{$locale->read('script', 'cookie_click_here')}';
         </script>
         {/if}
         {if not $debug_head eq ''}
@@ -54,9 +54,11 @@
     <body>
         <div id="wrapper">
             <div id="header_section">
-
                 <div id="header">
                     <a href="{$url}" target="_self">{$wiki_name}</a>
+                    {if not $slogan eq ''}
+                    <span>{$slogan}</span>
+                    {/if}
                 </div>
 
                 <div id="topbar">

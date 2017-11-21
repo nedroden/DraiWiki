@@ -149,6 +149,9 @@ return [
     'session_name' => 'Session name',
     'session_name_desc' => 'This name is used as the session id. You usually don\'t need to change this.',
 
+    'use_first_name_greeting' => 'Use user\'s first name for greeting',
+    'use_first_name_greeting_desc' => 'If enabled, the software will greet users using their first name rather than username.',
+
     'site_and_file_maintenance' => 'Site maintenance',
     'maintenance_actions' => 'Maintenance actions',
 

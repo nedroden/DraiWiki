@@ -163,7 +163,8 @@ INSERT INTO `drai_setting` (`key`, `value`) VALUES
   ('locale', '1'),
   ('max_search_term_length', '60'),
   ('max_finder_body_length', '750'),
-  ('min_search_term_length', '3');
+  ('min_search_term_length', '3'),
+  ('use_first_name_greeting', '0');
 
 --
 -- Dumping data for table `drai_user`

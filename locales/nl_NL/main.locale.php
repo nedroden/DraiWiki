@@ -17,33 +17,32 @@
  */
 
 return [
-	'home' => 'Voorpagina',
-	'login' => 'Inloggen',
-	'register' => 'Registreren',
-    'logout' => 'Uitloggen',
-    'manage' => 'Beheer',
-    'account_settings' => 'Accountinstellingen',
+	'home' => 'Home',
+	'login' => 'Login',
+	'register' => 'Register',
+    'logout' => 'Logout',
+    'manage' => 'Management',
+    'account_settings' => 'Account settings',
+    'find_article' => 'Find an article',
 
-	'search_for' => 'Zoeken naar',
-	'go' => 'Ga',
-	'locale' => 'Taal',
-	'to_top' => 'Naar boven',
+	'search_for' => 'Find an article...',
+	'go' => 'Go',
+	'locale' => 'Locale',
+	'to_top' => 'To top',
 
-	'hello' => 'Hallo, <strong>%s</strong>!',
-    'sidebar' => 'Navigatie',
+	'hello' => 'Hello, <strong>%s</strong>!',
 
-    'side_main' => 'Algemeen',
-    'side_tools' => 'Hulpmiddelen',
-    'random' => 'Willekeurig artikel',
+    'side_main' => 'Main',
+    'side_tools' => 'Tools',
+    'random' => 'Random article',
 
-    'current_article' => 'Huidig artikel',
-    'view_article' => 'Lees artikel',
-    'edit_article' => 'Bewerk artikel',
-    'print_article' => 'Bekijk in printbaar formaat',
-    'delete_article' => 'Verwijder artikel',
-    'view_history' => 'Geschiedenis',
-
-    'team_president' => 'President',
+    'current_article' => 'Current article',
+    'view_article' => 'Read article',
+    'edit_article' => 'Edit article',
+    'print_article' => 'View in printable format',
+    'delete_article' => 'Delete article',
+    'view_history' => 'View history',
+    'assign_translations' => 'Assign translations',
 
     'website' => 'website',
     'email' => 'email',
@@ -53,18 +52,23 @@ return [
     'about_href' => 'If you are interested in learning more about DraiWiki, feel free to take a look around on our <a href="https://draiwiki.robertmonden.com/forum" target="_blank">community forums</a> or the official <a href="https://github.com/Chistaen/DraiWiki.git" target="_blank">Github repository</a>.',
     'about_libraries' => 'The software also includes several packages and libraries. Thus, we would like to take the time to thank and mention them as well: ',
 
+    'team_members' => 'Team members',
+    'libraries' => 'Libraries',
+
     'access_denied' => 'Access denied',
 
-    'upload_images' => 'Afbeeldingen uploaden',
-    'resources' => 'Bibliotheek',
+    'upload_images' => 'Upload images',
+    'resources' => 'Resources',
 
-    'languages' => 'In andere talen',
+    'languages' => 'In other languages',
 
-    'continent_africa' => 'Afrika',
-    'continent_asia' => 'Azië',
-    'continent_europe' => 'Europa',
-    'continent_northamerica' => 'Noord-Amerika',
-    'continent_southamerica' => 'Zuid-Amerika',
-    'continent_oceania' => 'Oceanië',
-    'continent_other' => 'Anders'
+    'continent_africa' => 'Africa',
+    'continent_asia' => 'Asia',
+    'continent_europe' => 'Europe',
+    'continent_northamerica' => 'North America',
+    'continent_southamerica' => 'South America',
+    'continent_oceania' => 'Oceania',
+    'continent_other' => 'Other',
+
+    'about_this_software' => 'About this software'
 ];

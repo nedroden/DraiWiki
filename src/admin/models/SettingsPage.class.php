@@ -115,6 +115,13 @@ class SettingsPage extends ModelHeader {
                     'min_length' => self::MIN_DATE_FORMAT_LENGTH,
                     'max_length' => self::MAX_DATE_FORMAT_LENGTH
                 ],
+                'use_first_name_greeting' => [
+                    'name' => 'use_first_name_greeting',
+                    'label' => 'use_first_name_greeting',
+                    'description' => 'use_first_name_greeting_desc',
+                    'input_type' => 'checkbox',
+                    'input_description' => self::$locale->read('management', 'enable_this_feature')
+                ],
                 'paths_and_urls',
                 'path' => [
                     'name' => 'path',

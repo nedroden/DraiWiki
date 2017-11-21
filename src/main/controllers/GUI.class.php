@@ -49,7 +49,8 @@ class GUI {
         $this->_engine->setTemplateDir($this->_templatePath . '/');
 
         // Unfortunately we can't use sprintf in templates, so we have to do this manually
-        $this->_locale->replace('main', 'hello', $this->_user->getUsername());
+        $name = $this->_config->read('use_first_name_greeting') == 1 ? $this->_user->getFirstName() : $this->_user->getUsername();
+        $this->_locale->replace('main', 'hello', $name);
 
         $this->setData([
             'skin_url' => $this->_skinUrl,
@@ -63,7 +64,8 @@ class GUI {
             'packages' => $this->_libraries,
             'user' => $this->_user,
             'display_cookie_warning' => $this->_config->read('display_cookie_warning') == 1,
-            'locale_continents' => $this->getLocalesByContinent()
+            'locale_continents' => $this->getLocalesByContinent(),
+            'slogan' => $this->_config->read('slogan')
         ]);
     }
 
