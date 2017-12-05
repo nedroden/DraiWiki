@@ -57,7 +57,6 @@ return [
     'server_information_description' => 'Version numbers and other useful information can be viewed here.',
 
     'unknown' => 'unknown',
-    'unknown_action' => 'We\'re not quite sure what you\'re trying to do here. Please try again.',
 
     'webserver' => 'Webserver',
     'wiki_information' => 'Wiki information',
@@ -201,8 +200,6 @@ return [
     'edit_user' => 'Edit',
     'remove_user' => 'Delete',
 
-    'delete' => 'Delete',
-
     'cannot_delete_yourself' => 'You cannot delete yourself',
     'account_not_found' => 'User account not found',
     'cannot_delete_root' => 'You can disable the root account, but you cannot delete it',
@@ -224,14 +221,7 @@ return [
     'upload_before_install' => 'Before you can install a new locale, its files need to be in the /locales directory. The software will detect directories containing uninstalled locales and will offer to install them for you. If you\'re not sure how to do this, have a look at the other folders in that directory.',
 
     'no_locale_code' => 'No locale code set.',
-    'no_id_specified' => 'No locale id specified.',
-    'locale_exists' => 'Cannot install locale because it has already been installed.',
-    'invalid_locale_code' => 'Invalid locale code.',
-    'locale_does_not_exist' => 'The specified locale does not exist.',
-    'no_locale_files_found' => 'No langinfo.xml file was found.',
-    'cannot_delete_fallback_locale' => 'You cannot delete the fallback locale',
+    'locale_exists' => 'Cannot install locale because it has already been installed',
 
-    'uninstalled_locale_detected' => 'DraiWiki has detected a directory for uninstalled locale <strong>%s</strong>. Click <a href="%s">here</a> to install this locale.',
-
-    'actions' => 'Actions'
+    'uninstalled_locale_detected' => 'DraiWiki has detected a locale that hasn\'t yet been installed. The information file provides the following information: %s (%s) Click <a href="%s">here</a> to install this locale.'
 ];

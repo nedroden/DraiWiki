@@ -38,15 +38,19 @@ class Locale {
 	private $_strings;
 	private $_loadedFiles;
 
-	private const FALLBACK_LOCALE = 'en_US';
+	public const FALLBACK_LOCALE = 'en_US';
 
-	public function __construct(?int $localeID = null) {
+	public function __construct(?int $localeID = null, bool $load = true) {
 		$this->_config = Registry::get('config');
 		$this->_user = Registry::get('user');
 		$this->_loadedFiles = [];
 
-		$infoFile = $this->loadLocaleInfo($localeID);
-		$this->parseInfoFile($infoFile);
+		if ($load) {
+            $infoFile = $this->loadLocaleInfo($localeID);
+            $this->parseInfoFile($infoFile);
+        }
+        else
+            $this->_id = 0xFF;
 
 		$this->loadFile('main');
 		$this->loadFile('error');
@@ -120,7 +124,7 @@ class Locale {
 		return $infoFile ?? '';
 	}
 
-	private function parseInfoFile(string $locale) : void {
+	public function parseInfoFile(string $locale) : void {
 		if (!function_exists('simplexml_load_file'))
 			die('SimpleXML extension not found.');
 
@@ -216,6 +220,43 @@ class Locale {
             foreach ($query->execute() as $record)
                 return $locale;
         }
+
+	    return null;
+    }
+
+    public function install() : ?string {
+	    if (empty($this->_code))
+	        return 'no_locale_code';
+
+	    $query = QueryFactory::produce('select', '
+	        SELECT code
+	            FROM {db_prefix}locale
+	            WHERE code = :code
+	    ');
+
+	    $query->setParams([
+	        'code' => $this->_code
+        ]);
+
+	    if (count($query->execute()) >= 1)
+	        return 'locale_exists';
+
+	    $query = QueryFactory::produce('modify', '
+	        INSERT
+	            INTO {db_prefix}locale (
+	                code
+	            )
+	            
+	            VALUES (
+	              :code     
+	            )
+	    ');
+
+	    $query->setParams([
+	        'code' => $this->_code
+        ]);
+
+	    $query->execute();
 
 	    return null;
     }

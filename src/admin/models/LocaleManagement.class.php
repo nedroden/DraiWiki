@@ -23,23 +23,28 @@ use DraiWiki\src\main\models\{ModelHeader, Table};
 class LocaleManagement extends ModelHeader {
 
     private $_installedLocalesTable;
+    private $_installedLocaleCodes;
     private $_locales;
 
     public function __construct() {
         $this->loadLocale();
         $this->loadConfig();
+
+        self::$locale->loadFile('management');
     }
 
-    private function createInstalledLocalesTable() : void {
+    public function createInstalledLocalesTable() : void {
         $columns = [
             'id',
             'code',
             'native',
             'dialect',
             'software_version',
-            'locale_version'
+            'locale_version',
+            'actions'
         ];
 
+        $this->_installedLocaleCodes = [];
         $this->_locales = $this->getLocales();
 
         $table = new Table('management', $columns, $this->_locales);
@@ -64,7 +69,7 @@ class LocaleManagement extends ModelHeader {
         }
 
         foreach ($result as $locale) {
-            $obj = new Locale($locale['id']);
+            $obj = self::$locale->getID() == $locale['id'] ? self::$locale : new Locale($locale['id']);
 
             $locales[] = [
                 $obj->getID(),
@@ -72,8 +77,13 @@ class LocaleManagement extends ModelHeader {
                 $obj->getNative(),
                 $obj->getDialect(),
                 $obj->getSoftwareVersion(),
-                $obj->getLocaleVersion()
+                $obj->getLocaleVersion(),
+
+                // @todo Replace with id
+                $this->generateActionButtons($obj->getCode())
             ];
+
+            $this->_installedLocaleCodes[] = $obj->getCode();
         }
 
         uasort($locales, function(array $a, array $b) {
@@ -84,11 +94,107 @@ class LocaleManagement extends ModelHeader {
     }
 
     public function prepareData() : array {
-        $this->createInstalledLocalesTable();
-
         return [
-            'installed_locales' => $this->_installedLocalesTable
+            'installed_locales' => $this->_installedLocalesTable,
+            'uninstalled_links' => $this->getUninstalledLocaleLinks()
         ];
+    }
+
+    private function getUninstalledLocales() : array {
+        $localePath = self::$config->read('path') . '/locales';
+        $directories = scandir($localePath);
+        $locales = [];
+
+        foreach ($directories as $directory) {
+            if (is_dir($localePath . '/' . $directory) && !in_array($directory, $this->_installedLocaleCodes)) {
+                if ($directory == '.' || $directory == '..')
+                    continue;
+                else if (!file_exists($localePath . '/' . $directory . '/langinfo.xml'))
+                    continue;
+
+                $locale = new Locale(0, false);
+                $locale->parseInfoFile($directory);
+                $locales[] = $locale;
+            }
+        }
+
+        return $locales;
+    }
+
+    private function getUninstalledLocaleLinks() : array {
+        $uninstalledLocales = $this->getUninstalledLocales();
+        $links = [];
+
+        foreach ($uninstalledLocales as $uninstalledLocale) {
+            $links[] = sprintf(
+                self::$locale->read('management', 'uninstalled_locale_detected'),
+                $uninstalledLocale->getNative(),
+                self::$config->read('url') . '/index.php/management/locales/add/' . $uninstalledLocale->getCode()
+            );
+        }
+
+        return $links;
+    }
+
+    public function installLocale(string $code) : ?string {
+        if (!preg_match('/([a-zA-Z]{2})\_([a-zA-Z]{2})/', $code))
+            return 'invalid_locale_code';
+        else if (in_array($code, $this->_installedLocaleCodes))
+            return 'locale_exists';
+        else if (!file_exists(self::$config->read('path') . '/locales/' . $code . '/langinfo.xml'))
+            return 'no_locale_files_found';
+
+        $query = QueryFactory::produce('modify', '
+            INSERT
+                INTO {db_prefix}locale (
+                    code
+                )
+                
+                VALUES (
+                    :code
+                )
+        ');
+
+        $query->setParams([
+            'code' => $code
+        ]);
+
+        $query->execute();
+
+        return null;
+    }
+
+    public function deleteLocale(string $code) : ?string {
+        if (!in_array($code, $this->_installedLocaleCodes))
+            return 'locale_does_not_exist';
+        else if ($code == Locale::FALLBACK_LOCALE)
+            return 'cannot_delete_fallback_locale';
+
+        $query = QueryFactory::produce('modify', '
+            DELETE
+                FROM {db_prefix}locale
+                WHERE code = :code
+        ');
+
+        $query->setParams([
+            'code' => $code
+        ]);
+
+        $query->execute();
+
+        return null;
+    }
+
+    private function generateActionButtons(string $code) : string {
+        $actions = ['delete'];
+        $buttons = '';
+
+        foreach ($actions as $action) {
+            $url = self::$config->read('url') . '/index.php/management/locales/' . $action . '/' . $code;
+            $buttons .= sprintf('[<a href="%s">%s</a>]', $url, self::$locale->read('management', $action));
+        }
+
+        return $buttons;
     }
 
     public function getPageDescription() : string {
