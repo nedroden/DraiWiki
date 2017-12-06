@@ -40,7 +40,7 @@ class ModuleLoader {
             if ($module == '.' || $module == '..' || !is_dir(self::MODULES_DIR . '/' . $module))
                 continue;
 
-            $obj = new Module($module);
+            $obj = new Module(self::MODULES_DIR . '/' . $module);
 
             if (!$obj->loadInfoFile(self::MODULES_DIR . '/' . $module . '/meta'))
                 continue;

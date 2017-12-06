@@ -7,6 +7,9 @@
         interested in module development how hooks can be used.
     ]]></description>
 
+    <main_class>Dummy</main_class>
+    <namespace>dummy</namespace>
+
 	<author>DraiWiki development team</author>
 	<software_version>1.0 Alpha 1</software_version>
 	<module_version>1.0.0</module_version>
