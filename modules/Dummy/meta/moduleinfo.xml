@@ -10,11 +10,11 @@
     <main_class>Dummy</main_class>
     <namespace>dummy</namespace>
 
-	<author>DraiWiki development team</author>
-	<software_version>1.0 Alpha 1</software_version>
-	<module_version>1.0.0</module_version>
+    <author>DraiWiki development team</author>
+    <software_version>1.0 Alpha 1</software_version>
+    <module_version>1.0.0</module_version>
 
-	<override_requirements>1</override_requirements>
+    <override_requirements>1</override_requirements>
 
-	<copyright>none</copyright>
+    <copyright>none</copyright>
 </locale>
