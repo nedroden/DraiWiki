@@ -25,10 +25,13 @@ class LocaleManagement extends ModelHeader {
     private $_installedLocalesTable;
     private $_installedLocaleCodes;
     private $_locales;
+    private $_missingLocales;
 
     public function __construct() {
         $this->loadLocale();
         $this->loadConfig();
+
+        $this->_missingLocales = [];
 
         self::$locale->loadFile('management');
     }
@@ -56,7 +59,7 @@ class LocaleManagement extends ModelHeader {
 
     private function getLocales() : array {
         $query = QueryFactory::produce('select', '
-            SELECT id
+            SELECT id, code
                 FROM {db_prefix}locale
         ');
 
@@ -68,7 +71,14 @@ class LocaleManagement extends ModelHeader {
             die('Could not load locales');
         }
 
+        $localePath = self::$config->read('path') . '/locales/';
+
         foreach ($result as $locale) {
+            if (!file_exists($localePath . '/' . $locale['code'] . '/langinfo.xml')) {
+                $this->_missingLocales[] = $locale['code'];
+                continue;
+            }
+
             $obj = self::$locale->getID() == $locale['id'] ? self::$locale : new Locale($locale['id']);
 
             $locales[] = [
@@ -152,11 +162,33 @@ class LocaleManagement extends ModelHeader {
                 
                 VALUES (
                     :code
+                );
+                
+            INSERT 
+                INTO {db_prefix}article (
+                    title, locale_id, `status`
                 )
+                VALUES (
+                    :title, LAST_INSERT_ID(), :status_nr
+                );
+
+            INSERT
+                INTO {db_prefix}article_history (
+                    article_id, user_id, body
+                )
+                VALUES (
+                    LAST_INSERT_ID(),
+                    :user_id,
+                    :body
+                );
         ');
 
         $query->setParams([
-            'code' => $code
+            'code' => $code,
+            'title' => self::$locale->read('management', 'new_homepage_title'),
+            'status_nr' => 1,
+            'user_id' => self::$user->getID(),
+            'body' => self::$locale->read('management', 'new_homepage_body')
         ]);
 
         $query->execute();
@@ -176,6 +208,8 @@ class LocaleManagement extends ModelHeader {
                 WHERE code = :code
         ');
 
+        // @todo Remove articles associated with the locale that is being deleted
+
         $query->setParams([
             'code' => $code
         ]);
@@ -191,10 +225,15 @@ class LocaleManagement extends ModelHeader {
 
         foreach ($actions as $action) {
             $url = self::$config->read('url') . '/index.php/management/locales/' . $action . '/' . $code;
-            $buttons .= sprintf('[<a href="%s">%s</a>]', $url, self::$locale->read('management', $action));
+            $buttons .= sprintf('[<a href="javascript:void:(0);" onclick="requestConfirm(\'%s\')">%s</a>]', $url, self::$locale->read('management', $action));
         }
 
         return $buttons;
+    }
+
+    public function handleMissingLocales(array &$errors) : void {
+        if (!empty($this->_missingLocales))
+            $errors[] = 'missing_locale_files';
     }
 
     public function getPageDescription() : string {

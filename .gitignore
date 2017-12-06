@@ -1,5 +1,6 @@
 .idea
 *.iml
+.vscode
 vendor
 node_modules
 public/Config.php

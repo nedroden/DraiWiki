@@ -18,7 +18,9 @@ if (!defined('DraiWiki')) {
 
 use DraiWiki\Config;
 use DraiWiki\src\auth\models\User;
-use DraiWiki\src\core\controllers\{Connection, Registry};
+use DraiWiki\src\core\controllers\{
+    Connection, ModuleLoader, Registry
+};
 use DraiWiki\src\core\models\{RouteInfo, SessionHandler, SettingsImporter};
 use DraiWiki\src\main\models\{DebugBarWrapper, Stylesheet};
 
@@ -57,6 +59,12 @@ class Main {
 
     public function load() : void {
 		Registry::set('connection', new Connection());
+
+		$moduleLoader = new ModuleLoader();
+	    if ($moduleLoader->canLoadModules()) {
+            $moduleLoader->scan();
+	        $moduleLoader->loadAll();
+        }
 
         SettingsImporter::execute();
 

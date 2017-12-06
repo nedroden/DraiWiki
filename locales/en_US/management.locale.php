@@ -229,9 +229,13 @@ return [
     'invalid_locale_code' => 'Invalid locale code.',
     'locale_does_not_exist' => 'The specified locale does not exist.',
     'no_locale_files_found' => 'No langinfo.xml file was found.',
+    'missing_locale_files' => 'Missing locale files for one or more locales.',
     'cannot_delete_fallback_locale' => 'You cannot delete the fallback locale',
 
     'uninstalled_locale_detected' => 'DraiWiki has detected a directory for uninstalled locale <strong>%s</strong>. Click <a href="%s">here</a> to install this locale.',
 
-    'actions' => 'Actions'
+    'actions' => 'Actions',
+
+    'new_homepage_title' => 'Homepage',
+    'new_homepage_body' => 'This is just a temporary homepage.'
 ];

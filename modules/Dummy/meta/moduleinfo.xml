@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<locale>
+    <name>Dummy module</name>
+    <description><![CDATA[
+        This is a dummy module that does not do very much. Its only purpose
+        is to provide module authors a base to work with and to show those
+        interested in module development how hooks can be used.
+    ]]></description>
+
+	<author>DraiWiki development team</author>
+	<software_version>1.0 Alpha 1</software_version>
+	<module_version>1.0.0</module_version>
+
+	<override_requirements>1</override_requirements>
+
+	<copyright>none</copyright>
+</locale>

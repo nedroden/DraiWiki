@@ -9,6 +9,11 @@
  * @license     Apache 2.0
  */
 
+if (!defined('DraiWiki')) {
+	header('Location: ../index.php');
+	die('You\'re really not supposed to be here.');
+}
+
 /**
  * Function equivalent of 'if (!condition) exit'
  * @param bool $result Whether or not the script should stop

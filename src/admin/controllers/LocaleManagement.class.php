@@ -76,6 +76,8 @@ class LocaleManagement extends AppHeader {
                 $this->redirectTo(self::$config->read('url') . '/index.php/management/locales');
         }
 
+        $this->_model->handleMissingLocales($this->_errors);
+
         $this->_view = Registry::get('gui')->parseAndGet('admin_locales', array_merge($this->_model->prepareData(), ['errors' => $this->_errors]), false);
     }
 
