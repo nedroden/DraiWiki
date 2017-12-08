@@ -110,47 +110,41 @@ class UserManagement extends ModelHeader {
     }
 
     public function generateJSON() : string {
-        if ($this->_request == 'getlist') {
-            $userCount = $this->getUserCount();
+        switch ($this->_request) {
+            case 'getlist':
+                $userCount = $this->getUserCount();
 
-            $start = $this->getStart();
-            $end = $start + self::$config->read('max_results_per_page');
+                $start = $this->getStart();
+                $end = $start + self::$config->read('max_results_per_page');
 
-            if ($end > $userCount)
-                $end = $start + ($userCount % self::$config->read('max_results_per_page'));
+                if ($end > $userCount)
+                    $end = $start + ($userCount % self::$config->read('max_results_per_page'));
 
-            $jsonRequest = '
-            {
-                "start": "' . $start . '",
-                "end": "' . $end . '",
-                "total_records": "' . $userCount . '",
-                "displayed_records": "' . self::$config->read('max_results_per_page') . '",
-                "data": [';
+                $users = [];
+                foreach ($this->_users as $user) {
+                    $users[] = [
+                        'username' => ($user->getIsActivated() == 1 ? $user->getUsername() : '<em>' . $user->getUsername() . '</em>'),
+                        'first_name' => $user->getFirstName(),
+                        'last_name' => $user->getLastName(),
+                        'email_address' => $user->getEmail(),
+                        'registration_date' => $user->getRegistrationDate(),
+                        'primary_group' => $user->getPrimaryGroupWithColor(),
+                        'sex' => self::$locale->read('auth', 'sex_' . $user->getSex()),
+                        'manage_buttons' => $this->generateManagementLinks($user->getID())
+                    ];
+                }
 
-            $jsonUsers = [];
-            foreach ($this->_users as $user) {
-                $jsonUsers[] = '
-                {
-                    "username": "' . ($user->getIsActivated() == 1 ? $user->getUsername() : '<em>' . $user->getUsername() . '</em>') . '",
-                    "first_name": "' . $user->getFirstName() . '",
-                    "last_name": "' . $user->getLastName() . '",
-                    "email_address": "' . $user->getEmail() . '",
-                    "registration_date": "' . $user->getRegistrationDate() . '",
-                    "primary_group": "' . $user->getPrimaryGroupWithColor() . '",
-                    "sex": "' . self::$locale->read('auth', 'sex_' . $user->getSex()) . '",
-                    "manage_buttons": "' . $this->generateManagementLinks($user->getID()) . '"
-                }';
-            }
+                return json_encode([
+                    'start' => $start,
+                    'end' => $end,
+                    'total_records' => $userCount,
+                    'displayed_records' => self::$config->read('max_results_per_page'),
+                    'data' => $users
+                ]);
 
-            $jsonRequest .= implode(',', $jsonUsers) . '
-                ]
-            }';
-
-            return $jsonRequest;
+            default:
+                return '';
         }
-
-        else
-            return '';
     }
 
     public function deleteUser(&$errors, int $id) : void {

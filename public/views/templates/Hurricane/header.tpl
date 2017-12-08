@@ -50,6 +50,10 @@
         {if not $header eq ''}
             {$header}
         {/if}
+
+        {if not $module_headers eq ''}
+            {$module_headers}
+        {/if}
     </head>
     <body>
         <div id="wrapper">

@@ -16,6 +16,7 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use DraiWiki\external\modules\Hook;
 use DraiWiki\src\core\controllers\{QueryFactory, Registry};
 use DraiWiki\src\errors\FatalError;
 use SimpleXMLElement;
@@ -55,15 +56,19 @@ class Locale {
 		$this->loadFile('main');
 		$this->loadFile('error');
 		$this->loadFile('script');
+
+        $this->loadModuleLocales();
 	}
 
-	public function loadFile(string $filename) : void {
+	public function loadFile(string $filename, ?string $path = null) : void {
 	    if (in_array($filename, $this->_loadedFiles))
 	        return;
 
-		if (file_exists($file = $this->_config->read('path') . '/locales/' . $this->_code . '/' . $filename . '.locale.php'))
+	    $path = $path ?? $this->_config->read('path');
+
+		if (file_exists($file = $path . '/locales/' . $this->_code . '/' . $filename . '.locale.php'))
 			$result = require_once $file;
-		else if ($this->_code != self::FALLBACK_LOCALE && file_exists($file = $this->_config->read('path') . '/locales/' . self::FALLBACK_LOCALE . '/' . $filename . '.locale.php'))
+		else if ($this->_code != self::FALLBACK_LOCALE && file_exists($file = $path . '/locales/' . self::FALLBACK_LOCALE . '/' . $filename . '.locale.php'))
 			$result = require_once $file;
 		else
 			die('Requested locale file not found.');
@@ -259,6 +264,22 @@ class Locale {
 	    $query->execute();
 
 	    return null;
+    }
+
+    private function loadModuleLocales() : void {
+        $localeFiles = [];
+		Hook::callAll('locale', $localeFiles);
+
+		foreach ($localeFiles as $localeFile) {
+            $parts = explode('.', $localeFile);
+
+            // @todo Replace with decent error message
+            if (count($parts) != 2)
+                die('Invalid locale loading call');
+
+            $moduleLocalePath = $this->_config->read('path') . '/modules/' . $parts[0];
+            $this->loadFile($parts[1], $moduleLocalePath);
+        }
     }
 
 	public function getID() : int {

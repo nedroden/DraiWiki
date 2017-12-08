@@ -106,44 +106,38 @@ class UploadManagement extends ModelHeader {
     }
 
     public function generateJSON() : string {
-        if ($this->_request == 'getlist') {
-            $recordCount = $this->getUploadCount();
+        switch ($this->_request) {
+            case 'getlist':
+                $recordCount = $this->getUploadCount();
 
-            $start = $this->getStart($recordCount);
-            $end = $start + self::MAX_UPLOADS_PER_PAGE;
+                $start = $this->getStart($recordCount);
+                $end = $start + self::MAX_UPLOADS_PER_PAGE;
 
-            if ($end > $recordCount)
-                $end = $start + ($recordCount % self::MAX_UPLOADS_PER_PAGE);
+                if ($end > $recordCount)
+                    $end = $start + ($recordCount % self::MAX_UPLOADS_PER_PAGE);
 
-            $jsonRequest = '
-            {
-                "start": "' . $start . '",
-                "end": "' . $end . '",
-                "total_records": "' . $recordCount . '",
-                "displayed_records": "' . self::MAX_UPLOADS_PER_PAGE . '",
-                "data": [';
+                $uploads = [];
+                foreach ($this->getUploads($start) as $record) {
+                    $uploads[] = [
+                        'preview' => $record['preview'],
+                        'filename' => $record['filename'],
+                        'poster' => $record['poster'],
+                        'upload_date' => $record['upload_date'],
+                        'file_type' => $record['file_type']
+                    ];
+                }
 
-            $jsonEdits = [];
-            foreach ($this->getUploads($start) as $record) {
-                $jsonEdits[] = '
-                {
-                    "preview": "' . $record['preview'] . '",
-                    "filename": "' . $record['filename'] . '",
-                    "poster": "' . $record['poster'] . '",
-                    "upload_date": "' . $record['upload_date'] . '",
-                    "file_type": "' . $record['file_type'] . '"
-                }';
-            }
+                return json_encode([
+                    'start' => $start,
+                    'end' => $end,
+                    'total_records' => $recordCount,
+                    'displayed_records' => self::MAX_UPLOADS_PER_PAGE,
+                    'data' => $uploads
+                ]);
 
-            $jsonRequest .= implode(',', $jsonEdits) . '
-                ]
-            }';
-
-            return $jsonRequest;
+            default:
+                return '';
         }
-
-        else
-            return '';
     }
 
     public function setRequest(string $request) : void {
@@ -154,7 +148,7 @@ class UploadManagement extends ModelHeader {
         switch ($type) {
             case 'avatar':
             case 'uploaded_image':
-                return '<img src=\"' . self::$config->read('url') . '/public/ImageDispatch.php?filename=' . $filename . '\" alt=\"*\" class=\"image_preview\" />';
+                return '<img src="' . self::$config->read('url') . '/public/ImageDispatch.php?filename=' . $filename . '" alt="*" class="image_preview" />';
             default:
                 return '';
         }

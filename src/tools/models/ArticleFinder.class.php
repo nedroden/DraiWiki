@@ -428,40 +428,34 @@ class ArticleFinder extends ModelHeader {
      * @return string The generated JSON
      */
     public function generateJSON() : string {
-        if ($this->_request == 'getresults') {
-            $start = $this->_start;
-            $end = $start + $this->_maxResults;
+        switch ($this->_request) {
+            case 'getresults':
+                $start = $this->_start;
+                $end = $start + $this->_maxResults;
 
-            if ($end > $this->_resultCount)
-                $end = $start + ($this->_resultCount - $start);
+                if ($end > $this->_resultCount)
+                    $end = $start + ($this->_resultCount - $start);
 
-            $jsonRequest = '
-            {
-                "start": "' . $start . '",
-                "end": "' . $end . '",
-                "total_records": "' . $this->_resultCount . '",
-                "data": [';
+                $data = [];
+                foreach ($this->_articles as $article) {
+                    $data[] = [
+                        'id' => $article['id'],
+                        'title' => $article['title'],
+                        'body' => $article['body_shortened'],
+                        'href' => $article['href']
+                    ];
+                }
 
-            $json = [];
-            foreach ($this->_articles as $article) {
-                // This code will be replaced asap with json_encode
-                $json[] = '
-                {
-                    "id": ' . $article['id'] . ',
-                    "title": "' . str_replace("\n", '<br />', addcslashes($article['title'], '"')) . '",
-                    "body": "' . str_replace("\n", '<br />', addcslashes($article['body_shortened'], '"')) . '",
-                    "href": "' . str_replace("\n", '<br />', addcslashes($article['href'], '"')) . '"
-                }';
-            }
+                return json_encode([
+                    'start' => $start,
+                    'end' => $end,
+                    'total_records' => $this->_resultCount,
+                    'data' => $data
+                ]);
 
-            $jsonRequest .= implode(',', $json) . '
-                ]
-            }';
-
-            return $jsonRequest;
+            default:
+                return '';
         }
-        else
-            return '';
     }
 
     /**

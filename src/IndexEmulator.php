@@ -11,7 +11,7 @@
 
 use DraiWiki\Config;
 use DraiWiki\src\auth\models\User;
-use DraiWiki\src\core\controllers\{Connection, Registry};
+use DraiWiki\src\core\controllers\{Connection, ModuleLoader, Registry};
 use DraiWiki\src\core\models\SettingsImporter;
 use DraiWiki\src\main\controllers\Locale;
 
@@ -20,8 +20,12 @@ define('DraiWiki', 1);
 define('DEBUG_ALWAYS', false);
 
 require __DIR__ . '/../src/core/models/ConfigHeader.class.php';
+require __DIR__ . '/../src/core/controllers/ModuleLoader.class.php';
+require __DIR__ . '/../src/core/models/Module.class.php';
 require __DIR__ . '/../public/Config.php';
 require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../modules/Hook.class.php';
+require __DIR__ . '/../modules/Module.interface.php';
 require __DIR__ . '/../autoload.php';
 
 /**
@@ -32,7 +36,12 @@ require __DIR__ . '/../autoload.php';
  * like establishing a database connection. This file fixes that problem
  * by emulating the index.php file. Thus, database connections can be
  * established.
+ */
+
+/**
+ * Load the configuration file
  * @param Config $config
+ * @return void
  */
 
 function start(?Config &$config) : void {
@@ -44,6 +53,14 @@ function connectToDatabase(?Connection &$connection, bool $loadSettings = true) 
 
     if ($loadSettings)
         SettingsImporter::execute();
+}
+
+function loadModules() : void {
+    $moduleLoader = new ModuleLoader();
+    if ($moduleLoader->canLoadModules()) {
+        $moduleLoader->scan();
+        $moduleLoader->loadAll();
+    }
 }
 
 function loadEnvironment() : void {

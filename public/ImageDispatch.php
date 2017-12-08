@@ -30,6 +30,7 @@ $connection = null;
 
 start($config);
 connectToDatabase($connection);
+loadModules();
 loadEnvironment();
 
 $image = new Image('image', $_GET['filename']);

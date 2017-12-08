@@ -16,6 +16,7 @@ if (!defined('DraiWiki')) {
     die('You\'re really not supposed to be here.');
 }
 
+use DraiWiki\external\modules\Hook;
 use DraiWiki\src\core\controllers\QueryFactory;
 use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\main\models\DebugBarWrapper;
@@ -52,6 +53,11 @@ class GUI {
         $name = $this->_config->read('use_first_name_greeting') == 1 ? $this->_user->getFirstName() : $this->_user->getUsername();
         $this->_locale->replace('main', 'hello', $name);
 
+        $moduleHeaders = '';
+
+        Hook::callAll('copyright', $this->_copyright);
+        Hook::callAll('headers', $moduleHeaders);
+
         $this->setData([
             'skin_url' => $this->_skinUrl,
             'image_url' => $this->_imageUrl,
@@ -65,7 +71,8 @@ class GUI {
             'user' => $this->_user,
             'display_cookie_warning' => $this->_config->read('display_cookie_warning') == 1,
             'locale_continents' => $this->getLocalesByContinent(),
-            'slogan' => $this->_config->read('slogan')
+            'slogan' => $this->_config->read('slogan'),
+            'module_headers' => $moduleHeaders
         ]);
     }
 
@@ -168,6 +175,8 @@ class GUI {
                 'visible' => !$this->_user->isGuest()
             ]
         ];
+
+        Hook::callAll('menu', $menu);
 
         $visible_tabs = [];
 

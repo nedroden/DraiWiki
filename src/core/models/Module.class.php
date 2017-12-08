@@ -83,6 +83,8 @@ class Module {
 
         $className = 'DraiWiki\external\modules\\' . $this->_namespace . '\\' . $this->_mainClass;
         $this->_obj = new $className();
+
+        $this->_obj->callHooks();
     }
 
     public function isCompatible() : bool {

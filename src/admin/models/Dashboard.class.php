@@ -212,41 +212,35 @@ class Dashboard extends ModelHeader {
     }
 
     public function generateJSON() : string {
-        if ($this->_request == 'getrecentedits') {
-            $recordCount = $this->getLastEditsCount();
+        switch ($this->_request) {
+            case 'getrecentedits':
+                $recordCount = $this->getLastEditsCount();
 
-            $start = $this->getStart($recordCount);
-            $end = $start + self::MAX_EDITS_PER_PAGE;
+                $start = $this->getStart($recordCount);
+                $end = $start + self::MAX_EDITS_PER_PAGE;
 
-            if ($end > $recordCount)
-                $end = $start + ($recordCount % self::MAX_EDITS_PER_PAGE);
+                if ($end > $recordCount)
+                    $end = $start + ($recordCount % self::MAX_EDITS_PER_PAGE);
 
-            $jsonRequest = '
-            {
-                "start": "' . $start . '",
-                "end": "' . $end . '",
-                "total_records": "' . $recordCount . '",
-                "displayed_records": "' . self::MAX_EDITS_PER_PAGE . '",
-                "data": [';
+                $edits = [];
+                foreach ($this->getLastEdits($start) as $record) {
+                    $edits[] = [
+                        'title' => $record['title'],
+                        'username' => $record['username'],
+                        'updated' => $record['updated']
+                    ];
+                }
 
-            $jsonEdits = [];
-            foreach ($this->getLastEdits($start) as $record) {
-                $jsonEdits[] = '
-                {
-                    "title": "' . $record['title'] . '",
-                    "username": "' . $record['username'] . '",
-                    "updated": "' . $record['updated'] . '"
-                }';
-            }
+                return json_encode([
+                    'start' => $start,
+                    'end' => $end,
+                    'total_records' => $recordCount,
+                    'displayed_records' => self::MAX_EDITS_PER_PAGE,
+                    'data' => $edits
+                ]);
 
-            $jsonRequest .= implode(',', $jsonEdits) . '
-                ]
-            }';
-
-            return $jsonRequest;
+            default:
+                return '';
         }
-
-        else
-            return '';
     }
 }

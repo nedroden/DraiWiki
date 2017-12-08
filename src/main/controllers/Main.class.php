@@ -28,6 +28,8 @@ use function DraiWiki\createRoutes;
 
 require_once __DIR__ . '/../../../public/Config.php';
 require_once __DIR__ . '/../../../public/Routing.php';
+require_once __DIR__ . '/../../../modules/Hook.class.php';
+require_once __DIR__ . '/../../../modules/Module.interface.php';
 require_once __DIR__ . '/../../ScriptExtensions.php';
 
 class Main {
