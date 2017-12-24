@@ -202,6 +202,7 @@ return [
     'remove_user' => 'Delete',
 
     'delete' => 'Delete',
+    'setasdefault' => 'Make default',
 
     'cannot_delete_yourself' => 'You cannot delete yourself',
     'account_not_found' => 'User account not found',
@@ -237,5 +238,7 @@ return [
     'actions' => 'Actions',
 
     'new_homepage_title' => 'Homepage',
-    'new_homepage_body' => 'This is just a temporary homepage.'
+    'new_homepage_body' => 'This is just a temporary homepage.',
+
+    'this_will_delete_things' => 'Are you sure you want to delete this locale? Keep in mind that ALL ARTICLES that belong to this locale WILL BE PERMANENTLY DELETED.<br /><br />Please do not click the <em>okay</em> button unless you understand what the consequences are.'
 ];

@@ -70,5 +70,7 @@ return [
     'continent_oceania' => 'Oceania',
     'continent_other' => 'Other',
 
-    'about_this_software' => 'About this software'
+    'about_this_software' => 'About this software',
+
+    'default' => 'default'
 ];

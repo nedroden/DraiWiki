@@ -584,6 +584,13 @@ tr.selected td {
     text-align: center;
 }
 
+/* Locale management */
+#default_locale {
+    font-size: 90%;
+    font-weight: bold;
+    color: #3a3a3a;
+}
+
 /* Responsive theming */
 @media only screen and (max-width: 900px) {
     #content {

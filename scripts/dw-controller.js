@@ -41,8 +41,8 @@ $(function() {
     }
 });
 
-function requestConfirm(url) {
-    new $.Zebra_Dialog(please_confirm, {
+function createConfirmationDialog(url, message) {
+    new $.Zebra_Dialog(message, {
             width: 700,
             type: 'confirmation',
             buttons: [{
@@ -52,6 +52,14 @@ function requestConfirm(url) {
             }]
         }
     );
+}
+
+function requestConfirm(url) {
+    createConfirmationDialog(url, please_confirm);
+}
+
+function requestConfirmMesg(url, message) {
+    createConfirmationDialog(url, message);
 }
 
 function updateTranslationResultsList() {

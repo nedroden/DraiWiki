@@ -25,6 +25,7 @@ It also has built-in multi-language support, meaning you won't need an extension
 * GD extension
 
 ### 2.2. How to install
+#### 2.2.1. Manual installation
 1. Install Composer and NPM. If you're on a shared hosting and can't use the terminal, look at section 2.4
 2. cd to your http directory
 3. Run the following command in your command prompt or terminal: git clone https://github.com/Chistaen/DraiWiki.git
@@ -33,6 +34,12 @@ It also has built-in multi-language support, meaning you won't need an extension
 6. Edit the configuration file in public/config. Make sure you also edit the BASE_DIRNAME setting
 7. Run the DDL (table creation) and DML (data insertion) .sql files: ddl.sql and data.sql.
 8. Enjoy!
+
+#### 2.2.2. Command line installation
+You can also install DraiWiki from the command line by executing /tools/install.py. This script requires Python 3 to be installed. Just execute the aforementioned file and follow the process. Additional packages that are needed:
+* pymysql
+* Composer
+* NPM
 
 ### 2.3. Root account
 A root account is automatically created upon installation. At the time of writing it is not possible yet to disable the account entirely, but you should still avoid using the root account unless absolutely necessary. Benefits of the root account are:

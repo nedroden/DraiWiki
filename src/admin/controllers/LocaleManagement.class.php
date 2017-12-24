@@ -34,6 +34,7 @@ class LocaleManagement extends AppHeader {
         if (!empty($route['action'])) {
             switch ($route['action']) {
                 case 'add':
+                case 'setasdefault':
                 case 'delete':
                     if (empty($route['id']))
                         $this->cantProceedException = 'no_id_specified';
@@ -64,6 +65,9 @@ class LocaleManagement extends AppHeader {
                     break;
                 case 'delete':
                     $error = $this->_model->deleteLocale($this->_localeCode);
+                    break;
+                case 'setasdefault':
+                    $error = $this->_model->setDefaultLocale($this->_localeCode);
                     break;
                 default:
                     $error = 'unknown_action';

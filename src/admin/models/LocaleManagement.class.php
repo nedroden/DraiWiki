@@ -83,14 +83,12 @@ class LocaleManagement extends ModelHeader {
 
             $locales[] = [
                 $obj->getID(),
-                $obj->getCode(),
+                $obj->getCode() . ($obj->isDefault() ? ' <em id="default_locale">(' . self::$locale->read('main', 'default') . ')</em>' : ''),
                 $obj->getNative(),
                 $obj->getDialect(),
                 $obj->getSoftwareVersion(),
                 $obj->getLocaleVersion(),
-
-                // @todo Replace with id
-                $this->generateActionButtons($obj->getCode())
+                $this->generateActionButtons($obj->getCode(), $obj->isDefault())
             ];
 
             $this->_installedLocaleCodes[] = $obj->getCode();
@@ -202,13 +200,13 @@ class LocaleManagement extends ModelHeader {
         else if ($code == Locale::FALLBACK_LOCALE)
             return 'cannot_delete_fallback_locale';
 
+        // @todo Remove articles associated with the locale that is being deleted
+
         $query = QueryFactory::produce('modify', '
             DELETE
                 FROM {db_prefix}locale
                 WHERE code = :code
         ');
-
-        // @todo Remove articles associated with the locale that is being deleted
 
         $query->setParams([
             'code' => $code
@@ -219,13 +217,47 @@ class LocaleManagement extends ModelHeader {
         return null;
     }
 
-    private function generateActionButtons(string $code) : string {
-        $actions = ['delete'];
+    public function setDefaultLocale(string $code) : ?string {
+        if (!in_array($code, $this->_installedLocaleCodes))
+            return 'locale_does_not_exist';
+
+        $query = QueryFactory::produce('modify', '
+            UPDATE {db_prefix}setting
+                SET `value` = (
+                    SELECT id
+                        FROM {db_prefix}locale
+                        WHERE code = :code
+                        LIMIT 1
+                )
+                WHERE `key` = \'locale\'
+        ');
+
+        $query->setParams([
+            'code' => $code
+        ]);
+
+        $query->execute();
+
+        return null;
+    }
+
+    private function generateActionButtons(string $code, bool $isDefault) : string {
+        $actions = ['delete', 'setasdefault'];
         $buttons = '';
+
+        // Can't set a locale as the default locale if it already is the default locale
+        if ($isDefault)
+            unset($actions[1]);
 
         foreach ($actions as $action) {
             $url = self::$config->read('url') . '/index.php/management/locales/' . $action . '/' . $code;
-            $buttons .= sprintf('[<a href="javascript:void:(0);" onclick="requestConfirm(\'%s\')">%s</a>]', $url, self::$locale->read('management', $action));
+
+            if ($action == 'delete')
+                $func = sprintf('requestConfirmMesg(\'%s\', \'%s\')', $url, self::$locale->read('management', 'this_will_delete_things'));
+            else
+                $func = sprintf('requestConfirm(\'%s\')', $url);
+
+            $buttons .= sprintf('[<a href="javascript:void:(0);" onclick="%s">%s</a>] ', $func, self::$locale->read('management', $action));
         }
 
         return $buttons;

@@ -195,6 +195,12 @@ select {
     font-size: 40px;
 }
 
+#to_top_arrow {
+    font-size: 250%;
+    z-index: 1;
+    color: #4a6699;
+}
+
 #content {
     padding: 10px;
     background: #fff;

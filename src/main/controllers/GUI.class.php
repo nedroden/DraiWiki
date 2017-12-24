@@ -309,7 +309,7 @@ class GUI {
             }
 
             $locales[$localeContinent]['locales'][] = [
-                'native' => $locale->getNative(),
+                'native' => $locale->getNative() . ($locale->isDefault() ? ' - ' . $this->_locale->read('main', 'default') : ''),
                 'code' => $locale->getCode()
             ];
         }
@@ -323,7 +323,8 @@ class GUI {
         }
 
         $locales[$currentLocaleContinent]['locales'][] = [
-            'native' => $this->_locale->getNative(),
+            // Default locale does not necessarily have to be the current locale, so we should still check
+            'native' => $this->_locale->getNative() . ($this->_locale->isDefault() ? ' - ' . $this->_locale->read('main', 'default') : ''),
             'code' => $this->_locale->getCode(),
             'selected' => true
         ];
