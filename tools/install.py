@@ -227,7 +227,7 @@ def install_libraries():
                 subprocess.run(process.split())
 
         except subprocess.CalledProcessError as e:
-            throw_error('Could not install libraries')
+            throw_error('Could not install libraries', e)
             result = False
             return False
 

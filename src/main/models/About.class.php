@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   DraiWiki, 2017
+ * @copyright   2017-2018, DraiWiki
  * @license     Apache 2.0
  *
  * Note: this file depends on the FastRoute routing library.
