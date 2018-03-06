@@ -13,8 +13,9 @@
         </div>
     {% endif %}
 
-    <div class="section_content">
-        <form action="{{ action }}" method="post">
+    
+    <form action="{{ action }}" method="post">
+        <div class="section_content">
             <p>{{ _localized('auth.this_is_the_registration_page') }}</p>
             <label 	for="username"{% if errors.username is not empty %} class="contains_error"{% endif %}>
                 {{ _localized('auth.username') }}
@@ -65,7 +66,9 @@
             <div id="accept_agreement">
                 <input type="checkbox" name="agreement_accept" /> {{ _localized('auth.agreement_i_accept') }}
             </div>
+        </div>
+        <div class="form_submit_area">
             <input type="submit" value="{{ _localized('auth.create') }}" />
-        </form>
-    </div>
+        </div>
+    </form>
 </div>

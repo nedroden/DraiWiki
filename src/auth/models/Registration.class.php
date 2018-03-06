@@ -47,7 +47,7 @@ class Registration extends ModelHeader {
         ');
 
         $query->setParams([
-            'locale' => self::$locale->getID(),
+            'locale' => self::$locale->getCurrentLocaleInfo()->getID(),
             'default_locale' => self::DEFAULT_LOCALE_ID
         ]);
 

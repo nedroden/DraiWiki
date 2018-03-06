@@ -79,12 +79,6 @@ class Management extends ModelHeader {
                         'icon' => 'fa-wrench',
                         'href' => self::$config->read('url') . '/index.php/management/settings/general',
                         'visible' => true
-                    ],
-                    'settings_database' => [
-                        'label' => 'config_database',
-                        'icon' => 'fa-database',
-                        'href' => self::$config->read('url') . '/index.php/management/databasesettings',
-                        'visible' => true
                     ]
                 ]
             ],
@@ -127,12 +121,6 @@ class Management extends ModelHeader {
                         'icon' => 'fa-ban',
                         'href' => self::$config->read('url') . '/index.php/management/banlist',
                         'visible' => true
-                    ],
-                    'log' => [
-                        'label' => 'security_log',
-                        'icon' => 'fa-file-text',
-                        'href' => self::$config->read('url') . '/index.php/management/securitylog',
-                        'visible' => true
                     ]
                 ]
             ],
@@ -163,12 +151,6 @@ class Management extends ModelHeader {
                         'icon' => 'fa-language',
                         'href' => self::$config->read('url') . '/index.php/management/locales',
                         'visible' => true
-                    ],
-                    'themes' => [
-                        'label' => 'theme_management',
-                        'icon' => 'fa-paint-brush',
-                        'href' => self::$config->read('url') . '/index.php/management/themes',
-                        'visible' => true
                     ]
                 ]
             ],
@@ -180,12 +162,6 @@ class Management extends ModelHeader {
                         'label' => 'detailed_system_information',
                         'icon' => 'fa-info',
                         'href' => self::$config->read('url') . '/index.php/management/sysinfo',
-                        'visible' => true
-                    ],
-                    'manual' => [
-                        'label' => 'manual',
-                        'icon' => 'fa-question',
-                        'href' => self::$config->read('url') . '/index.php/management/manual',
                         'visible' => true
                     ]
                 ]

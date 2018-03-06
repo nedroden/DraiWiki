@@ -34,7 +34,6 @@ return [
     'home' => 'Home',
     'logout' => 'Logout',
 
-    'config_database' => 'Server and database settings',
     'config_general' => 'General settings',
 
     'display_users' => 'Display users',
@@ -44,9 +43,7 @@ return [
 
     'registration' => 'Registration settings',
 
-    'security_log' => 'Security log',
     'locale_management' => 'Locales',
-    'theme_management' => 'Themes',
 
     'locales_description' => 'Locales can be installed and managed here.',
 
@@ -89,7 +86,6 @@ return [
     'primary_group' => 'Primary group',
     'manage_buttons' => 'Manage',
 
-    'manual' => 'Manual',
     'detailed_system_information' => 'System information',
 
     'sysinfo_description' => 'Detailed system information can be viewed here. If you need any help with your DraiWiki installation, generate one of these and include them in your support request or bug report.',

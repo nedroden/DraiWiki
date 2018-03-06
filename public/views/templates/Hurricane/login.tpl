@@ -13,8 +13,8 @@
         </div>
     {% endif %}
 
-    <div class="section_content">
-        <form action="{{ action }}" method="post">
+    <form action="{{ action }}" method="post">
+        <div class="section_content">
             <p>{{ _localized('auth.please_enter_email') }}</p>
             <label 	for="email"{% if errors.email is not empty %} class="contains_error"{% endif %}>
                 {{ _localized('auth.email') }}
@@ -30,7 +30,9 @@
                       name="password"
                       placeholder="{{ _localized('auth.placeholder_password') }}"
                       maxlength="{{ max_password_length }}" /><br />
+        </div>
+        <div class="form_submit_area">
             <input type="submit" value="{{ _localized('auth.authenticate') }}" />
-        </form>
-    </div>
+        </div>
+    </form>
 </div>

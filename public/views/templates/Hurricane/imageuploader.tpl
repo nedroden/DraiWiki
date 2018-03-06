@@ -19,7 +19,7 @@
     <div class="section_content">
         <form action="{{ action }}" enctype="multipart/form-data" method="post">
             <p>{{ _localized('tools.you_can_upload_images_here') }}</p>
-            <label 	for="file"{% if errors.file is not empty %} class="contains_error"{% endif %>
+            <label 	for="file"{% if errors.file is not empty %} class="contains_error"{% endif %}
                 {{ _localized('tools.file') }}
             </label>
             <input 	type="file"

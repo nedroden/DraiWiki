@@ -23,12 +23,12 @@ body {
 }
 
 a {
-    color: #1873e2;
+    color: #c9966c;
     text-decoration: none;
 }
 
 a:hover {
-    color: #7d9cc1;
+    color: #e5ad80;
 }
 
 ::selection {
@@ -53,7 +53,7 @@ a:hover {
 }
 
 h1, h2, h3, h4, h5, h6, h1 a {
-    color: #78a1bb;
+    color: #5e89a0;
     font-weight: normal;
     font-family: "Source Sans Pro", Helvetica, Verdana, Arial;
     margin: 10px 0 0 0;
@@ -137,22 +137,35 @@ select {
     width: 100%;
 }
 
+.form_submit_area input[type="submit"] {
+    background: #6f7172;
+    padding: 7px;
+    letter-spacing: 0;
+    border: 0;
+}
+
 /* Styles for the top bar */
 #topbar {
     padding: 10px 20px 10px 20px;
-    color: #fff;
+    /* color: #fff;
     background: #141414;
     background: linear-gradient(-180deg, #1a1a1a, #141414);
     font-family: "Noto Sans", Helvetica, Calibri, Arial;
     font-size: 95%;
     line-height: 25px;
-    vertical-align: middle;
+    vertical-align: middle;*/
+
+    font-family: "Noto Sans";
+    color: #727272;
+    background: #efefef;
+    letter-spacing: -1px;
+    align-items: center;
 }
 
 #topbar a {
-    color: #fff;
-    text-shadow: 1px 2px #000;
+    color: #353535;
     padding: 5px 5px 5px 20px;
+    letter-spacing: 0;
     background: url('{IMAGE_URL}menu_link.png') left center no-repeat;
     background-position: left 5px center;
 }
@@ -163,7 +176,7 @@ select {
 }
 
 #topbar #menu a {
-    margin-right: 10px;
+    margin-right: 5px;
     vertical-align: middle!important;
 }
 
@@ -180,8 +193,8 @@ select {
 }
 
 #header {
-    background: #283044;
-    background: radial-gradient(circle, #283044, #262d40);
+    background: #25639e;
+    background: linear-gradient(135deg, #25639e, #408dde);
     font-family: "Noto Sans", Verdana, Helvetica, Arial;
     padding: 40px;
     align-items: center;
@@ -197,9 +210,9 @@ select {
 }
 
 #to_top_arrow {
-    font-size: 250%;
+    font-size: 200%;
     z-index: 1;
-    color: #4a6699;
+    color: #c9966c;
 }
 
 #content {
@@ -244,6 +257,7 @@ select {
 	font-size: 200%;
 	font-family: Arial, Verdana;
 	letter-spacing: -1px;
+    border-bottom: 4px solid #5e89a0;
 }
 
 /* Positioning */
@@ -268,32 +282,30 @@ select {
 /* Messages */
 .message_box {
     margin: 20px 0px 20px 0px;
-    padding: 15px;
-    border-radius: 10px;
+    padding: 5px;
 }
 
 .info {
-    border: 1px solid #78a1bb;
+    border-left: 5px solid #78a1bb;
     background: #ebf5ee;
     color: #283044;
     padding: 15px;
-    border-radius: 10px;
 }
 
 .notice {
-    border: 1px solid #f4f1bb;
+    border-left: 5px solid #f4f1bb;
     background: #fffde5;
     color: #353532;
 }
 
 .success {
-    border: 1px solid #78bb7b;
+    border-left: 5px solid #78bb7b;
     background: #ebf5eb;
     color: #2f4428;
 }
 
 .error {
-    border: 1px solid #bb7878;
+    border-left: 5px solid #bb7878;
     background: #f5ebeb;
     color: #442828;
 }
@@ -392,7 +404,8 @@ select {
 }
 
 #sidebar ul li {
-    padding: 4px 2px 4px 8px;
+    padding: 6px 2px 6px 8px;
+    border-radius: 5px;
 }
 
 #sidebar ul li:hover {
@@ -497,7 +510,13 @@ p {
 
 .section_content {
 	padding: 20px;
-	background: #f7f7f7;
+	background: #fcfcfc;
+}
+
+.form_submit_area {
+    padding: 8px 20px 8px 20px;
+    background: #f3f3f3;
+    text-align: right;
 }
 
 /* Margins and widths */
@@ -561,6 +580,11 @@ h1.article_title {
 
 #article_body {
     word-wrap: break-word;
+}
+
+#article_body h1, #article_body h2, #article_body h3, #article_body h4, #article_body h5 {
+    color: #757575;
+    letter-spacing: -1px;
 }
 
 #article_body h1 {

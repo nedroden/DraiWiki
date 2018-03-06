@@ -506,38 +506,32 @@ tr.selected td {
 /* Messages */
 .message_box {
     margin: 20px 0px 20px 0px;
+    padding: 5px;
 }
 
 .info {
-    border: 1px solid #78a1bb;
+    border-left: 5px solid #78a1bb;
     background: #ebf5ee;
     color: #283044;
     padding: 15px;
-    border-radius: 10px;
 }
 
 .notice {
-    border: 1px solid #f4f1bb;
+    border-left: 5px solid #f4f1bb;
     background: #fffde5;
     color: #353532;
-    padding: 15px;
-    border-radius: 10px;
 }
 
 .success {
-    border: 1px solid #78bb7b;
+    border-left: 5px solid #78bb7b;
     background: #ebf5eb;
     color: #2f4428;
-    padding: 15px;
-    border-radius: 10px;
 }
 
 .error {
-    border: 1px solid #bb7878;
+    border-left: 5px solid #bb7878;
     background: #f5ebeb;
     color: #442828;
-    padding: 15px;
-    border-radius: 10px;
 }
 
 .string_not_found {
