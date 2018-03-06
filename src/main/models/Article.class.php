@@ -393,7 +393,7 @@ class Article extends ModelHeader {
         $result = [];
         foreach ($query->execute() as $article) {
             $result[] = [
-                'updated' => '<a href=\"' . self::$config->read('url') . '/index.php/article/' . $this->_titleSafe . '/history/' . $article['id'] . '\">' . $article['updated'] . '</a>',
+                'updated' => '<a href="' . self::$config->read('url') . '/index.php/article/' . $this->_titleSafe . '/history/' . $article['id'] . '">' . $article['updated'] . '</a>',
                 'username' => $article['username']
             ];
         }

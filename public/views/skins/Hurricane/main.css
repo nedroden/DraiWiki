@@ -23,7 +23,7 @@ body {
 }
 
 a {
-    color: #c9966c;
+    color: #66ae46;
     text-decoration: none;
 }
 
@@ -212,7 +212,7 @@ select {
 #to_top_arrow {
     font-size: 200%;
     z-index: 1;
-    color: #c9966c;
+    color: #2f5577;
 }
 
 #content {
