@@ -77,13 +77,15 @@ class Article extends ModelHeader {
                 INNER JOIN `{db_prefix}user` u ON (h.user_id = u.id)
                 WHERE ' . ($this->_isHomepage ? 'a.id' : 'a.title') . ' = :article
                 ' . (!empty($historicalVersion) ? 'AND h.id = ' . $historicalVersion : '') . '
-                AND `status` = 1
+                AND a.status = 1
+                AND a.locale_id = :locale_id
                 ORDER BY h.updated DESC
                 LIMIT 1
         ');
 
         $query->setParams([
-            'article' => $this->_isHomepage ? self::$locale->getCurrentLocaleInfo()->getHomepageID() : Sanitizer::ditchUnderscores($this->_requestedArticle)
+            'article' => $this->_isHomepage ? self::$locale->getCurrentLocaleInfo()->getHomepageID() : Sanitizer::ditchUnderscores($this->_requestedArticle),
+            'locale_id' => self::$locale->getCurrentLocaleInfo()->getID()
         ]);
 
         $result = $query->execute();
