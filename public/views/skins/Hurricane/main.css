@@ -76,6 +76,7 @@ hr.upp_bot_mar {
 
 /* Form elements */
 input[type="text"], input[type="password"] {
+    background: #fff;
     border: 1px solid #d1d1d1;
     border-radius: 5px;
     color: #a5a5a5;
@@ -505,7 +506,7 @@ p {
     margin: auto;
 }
 
-/* Cookie-related styles */
+/* Cookie warning-related styles */
 #cookie_warning {
     background: #b8bec6;
     background: radial-gradient(circle, #232121, #4f4f4f);

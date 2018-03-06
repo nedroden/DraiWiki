@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -18,9 +18,7 @@ if (!defined('DraiWiki')) {
 
 use DraiWiki\Config;
 use DraiWiki\src\auth\models\User;
-use DraiWiki\src\core\controllers\{
-    Connection, ModuleLoader, Registry
-};
+use DraiWiki\src\core\controllers\{Connection, ModuleLoader, Registry};
 use DraiWiki\src\core\models\{RouteInfo, SessionHandler, SettingsImporter};
 use DraiWiki\src\main\models\{DebugBarWrapper, Stylesheet};
 
@@ -84,8 +82,8 @@ class Main {
 		$gui->setData([
 			'url' => $this->_config->read('url'),
 			'wiki_name' => $this->_config->read('wiki_name'),
-			'locale_native' => $this->_locale->getNative(),
-			'locale_copyright' => $this->_locale->getCopyright()
+			'locale_native' => $this->_locale->getCurrentLocaleInfo()->getNative(),
+			'locale_copyright' => $this->_locale->getCurrentLocaleInfo()->getCopyright()
 		]);
 
 		$app = new App();

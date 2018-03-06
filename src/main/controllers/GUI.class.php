@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -19,18 +19,22 @@ if (!defined('DraiWiki')) {
 use DraiWiki\external\modules\Hook;
 use DraiWiki\src\core\controllers\QueryFactory;
 use DraiWiki\src\core\controllers\Registry;
-use DraiWiki\src\main\models\DebugBarWrapper;
-use Dwoo\{Core, Data};
+use DraiWiki\src\main\models\{DebugBarWrapper, Locale as LocaleModel};
+use Twig_Environment;
+use Twig_Function;
+use Twig_Loader_Filesystem;
 
 class GUI {
 
     private $_config;
-    private $_engine;
     private $_templatePath, $_skinUrl, $_imageUrl;
-    private $_data;
     private $_copyright;
     private $_user;
     private $_teamMembers, $_libraries;
+
+    private $_loader;
+    private $_twig;
+    private $_data;
 
     private const DEFAULT_THEME = 'Hurricane';
 
@@ -40,25 +44,31 @@ class GUI {
         $this->_config = Registry::get('config');
         $this->_locale = Registry::get('locale');
         $this->_user = Registry::get('user');
-        $this->_engine = new Core();
 
-        $this->_data = new Data();
+        $this->_data = [];
 
         $this->setThemeInfo();
         $this->setCopyright();
         $this->generateMenu();
-        $this->_engine->setTemplateDir($this->_templatePath . '/');
 
-        // Unfortunately we can't use sprintf in templates, so we have to do this manually
-        $name = $this->_config->read('use_first_name_greeting') == 1 ? $this->_user->getFirstName() : $this->_user->getUsername();
-        $this->_locale->replace('main', 'hello', $name);
+        $this->_loader = new Twig_Loader_Filesystem($this->_templatePath);
+        $this->_twig = new Twig_Environment($this->_loader, [
+            'cache' => DEBUG_ALWAYS ? false : $this->_config->read('path') . '/cache',
+            'debug' => DEBUG_ALWAYS,
+            'autoescape' => false
+        ]);
+
+        $this->_twig->addFunction(new Twig_Function('_localized', function(string $identifier, string ...$params) {
+            return _localized($identifier, ...$params);
+        }));
 
         $moduleHeaders = '';
 
         Hook::callAll('copyright', $this->_copyright);
         Hook::callAll('headers', $moduleHeaders);
 
-        $this->setData([
+        $this->_data += [
+            'base_url' => $this->_config->read('url'),
             'skin_url' => $this->_skinUrl,
             'image_url' => $this->_imageUrl,
             'locale' => $this->_locale,
@@ -73,24 +83,23 @@ class GUI {
             'locale_continents' => $this->getLocalesByContinent(),
             'slogan' => $this->_config->read('slogan'),
             'module_headers' => $moduleHeaders
-        ]);
+        ];
     }
 
     public function showHeader() : void {
         $this->createDebugBar(false, 'head');
 
-        echo $this->_engine->get('header.tpl', $this->_data);
+        echo $this->_twig->load('header.tpl')->render($this->_data);
     }
 
     public function showFooter() : void {
         $this->createDebugBar(false, 'body');
 
-        echo $this->_engine->get('footer.tpl', $this->_data);
+        echo $this->_twig->load('footer.tpl')->render($this->_data);
     }
 
     public function setData(array $data) : void {
-        foreach ($data as $key => $value)
-            $this->_data->assign($key, $value);
+        $this->_data = array_merge($this->_data, $data);
     }
 
     public function parseAndGet(string $tplName, array $data, bool $canThrowException = true) : string {
@@ -104,23 +113,7 @@ class GUI {
         if ($tplName == 'admin_header' || $tplName == 'admin_footer')
             $data = array_merge($data, $this->createDebugBar(true));
 
-        $data = array_merge([
-            'base_url' => $this->_config->read('url'),
-            'skin_url' => $this->_skinUrl,
-            'image_url' => $this->_imageUrl,
-            'node_url' => $this->_config->read('url') . '/node_modules',
-            'locale' => $this->_locale,
-            'copyright' => $this->_copyright,
-            'script_url' => $this->_config->read('url') . '/scripts',
-            'user' => $this->_user,
-            'wiki_version' => Main::WIKI_VERSION
-        ], $data);
-
-        $dataObject = new Data();
-        foreach ($data as $key => $value)
-            $dataObject->assign($key, $value);
-
-        return $this->_engine->get($tplName . '.tpl', $dataObject);
+        return $this->_twig->load($tplName . '.tpl')->render($this->_data + $data);
     }
 
     private function setThemeInfo() : void {
@@ -183,12 +176,12 @@ class GUI {
         foreach ($menu as $item) {
             if ($item['visible']) {
                 // Replace the label placeholders with localized labels
-                $item['label'] = $this->_locale->read('main', $item['label']);
+                $item['label'] = _localized('main.' . $item['label']);
                 $visible_tabs[] = $item;
             }
         }
 
-        $this->setData(['menu' => $visible_tabs]);
+        $this->_data['menu'] = $visible_tabs;
     }
 
     public function displaySidebar(array $additionalItems) : void {
@@ -264,12 +257,12 @@ class GUI {
             if ($item['visible']) {
                 // Replace the label placeholders with localized labels
                 if (empty($item['hardcoded']) || !$item['hardcoded'])
-                    $item['label'] = $this->_locale->read('main', $item['label']);
+                    $item['label'] = _localized('main.' . $item['label']);
 
                 $visibleSubItems = [];
                 foreach ($item['items'] as $subItem) {
                     if (empty($subItem['hardcoded']) || !$subItem['hardcoded'])
-                        $subItem['label'] = $this->_locale->read('main', $subItem['label']);
+                        $subItem['label'] = _localized('main.' . $subItem['label']);
 
                     if ($subItem['visible'])
                         $visibleSubItems[] = $subItem;
@@ -292,40 +285,40 @@ class GUI {
         ');
 
         $query->setParams([
-            'locale_id' => $this->_locale->getID()
+            'locale_id' => $this->_locale->getCurrentLocaleInfo()->getID()
         ]);
 
         $locales = [];
         foreach ($query->execute() as $foundLocale) {
-            $locale = new Locale($foundLocale['id']);
+            $locale = new LocaleModel($foundLocale['id']);
 
             $localeContinent = $locale->getContinent();
 
             if (empty($locales[$localeContinent])) {
                 $locales[$localeContinent] = [
-                    'label' => $this->_locale->read('main', 'continent_' . $localeContinent, true, true) ?? $this->_locale->read('main', 'continent_other'),
+                    'label' => _localized('main.continent_' . $localeContinent, true, true) ?? _localized('main.continent_other'),
                     'locales' => []
                 ];
             }
 
             $locales[$localeContinent]['locales'][] = [
-                'native' => $locale->getNative() . ($locale->isDefault() ? ' - ' . $this->_locale->read('main', 'default') : ''),
+                'native' => $locale->getNative() . ($locale->isDefault() ? ' - ' . _localized('main.default') : ''),
                 'code' => $locale->getCode()
             ];
         }
 
-        $currentLocaleContinent = $this->_locale->getContinent();
+        $currentLocaleContinent = $this->_locale->getCurrentLocaleInfo()->getContinent();
         if (empty($locales[$currentLocaleContinent])) {
             $locales[$currentLocaleContinent] = [
-                'label' => $this->_locale->read('main', 'continent_' . $currentLocaleContinent, true, true) ?? $this->_locale->read('main', 'continent_other'),
+                'label' => _localized('main.continent_' . $currentLocaleContinent, true, true) ?? _localized('main.continent_other'),
                 'locales' => []
             ];
         }
 
         $locales[$currentLocaleContinent]['locales'][] = [
             // Default locale does not necessarily have to be the current locale, so we should still check
-            'native' => $this->_locale->getNative() . ($this->_locale->isDefault() ? ' - ' . $this->_locale->read('main', 'default') : ''),
-            'code' => $this->_locale->getCode(),
+            'native' => $this->_locale->getCurrentLocaleInfo()->getNative() . ($this->_locale->getCurrentLocaleInfo()->isDefault() ? ' - ' . _localized('main.default') : ''),
+            'code' => $this->_locale->getCurrentLocaleInfo()->getCode(),
             'selected' => true
         ];
 
@@ -354,12 +347,7 @@ class GUI {
         if ($part == 'both' || $part == 'body')
             $data['debug_body'] = $canView ? $renderer->render() : null;
 
-        if (!$return)
-            $this->setData($data);
-        else
-            return $data;
-
-        return null;
+        return $data ?? null;
     }
 
     public function getSkinUrl() : string {

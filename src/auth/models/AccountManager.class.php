@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -27,9 +27,6 @@ class AccountManager extends ModelHeader {
         $this->loadLocale();
         $this->loadConfig();
         $this->loadUser();
-
-        self::$locale->loadFile('auth');
-        self::$locale->loadFile('error');
     }
 
     public function loadAccount(?int $userID) : ?string {
@@ -55,7 +52,7 @@ class AccountManager extends ModelHeader {
     }
 
     public function getTitle() : string {
-        return self::$locale->read('auth', 'edit_settings');
+        return _localized('auth.edit_settings');
     }
 
     public function generateFields() : void {
@@ -85,7 +82,7 @@ class AccountManager extends ModelHeader {
                 'label' => 'activated',
                 'description' => 'activated_desc',
                 'input_type' => 'checkbox',
-                'input_description' => self::$locale->read('auth', 'activate_account'),
+                'input_description' => _localized('auth.activate_account'),
                 'value' => $this->_user->getIsActivated(),
                 'visible' => $this->_user->getID() != self::$user->getID()
             ],
@@ -141,16 +138,16 @@ class AccountManager extends ModelHeader {
                 continue;
 
             if (!is_array($field)) {
-                $this->_fields[] = ['label' => self::$locale->read('auth', $field), 'is_header' => true];
+                $this->_fields[] = ['label' => _localized('auth.' . $field), 'is_header' => true];
                 continue;
             }
 
-            $field['label'] = self::$locale->read('auth', $field['label']);
-            $field['description'] = self::$locale->read('auth', $field['description']);
+            $field['label'] = _localized('auth.' . $field['label']);
+            $field['description'] = _localized('auth.' . $field['description']);
 
             if ($field['input_type'] == 'select') {
                 foreach ($field['options'] as &$option) {
-                    $option['label'] = self::$locale->read('auth', $option['label']);
+                    $option['label'] = _localized('auth.' . $option['label']);
 
                     if ($option['value'] == $field['selected'])
                         $option['selected'] = true;
@@ -189,7 +186,7 @@ class AccountManager extends ModelHeader {
             }
 
             if (($request->getIsEmpty() && empty($field['optional']) && $field['input_type'] != 'select') || (!$request->getIsset() && empty($field['optional']))) {
-                $errors[$field['name']] = self::$locale->read('auth', 'field_empty_' . $field['name']);
+                $errors[$field['name']] = _localized('auth.field_empty_' . $field['name']);
                 continue;
             }
 
@@ -206,7 +203,7 @@ class AccountManager extends ModelHeader {
                 switch ($field['format']) {
                     case 'email':
                         if (!$validator->isValidEmail()) {
-                            $errors['email'] = self::$locale->read('auth', 'invalid_email');
+                            $errors['email'] = _localized('auth.invalid_email');
                             continue;
                         }
                         break;
@@ -223,18 +220,18 @@ class AccountManager extends ModelHeader {
                 }
 
                 if (!$found) {
-                    $errors[$field['name']] = self::$locale->read('auth', 'select_value_does_not_exist');
+                    $errors[$field['name']] = _localized('auth.select_value_does_not_exist');
                     continue;
                 }
             }
 
             if ((substr($validator->getValue(), 0) == ' ' || substr($validator->getValue(), -1) == ' ')) {
-                $errors[$field['name']] = self::$locale->read('auth', 'oh_god_begin_end_spaces_' . $field['name']);
+                $errors[$field['name']] = _localized('auth.oh_god_begin_end_spaces_' . $field['name']);
                 continue;
             }
 
             if ($validator->containsHTML()) {
-                $errors[$field['name']] = self::$locale->read('auth', 'html_nope');
+                $errors[$field['name']] = _localized('auth.html_nope');
                 continue;
             }
 

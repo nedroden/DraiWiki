@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -150,7 +150,7 @@ class User extends ModelHeader {
                 $query->setParams(['email' => $email ?? $this->_email]);
 
             foreach ($query->execute() as $record)
-                $errors[$key] = self::$locale->read('auth', $key . '_in_use');
+                $errors[$key] = _localized('auth.', $key . '_in_use');
         }
 
         return $errors;
@@ -158,14 +158,14 @@ class User extends ModelHeader {
 
     private function setUserInfo(array $details) : void {
         $this->_id = $details['id'] ?? 0;
-        $this->_username = $details['username'] ?? (!empty(self::$locale) ? self::$locale->read('auth', 'guest') : null);
+        $this->_username = $details['username'] ?? (!empty(self::$locale) ? _localized('auth.guest') : null);
 
         /* Again, passwords are HASHED before they arrive here. Passwords are stored ONLY during the
          registration process and are removed as soon as the user has been added to the database */
         $this->_password = $details['password'] ?? '';
 
-        $this->_firstName = $details['first_name'] ?? (!empty(self::$locale) ? self::$locale->read('auth', 'john') : null);
-        $this->_lastName = $details['last_name'] ?? (!empty(self::$locale) ? self::$locale->read('auth', 'doe') : null);
+        $this->_firstName = $details['first_name'] ?? (!empty(self::$locale) ? _localized('auth.john') : null);
+        $this->_lastName = $details['last_name'] ?? (!empty(self::$locale) ? _localized('auth.doe') : null);
 
         $this->_primaryGroup = $details['group_id'] ?? 4;
 
@@ -270,18 +270,18 @@ class User extends ModelHeader {
             $activationCode->getLink()
         ];
 
-        $messageBody = str_replace($replaceThis, $replaceWith, self::$locale->read('auth', 'registration_mail_body'));
+        $messageBody = str_replace($replaceThis, $replaceWith, _localized('auth.registration_mail_body'));
 
         $email = SimpleMail::make()
             ->setTo($this->_email, $this->_firstName . ' ' . $this->_lastName)
             ->setFrom(self::$config->read('wiki_email'), self::$config->read('wiki_name'))
-            ->setSubject(sprintf(self::$locale->read('auth', 'registration_mail_title'), self::$config->read('wiki_name')))
+            ->setSubject(sprintf(_localized('auth.registration_mail_title'), self::$config->read('wiki_name')))
             ->setMessage($messageBody)
             ->setHtml()
             ->send();
 
         if (!$email)
-            (new LogEntry(self::$locale->read('error', 'could_not_send_mail'), 'error', ['email' => $this->_email]))->create();
+            (new LogEntry(_localized('error.could_not_send_mail'), 'error', ['email' => $this->_email]))->create();
     }
 
     /**
@@ -314,7 +314,7 @@ class User extends ModelHeader {
             return;
         }
 
-        $errors[] = self::$locale->read('auth', 'email_or_password_not_found');
+        $errors[] = _localized('auth.email_or_password_not_found');
     }
 
     public function setSessionUID() : void {
@@ -398,13 +398,11 @@ class User extends ModelHeader {
 
     public function updateInfoWithLocale() : void {
         $this->loadLocale();
-        self::$locale->loadFile('auth');
-        self::$locale->loadFile('error');
 
         if (empty($this->_username)) {
-            $this->_username = self::$locale->read('auth', 'guest');
-            $this->_firstName = self::$locale->read('auth', 'john');
-            $this->_lastName = self::$locale->read('auth', 'doe');
+            $this->_username = _localized('auth.guest');
+            $this->_firstName = _localized('auth.john');
+            $this->_lastName = _localized('auth.doe');
         }
     }
 

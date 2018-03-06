@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  *
  * Note: this file depends on the FastRoute routing library.
@@ -54,7 +54,6 @@ class About extends ModelHeader {
             ['name' => 'Color convert', 'href' => 'https://github.com/Qix-/color-convert'],
             ['name' => 'Color name', 'href' => 'https://github.com/colorjs/color-name'],
             ['name' => 'Cookie consent', 'href' => 'https://cookieconsent.insites.com'],
-            ['name' => 'Dwoo', 'href' => 'http://dwoo.org'],
             ['name' => 'Font Awesome', 'href' => 'http://fontawesome.io/'],
             ['name' => 'jQuery', 'href' => 'https://jquery.com'],
             ['name' => 'Marked', 'href' => 'https://github.com/chjj/marked'],
@@ -65,6 +64,7 @@ class About extends ModelHeader {
             ['name' => 'SimpleMail', 'href' => 'https://github.com/eoghanobrien/php-simple-mail'],
             ['name' => 'SimpleMDE', 'href' => 'https://simplemde.com'],
             ['name' => 'Sprintf.js', 'href' => 'https://github.com/alexei/sprintf.js'],
+            ['name' => 'Twig', 'href' => 'https://twig.symfony.com/'],
             ['name' => 'TypeWatch', 'href' => 'https://github.com/dennyferra/TypeWatch'],
             ['name' => 'Typo JS', 'href' => 'https://github.com/cfinke/Typo.js/'],
             ['name' => 'Zebra Dialog', 'href' => 'https://github.com/stefangabos/Zebra_Dialog']
@@ -79,6 +79,6 @@ class About extends ModelHeader {
     }
 
     public function getTitle() : string {
-        return self::$locale->read('main', 'about_this_software');
+        return _localized('main.about_this_software');
     }
 }

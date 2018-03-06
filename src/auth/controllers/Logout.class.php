@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -28,8 +28,6 @@ class Logout {
         $this->_user = Registry::get('user');
         $this->_config = Registry::get('config');
         $this->_locale = Registry::get('locale');
-
-        $this->_locale->loadFile('auth');
     }
 
     public function canAccess() : bool {
@@ -43,7 +41,7 @@ class Logout {
 
     public function getAppInfo() : array {
         return [
-            'title' => $this->_locale->read('auth', 'logging_out')
+            'title' => _localized('management.logging_out')
         ];
     }
 

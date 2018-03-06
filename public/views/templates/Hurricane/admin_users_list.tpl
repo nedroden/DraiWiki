@@ -1,15 +1,15 @@
             <div class="content_section">
-                {if not $errors eq ''}
+                {% if errors is not empty %}
                     <div class="message_box error">
                         <ul>
-                            {foreach $errors msg}
-                                <li>{$msg}</li>
-                            {/foreach}
+                            {% for error in errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
                         </ul>
                     </div>
-                {/if}
+                {% endif %}
 
-                {$table}
+                {{ table }}
             </div>
 
             <script type="text/javascript">activateTable('/management/users/ajax/getlist');</script>

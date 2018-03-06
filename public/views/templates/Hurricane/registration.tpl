@@ -1,71 +1,71 @@
 <div id="form_area">
     <div class="section_header">
-        {$locale->read('auth', 'user_registration')}
+        {{ _localized('auth.user_registration') }}
     </div>
 
-    {if not $errors eq ''}
+    {% if errors is not empty %}
         <div class="message_box error">
             <ul>
-                {foreach $errors msg}
-                    <li>{$msg}</li>
-                {/foreach}
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
             </ul>
         </div>
-    {/if}
+    {% endif %}
 
     <div class="section_content">
-        <form action="{$action}" method="post">
-            <p>{$locale->read('auth', 'this_is_the_registration_page')}</p>
-            <label 	for="username"{if not $errors['username'] eq ''} class="contains_error"{/if}>
-                {$locale->read('auth', 'username')}
+        <form action="{{ action }}" method="post">
+            <p>{{ _localized('auth.this_is_the_registration_page') }}</p>
+            <label 	for="username"{% if errors.username is not empty %} class="contains_error"{% endif %}>
+                {{ _localized('auth.username') }}
             </label>
             <input 	type="text"
                       name="username"
-                      placeholder="{$locale->read('auth', 'placeholder_username')}"
-                      maxlength="{$max_username_length}"/><br />
-            <label 	for="password"{if not $errors['password'] eq ''} class="contains_error"{/if}>
-                {$locale->read('auth', 'password')}
+                      placeholder="{{ _localized('auth.placeholder_username') }}"
+                      maxlength="{{ max_username_length }}"/><br />
+            <label 	for="password"{% if errors.password is not empty %} class="contains_error"{% endif %}>
+                {{ _localized('auth.password') }}
             </label>
             <input 	type="password"
                       name="password"
-                      placeholder="{$locale->read('auth', 'placeholder_password')}"
-                      maxlength="{$max_password_length}"/><br />
-            <label 	for="confirm_password"{if not $errors['confirm_password'] eq ''} class="contains_error"{/if}>
-                {$locale->read('auth', 'confirm_password')}
+                      placeholder="{{ _localized('auth.placeholder_password') }}"
+                      maxlength="{{ max_password_length }}"/><br />
+            <label 	for="confirm_password"{% if errors.confirm_password is not empty %} class="contains_error"{% endif %}>
+                {{ _localized('auth.confirm_password') }}
             </label>
             <input 	type="password"
                       name="confirm_password"
-                      maxlength="{$max_password_length}"/><br />
-            <label 	for="email"{if not $errors['email'] eq '' or not $errors['email_address'] eq ''} class="contains_error"{/if}>
-                {$locale->read('auth', 'email')}
+                      maxlength="{{ max_password_length }}"/><br />
+            <label 	for="email"{% if errors.email is not empty or errors.email_address is not empty %} class="contains_error"{% endif %}>
+                {{ _localized('auth.email') }}
             </label>
             <input 	type="text"
                       name="email"
-                      placeholder="{$locale->read('auth', 'placeholder_email')}"
-                      maxlength="{$max_email_length}"/><br />
+                      placeholder="{{ _localized('auth.placeholder_email') }}"
+                      maxlength="{{ max_email_length }}"/><br />
             <hr class="upp_bot_mar" />
-            <label 	for="first_name"{if not $errors['first_name'] eq ''} class="contains_error"{/if}>
-                {$locale->read('auth', 'first_name')}
+            <label 	for="first_name"{% if errors.first_name is not empty %} class="contains_error"{% endif %}>
+                {{ _localized('auth.first_name') }}
             </label>
             <input 	type="text"
                       name="first_name"
-                      placeholder="{$locale->read('auth', 'placeholder_first_name')}"
-                      maxlength="{$max_first_name_length}"/><br />
-            <label 	for="last_name"{if not $errors['last_name'] eq ''} class="contains_error"{/if}>
-                {$locale->read('auth', 'last_name')}
+                      placeholder="{{ _localized('auth.placeholder_first_name') }}"
+                      maxlength="{{ max_first_name_length }}"/><br />
+            <label 	for="last_name"{% if errors.last_name is not empty %} class="contains_error"{% endif %}>
+                {{ _localized('auth.last_name') }}
             </label>
             <input 	type="text"
                       name="last_name"
-                      placeholder="{$locale->read('auth', 'placeholder_last_name')}"
-                      maxlength="{$max_last_name_length}"/><br />
+                      placeholder="{{ _localized('auth.placeholder_last_name') }}"
+                      maxlength="{{ max_last_name_length }}"/><br />
             <hr class="upp_bot_mar" />
             <div id="agreement">
-                {$agreement}
+                {{ agreement }}
             </div>
             <div id="accept_agreement">
-                <input type="checkbox" name="agreement_accept" /> {$locale->read('auth', 'agreement_i_accept')}
+                <input type="checkbox" name="agreement_accept" /> {{ _localized('auth.agreement_i_accept') }}
             </div>
-            <input type="submit" value="{$locale->read('auth', 'create')}" />
+            <input type="submit" value="{{ _localized('auth.create') }}" />
         </form>
     </div>
 </div>

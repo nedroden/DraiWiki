@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -89,12 +89,12 @@ class App {
             $this->_appObject->execute();
 
             if ($this->hasCantProceedException()) {
-                $this->_appObject->setTitle($this->_locale->read('error', 'something_went_wrong'));
+                $this->_appObject->setTitle(_localized('error.something_went_wrong'));
                 $this->_cantProceed = true;
             }
         }
         else
-            $this->_appObject->setTitle($this->_locale->read('error', 'access_denied'));
+            $this->_appObject->setTitle(_localized('error.access_denied'));
     }
 
     public function hasCantProceedException() : bool {
@@ -113,7 +113,7 @@ class App {
                 $this->_appObject->printJSON();
         }
         else if ($this->_cantProceed) {
-            (new CantProceedException($this->_locale->read('error', $this->_appObject->getCantProceedException())))->trigger();
+            (new CantProceedException(_localized('error.' . $this->_appObject->getCantProceedException())))->trigger();
         }
         else {
             if ($this->_currentApp != 'management')
@@ -127,7 +127,7 @@ class App {
         $info = $this->_appObject->getAppInfo();
 
         $this->_appInfo = [
-            'title' => $this->canAccess() ? $info['title'] : $this->_locale->read('main', 'access_denied'),
+            'title' => $this->canAccess() ? $info['title'] : _localized('main.access_denied'),
             'has_sidebar' => $info['has_sidebar'],
             'ignore_templates' => $this->_appObject->getIgnoreTemplates(),
             'header' => $this->_appObject->getAdditionalHeaders(),

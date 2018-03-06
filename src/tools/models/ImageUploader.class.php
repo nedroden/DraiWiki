@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -28,12 +28,10 @@ class ImageUploader extends ModelHeader {
     public function __construct() {
         $this->loadLocale();
         $this->loadConfig();
-
-        self::$locale->loadFile('tools');
     }
 
     public function getTitle() : string {
-        return self::$locale->read('tools', 'upload_an_image');
+        return _localized('tools.upload_an_image');
     }
 
     public function prepareData() : array {
@@ -44,7 +42,7 @@ class ImageUploader extends ModelHeader {
 
     public function validate(array &$errors) : void {
         if (empty($_FILES['file']) || empty($_FILES['file']['name'])) {
-            $errors['file'] = self::$locale->read('tools', 'no_image_chosen');
+            $errors['file'] = _localized('tools.no_image_chosen');
             return;
         }
 
@@ -52,10 +50,10 @@ class ImageUploader extends ModelHeader {
             switch ($_FILES['file']['error']) {
                 case UPLOAD_ERR_INI_SIZE:
                 case UPLOAD_ERR_FORM_SIZE:
-                    $errors['file'] = self::$locale->read('tools', 'file_denied_size');
+                    $errors['file'] = _localized('tools.file_denied_size');
                     return;
                 default:
-                    $errors['file'] = self::$locale->read('tools', 'file_denied_unknown');
+                    $errors['file'] = _localized('tools.file_denied_unknown');
                     return;
             }
         }
@@ -63,17 +61,17 @@ class ImageUploader extends ModelHeader {
         $extension = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
 
         if (!in_array($extension, explode(';', self::$config->read('allowed_image_extensions'))))
-            $errors['file'] = self::$locale->read('tools', 'extension_not_accepted');
+            $errors['file'] = _localized('tools.extension_not_accepted');
         else if ($_FILES['file']['size'] > ((int) self::$config->read('max_image_size_kb') * 1024 * 1024))
-            $errors['file'] = self::$locale->read('tools', 'file_denied_size');
+            $errors['file'] = _localized('tools.file_denied_size');
         else if (self::$config->read('gd_image_upload') == 1 && !getimagesize($_FILES['file']['tmp_name']))
-            $errors['file'] = self::$locale->read('tools', 'not_an_image');
+            $errors['file'] = _localized('tools.not_an_image');
 
         $validator = new InputValidator($_FILES['file']['name']);
         if ($validator->containsHTML())
-            $errors['file'] = self::$locale->read('tools', 'image_name_html');
+            $errors['file'] = _localized('tools.image_name_html');
         else if ($validator->isTooLong(self::MAX_FILENAME_LENGTH))
-            $errors['file'] = sprintf(self::$locale->read('tools', 'filename_too_long'), self::MAX_FILENAME_LENGTH);
+            $errors['file'] = sprintf(_localized('tools.filename_too_long'), self::MAX_FILENAME_LENGTH);
 
         if (!empty($_POST['description'])) {
             $validator = new InputValidator($_POST['description']);

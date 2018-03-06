@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -40,9 +40,9 @@ class DatabaseException extends Error {
 
     protected function generateMessage() : array {
         return [
-            'title' => $this->hasLocale ? $this->locale->read('error', 'database_exception') : 'Database exception',
-            'body' => $this->hasLocale ? $this->locale->read('error', 'what_is_a_database_exception') : 'Could not successfully execute database request.',
-            'detailed' => $this->canViewDetailedInfo() && $this->hasLocale ? $this->locale->read('error', 'yes_you_can') .  '<em>' . $this->detailedInfo . '</em>' : NULL,
+            'title' => $this->hasLocale ? _localized('error.database_exception') : 'Database exception',
+            'body' => $this->hasLocale ? _localized('error.what_is_a_database_exception') : 'Could not successfully execute database request.',
+            'detailed' => $this->canViewDetailedInfo() && $this->hasLocale ? _localized('error.yes_you_can') .  '<em>' . $this->detailedInfo . '</em>' : NULL,
             'query' => $this->_query,
             'backtrace' => $this->canViewDetailedInfo() ? $this->getBacktrace() : []
         ];

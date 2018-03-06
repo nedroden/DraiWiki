@@ -5,7 +5,7 @@
 *
 * @version     1.0 Alpha 1
 * @author      Robert Monden
-* @copyright   2017-2018, DraiWiki
+* @copyright   2017-2018 DraiWiki
 * @license     Apache 2.0
 */
 

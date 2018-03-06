@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -39,8 +39,8 @@ abstract class Error {
 
     protected function generateMessage() : array {
         return [
-            'title' => $this->hasLocale ? $this->locale->read('error', 'something_went_wrong') : 'Something went wrong',
-            'body' => $this->hasLocale ? $this->locale->read('error', 'generic_error_message') : 'An error occurred. Please contact the administrator.',
+            'title' => $this->hasLocale ? _localized('error.something_went_wrong') : 'Something went wrong',
+            'body' => $this->hasLocale ? _localized('error.generic_error_message') : 'An error occurred. Please contact the administrator.',
             'detailed' => DEBUG_ALWAYS || $this->canViewDetailedInfo() ? $this->detailedInfo : NULL
         ];
     }

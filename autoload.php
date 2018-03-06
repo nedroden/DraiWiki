@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -32,10 +32,12 @@ spl_autoload_register(function($className) {
     else
         $parsedClassName = implode('\\', $parsedClassName);
 
-    $filename = implode('/', $parsedClassName) . '.class.php';
+    $filename = implode('/', $parsedClassName);
 
-    if (file_exists(__DIR__ . '/' . $filename))
-        require $filename;
+    if (file_exists(__DIR__ . '/' . $filename . '.class.php'))
+        require $filename . '.class.php';
+    else if (file_exists(__DIR__ . '/' . $filename . '.interface.php'))
+        require $filename . '.interface.php';
     else
         die('<strong>[DraiWiki autoload]</strong> Could not load class: ' . $filename);
 });

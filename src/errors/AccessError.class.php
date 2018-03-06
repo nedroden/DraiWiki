@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -22,7 +22,6 @@ class AccessError extends Error {
 
     public function __construct() {
         $this->locale = Registry::get('locale', true);
-        $this->locale->loadFile('error');
     }
 
     public function trigger() : void {
@@ -32,8 +31,8 @@ class AccessError extends Error {
 
     protected function generateMessage() : array {
         return [
-            'title' => $this->locale->read('error', 'access_denied'),
-            'body' => $this->locale->read('error', 'access_denied_why')
+            'title' => _localized('error.access_denied'),
+            'body' => _localized('error.access_denied_why')
         ];
     }
 }

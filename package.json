@@ -22,14 +22,15 @@
     "software"
   ],
   "dependencies": {
-    "chart.js": "^2.6.0",
-    "cookieconsent": "^3.0.4",
+    "chart.js": "^2.7.2",
+    "cookieconsent": "^3.0.6",
     "font-awesome": "^4.7.0",
-    "jquery": "^3.2.1",
+    "jquery": "^3.3.1",
     "jquery.typewatch": "^3.0.0",
-    "select2": "^4.0.3",
+    "moment": "^2.21.0",
+    "select2": "^4.0.5",
     "simplemde": "^1.11.2",
     "sprintf-js": "^1.1.1",
-    "zebra_dialog": "^1.4.0"
+    "zebra_dialog": "^1.4.1"
   }
 }

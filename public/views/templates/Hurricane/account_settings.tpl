@@ -1,36 +1,36 @@
 <div id="account_section">
 
-    {if not $errors eq ''}
+    {% if errors is not empty %}
         <div class="message_box error">
             <ul>
-                {foreach $errors msg}
-                    <li>{$msg}</li>
-                {/foreach}
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
             </ul>
         </div>
-    {/if}
+    {% endif %}
 
-    {if $success}
+    {% if success %}
         <div class="message_box success">
-            {$locale->read('auth', 'settings_have_been_saved')}
+            {{ _localized('auth.settings_have_been_saved') }}
         </div>
-    {/if}
+    {% endif %}
 
     <div id="settings_left" class="col33">
-        <h1 id="account_name">{$user->getUsername()}</h1>
+        <h1 id="account_name">{{ user.getUsername() }}</h1>
 
         <!-- Avatar placeholder //-->
         <img src="http://www.infragistics.com/media/8948/anonymous_200.gif" width="100px" height="100px" />
         <ul id="account_info">
-            <li>{$locale->read('auth', 'registration_date')}: {$user->getRegistrationDate()}</li>
-            <li>{$locale->read('auth', 'birthdate')}: {$user->getBirthDate()}</li>
+            <li>{{ _localized('auth.registration_date') }}: {{ user.getRegistrationDate() }}</li>
+            <li>{{ _localized('auth.birthdate') }}: {{ user.getBirthDate() }}</li>
         </ul>
     </div>
     <div class="col66">
-        <form action="{$action}" method="post">
-            {$table}
+        <form action="{{ action }}" method="post">
+            {{ table }}
 
-            <input type="submit" value="{$locale->read('auth', 'save')}" />
+            <input type="submit" value="{{ _localized('auth.save') }}" />
         </form>
     </div>
     <br class="clear" />

@@ -1,22 +1,22 @@
 <div class="content_section">
     <div id="settings_page">
-        {if $submitted}
-            <div class="message_box{if not $errors eq ''} error{else} success{/if}">
-                {if not $errors eq ''}
+        {% if submitted %}
+            <div class="message_box{% if errors is not empty %} error{% else %} success{% endif %}">
+                {% if errors is not empty %}
                     <ul>
-                    {foreach $errors error}
-                        <li>{$error}</li>
-                    {/foreach}
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
                     </ul>
-                {else}
-                {$locale->read('management', 'settings_updated')}
-                {/if}
+                {% else %}
+                    {{ _localized('management.settings_updated') }}
+                {% endif %}
             </div>
-        {/if}
+        {% endif %}
 
-        <form action="{$action}" method="post">
-            {$table}
-            <input type="submit" value="{$locale->read('management', 'save')}" />
+        <form action="{{ action }}" method="post">
+            {{ table }}
+            <input type="submit" value="{{ _localized('management.save') }}" />
         </form>
     </div>
 </div>

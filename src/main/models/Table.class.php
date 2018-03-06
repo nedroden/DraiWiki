@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -38,7 +38,7 @@ class Table extends ModelHeader {
 
     public function create() : void {
         foreach ($this->_columns as &$column)
-            $column = self::$locale->read($this->_localeFile, $column);
+            $column = _localized($this->_localeFile . '.' . $column);
 
         $table = [
             'id' => $this->_id ?? 'my_table',

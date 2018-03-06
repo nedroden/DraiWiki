@@ -1,4 +1,4 @@
             <div class="content_section">
-                {$actionbar}
-                {$table}
+                {{ actionbar }}
+                {{ table }}
             </div>

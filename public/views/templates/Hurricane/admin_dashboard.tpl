@@ -1,12 +1,12 @@
 <div class="content_section">
-    <script type="text/javascript" src="{$node_url}/chart.js/dist/Chart.min.js"></script>
+    <script type="text/javascript" src="{{ node_url }}/chart.js/dist/Chart.min.js"></script>
     <canvas id="number_edits" height="40px"></canvas>
     <script type="text/javascript">
         var data = {
-            labels: [{$edits_this_week['keys']}],
+            labels: [{{ edits_this_week.keys }}],
             datasets: [{
-                    label: '{$locale->read('management', 'number_of_edits')}',
-                    data: [{$edits_this_week['values']}],
+                    label: '{{ _localized('management.number_of_edits') }}',
+                    data: [{{ edits_this_week.values }}],
                     backgroundColor: '#d1cc87',
                     borderColor: '#ede474',
                     fill: false,
@@ -20,7 +20,7 @@
             title: {
                 display: true,
                 position: 'top',
-                text: '{$locale->read('management', 'number_of_edits_last_seven_days')}',
+                text: '{{ _localized('management.number_of_edits_last_seven_days') }}',
                 fontSize: 18
             },
 
@@ -37,81 +37,81 @@
     </script>
 </div>
 <div class="section_description">
-    <h2>{$locale->read('management', 'recent_edits')}</h2>
-    {$locale->read('management', 'recent_edits_description')}
+    <h2>{{ _localized('management.recent_edits') }}</h2>
+    {{ _localized('management.recent_edits_description') }}
 </div>
 <div class="content_section">
-    {$recent_edits_table}
+    {{ recent_edits_table }}
 
     <script type="text/javascript">activateTable('/management/dashboard/ajax/getrecentedits');</script>
 </div>
 <div class="section_description">
-    <h2>{$locale->read('management', 'server_information')}</h2>
-    {$locale->read('management', 'server_information_description')}
+    <h2>{{ _localized('management.server_information') }}</h2>
+    {{ _localized('management.server_information_description') }}
 </div>
 <div class="content_section">
     <div id="server_information">
         <div class="table_header">
-            <span>{$locale->read('management', 'webserver')}</span>
+            <span>{{ _localized('management.webserver') }}</span>
             <span></span>
         </div>
         <div>
-            <span>{$locale->read('management', 'server_software')}</span>
-            <span>{$server_software}</span>
+            <span>{{ _localized('management.server_software') }}</span>
+            <span>{{ server_software }}</span>
         </div>
         <div>
-            <span>{$locale->read('management', 'php_version')}</span>
-            <span>{$php_version}</span>
+            <span>{{ _localized('management.php_version') }}</span>
+            <span>{{ php_version }}</span>
         </div>
         <div>
-            <span>{$locale->read('management', 'db_version')}</span>
-            <span>{$mysql_version}</span>
+            <span>{{ _localized('management.db_version') }}</span>
+            <span>{{ mysql_version }}</span>
         </div>
         <div>
-            <span>{$locale->read('management', 'loaded_extensions')}</span>
-            <span>{$loaded_extensions}</span>
+            <span>{{ _localized('management.loaded_extensions') }}</span>
+            <span>{{ loaded_extensions }}</span>
         </div>
 
         <div class="table_header">
-            <span>{$locale->read('management', 'wiki_information')}</span>
+            <span>{{ _localized('management.wiki_information') }}</span>
             <span></span>
         </div>
         <div>
-            <span>{$locale->read('management', 'draiwiki_version')}</span>
-            <span>{$draiwiki_version}</span>
+            <span>{{ _localized('management.draiwiki_version') }}</span>
+            <span>{{ draiwiki_version }}</span>
         </div>
         <div>
-            <span>{$locale->read('management', 'default_locale')}</span>
-            <span>{$default_locale}</span>
+            <span>{{ _localized('management.default_locale') }}</span>
+            <span>{{ default_locale }}</span>
         </div>
         <div>
-            <span>{$locale->read('management', 'default_templates')}</span>
-            <span>{$default_templates}</span>
+            <span>{{ _localized('management.default_templates') }}</span>
+            <span>{{ default_templates }}</span>
         </div>
         <div>
-            <span>{$locale->read('management', 'default_skins')}</span>
-            <span>{$default_skins}</span>
+            <span>{{ _localized('management.default_skins') }}</span>
+            <span>{{ default_skins }}</span>
         </div>
         <div>
-            <span>{$locale->read('management', 'default_images')}</span>
-            <span>{$default_images}</span>
+            <span>{{ _localized('management.default_images') }}</span>
+            <span>{{ default_images }}</span>
         </div>
 
         <div class="table_header">
-            <span>{$locale->read('management', 'statistics')}</span>
+            <span>{{ _localized('management.statistics') }}</span>
             <span></span>
         </div>
         <div>
-            <span>{$locale->read('management', 'number_of_articles')}</span>
-            <span>{$total_number_of_articles}</span>
+            <span>{{ _localized('management.number_of_articles') }}</span>
+            <span>{{ total_number_of_articles }}</span>
         </div>
         <div>
-            <span>{$locale->read('management', 'number_of_edits_stats')}</span>
-            <span>{$total_number_of_edits}</span>
+            <span>{{ _localized('management.number_of_edits_stats') }}</span>
+            <span>{{ total_number_of_edits }}</span>
         </div>
         <div>
-            <span>{$locale->read('management', 'number_of_users')}</span>
-            <span>{$total_number_of_users}</span>
+            <span>{{ _localized('management.number_of_users') }}</span>
+            <span>{{ total_number_of_users }}</span>
         </div>
 
         <br class="clear" />

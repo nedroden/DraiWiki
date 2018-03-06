@@ -1,13 +1,13 @@
 
             <div id="copyright">
-                {$copyright}
+                {{ copyright }}
             </div>
             <br class="clear" />
         </div>
 
         </div>
-        {if not $debug_body eq ''}
-            {$debug_body}
-        {/if}
+        {% if debug_body is not empty %}
+            {{ debug_body }}
+        {% endif %}
     </body>
 </html>

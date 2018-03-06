@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -30,7 +30,6 @@ class Registration extends ModelHeader {
     public function __construct() {
         $this->loadLocale();
         $this->loadConfig();
-        self::$locale->loadFile('auth');
 
         $this->_parsedown = new SecureParsedown();
         $this->_parsedown->setSafeMode(true);
@@ -59,7 +58,7 @@ class Registration extends ModelHeader {
             }
         }
 
-        $this->_agreement = self::$locale->read('auth', 'no_agreement_found');
+        $this->_agreement = _localized('auth.no_agreement_found');
     }
 
     public function prepareData(): array {
@@ -75,7 +74,7 @@ class Registration extends ModelHeader {
     }
 
     public function getTitle() : string {
-        return self::$locale->read('auth', 'create_account');
+        return _localized('auth.create_account');
     }
 
     public function handlePostRequest() : void {
@@ -97,13 +96,13 @@ class Registration extends ModelHeader {
      */
     public function validate(array &$errors) : void {
         if (!isset($_POST['agreement_accept'])) {
-            $errors[] = self::$locale->read('auth', 'please_accept');
+            $errors[] = _localized('auth.please_accept');
             return;
         }
 
         foreach ($this->_formData as $key => $field) {
             if (!empty($field['value']) && (substr($field['value'], 0) == ' ' || substr($field['value'], -1) == ' ')) {
-                $errors[$key] = self::$locale->read('auth', 'oh_god_begin_end_spaces_' . $key);
+                $errors[$key] = _localized('auth.oh_god_begin_end_spaces_' . $key);
                 continue;
             }
 
@@ -113,17 +112,17 @@ class Registration extends ModelHeader {
                 $errors[$key] = sprintf(self::$locale->read('auth', $key . '_too_long'), $maxLength);
 
             if ($key != 'confirm_password' && $field['validator']->containsHTML())
-                $errors[$key] = self::$locale->read('auth', 'no_html_' . $key);
+                $errors[$key] = _localized('auth.no_html_' . $key);
         }
 
         if (count($errors) == 0 && $this->_formData['password']['value'] != $this->_formData['confirm_password']['value'])
-            $errors['confirm_password'] = self::$locale->read('auth', 'no_password_match');
+            $errors['confirm_password'] = _localized('auth.no_password_match');
 
         if (empty($errors['password']) && $this->_formData['password']['validator']->containsSpaces())
-            $errors['password'] = self::$locale->read('auth', 'password_no_spaces');
+            $errors['password'] = _localized('auth.password_no_spaces');
 
         if (empty($errors['email']) && !$this->_formData['email']['validator']->isValidEmail())
-            $errors['email'] = self::$locale->read('auth', 'invalid_email');
+            $errors['email'] = _localized('auth.invalid_email');
     }
 
     public function createUser(array &$errors) : void {
@@ -141,6 +140,6 @@ class Registration extends ModelHeader {
     }
 
     public function getRegistrationDisabledTitle() : string {
-        return self::$locale->read('auth', 'registration_disabled_title');
+        return _localized('auth.registration_disabled_title');
     }
 }

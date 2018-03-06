@@ -1,34 +1,34 @@
 <div id="form_area">
-    <link rel="stylesheet" type="text/css" href="{$node_url}/simplemde/dist/simplemde.min.css" />
-    <script type="text/javascript" src="{$node_url}/simplemde/dist/simplemde.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ node_url }}/simplemde/dist/simplemde.min.css" />
+    <script type="text/javascript" src="{{ node_url }}/simplemde/dist/simplemde.min.js"></script>
 
     <div class="section_header">
-        {$locale->read('tools', 'upload_an_image')}
+        {{ _localized('tools.upload_an_image') }}
     </div>
 
-    {if not $errors eq ''}
+    {% if errors is not empty %}
         <div class="message_box error">
             <ul>
-                {foreach $errors msg}
-                    <li>{$msg}</li>
-                {/foreach}
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
             </ul>
         </div>
-    {/if}
+    {% endif %}
 
     <div class="section_content">
-        <form action="{$action}" enctype="multipart/form-data" method="post">
-            <p>{$locale->read('tools', 'you_can_upload_images_here')}</p>
-            <label 	for="file"{if not $errors['file'] eq ''} class="contains_error"{/if}>
-                {$locale->read('tools', 'file')}
+        <form action="{{ action }}" enctype="multipart/form-data" method="post">
+            <p>{{ _localized('tools.you_can_upload_images_here') }}</p>
+            <label 	for="file"{% if errors.file is not empty %} class="contains_error"{% endif %>
+                {{ _localized('tools.file') }}
             </label>
             <input 	type="file"
                     name="file" /><br />
-            <label 	for="editor"{if not $errors['description'] eq ''} class="contains_error"{/if}>
-                {$locale->read('tools', 'description')}
+            <label 	for="editor"{% if errors.description is not empty %} class="contains_error"{% endif %}>
+                {{ _localized('tools.description') }}
             </label>
             <textarea id="editor" name="description"></textarea>
-            <input type="submit" value="{$locale->read('tools', 'upload')}" />
+            <input type="submit" value="{{ _localized('tools.upload') }}" />
         </form>
     </div>
 

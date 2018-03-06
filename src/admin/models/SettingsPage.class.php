@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -35,7 +35,6 @@ class SettingsPage extends ModelHeader {
     private const MAX_DATE_FORMAT_LENGTH = 30;
 
     public function __construct(string $section) {
-        $this->loadLocale();
         $this->loadConfig();
 
         $this->_settingsSection = $section;
@@ -97,7 +96,7 @@ class SettingsPage extends ModelHeader {
                     'label' => 'display_cookie_warning',
                     'description' => 'display_cookie_warning_desc',
                     'input_type' => 'checkbox',
-                    'input_description' => self::$locale->read('management', 'enable_this_feature')
+                    'input_description' => _localized('management.enable_this_feature')
                 ],
                 'date_format' => [
                     'name' => 'date_format',
@@ -120,7 +119,7 @@ class SettingsPage extends ModelHeader {
                     'label' => 'use_first_name_greeting',
                     'description' => 'use_first_name_greeting_desc',
                     'input_type' => 'checkbox',
-                    'input_description' => self::$locale->read('management', 'enable_this_feature')
+                    'input_description' => _localized('management.enable_this_feature')
                 ],
                 'paths_and_urls',
                 'path' => [
@@ -164,14 +163,14 @@ class SettingsPage extends ModelHeader {
                     'label' => 'enable_registration',
                     'description' => 'enable_registration_desc',
                     'input_type' => 'checkbox',
-                    'input_description' => self::$locale->read('management', 'enable_this_feature')
+                    'input_description' => _localized('management.enable_this_feature')
                 ],
                 'enable_email_activation' => [
                     'name' => 'enable_email_activation',
                     'label' => 'enable_email_activation',
                     'description' => 'enable_email_activation_desc',
                     'input_type' => 'checkbox',
-                    'input_description' => self::$locale->read('management', 'enable_this_feature')
+                    'input_description' => _localized('management.enable_this_feature')
                 ]
             ],
             'uploads' => [
@@ -181,19 +180,19 @@ class SettingsPage extends ModelHeader {
                     'label' => 'gd_image_upload',
                     'description' => 'gd_image_upload_desc',
                     'input_type' => 'checkbox',
-                    'input_description' => self::$locale->read('management', 'enable_this_feature')
+                    'input_description' => _localized('management.enable_this_feature')
                 ],
             ]
         ];
 
         foreach ($settings[$this->_settingsSection] as &$setting) {
             if (!is_array($setting)) {
-                $setting = ['label' => self::$locale->read('management', $setting), 'is_header' => true];
+                $setting = ['label' => _localized('management.' . $setting), 'is_header' => true];
                 continue;
             }
 
-            $setting['label'] = self::$locale->read('management', $setting['label']);
-            $setting['description'] = self::$locale->read('management', $setting['description']);
+            $setting['label'] = _localized('management.' . $setting['label']);
+            $setting['description'] = _localized('management.' . $setting['description']);
 
             // If this field was entered correctly, we should remember it
             if (isset($this->_validSettings[$setting['name']]))
@@ -224,21 +223,21 @@ class SettingsPage extends ModelHeader {
                 }
 
                 if ($settingInfo['validator']->isTooShort($setting['min_length']))
-                    $errors[$setting['name']] = sprintf(self::$locale->read('management', $setting['name'] . '_too_short'), $setting['min_length']);
+                    $errors[$setting['name']] = sprintf(_localized('management.' . $setting['name'] . '_too_short'), $setting['min_length']);
                 else if ($settingInfo['validator']->isTooLong($setting['max_length']))
-                    $errors[$setting['name']] = sprintf(self::$locale->read('management', $setting['name'] . '_too_long'), $setting['max_length']);
+                    $errors[$setting['name']] = sprintf(_localized('management.' . $setting['name'] . '_too_long'), $setting['max_length']);
 
                 if (empty($errors[$setting['name']]) && !empty($setting['type'])) {
                     switch ($setting['type']) {
                         case 'email':
                             if (!$settingInfo['validator']->isValidEmail())
-                                $errors[$setting['name']] = self::$locale->read('management', 'invalid_email');
+                                $errors[$setting['name']] = _localized('management.invalid_email');
                             break;
                         case 'numeric':
                             if (!$settingInfo['validator']->isNumeric())
-                                $errors[$setting['name']] = self::$locale->read('management', 'not_numeric' . $setting['name']);
+                                $errors[$setting['name']] = _localized('management.not_numeric' . $setting['name']);
                             else if (!$settingInfo['validator']->aboveIntLimit())
-                                $errors[$setting['name']] = self::$locale->read('management', 'above_int_limit');
+                                $errors[$setting['name']] = _localized('management.above_int_limit');
                             break;
                     }
                 }
@@ -283,11 +282,11 @@ class SettingsPage extends ModelHeader {
     }
 
     public function getTitle() : string {
-        return self::$locale->read('management', 'settings_' . $this->_settingsSection);
+        return _localized('management.settings_' . $this->_settingsSection);
     }
 
     public function getPageDescription() : string {
-        return self::$locale->read('management', 'settings_' . $this->_settingsSection . '_description');
+        return _localized('management.settings_' . $this->_settingsSection . '_description');
     }
 
     public function setAction(string $action) : void {

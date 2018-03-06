@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -17,6 +17,7 @@ if (!defined('DraiWiki')) {
 /**
  * Function equivalent of 'if (!condition) exit'
  * @param bool $result Whether or not the script should stop
+ * @return void
  */
 function exitIf(bool $result) : void {
     if (!$result)
@@ -26,6 +27,7 @@ function exitIf(bool $result) : void {
 /**
  * Takes an array and uses pre tags and the recursive print function to display its elements.
  * @param mixed $array The array that should be printed recursively
+ * @return void
  */
 function dumpNicely($array) : void {
     echo '<pre>';

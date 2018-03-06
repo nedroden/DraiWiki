@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -117,7 +117,6 @@ class ArticleFinder extends ModelHeader {
         $this->_hasLoadedArticles = false;
         $this->_ignoreLocales = $ignoreLocales;
 
-        self::$locale->loadFile('find');
         $this->_parsedown = new SecureParsedown();
         $this->_parsedown->setSafeMode(true);
     }
@@ -182,7 +181,7 @@ class ArticleFinder extends ModelHeader {
             }
 
             if ($currentTermType == 'regular' && $lastCharacter == '"' && $term[$i] != ' ') {
-                $errors[] = self::$locale->read('find', 'invalid_format_required_regular_divide');
+                $errors[] = _localized('find.invalid_format_required_regular_divide');
                 $this->_errorOccurred = true;
                 return;
             }
@@ -214,7 +213,7 @@ class ArticleFinder extends ModelHeader {
 
         foreach (array_merge($this->_requiredTerms, $this->_terms, $this->_excludedTerms) as $term) {
             if (strlen($term) < ($min = self::$config->read('min_search_term_length'))) {
-                $errors[] = sprintf(self::$locale->read('find', 'search_term_too_short'), $min);
+                $errors[] = sprintf(_localized('find.search_term_too_short'), $min);
                 break;
             }
         }
@@ -280,7 +279,7 @@ class ArticleFinder extends ModelHeader {
         ');
 
         if (!$this->_ignoreLocales)
-            $query->setParams(array_merge($params, ['locale_id' => self::$locale->getID()]));
+            $query->setParams(array_merge($params, ['locale_id' => self::$locale->getCurrentLocaleInfo()->getID()]));
         else
             $query->setParams($params);
 
@@ -330,7 +329,7 @@ class ArticleFinder extends ModelHeader {
 
             $articlePoints[] = [
                 'id' => $article['id'],
-                'title' => $this->markTerms($article['title']) . (self::$user->isRoot() ? ' (' . sprintf(self::$locale->read('find', 'points'), $points) . ')' : ''),
+                'title' => $this->markTerms($article['title']) . (self::$user->isRoot() ? ' (' . sprintf(_localized('find.points'), $points) . ')' : ''),
                 'href' => self::$config->read('url') . '/index.php/article/' . Sanitizer::addUnderscores($article['title']),
                 'body_raw' => $article['body'],
                 'body_safe' => $this->_parsedown->setMarkupEscaped(true)->text($article['body']),
@@ -364,7 +363,7 @@ class ArticleFinder extends ModelHeader {
             'max_points' => $this->_maxPoints,
             'has_loaded_articles' => $this->_hasLoadedArticles,
             'unparsed_search_terms' => $this->_unparsedSearchTerms,
-            'number_of_results' => sprintf(self::$locale->read('find', 'number_of_results'), $this->_resultCount),
+            'number_of_results' => sprintf(_localized('find.number_of_results'), $this->_resultCount),
             'show_load_more' => $this->_resultCount > $this->_maxResults,
             'max_results' => $this->_maxResults,
             'search_terms' => $this->_unparsedSearchTerms
@@ -380,11 +379,11 @@ class ArticleFinder extends ModelHeader {
         $inputValidator = new InputValidator($this->_unparsedSearchTerms);
 
         if ($inputValidator->containsHTML())
-            $errors[] = self::$locale->read('find', 'input_contains_html');
+            $errors[] = _localized('find.input_contains_html');
         else if ($inputValidator->isTooShort($min = self::$config->read('min_search_term_length')))
-            $errors[] = sprintf(self::$locale->read('find', 'input_too_short'), $min);
+            $errors[] = sprintf(_localized('find.input_too_short'), $min);
         else if ($inputValidator->isTooLong($max = self::$config->read('max_search_term_length')))
-            $errors[] = sprintf(self::$locale->read('find', 'input_too_long'), $max);
+            $errors[] = sprintf(_localized('find.input_too_long'), $max);
 
         $this->_errorOccurred = !empty($errors);
     }
@@ -462,7 +461,7 @@ class ArticleFinder extends ModelHeader {
      * @return string The page title
      */
     public function getTitle() : string {
-        return self::$locale->read('find', 'find_an_article');
+        return _localized('find.find_an_article');
     }
 
     /**

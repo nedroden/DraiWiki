@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -26,7 +26,6 @@ class Login extends ModelHeader {
     public function __construct() {
         $this->loadLocale();
         $this->loadConfig();
-        self::$locale->loadFile('auth');
 
         $this->_userInfo = [];
     }
@@ -40,7 +39,7 @@ class Login extends ModelHeader {
     }
 
     public function getTitle() : string {
-        return self::$locale->read('auth', 'logging_in');
+        return _localized('auth.logging_in');
     }
 
     public function handlePostRequest() : void {
@@ -62,22 +61,22 @@ class Login extends ModelHeader {
 
     public function validate(array &$errors) : void {
         if (empty($this->_userInfo['password'])) {
-            $errors['password'] = self::$locale->read('auth', 'please_enter_password');
+            $errors['password'] = _localized('auth.please_enter_password');
             return;
         }
 
         foreach ($this->_userInfo as $key => $field) {
             if ($field['validator']->isTooShort($minLength = self::$config->read('min_' . $key . '_length')))
-                $errors[$key] = sprintf(self::$locale->read('auth', $key . '_too_short'), $minLength);
+                $errors[$key] = sprintf(_localized('auth.' . $key . '_too_short'), $minLength);
             else if ($field['validator']->isTooLong($maxLength = self::$config->read('max_' . $key . '_length')))
-                $errors[$key] = sprintf(self::$locale->read('auth', $key . '_too_long'), $maxLength);
+                $errors[$key] = sprintf(_localized('auth.' . $key . '_too_long'), $maxLength);
         }
 
         if (empty($errors['email']) && !$this->_userInfo['email']['validator']->isValidEmail())
-            $errors['email'] = self::$locale->read('auth', 'invalid_email');
+            $errors['email'] = _localized('auth.invalid_email');
 
         if (empty($errors['password']) && $this->_userInfo['password']['validator']->containsSpaces())
-            $errors['password'] = self::$locale->read('auth', 'password_no_spaces');
+            $errors['password'] = _localized('auth.password_no_spaces');
     }
 
     public function getUserInfo() : array {

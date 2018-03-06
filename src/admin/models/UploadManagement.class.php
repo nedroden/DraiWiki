@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -24,11 +24,6 @@ class UploadManagement extends ModelHeader {
     private $_table, $_request;
 
     private const MAX_UPLOADS_PER_PAGE = 20;
-
-    public function __construct() {
-        $this->loadLocale();
-        self::$locale->loadFile('management');
-    }
 
     public function generateTable() : void {
         $columns = [
@@ -55,11 +50,11 @@ class UploadManagement extends ModelHeader {
     }
 
     public function getPageDescription() : string {
-        return self::$locale->read('management', 'upload_management_description');
+        return _localized('management.upload_management_description');
     }
 
     public function getTitle() : string {
-        return self::$locale->read('management', 'upload_management');
+        return _localized('management.upload_management');
     }
 
     private function getUploads(int $start = 0) : array {
@@ -78,7 +73,7 @@ class UploadManagement extends ModelHeader {
                 'filename' => $record['original_name'],
                 'poster' => $record['username'],
                 'upload_date' => $record['upload_date'],
-                'file_type' => self::$locale->read('management', 'file_' . $record['type'])
+                'file_type' => _localized('management.file_' . $record['type'])
             ];
         }
 

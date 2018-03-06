@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -27,8 +27,6 @@ class ImageViewer extends ModelHeader {
     public function __construct(string $filename) {
         $this->loadLocale();
         $this->_image = new Image('image', $filename);
-
-        self::$locale->loadFile('tools');
 
         $this->_parsedown = new SecureParsedown();
         $this->_parsedown->setSafeMode(true);
@@ -61,9 +59,9 @@ class ImageViewer extends ModelHeader {
                 'value'
             ],
             [
-                [self::$locale->read('tools', 'image_filename'), $this->_image->getOriginalName()],
-                [self::$locale->read('tools', 'poster'), $this->_image->getUser()->getUsername()],
-                [self::$locale->read('tools', 'upload_date'), $this->_image->getUploadDate()]
+                [_localized('tools.image_filename'), $this->_image->getOriginalName()],
+                [_localized('tools.poster'), $this->_image->getUser()->getUsername()],
+                [_localized('tools.upload_date'), $this->_image->getUploadDate()]
             ]
         );
 

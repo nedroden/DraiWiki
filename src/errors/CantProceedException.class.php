@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -24,8 +24,6 @@ class CantProceedException extends Error {
 
     public function __construct($message) {
         $this->_message = $message;
-        $this->_locale = Registry::get('locale', true);
-        $this->_locale->loadFile('error');
     }
 
     public function trigger() : void {
@@ -35,7 +33,7 @@ class CantProceedException extends Error {
 
     protected function generateMessage() : array {
         return [
-            'title' => $this->_locale->read('error', 'cant_proceed_exception'),
+            'title' => _localized('error.cant_proceed_exception'),
             'body' => $this->_message
         ];
     }

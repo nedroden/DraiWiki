@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -25,7 +25,6 @@ class SysInfo extends ModelHeader {
     private $_table, $_actionBar;
 
     public function __construct() {
-        $this->loadLocale();
         $this->loadConfig();
     }
 
@@ -69,17 +68,17 @@ class SysInfo extends ModelHeader {
 
     private function generate() : array {
         return [
-            [self::$locale->read('management', 'server_software'), $_SERVER['SERVER_SOFTWARE']],
-            [self::$locale->read('management', 'server_operating_system'), php_uname('s')],
-            [self::$locale->read('management', 'server_architecture'), php_uname('m')],
-            [self::$locale->read('management', 'php_version'), phpversion()],
-            [self::$locale->read('management', 'db_version'), $this->getMysqlVersion()],
-            [self::$locale->read('management', 'loaded_extensions'), implode(', ', get_loaded_extensions())],
-            [self::$locale->read('management', 'draiwiki_version'), Main::WIKI_VERSION],
-            [self::$locale->read('management', 'default_locale'), self::$config->read('locale')],
-            [self::$locale->read('management', 'default_templates'), self::$config->read('templates')],
-            [self::$locale->read('management', 'default_skins'), self::$config->read('skins')],
-            [self::$locale->read('management', 'default_images'), self::$config->read('images')]
+            [_localized('management.server_software'), $_SERVER['SERVER_SOFTWARE']],
+            [_localized('management.server_operating_system'), php_uname('s')],
+            [_localized('management.server_architecture'), php_uname('m')],
+            [_localized('management.php_version'), phpversion()],
+            [_localized('management.db_version'), $this->getMysqlVersion()],
+            [_localized('management.loaded_extensions'), implode(', ', get_loaded_extensions())],
+            [_localized('management.draiwiki_version'), Main::WIKI_VERSION],
+            [_localized('management.default_locale'), self::$config->read('locale')],
+            [_localized('management.default_templates'), self::$config->read('templates')],
+            [_localized('management.default_skins'), self::$config->read('skins')],
+            [_localized('management.default_images'), self::$config->read('images')]
         ];
     }
 
@@ -93,14 +92,14 @@ class SysInfo extends ModelHeader {
         foreach ($result as $record)
             return $record['db_version'];
 
-        return self::$locale->read('management', 'unknown');
+        return _localized('management.unknown');
     }
 
     public function getPageDescription() : string {
-        return self::$locale->read('management', 'sysinfo_description');
+        return _localized('management.sysinfo_description');
     }
 
     public function getTitle() : string {
-        return self::$locale->read('management', 'detailed_system_information');
+        return _localized('management.detailed_system_information');
     }
 }

@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -17,8 +17,7 @@ if (!defined('DraiWiki')) {
 }
 
 use DraiWiki\src\core\controllers\QueryFactory;
-use DraiWiki\src\main\controllers\Locale;
-use DraiWiki\src\main\models\{ModelHeader, Table};
+use DraiWiki\src\main\models\{ModelHeader, Locale, Table};
 
 class LocaleManagement extends ModelHeader {
 
@@ -32,8 +31,6 @@ class LocaleManagement extends ModelHeader {
         $this->loadConfig();
 
         $this->_missingLocales = [];
-
-        self::$locale->loadFile('management');
     }
 
     public function createInstalledLocalesTable() : void {
@@ -79,11 +76,11 @@ class LocaleManagement extends ModelHeader {
                 continue;
             }
 
-            $obj = self::$locale->getID() == $locale['id'] ? self::$locale : new Locale($locale['id']);
+            $obj = self::$locale->getCurrentLocaleInfo()->getID() == $locale['id'] ? self::$locale->getCurrentLocaleInfo() : new Locale($locale['id']);
 
             $locales[] = [
                 $obj->getID(),
-                $obj->getCode() . ($obj->isDefault() ? ' <em id="default_locale">(' . self::$locale->read('main', 'default') . ')</em>' : ''),
+                $obj->getCode() . ($obj->isDefault() ? ' <em id="default_locale">(' . _localized('main.default') . ')</em>' : ''),
                 $obj->getNative(),
                 $obj->getDialect(),
                 $obj->getSoftwareVersion(),
@@ -135,7 +132,7 @@ class LocaleManagement extends ModelHeader {
 
         foreach ($uninstalledLocales as $uninstalledLocale) {
             $links[] = sprintf(
-                self::$locale->read('management', 'uninstalled_locale_detected'),
+                _localized('management.uninstalled_locale_detected'),
                 $uninstalledLocale->getNative(),
                 self::$config->read('url') . '/index.php/management/locales/add/' . $uninstalledLocale->getCode()
             );
@@ -183,10 +180,10 @@ class LocaleManagement extends ModelHeader {
 
         $query->setParams([
             'code' => $code,
-            'title' => self::$locale->read('management', 'new_homepage_title'),
+            'title' => _localized('management.new_homepage_title'),
             'status_nr' => 1,
             'user_id' => self::$user->getID(),
-            'body' => self::$locale->read('management', 'new_homepage_body')
+            'body' => _localized('management.new_homepage_body')
         ]);
 
         $query->execute();
@@ -253,11 +250,11 @@ class LocaleManagement extends ModelHeader {
             $url = self::$config->read('url') . '/index.php/management/locales/' . $action . '/' . $code;
 
             if ($action == 'delete')
-                $func = sprintf('requestConfirmMesg(\'%s\', \'%s\')', $url, self::$locale->read('management', 'this_will_delete_things'));
+                $func = sprintf('requestConfirmMesg(\'%s\', \'%s\')', $url, _localized('management.this_will_delete_things'));
             else
                 $func = sprintf('requestConfirm(\'%s\')', $url);
 
-            $buttons .= sprintf('[<a href="javascript:void:(0);" onclick="%s">%s</a>] ', $func, self::$locale->read('management', $action));
+            $buttons .= sprintf('[<a href="javascript:void:(0);" onclick="%s">%s</a>] ', $func, _localized('management.' . $action));
         }
 
         return $buttons;
@@ -269,10 +266,10 @@ class LocaleManagement extends ModelHeader {
     }
 
     public function getPageDescription() : string {
-        return self::$locale->read('management', 'locales_description');
+        return _localized('management.locales_description');
     }
 
     public function getTitle() : string {
-        return self::$locale->read('management', 'locale_management');
+        return _localized('management.locale_management');
     }
 }

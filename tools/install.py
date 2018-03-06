@@ -5,6 +5,7 @@ import json
 import os
 import pymysql
 import subprocess
+import sys
 import time
 
 WIKI_VERSION = '1.0 Alpha 1'
@@ -76,7 +77,7 @@ def print_horizontal_line():
         print('-', end='')
 
 
-def import_tables(cursor, db_pref):
+def import_tables(cursor, db_pref, wiki_info):
     statements = []
     files = ['../ddl.sql', '../data.sql']
 
@@ -89,6 +90,9 @@ def import_tables(cursor, db_pref):
                 for line in file:
                     clean_line = line.strip()
                     line = line.replace('{db_prefix}', db_pref)
+
+                    for key,value in wiki_info.items():
+                        line = line.replace('{' + 'data:{0}'.format(key) + '}', value)
 
                     if clean_line.startswith('--') or not clean_line:
                         continue
@@ -237,6 +241,13 @@ def install_libraries():
     return True
 
 
+def get_path_and_url():
+    return (
+        '/var/www/DraiWiki' if sys.platform is 'posix' else 'C:\xampp\htdocs',
+        'http://localhost/DraiWiki'
+    )
+
+
 def run():
     print(':: DraiWiki {0} command line installer', WIKI_VERSION)
 
@@ -255,6 +266,19 @@ def run():
     if not result:
         report_status('Aborting')
         return
+
+    print(':: Wiki setup')
+    default_path, default_url = get_path_and_url()
+
+    wiki_info = {
+        'wiki_name': request_information('Wiki name', default='My Wiki'),
+        'slogan': request_information('Slogan', default='Welcome to the wiki'),
+        'path': request_information('Path to wiki', default=default_path),
+        'url': request_information('Url', default=default_url),
+        'default_templates': request_information('Default template set', default='Hurricane'),
+        'default_image_set': request_information('Default image set', default='Hurricane'),
+        'default_skin_set': request_information('Default skin set', default='Hurricane')
+    }
 
     print(':: Database server information')
 
@@ -276,7 +300,7 @@ def run():
 
         print('Database connection established')
 
-        if not import_tables(connection.cursor, db_pref):
+        if not import_tables(connection.cursor, db_pref, wiki_info):
             return
 
     else:

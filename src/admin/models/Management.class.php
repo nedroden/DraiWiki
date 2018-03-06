@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -28,8 +28,7 @@ class Management extends ModelHeader {
         $this->loadConfig();
         $this->loadUser();
 
-        self::$locale->loadFile('management');
-        $this->_title = self::$locale->read('management', 'management_panel');
+        $this->_title = _localized('management.management_panel');
     }
 
     public function prepareData(): array {
@@ -198,11 +197,11 @@ class Management extends ModelHeader {
         foreach ($items as $key => $item) {
             if ($item['visible']) {
                 // Replace the label placeholders with localized labels
-                $item['label'] = self::$locale->read('management', $item['label']);
+                $item['label'] = _localized('management.' . $item['label']);
 
                 $visibleSubItems = [];
                 foreach ($item['items'] as $subItemKey => $subItem) {
-                    $subItem['label'] = self::$locale->read('management', $subItem['label']);
+                    $subItem['label'] = _localized('management.' . $subItem['label']);
 
                     if ($subItem['visible'])
                         $visibleSubItems[$subItemKey] = $subItem;

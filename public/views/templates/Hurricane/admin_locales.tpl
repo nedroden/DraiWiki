@@ -1,24 +1,24 @@
 <div class="content_section">
     <div class="message_box info">
-        {$locale->read('management', 'upload_before_install')}
+        {{ _localized('management.upload_before_install') }}
     </div>
 
-    {if not $errors eq ''}
+    {% if errors is not empty %}
         <div class="message_box error">
             <ul>
-            {foreach $errors error}
-                <li>{$locale->read('management', $error)}</li>
-            {/foreach}
+            {% for error in errors %}
+                <li>{{ _localized('management.' . error) }}</li>
+            {% endfor %}
             </ul>
         </div>
-    {/if}
+    {% endif %}
 
-    {foreach $uninstalled_links link}
+    {% for link in uninstalled_links %}
         <div class="message_box notice">
-            {$link}
+            {{ link }}
         </div>
-    {/foreach}
+    {% endfor %}
 
-    <h1>{$locale->read('management', 'installed_locales')}</h1>
-    {$installed_locales}
+    <h1>{{ _localized('management.installed_locales') }}</h1>
+    {{ installed_locales }}
 </div>

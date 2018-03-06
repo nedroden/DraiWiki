@@ -2,27 +2,27 @@
             </div>
 
             <div id="copyright">
-                <div class="col33">{$copyright}{if not $locale_copyright eq 'none'}<br />{$locale_copyright}{/if}</div>
-                <div class="col33 align_center"><a id="to_top" href="#wrapper" title="{$locale->read('main', 'to_top')}"><i id="to_top_arrow" class="fa fa-arrow-up"></i></a></div>
+                <div class="col33">{{ copyright | raw }}{% if locale_copyright != 'none' %}<br />{{ locale_copyright | raw }}{% endif %}</div>
+                <div class="col33 align_center"><a id="to_top" href="#wrapper" title="{{ _localized('main.to_top') }}"><i id="to_top_arrow" class="fa fa-arrow-up"></i></a></div>
                 <div class="col33 align_right">
-                    <form action="{$url}/index.php/locale" method="post">
-                        <label for="locale_switcher">{$locale->read('main', 'locale')}:</label>
+                    <form action="{{ url }}/index.php/locale" method="post">
+                        <label for="locale_switcher">{{ _localized('main.locale') }}:</label>
                         <select name="code" id="locale_switcher">
-                        {foreach $locale_continents continent}
-                            <optgroup label="{$continent['label']}">
-                            {foreach $continent['locales'] lang}
-                                <option value="{$lang['code']}"{if not $lang['selected'] eq ''} selected{/if}>{$lang['native']}</option>
-                            {/foreach}
+                        {% for continent in locale_continents %}
+                            <optgroup label="{{ continent.label }}">
+                            {% for lang in continent.locales %}
+                                <option value="{{ lang.code }}"{% if lang.selected is not empty %} selected{% endif %}>{{ lang.native }}</option>
+                            {% endfor %}
                             </optgroup>
-                        {/foreach}
+                        {% endfor %}
                         </select>
                     </form>
                 </div>
                 <br class="clear" />
             </div>
         </div>
-        {if not $debug_body eq ''}
-            {$debug_body}
-        {/if}
+        {% if debug_body is not empty %}
+            {{ debug_body }}
+        {% endif %}
     </body>
 </html>

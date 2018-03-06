@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -29,7 +29,6 @@ class Dashboard extends ModelHeader {
     private const MAX_EDITS_PER_PAGE = 10;
 
     public function __construct() {
-        $this->loadLocale();
         $this->loadConfig();
         $this->loadUser();
     }
@@ -66,7 +65,7 @@ class Dashboard extends ModelHeader {
         foreach ($result as $record)
             return $record['db_version'];
 
-        return self::$locale->read('management', 'unknown');
+        return _localized('management.unknown');
     }
 
     private function getEditsThisWeek() : array {
@@ -130,11 +129,11 @@ class Dashboard extends ModelHeader {
     }
 
     public function getPageDescription() : string {
-        return self::$locale->read('management', 'dashboard_description');
+        return _localized('management.dashboard_description');
     }
 
     public function getTitle() : string {
-        return self::$locale->read('management', 'dashboard_title');
+        return  _localized('management.dashboard_title');
     }
 
     public function setRequest(string $request) : void {

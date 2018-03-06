@@ -18,8 +18,8 @@ It also has built-in multi-language support, meaning you won't need an extension
 #### 2.1.1. Minimum
 * PHP 7.1+ with the PDO, SimpleXML and Fileinfo extensions enabled
 * MariaDB / MySQL (tested on MariaDB 10.1.25)
-* Composer
-* NPM
+* Composer (for the installation process)
+* NPM (for the installation process)
 
 #### 2.1.2. Optional, but recommended
 * GD extension
@@ -36,10 +36,8 @@ It also has built-in multi-language support, meaning you won't need an extension
 8. Enjoy!
 
 #### 2.2.2. Command line installation
-You can also install DraiWiki from the command line by executing /tools/install.py. This script requires Python 3 to be installed. Just execute the aforementioned file and follow the process. Additional packages that are needed:
+You can also install DraiWiki from the command line by executing ``./tools/install.py``. This script requires Python 3 to be installed. Just execute the aforementioned file and follow the process. Additional packages that are needed:
 * pymysql
-* Composer
-* NPM
 
 ### 2.3. Root account
 A root account is automatically created upon installation. At the time of writing it is not possible yet to disable the account entirely, but you should still avoid using the root account unless absolutely necessary. Benefits of the root account are:

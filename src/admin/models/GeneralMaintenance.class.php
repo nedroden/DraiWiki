@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -25,10 +25,7 @@ class GeneralMaintenance extends ModelHeader {
     private $_actions;
 
     public function __construct() {
-        $this->loadLocale();
         $this->loadConfig();
-
-        self::$locale->loadFile('management');
 
         $this->setActions();
     }
@@ -61,8 +58,8 @@ class GeneralMaintenance extends ModelHeader {
         $color = 0;
         foreach ($this->_actions as &$action) {
             $action['class'] = ++$color;
-            $action['title'] = self::$locale->read('management', $action['title']);
-            $action['description'] = self::$locale->read('management', $action['description']);
+            $action['title'] = _localized('management.' . $action['title']);
+            $action['description'] = _localized('management.' . $action['description']);
 
             if ($color > 5)
                 $color = 0;
@@ -70,10 +67,10 @@ class GeneralMaintenance extends ModelHeader {
     }
 
     public function getTitle() : string {
-        return self::$locale->read('management', 'general_maintenance');
+        return _localized('management.general_maintenance');
     }
 
     public function getPageDescription() : string {
-        return self::$locale->read('management', 'general_maintenance_description');
+        return _localized('management.general_maintenance_description');
     }
 }

@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -34,7 +34,7 @@ class ActionBar extends ModelHeader {
 
     public function create() : void {
         foreach ($this->_items as &$item) {
-            $item['label'] = self::$locale->read($this->_localeFile, $item['label']);
+            $item['label'] = _localized($this->_localeFile . '.' . $item['label']);
 
             if (empty($item['href']))
                 $item['href'] = 'javascript:void(0);';

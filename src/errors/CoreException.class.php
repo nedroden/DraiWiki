@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -38,9 +38,9 @@ class CoreException extends Error {
      */
     protected function generateMessage() : array {
         return [
-            'title' => $this->hasLocale ? $this->locale->read('error', 'fatal_core_exception') : 'Fatal core exception',
-            'body' => $this->hasLocale ? $this->locale->read('error', 'what_is_a_fatal_core_exception') : 'A fatal error occurred that prevented DraiWiki from running.',
-            'detailed' => DEBUG_ALWAYS || $this->canViewDetailedInfo() && $this->hasLocale ? $this->locale->read('error', 'yes_you_can') .  '<em>' . $this->detailedInfo . '</em>' : NULL,
+            'title' => $this->hasLocale ? _localized('error.fatal_core_exception') : 'Fatal core exception',
+            'body' => $this->hasLocale ? _localized('error.what_is_a_fatal_core_exception') : 'A fatal error occurred that prevented DraiWiki from running.',
+            'detailed' => DEBUG_ALWAYS || $this->canViewDetailedInfo() && $this->hasLocale ? _localized('error.yes_you_can') .  '<em>' . $this->detailedInfo . '</em>' : NULL,
             'backtrace' => DEBUG_ALWAYS || $this->canViewDetailedInfo() ? $this->getBacktrace() : []
         ];
     }

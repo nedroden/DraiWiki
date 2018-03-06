@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -18,7 +18,7 @@ if (!defined('DraiWiki')) {
 
 use DraiWiki\src\core\controllers\QueryFactory;
 use DraiWiki\src\core\models\{InputValidator, PostRequest, Sanitizer};
-use DraiWiki\src\main\controllers\Locale;
+use DraiWiki\src\main\models\Locale;
 use Aidantwoods\SecureParsedown\SecureParsedown;;
 
 class Article extends ModelHeader {
@@ -49,6 +49,7 @@ class Article extends ModelHeader {
     private $_viewingOldVersion = false;
     private $_articleLocale;
     private $_group;
+    private $_status;
 
     public function __construct(?string $requestedArticle, bool $isHomepage, ?int $historicalVersion = null) {
         $this->_requestedArticle = $requestedArticle;
@@ -60,16 +61,12 @@ class Article extends ModelHeader {
         $this->loadConfig();
         $this->loadUser();
 
-        self::$locale->loadFile('article');
-        self::$locale->loadFile('editor');
-        self::$locale->loadFile('find');
-
         $this->load($historicalVersion);
     }
 
     private function load(?int $historicalVersion = null) : void {
         if (strlen($this->_requestedArticle) > self::$config->read('max_title_length'))
-            $this->_requestedArticle = self::$locale->read('article', 'new_article');
+            $this->_requestedArticle = _localized('article.new_article');
 
         $historicalVersion = is_numeric($historicalVersion) ? $historicalVersion : null;
 
@@ -86,7 +83,7 @@ class Article extends ModelHeader {
         ');
 
         $query->setParams([
-            'article' => $this->_isHomepage ? self::$locale->getHomepageID() : Sanitizer::ditchUnderscores($this->_requestedArticle)
+            'article' => $this->_isHomepage ? self::$locale->getCurrentLocaleInfo()->getHomepageID() : Sanitizer::ditchUnderscores($this->_requestedArticle)
         ]);
 
         $result = $query->execute();
@@ -111,7 +108,7 @@ class Article extends ModelHeader {
 
     private function setArticleInfo(array $info) : void {
         $this->_id = $info['id'] ?? 0;
-        $this->_title = $info['title'] ?? Sanitizer::escapehtml($this->_requestedArticle) ?? self::$locale->read('article', 'new_article');
+        $this->_title = $info['title'] ?? Sanitizer::escapehtml($this->_requestedArticle) ?? _localized('article.new_article');
         $this->_titleSafe = Sanitizer::addUnderscores($this->_title);
 
         $this->_body = $this->_parsedown->text($info['body'] ?? '');
@@ -119,17 +116,13 @@ class Article extends ModelHeader {
         $this->_bodySafeHTML = $this->_parsedown->setMarkupEscaped(true)->text($info['body'] ?? '');
         $this->_htmlTextArea = htmlspecialchars($info['body'] ?? '', ENT_NOQUOTES, 'UTF-8');
 
-        $this->_lastUpdatedUsername = $info['username'] ?? self::$locale->read('auth', 'guest');
+        $this->_lastUpdatedUsername = $info['username'] ?? _localized('auth.guest');
         $this->_lastUpdatedDate = $info['updated'] ?? 'unknown';
 
         // Status IDs should be integers. Always.
-        $status = !empty($info['status']) ? (int) $info['status'] : 0;
+        $this->_status = !empty($info['status']) ? (int) $info['status'] : 0;
 
-        $this->_details = [
-            'status' => $status
-        ];
-
-        $this->_articleLocale = !empty($info['locale_id']) ? new Locale($info['locale_id']) : self::$locale->getID();
+        $this->_articleLocale = !empty($info['locale_id']) ? new Locale($info['locale_id']) : self::$locale->getCurrentLocaleInfo()->getID();
 
         $this->_group = $info['group_id'] ?? 0;
     }
@@ -144,10 +137,10 @@ class Article extends ModelHeader {
             $data['action'] = self::$config->read('url') . '/index.php/article/' . $this->_titleSafe . '/assigntranslations';
 
             // Yep. We know. Really. But unfortunately Dwoo doesn't have a built-in sprintf function, so we have to do it like this
-            $data['remove_text'] = sprintf(self::$locale->read('article', 'declare_independence_desc'),
+            $data['remove_text'] = sprintf(_localized('article.declare_independence_desc'),
                             self::$config->read('url') . '/index.php/article/' . $this->_titleSafe . '/removetranslationgroup');
 
-            $data['can_declare_independence'] = self::$user->hasPermission('remove_from_translation_group') && $this->_id != self::$locale->getHomepageID();
+            $data['can_declare_independence'] = self::$user->hasPermission('remove_from_translation_group') && $this->_id != self::$locale->getCurrentLocaleInfo()->getHomepageID();
         }
 
         if (!empty($this->_historyTable))
@@ -201,13 +194,13 @@ class Article extends ModelHeader {
     public function getTitle() : string {
         switch ($this->_subApp) {
             case 'delete':
-                return self::$locale->read('article', 'deleting');
+                return _localized('article.deleting');
             case 'edit':
-                return self::$locale->read('article', 'editing') . $this->_title;
+                return _localized('article.editing') . $this->_title;
             case 'translations':
-                return self::$locale->read('article', 'assign_translations');
+                return _localized('article.assign_translations');
             case 'history':
-                return self::$locale->read('article', 'history');
+                return _localized('article.history');
             default:
                 return $this->_title;
         }
@@ -252,24 +245,24 @@ class Article extends ModelHeader {
 
         // Make sure we have a valid id
         if (!is_numeric($id['value']) || $id['validator']->aboveIntLimit()) {
-            $errors['id'] = self::$locale->read('editor', 'invalid_id');
+            $errors['id'] = _localized('editor.invalid_id');
             return;
         }
 
         $id['value'] = (int) $id['value'];
 
         if ($id['value'] != 0 && !$this->existsById($id['value'])) {
-            $errors['id'] = self::$locale->read('editor', 'article_not_found');
+            $errors['id'] = _localized('editor.article_not_found');
             return;
         }
 
         // Check the length of the title
         if ($title['validator']->isTooShort($minLength = (int) self::$config->read('min_title_length')))
-            $errors['title'] = sprintf(self::$locale->read('editor', 'title_too_short'), $minLength);
+            $errors['title'] = sprintf(_localized('editor.title_too_short'), $minLength);
         else if ($title['validator']->isTooLong($maxLength = (int) self::$config->read('max_title_length')))
-            $errors['title'] = sprintf(self::$locale->read('editor', 'title_too_long'), $maxLength);
+            $errors['title'] = sprintf(_localized('editor.title_too_long'), $maxLength);
         else if ($title['validator']->containsHTML())
-            $errors['title'] = self::$locale->read('editor', 'title_no_html');
+            $errors['title'] = _localized('editor.title_no_html');
         else {
             if (Sanitizer::ditchUnderscores($title['value']) != Sanitizer::ditchUnderscores($this->_title))
                 $this->_updatedTitle = true;
@@ -280,13 +273,13 @@ class Article extends ModelHeader {
 
         // Check for duplicate titles
         if ($id['value'] == 0 && $this->existsByName($this->_title, $id['value']))
-            $errors['title'] = self::$locale->read('editor', 'title_already_in_use');
+            $errors['title'] = _localized('editor.title_already_in_use');
 
         // Body validation
         if ($body['validator']->isTooShort($minLength = (int) self::$config->read('min_body_length')))
-            $errors['body'] = sprintf(self::$locale->read('editor', 'body_too_short'), $minLength);
+            $errors['body'] = sprintf(_localized('editor.body_too_short'), $minLength);
         else if ($body['validator']->isTooLong($maxLength = (int) self::$config->read('max_body_length')))
-            $errors['body'] = sprintf(self::$locale->read('editor', 'body_too_long'), $maxLength);
+            $errors['body'] = sprintf(_localized('editor.body_too_long'), $maxLength);
         else
             $this->_bodyUnparsed = $body['value'] ?? '';
 
@@ -319,7 +312,7 @@ class Article extends ModelHeader {
 
             $query->setParams([
                 'title' => $this->_title,
-                'locale_id' => self::$locale->getID(),
+                'locale_id' => self::$locale->getCurrentLocaleInfo()->getID(),
                 'status_nr' => 1,
                 'user_id' => self::$user->getID(),
                 'body' => $this->_bodyUnparsed
@@ -447,41 +440,35 @@ class Article extends ModelHeader {
     }
 
     public function generateJSON() : string {
-        if ($this->_request == 'getlist') {
-            $historyCount = $this->getHistoryCount();
+        switch ($this->_request) {
+            case 'getlist':
+                $historyCount = $this->getHistoryCount();
 
-            $start = $this->getStart();
-            $end = $start + self::$config->read('max_results_per_page');
+                $start = $this->getStart();
+                $end = $start + self::$config->read('max_results_per_page');
 
-            if ($end > $historyCount)
-                $end = $start + ($historyCount % self::$config->read('max_results_per_page'));
+                if ($end > $historyCount)
+                    $end = $start + ($historyCount % self::$config->read('max_results_per_page'));
 
-            $jsonRequest = '
-            {
-                "start": "' . $start . '",
-                "end": "' . $end . '",
-                "total_records": "' . $historyCount . '",
-                "displayed_records": "' . self::$config->read('max_results_per_page') . '",
-                "data": [';
+                $historicalArticles = [];
+                foreach ($this->getHistory() as $article) {
+                    $historicalArticles[] = [
+                        'updated' => $article['updated'],
+                        'username' => $article['username']
+                    ];
+                }
 
-            $jsonHistory = [];
-            foreach ($this->getHistory() as $article) {
-                $jsonHistory[] = '
-                {
-                    "updated": "' . $article['updated'] . '",
-                    "username": "' . $article['username'] . '"
-                }';
-            }
+                return json_encode([
+                    'start' => $start,
+                    'end' => $end,
+                    'total_records' => $historyCount,
+                    'displayed_records' => self::$config->read('max_results_per_page'),
+                    'data' => $historicalArticles
+                ]);
 
-            $jsonRequest .= implode(',', $jsonHistory) . '
-                ]
-            }';
-
-            return $jsonRequest;
+            default:
+                return '';
         }
-
-        else
-            return '';
     }
 
     public function getSidebarLanguages() : array {
@@ -505,7 +492,7 @@ class Article extends ModelHeader {
         $result = $query->execute();
         $locales = [];
         foreach ($result as $locale) {
-            $localeObject = $locale['locale_id'] == self::$locale->getID() ? self::$locale : new Locale($locale['locale_id']);
+            $localeObject = $locale['locale_id'] == self::$locale->getCurrentLocaleInfo()->getID() ? self::$locale : new Locale($locale['locale_id']);
 
             $locales[] = [
                 'label' => $localeObject->getNative(),
@@ -599,7 +586,7 @@ class Article extends ModelHeader {
     }
 
     public function getLastUpdatedTime() : string {
-        return sprintf(self::$locale->read('article', 'last_updated_by'), $this->_lastUpdatedUsername, $this->_lastUpdatedDate);
+        return _localized('article.last_updated_by', $this->_lastUpdatedUsername, $this->_lastUpdatedDate);
     }
 
     public function getSafeTitle() : string {
@@ -624,6 +611,10 @@ class Article extends ModelHeader {
 
     public function getGroup() : int {
         return $this->_group;
+    }
+
+    public function getStatus() : int {
+        return $this->_status;
     }
 
     public function setIsEditing(bool $status) : void {

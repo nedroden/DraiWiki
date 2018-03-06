@@ -1,30 +1,30 @@
-{if $type eq 'info_table'}
+{% if type == 'info_table' %}
     <div class="info_table">
-        {foreach $rows cell}
+        {% for cell in rows %}
             <div>
-                <span>{$cell[0]}</span>
-                <span>{$cell[1]}</span>
+                <span>{{ cell.0 }}</span>
+                <span>{{ cell.1 }}</span>
             </div>
-        {/foreach}
+        {% endfor %}
         <br class="clear" />
     </div>
-    {else}
+    {% else %}
     <div class="count float_left"></div><div class="pagination float_right"></div><br class="clear" />
-    <table id="{$id}" class="{$type}">
+    <table id="{{ id }}" class="{{ type }}">
         <thead>
-            {foreach $columns column}
-                <th>{$column}</th>
-            {/foreach}
+            {% for column in columns %}
+                <th>{{ column }}</th>
+            {% endfor %}
         </thead>
         <tbody>
-            {foreach $rows row}
+            {% for row in rows %}
                 <tr>
-                    {foreach $row cell}
-                        <td>{$cell}</td>
-                    {/foreach}
+                    {% for cell in row %}
+                        <td>{{ cell }}</td>
+                    {% endfor %}
                 </tr>
-            {/foreach}
+            {% endfor %}
         </tbody>
     </table>
     <div class="count float_left"></div><div class="pagination float_right"></div><br class="clear" />
-{/if}
+{% endif %}

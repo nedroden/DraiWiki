@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -77,7 +77,7 @@ class Image extends ModelHeader {
             }
 
             if (!$image) {
-                $errors[] = self::$locale->read('tools', 'could_not_move_image');
+                $errors[] = _localized('tools.could_not_move_image');
                 return;
             }
 
@@ -91,7 +91,7 @@ class Image extends ModelHeader {
                     @unlink($uploadedFileName);
                 }
                 else {
-                    $errors[] = self::$locale->read('tools', 'could_not_move_image');
+                    $errors[] = _localized('tools.could_not_move_image');
                     return;
                 }
             }
@@ -101,7 +101,7 @@ class Image extends ModelHeader {
             $result = @move_uploaded_file($this->_tempName, $uploadedFileName);
 
             if (!$result) {
-                $errors[] = self::$locale->read('tools', 'could_not_upload_image');
+                $errors[] = _localized('tools.could_not_upload_image');
                 return;
             }
         }

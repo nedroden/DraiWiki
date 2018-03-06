@@ -5,7 +5,7 @@
  *
  * @version     1.0 Alpha 1
  * @author      Robert Monden
- * @copyright   2017-2018, DraiWiki
+ * @copyright   2017-2018 DraiWiki
  * @license     Apache 2.0
  */
 
@@ -16,40 +16,20 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
-class Config {
+class Config extends ConfigHeader {
 
     private $_settings;
 
     public function __construct() {
         $this->_settings = [
-            'db_server' => 'localhost',
-            'db_username' => 'root',
-            'db_password' => '',
-            'db_name' => 'DraiWiki',
-            'db_prefix' => 'drai_',
+            'db_server' => '{data:db_server}',
+            'db_username' => '{data:db_username}',
+            'db_password' => '{data:db_password}',
+            'db_name' => '{data:db_name}',
+            'db_prefix' => '{data:db_prefix}',
 			'db_charset' => 'utf8mb4',
-
-            'templates' => 'Hurricane',
-            'images' => 'Hurricane',
-            'skins' => 'Hurricane',
 
             'ssl_enabled' => false
         ];
-    }
-
-    public function read(string $identifier) {
-        return !empty($this->_settings[$identifier]) ? $this->_settings[$identifier] : null;
-    }
-
-    public function import(array $settings) : void {
-        foreach ($settings as $key => $value) {
-            $this->_settings[$key] = $value;
-        }
-    }
-
-    public function deleteDatabaseInfo() : void {
-        foreach (['db_server', 'db_username', 'db_password', 'db_name'] as $setting) {
-            $this->_settings[$setting] = null;
-        }
     }
 }
