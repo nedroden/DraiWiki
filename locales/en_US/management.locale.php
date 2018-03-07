@@ -154,16 +154,13 @@ return [
     'site_and_file_maintenance' => 'Site maintenance',
     'maintenance_actions' => 'Maintenance actions',
 
-    'general_maintenance' => 'General maintenance actions',
-    'general_maintenance_description' => 'Here you can perform general maintenance actions, such as removing obsolete data. Click on any of the action titles to perform the corresponding action.',
+    'general_maintenance' => 'Maintenance',
+    'general_maintenance_description' => 'Here you can perform general maintenance tasks, such as removing obsolete data. Click on any of the action titles to perform the corresponding action.',
 
     'check_version' => 'Perform version check',
     'check_version_description' => 'This action sends you to the DraiWiki site and allows you to check whether or not you\'re using an up-to-date version of DraiWiki.',
     'remove_old_sessions' => 'Remove old sessions',
-    'remove_old_sessions_description' => 'Remove all sessions older than X days.',
-
-    'generate_new_salt' => 'Generate new password salt',
-    'generate_new_salt_description' => 'DraiWiki adds a string of random characters to passwords before they are hashed. This is an additional layer of security that is meant to keep users\' passwords safe. Keep in mind that performing this action will invalidate all current passwords.',
+    'remove_old_sessions_description' => 'Remove all sessions older than 31 days.',
 
     'image_uploading' => 'Image uploading',
     'gd_image_upload' => 'Use GD module for image uploading',
@@ -238,5 +235,10 @@ return [
 
     'this_will_delete_things' => 'Are you sure you want to delete this locale? Keep in mind that ALL ARTICLES that belong to this locale WILL BE PERMANENTLY DELETED.<br /><br />Please do not click the <em>okay</em> button unless you understand what the consequences are.',
 
-    'execute_task' => 'Execute task'
+    'execute_task' => 'Execute task',
+    'unknown_maintenance_task' => 'The task you tried to execute was not recognized. It may have been deprecated or the URL may have been incorrect. Please try again.',
+    'task_executed' => 'The task was successfully executed.',
+
+    'empty_error_log' => 'Empty error log',
+    'empty_error_log_description' => 'This task will clear the error log. This might be desirable if your error log is too large.'
 ];

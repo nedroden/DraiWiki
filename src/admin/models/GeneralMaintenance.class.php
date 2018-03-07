@@ -16,6 +16,7 @@ if (!defined('DraiWiki')) {
     die('You\'re really not supposed to be here.');
 }
 
+use DraiWiki\src\core\controllers\QueryFactory;
 use DraiWiki\src\core\models\Sanitizer;
 use DraiWiki\src\main\controllers\Main;
 use DraiWiki\src\main\models\{ModelHeader};
@@ -48,10 +49,10 @@ class GeneralMaintenance extends ModelHeader {
                 'description' => 'check_version_description',
                 'href' => 'https://draiwiki.robertmonden.com/versioncheck.php?version=' . Sanitizer::addUnderscores(Main::WIKI_VERSION)
             ],
-            'generate_new_salt' => [
-                'title' => 'generate_new_salt',
-                'description' => 'generate_new_salt_description',
-                'href' => self::$config->read('url') . '/index.php/management/generalmaintenance/removeoldsessions'
+            'empty_error_log' => [
+                'title' => 'empty_error_log',
+                'description' => 'empty_error_log_description',
+                'href' => self::$config->read('url') . '/index.php/management/generalmaintenance/emptyerrorlog'
             ]
         ];
 
@@ -64,6 +65,22 @@ class GeneralMaintenance extends ModelHeader {
             if ($color > 5)
                 $color = 0;
         }
+    }
+
+    public function removeOldSessions() : void {
+        $query = QueryFactory::produce('modify', '
+            DELETE FROM {db_prefix}session
+                WHERE (NOW() - created_at) > :older_than
+        ');
+
+        $query->setParams(['older_than' => 3600 * 24 * 31]);
+        $query->execute();
+    }
+
+    public function emptyErrorLog() : void {
+        QueryFactory::produce('modify', '
+            DELETE FROM {db_prefix}log_errors
+        ')->execute();
     }
 
     public function getTitle() : string {

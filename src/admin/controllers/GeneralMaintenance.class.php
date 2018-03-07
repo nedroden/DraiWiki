@@ -30,13 +30,29 @@ class GeneralMaintenance extends AppHeader {
         $this->_model = new Model();
 
         $this->_errors = [];
+    }
 
-        // 0: nothing submitted, 1: success, 2: failure
-        $this->_submitted = false;
+    private function handleMaintenanceRequest() : bool {
+        switch ($this->_route->getParams()['section']) {
+            case 'removeoldsessions':
+                $this->_model->removeOldSessions();
+                return true;
+            case 'emptyerrorlog':
+                $this->_model->emptyErrorLog();
+                return true;
+            default:
+                $this->_errors[] = _localized('management.unknown_maintenance_task');
+        }
+
+        return false;
     }
 
     public function execute() : void {
-        $this->_view = Registry::get('gui')->parseAndGet('admin_general_maintenance', $this->_model->prepareData() + ['errors' => $this->_errors], false);
+        $success = false;
+        if (!empty($this->_route->getParams()['section']))
+            $success = $this->handleMaintenanceRequest();
+
+        $this->_view = Registry::get('gui')->parseAndGet('admin_general_maintenance', $this->_model->prepareData() + ['errors' => $this->_errors, 'success' => $success], false);
     }
 
     public function display() : void {

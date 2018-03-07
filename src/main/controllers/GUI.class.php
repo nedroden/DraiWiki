@@ -87,15 +87,11 @@ class GUI {
     }
 
     public function showHeader() : void {
-        $this->createDebugBar(false, 'head');
-
-        echo $this->_twig->load('header.tpl')->render($this->_data);
+        echo $this->_twig->load('header.tpl')->render(array_merge($this->_data, $this->createDebugBar(false, 'head')));
     }
 
     public function showFooter() : void {
-        $this->createDebugBar(false, 'body');
-
-        echo $this->_twig->load('footer.tpl')->render($this->_data);
+        echo $this->_twig->load('footer.tpl')->render(array_merge($this->_data, $this->createDebugBar(false, 'body')));
     }
 
     public function setData(array $data) : void {
