@@ -236,5 +236,7 @@ return [
     'new_homepage_title' => 'Homepage',
     'new_homepage_body' => 'This is just a temporary homepage.',
 
-    'this_will_delete_things' => 'Are you sure you want to delete this locale? Keep in mind that ALL ARTICLES that belong to this locale WILL BE PERMANENTLY DELETED.<br /><br />Please do not click the <em>okay</em> button unless you understand what the consequences are.'
+    'this_will_delete_things' => 'Are you sure you want to delete this locale? Keep in mind that ALL ARTICLES that belong to this locale WILL BE PERMANENTLY DELETED.<br /><br />Please do not click the <em>okay</em> button unless you understand what the consequences are.',
+
+    'execute_task' => 'Execute task'
 ];

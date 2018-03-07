@@ -113,6 +113,12 @@ input[type="submit"]:hover {
     width: 100%;
 }
 
+.form_submit_area {
+    padding: 8px 20px 8px 20px;
+    background: #f3f3f3;
+    text-align: right;
+}
+
 /* Styles for the top bar */
 #topbar {
     padding: 10px 20px 10px 20px;
@@ -170,6 +176,10 @@ input[type="submit"]:hover {
 
 .padding {
     padding: 30px;
+}
+
+.small_padding {
+    padding: 15px;
 }
 
 /* Sections width */
@@ -541,29 +551,31 @@ tr.selected td {
 
 /* Wiki maintenance */
 .maintenance_action {
-    padding: 15px;
     margin: 15px auto;
     width: 50%;
+    background: #f6f6f6;
 }
 
 .maintenance_action p, .maintenance_action h1 {
-    color: #fff;
+    color: #666666;
 }
 
 .maintenance_action h1 {
     margin-bottom: 0;
+    font-size: 130%;
+    font-weight: bold;
 }
 
 .maintenance_action p {
     margin-top: 0;
 }
 
-.maintenance_color_1 { background: #4286f4; }
-.maintenance_color_2 { background: #5ebc7d; }
-.maintenance_color_3 { background: #bcb3a7; }
-.maintenance_color_4 { background: #494a51; }
-.maintenance_color_5 { background: #b79a64; }
-.maintenance_color_6 { background: #b2e22f; }
+.maintenance_color_1 { border-left: 4px solid #4286f4; }
+.maintenance_color_2 { border-left: 4px solid #5ebc7d; }
+.maintenance_color_3 { border-left: 4px solid #bcb3a7; }
+.maintenance_color_4 { border-left: 4px solid #494a51; }
+.maintenance_color_5 { border-left: 4px solid #b79a64; }
+.maintenance_color_6 { border-left: 4px solid #b2e22f; }
 
 /* Text positions */
 .align_left {

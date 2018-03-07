@@ -28,8 +28,6 @@ class Table extends ModelHeader {
         $this->_columns = $columns;
         $this->_data = $data;
 
-        $this->loadLocale();
-        self::$locale->loadFile($localeFile);
         $this->_localeFile = $localeFile;
 
         $this->_gui = Registry::get('gui');

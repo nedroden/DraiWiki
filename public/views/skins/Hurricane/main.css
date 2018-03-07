@@ -194,7 +194,8 @@ select {
 
 #header {
     background: #25639e;
-    background: linear-gradient(135deg, #25639e, #408dde);
+    /*background: linear-gradient(135deg, #25639e, #408dde);*/
+    background: linear-gradient(135deg, #3a3682, #5c56b7);
     font-family: "Noto Sans", Verdana, Helvetica, Arial;
     padding: 40px;
     align-items: center;
