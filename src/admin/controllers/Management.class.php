@@ -79,6 +79,8 @@ class Management extends AppHeader {
 
     public function execute() : void {
         $this->_model->setTitle($this->_subApp->getTitle());
+        $this->setTitle($this->_subApp->getTitle());
+
         $this->_subApp->execute();
     }
 

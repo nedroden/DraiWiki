@@ -31,11 +31,10 @@ class Management extends ModelHeader {
         $this->_title = _localized('management.management_panel');
     }
 
-    public function prepareData(): array {
+    public function prepareData() : array {
         return [
             'sidebar' => $this->_sidebar,
             'title' => $this->_title,
-            'locale' => self::$locale,
             'node_url' => self::$config->read('url') . '/node_modules',
             'script_url' => self::$config->read('url') . '/scripts',
             'wiki_version' => Main::WIKI_VERSION,

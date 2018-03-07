@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>{{ title }} | {{ wiki_name }}{% if slogan is not empty %} | {{ slogan }} {% endif %}</title>
-        <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+        <link href="{{ node_url }}/notosans-fontface/css/notosans-fontface.css" rel="stylesheet">
 
         <script type="text/javascript">
             var please_confirm = '{{ _localized('script.please_confirm') }}';
