@@ -47,7 +47,7 @@ class GeneralMaintenance extends ModelHeader {
             'check_version' => [
                 'title' => 'check_version',
                 'description' => 'check_version_description',
-                'href' => 'https://draiwiki.robertmonden.com/versioncheck.php?version=' . Sanitizer::addUnderscores(Main::WIKI_VERSION)
+                'href' => Main::DW_SUPPORT_URL . '/versioncheck.php?version=' . Sanitizer::addUnderscores(Main::WIKI_VERSION)
             ],
             'empty_error_log' => [
                 'title' => 'empty_error_log',

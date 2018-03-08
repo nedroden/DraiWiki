@@ -116,6 +116,7 @@ input[type="submit"]:hover {
 select {
     min-width: 200px;
 }
+
 #header_search input {
     font-size: 16px;
     padding: 3px;
@@ -257,7 +258,6 @@ select {
 	font-size: 200%;
 	font-family: Arial, Verdana;
 	letter-spacing: -1px;
-    border-bottom: 4px solid #5e89a0;
 }
 
 /* Positioning */

@@ -240,5 +240,14 @@ return [
     'task_executed' => 'The task was successfully executed.',
 
     'empty_error_log' => 'Empty error log',
-    'empty_error_log_description' => 'This task will clear the error log. This might be desirable if your error log is too large.'
+    'empty_error_log_description' => 'This task will clear the error log. This might be desirable if your error log is too large.',
+
+    'template_set' => 'Default template set',
+    'template_set_desc' => 'Templates from the selected set will be used.',
+    'image_set' => 'Default image set',
+    'image_set_desc' => 'Images from the selected set will be used by the stylesheet.',
+    'skin_set' => 'Default skin set',
+    'skin_set_desc' => 'Choosing a different skinset will change the appearance, but not the template structure, of your theme.',
+
+    'theme_settings' => 'Theme settings'
 ];

@@ -346,6 +346,27 @@ class GUI {
         return $data ?? null;
     }
 
+    public static function getThemeDirectories(string $dirname, string $findFile) : array {
+        $config = Registry::get('config');
+        $files = @scandir($config->read('path') . '/public/views/' . $dirname);
+
+        if (!$files)
+            return [];
+
+        $directories = [];
+        foreach ($files as $file) {
+            if ($file == '.'
+                || $file == '..'
+                || !is_dir($config->read('path') . '/public/views/' . $dirname . '/' . $file)
+                || !file_exists($config->read('path') . '/public/views/' . $dirname . '/' . $file . '/' . $findFile))
+                continue;
+
+            $directories[] = $file;
+        }
+
+        return $directories;
+    }
+
     public function getSkinUrl() : string {
         return $this->_skinUrl;
     }

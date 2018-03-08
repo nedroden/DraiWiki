@@ -34,3 +34,10 @@ function dumpNicely($array) : void {
     print_r($array);
     echo '</pre>';
 }
+
+function applyToAll(array $array, callable $func) : array {
+    foreach ($array as &$element)
+        $func($element);
+
+    return $array;
+}

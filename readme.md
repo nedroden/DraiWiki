@@ -1,6 +1,8 @@
 # DraiWiki
 
-**Note:** Although search functionality is not implemented yet, for a more up-to-date version of the documentation, have a look at our official [wiki](https://draiwiki.robertmonden.com/wiki/index.php). The installation guide can be found [here](https://draiwiki.robertmonden.com/wiki/index.php/article/Installation_guide).
+![DraiWiki logo](screenshot.png)
+
+**Note:** For a more up-to-date version of the documentation, have a look at our official [wiki](https://draiwiki.robertmonden.com/wiki/index.php). The installation guide can be found [here](https://draiwiki.robertmonden.com/wiki/index.php/article/Installation_guide).
 
 ## 1. Introduction to DraiWiki
 ### 1.1. What is DraiWiki?

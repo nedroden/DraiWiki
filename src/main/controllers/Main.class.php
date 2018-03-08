@@ -49,6 +49,7 @@ class Main {
 	private $_locale;
 
 	public const WIKI_VERSION = '1.0 Alpha 1';
+    public const DW_SUPPORT_URL = 'https://draiwiki.robertmonden.com';
 
     public function __construct() {
         DebugBarWrapper::create();

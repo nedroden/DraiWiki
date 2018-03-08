@@ -119,6 +119,10 @@ input[type="submit"]:hover {
     text-align: right;
 }
 
+select {
+    min-width: 200px;
+}
+
 /* Styles for the top bar */
 #topbar {
     padding: 10px 20px 10px 20px;

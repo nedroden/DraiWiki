@@ -126,8 +126,6 @@ The {wiki_name} team',
     'field_empty_last_name' => 'The last name field cannot be empty',
     'field_empty_sex' => 'Please select a gender',
 
-    'select_value_does_not_exist' => 'Your ingenuity is admirable, but that doesn\'t mean the wiki doesn\'t validate user input before using it! The selected value doesn\'t exist.',
-
     'settings_have_been_saved' => 'The settings have been saved',
 
     'edit_settings' => 'Account settings',

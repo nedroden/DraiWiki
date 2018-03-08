@@ -220,7 +220,7 @@ class AccountManager extends ModelHeader {
                 }
 
                 if (!$found) {
-                    $errors[$field['name']] = _localized('auth.select_value_does_not_exist');
+                    $errors[$field['name']] = _localized('errors.select_value_does_not_exist');
                     continue;
                 }
             }

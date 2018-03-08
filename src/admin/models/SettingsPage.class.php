@@ -18,6 +18,7 @@ if (!defined('DraiWiki')) {
 
 use DraiWiki\src\core\controllers\QueryFactory;
 use DraiWiki\src\core\models\{InputValidator, PostRequest};
+use DraiWiki\src\main\controllers\GUI;
 use DraiWiki\src\main\models\{ModelHeader, Table};
 
 class SettingsPage extends ModelHeader {
@@ -155,6 +156,46 @@ class SettingsPage extends ModelHeader {
                     'min_length' => 1,
                     'max_length' => 0
                 ],
+                'theme_settings',
+                'templates' => [
+                    'name' => 'templates',
+                    'label' => 'template_set',
+                    'description' => 'template_set_desc',
+                    'input_type' => 'select',
+                    'options' => applyToAll(GUI::getThemeDirectories('templates', 'header.tpl'), function(string &$element) {
+                        $element = [
+                            'label' => $element,
+                            'value' => $element
+                        ];
+                    }),
+                    'selected' => self::$config->read('templates')
+                ],
+                'images' => [
+                    'name' => 'images',
+                    'label' => 'image_set',
+                    'description' => 'image_set_desc',
+                    'input_type' => 'select',
+                    'options' => applyToAll(GUI::getThemeDirectories('images', 'index.php'), function(string &$element) {
+                        $element = [
+                            'label' => $element,
+                            'value' => $element
+                        ];
+                    }),
+                    'selected' => self::$config->read('images')
+                ],
+                'skins' => [
+                    'name' => 'skins',
+                    'label' => 'skin_set',
+                    'description' => 'skin_set_desc',
+                    'input_type' => 'select',
+                    'options' => applyToAll(GUI::getThemeDirectories('skins', 'main.css'), function(string &$element) {
+                        $element = [
+                            'label' => $element,
+                            'value' => $element
+                        ];
+                    }),
+                    'selected' => self::$config->read('skins')
+                ]
             ],
             'registration' => [
                 'general_registration_settings',
@@ -199,6 +240,13 @@ class SettingsPage extends ModelHeader {
                 $setting['value'] = $this->_validSettings[$settings['name']];
             else
                 $setting['value'] = self::$config->read($setting['name']);
+
+            if ($setting['input_type'] == 'select') {
+                foreach ($setting['options'] as &$option) {
+                    if ($option['value'] == $setting['selected'])
+                        $option['selected'] = true;
+                }
+            }
         }
 
         $this->_settings = $settings[$this->_settingsSection];
@@ -251,13 +299,43 @@ class SettingsPage extends ModelHeader {
                 }
             }
 
-            else {
+            else if ($setting['input_type'] == 'checkbox') {
                 $settingValue = isset($_POST[$setting['name']]) ? 1 : 0;
 
                 if ($settingValue != $setting['value'])
                     $setting['updated'] = true;
 
                 $setting['value'] = $settingValue;
+            }
+
+            else if ($setting['input_type'] == 'select') {
+                $request = new PostRequest($setting['name']);
+
+                if ($request->getIsEmpty()) {
+                    $errors[$setting['name']] = _localized('error.input_empty', $setting['name']);
+                    continue;
+                }
+
+                $found = false;
+                foreach ($setting['options'] as $option) {
+                    if ($request->getValue() == $option['value']) {
+                        $found = true;
+                        break;
+                    }
+                }
+
+                if (!$found) {
+                    $errors[$setting['name']] = _localized('error.select_value_does_not_exist');
+                    continue;
+                }
+
+                if (empty($errors[$setting['name']])) {
+                    if ($setting['value'] != $request->getValue())
+                        $setting['updated'] = true;
+
+                    $setting['selected'] = $request->getValue();
+                    $setting['value'] = $setting['selected'];
+                }
             }
         }
     }

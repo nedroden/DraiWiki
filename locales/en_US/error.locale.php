@@ -49,5 +49,8 @@ return [
 
     'section_not_found' => 'Section not found',
     'invalid_article' => 'Article not found or no article specified',
-    'group_invalid_locale' => 'Invalid locale group. Keep in mind that you cannot add two articles written in the same language to the same translation group.'
+    'group_invalid_locale' => 'Invalid locale group. Keep in mind that you cannot add two articles written in the same language to the same translation group.',
+
+    'input_empty' => 'FIeld <em>%s</em> cannot be empty',
+    'select_value_does_not_exist' => 'Your ingenuity is admirable, but that doesn\'t mean the wiki doesn\'t validate user input before using it! The selected value doesn\'t exist.',
 ];
