@@ -19,6 +19,7 @@ if (!defined('DraiWiki')) {
 use DraiWiki\external\modules\Hook;
 use DraiWiki\src\core\controllers\{QueryFactory, Registry};
 use DraiWiki\src\errors\FatalError;
+use Exception;
 use SimpleXMLElement;
 
 class Locale {
@@ -39,8 +40,10 @@ class Locale {
         $this->_config = Registry::get('config');
         $this->_loadedFiles = [];
 
-        $infoFile = $this->loadLocaleInfo($localeID);
-        $this->parseInfoFile($infoFile);
+        if ($localeID != null) {
+            $infoFile = $this->loadLocaleInfo($localeID);
+            $this->parseInfoFile($infoFile);
+        }
     }
 
     private function loadLocaleInfo(?int $localeID = null) : string {
@@ -61,12 +64,8 @@ class Locale {
 
         if (!empty($localeLoadCode) && file_exists($this->_config->read('path') . '/locales/' . $localeLoadCode . '/langinfo.xml'))
             $infoFile = $localeLoadCode;
-        else if (file_exists($this->_config->read('path') . '/locales/' . self::FALLBACK_LOCALE) . '/langinfo.xml') {
-            $infoFile = self::FALLBACK_LOCALE;
-            $this->_id = null;
-        }
         else
-            (new FatalError('Language files not found.'))->trigger();
+            throw new Exception('Can\'t load locale info file');
 
         return $infoFile ?? '';
     }
@@ -116,7 +115,7 @@ class Locale {
             return;
         }
 
-        (new FatalError('Call to non-existing locale. Did you run the installer?'))->trigger();
+        //(new FatalError('Call to non-existing locale. Did you run the installer?'))->trigger();
     }
 
     public function getHomepageID() : int {

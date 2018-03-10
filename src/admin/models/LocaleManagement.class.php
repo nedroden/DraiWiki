@@ -18,6 +18,7 @@ if (!defined('DraiWiki')) {
 
 use DraiWiki\src\core\controllers\QueryFactory;
 use DraiWiki\src\main\models\{ModelHeader, Locale, Table};
+use Exception;
 
 class LocaleManagement extends ModelHeader {
 
@@ -76,7 +77,12 @@ class LocaleManagement extends ModelHeader {
                 continue;
             }
 
-            $obj = self::$locale->getCurrentLocaleInfo()->getID() == $locale['id'] ? self::$locale->getCurrentLocaleInfo() : new Locale($locale['id']);
+            try {
+                $obj = self::$locale->getCurrentLocaleInfo()->getID() == $locale['id'] ? self::$locale->getCurrentLocaleInfo() : new Locale($locale['id']);
+            }
+            catch (Exception $e) {
+                continue;
+            }
 
             $locales[] = [
                 $obj->getID(),
@@ -117,7 +123,7 @@ class LocaleManagement extends ModelHeader {
                 else if (!file_exists($localePath . '/' . $directory . '/langinfo.xml'))
                     continue;
 
-                $locale = new Locale(0, false);
+                $locale = new Locale();
                 $locale->parseInfoFile($directory);
                 $locales[] = $locale;
             }

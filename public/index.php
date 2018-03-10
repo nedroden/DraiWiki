@@ -32,6 +32,11 @@ if (!file_exists(__DIR__ . '/../vendor/autoload.php') || !file_exists(__DIR__ . 
  */
 const DEBUG_ALWAYS = true;
 
+if (DEBUG_ALWAYS) {
+    @error_reporting(E_ALL);
+    @ini_set('display_errors', 'On');
+}
+
 require_once __DIR__ . '/../vendor/autoload.php';
 $main = new Main();
 $main->load();
