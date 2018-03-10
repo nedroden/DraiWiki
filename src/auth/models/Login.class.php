@@ -53,7 +53,6 @@ class Login extends ModelHeader {
 
         if (!empty($_POST['password'])) {
             $this->_userInfo['password'] = [
-                'value' => (new PostRequest('password'))->getHash(),
                 'validator' => new InputValidator($_POST['password'])
             ];
         }
@@ -82,7 +81,7 @@ class Login extends ModelHeader {
     public function getUserInfo() : array {
         return [
             'email_address' => $this->_userInfo['email']['value'],
-            'password' => $this->_userInfo['password']['value']
+            'password' => $this->_userInfo['password']['validator']->getValue()
         ];
     }
 }

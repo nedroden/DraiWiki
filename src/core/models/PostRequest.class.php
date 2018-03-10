@@ -65,7 +65,6 @@ class PostRequest {
     }
 
     public function getHash() : string {
-        $salt = $this->_config->read('password_salt');
-        return password_hash($this->_value . $salt, PASSWORD_BCRYPT, ['salt' => $salt]);
+        return password_hash($this->_value, PASSWORD_BCRYPT);
     }
 }

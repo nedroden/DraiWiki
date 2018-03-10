@@ -260,98 +260,13 @@ select {
 	letter-spacing: -1px;
 }
 
-/* Positioning */
-.float_right {
-    float: right;
-}
-
-.float_left {
-    float: left;
-}
-
-.clear {
-    clear: both;
-}
-
-/* Error messages */
-.string_not_found {
-    color: red;
-    font-weight: bold;
-}
-
-/* Messages */
-.message_box {
-    margin: 20px 0px 20px 0px;
-    padding: 5px;
-}
-
-.info {
-    border-left: 5px solid #78a1bb;
-    background: #ebf5ee;
-    color: #283044;
-    padding: 15px;
-}
-
-.notice {
-    border-left: 5px solid #f4f1bb;
-    background: #fffde5;
-    color: #353532;
-}
-
-.success {
-    border-left: 5px solid #78bb7b;
-    background: #ebf5eb;
-    color: #2f4428;
-}
-
-.error {
-    border-left: 5px solid #bb7878;
-    background: #f5ebeb;
-    color: #442828;
-}
-
+/* Error styles */
 .contains_error {
     color: #c11d1d!important;
 }
 
 .text_bold {
     font-weight: bold;
-}
-
-/* Sections width */
-.col20 {
-    width: 20%;
-    float: left;
-}
-
-.col33 {
-    width: 33%;
-    float: left;
-}
-
-.col40 {
-    width: 40%;
-    float: left;
-}
-
-.col50 {
-    width: 50%;
-    float: left;
-}
-
-.col60 {
-    width: 60%;
-    float: left;
-}
-
-.col66 {
-    width: 66%;
-    float: left;
-}
-
-.col80 {
-    width: 80%;
-    float: left;
 }
 
 /* The sidebar */
@@ -876,6 +791,11 @@ h1 .highlighted {
 #about_page_logo {
     padding-top: 20px;
 }
+
+/* Article history */
+.size_increase { color: #1ead08;  }
+.size_equal { color: #565656; }
+.size_decrease { color: #ad0808; }
 
 /* Responsive theming */
 @media only screen and (max-width: 900px) {

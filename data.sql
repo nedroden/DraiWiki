@@ -58,7 +58,6 @@ INSERT INTO `{db_prefix}setting` (`key`, `value`) VALUES
   ('min_password_length', '8'),
   ('min_first_name_length', '2'),
   ('min_last_name_length', '2'),
-  ('password_salt', 'aLJ#D_d32?o87DS=-DSAdk./:'),
   ('min_email_length', '5'),
   ('templates', '{data:default_templates}'),
   ('images', '{data:default_image_set}'),
@@ -92,7 +91,7 @@ INSERT INTO `{db_prefix}setting` (`key`, `value`) VALUES
   ('use_first_name_greeting', '0');
 
 INSERT INTO `{db_prefix}user` (`id`, `username`, `password`, `email_address`, `sex`, `birthdate`, `first_name`, `last_name`, `ip_address`, `registration_date`, `group_id`, `secondary_groups`, `activated`) VALUES
-  (1, 'root', '$2y$10$YUxKI0RfZDMyP284N0RTPOUE4ko1mljdwHNh.joGhu3HZYnxcyBvO', 'nobody@example.com', 0, '0000-00-00', 'Admin', 'Istrator', '127.0.0.1', '2017-07-30 18:41:48', 1, '', 1);
+  (1, 'root', '$2y$10$7vJDbVOmmKqDIaBoGgxJmeNZPKSFUs3Ho9zojmnGSls7GBWWF4FI.', 'nobody@example.com', 0, '0000-00-00', 'Admin', 'Istrator', '127.0.0.1', '2017-07-30 18:41:48', 1, '', 1);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

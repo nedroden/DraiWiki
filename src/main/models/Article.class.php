@@ -381,12 +381,12 @@ class Article extends ModelHeader {
 
     public function getHistory(int $start = 0) : array {
         $query = QueryFactory::produce('select', '
-            SELECT h.id, h.updated, u.username
+            SELECT h.id, h.updated, u.username, h.body
                 FROM {db_prefix}article_history h
                 LEFT JOIN {db_prefix}user u ON (u.id = h.user_id)
                 WHERE article_id = :article_id
                 ORDER BY updated DESC
-                LIMIT ' . $start . ', ' . self::$config->read('max_results_per_page'));
+                LIMIT ' . $start . ', ' . ((int) self::$config->read('max_results_per_page') + 1));
 
         $query->setParams([
             'article_id' => $this->_id
@@ -396,7 +396,8 @@ class Article extends ModelHeader {
         foreach ($query->execute() as $article) {
             $result[] = [
                 'updated' => '<a href="' . self::$config->read('url') . '/index.php/article/' . $this->_titleSafe . '/history/' . $article['id'] . '">' . $article['updated'] . '</a>',
-                'username' => $article['username']
+                'username' => $article['username'],
+                'size_in_bytes' => strlen($article['body'])
             ];
         }
 
@@ -406,7 +407,8 @@ class Article extends ModelHeader {
     public function createHistoryTable() : void {
         $columns = [
             'updated',
-            'username'
+            'username',
+            'size_in_bytes'
         ];
 
         $table = new Table('article', $columns, []);
@@ -434,29 +436,44 @@ class Article extends ModelHeader {
     }
 
     private function getStart() : int {
-        if (!empty($_REQUEST['start']) && is_numeric($_REQUEST['start']) && ((int) $_REQUEST['start']) <= $this->getHistoryCount()) {
+        if (!empty($_REQUEST['start']) && is_numeric($_REQUEST['start']) && ((int) $_REQUEST['start']) <= $this->getHistoryCount())
             return (int) $_REQUEST['start'];
-        }
-        else
-            return 0;
+
+        return 0;
     }
 
     public function generateJSON() : string {
         switch ($this->_request) {
             case 'getlist':
+                $maxResultsPerPage = self::$config->read('max_results_per_page') + 1;
+
                 $historyCount = $this->getHistoryCount();
+                $byteChangeState = ['decrease', 'equal', 'increase'];
 
                 $start = $this->getStart();
-                $end = $start + self::$config->read('max_results_per_page');
+                $end = $start + $maxResultsPerPage;
 
                 if ($end > $historyCount)
-                    $end = $start + ($historyCount % self::$config->read('max_results_per_page'));
+                    $end = $start + ($historyCount % $maxResultsPerPage);
 
                 $historicalArticles = [];
-                foreach ($this->getHistory() as $article) {
+                $articles = $this->getHistory($start);
+
+                if (!empty($articles[$maxResultsPerPage - 1])) {
+                    $previousPageSize = $articles[$maxResultsPerPage - 1]['size_in_bytes'];
+                    unset($articles[$maxResultsPerPage - 1]);
+                }
+
+                $articleCount = count($articles);
+
+                for ($i = 0; $i < $articleCount; $i++) {
+                    $sizeChangeInBytes = $articles[$i]['size_in_bytes'] - ($articles[$i + 1]['size_in_bytes'] ?? $previousPageSize ?? 0);
+                    $sizeChangeInBytes = sprintf('<span class="size_%s">%s%d</span>', $byteChangeState[($sizeChangeInBytes <=> 0) + 1], ($sizeChangeInBytes > 0 ? '+' : ''), $sizeChangeInBytes);
+
                     $historicalArticles[] = [
-                        'updated' => $article['updated'],
-                        'username' => $article['username']
+                        'updated' => $articles[$i]['updated'],
+                        'username' => $articles[$i]['username'],
+                        'size_in_bytes' => sprintf('%d (%s)', $articles[$i]['size_in_bytes'], $sizeChangeInBytes)
                     ];
                 }
 

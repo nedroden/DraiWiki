@@ -1,0 +1,106 @@
+/**
+ * HURRICANE
+ * DraiWiki default theme
+ *
+ * @author      Robert Monden
+ * @copyright   DraiWiki development team, 2017
+ * @version     1.0 Alpha 1
+ */
+
+/* Messages */
+.message_box {
+    margin: 20px 0px 20px 0px;
+    padding: 5px;
+}
+
+.info {
+    border-left: 5px solid #78a1bb;
+    background: #ebf5ee;
+    color: #283044;
+    padding: 15px;
+}
+
+.notice {
+    border-left: 5px solid #f4f1bb;
+    background: #fffde5;
+    color: #353532;
+}
+
+.success {
+    border-left: 5px solid #78bb7b;
+    background: #ebf5eb;
+    color: #2f4428;
+}
+
+.error {
+    border-left: 5px solid #bb7878;
+    background: #f5ebeb;
+    color: #442828;
+}
+
+.string_not_found {
+    color: red;
+    font-weight: bold;
+}
+
+/* Text positions */
+.align_left {
+    text-align: left;
+}
+
+.align_right {
+    text-align: right;
+}
+
+.align_center {
+    text-align: center;
+}
+
+/* Sections width */
+.col20 {
+    width: 20%;
+    float: left;
+}
+
+.col33 {
+    width: 33%;
+    float: left;
+}
+
+.col40 {
+    width: 40%;
+    float: left;
+}
+
+.col50 {
+    width: 50%;
+    float: left;
+}
+
+.col60 {
+    width: 60%;
+    float: left;
+}
+
+.col66 {
+    width: 66%;
+    float: left;
+}
+
+.col80 {
+    width: 80%;
+    float: left;
+}
+
+/* Floats */
+.float_right {
+    float: right;
+}
+
+.float_left {
+    float: left;
+}
+
+.clear {
+    clear: both;
+}

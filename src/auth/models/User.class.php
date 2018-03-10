@@ -159,9 +159,6 @@ class User extends ModelHeader {
     private function setUserInfo(array $details) : void {
         $this->_id = $details['id'] ?? 0;
         $this->_username = $details['username'] ?? (!empty(self::$locale) ? _localized('auth.guest') : null);
-
-        /* Again, passwords are HASHED before they arrive here. Passwords are stored ONLY during the
-         registration process and are removed as soon as the user has been added to the database */
         $this->_password = $details['password'] ?? '';
 
         $this->_firstName = $details['first_name'] ?? (!empty(self::$locale) ? _localized('auth.john') : null);
@@ -291,15 +288,13 @@ class User extends ModelHeader {
      */
     public function login(array &$errors) : void {
         $query = QueryFactory::produce('select', '
-            SELECT id
+            SELECT id, password
                 FROM `{db_prefix}user`
                 WHERE email_address = :email
-                AND `password` = :passw
         ');
 
         $query->setParams([
-            'email' => $this->_email,
-            'passw' => $this->_password
+            'email' => $this->_email
         ]);
 
         foreach ($query->execute() as $record) {
@@ -308,6 +303,9 @@ class User extends ModelHeader {
                 'user_id' => $record['id'],
                 'user_agent' => $_SERVER['HTTP_USER_AGENT']
             ];
+
+            if (!password_verify($this->_password, $record['password']))
+                break;
 
             $session = new Session(self::$config->read('session_name') . '_sid');
             $session->create($this->_cookieLength, false, self::$config->read('cookie_id') . '_sid', $info);

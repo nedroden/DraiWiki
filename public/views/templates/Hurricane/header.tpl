@@ -16,6 +16,7 @@
         </script>
 
         <link rel="stylesheet" type="text/css" href="{{ skin_url }}main" />
+        <link rel="stylesheet" type="text/css" href="{{ skin_url }}shared" />
         <link rel="stylesheet" type="text/css" href="{{ node_url }}/select2/dist/css/select2.min.css" />
         <link rel="stylesheet" type="text/css" href="{{ node_url}}/zebra_dialog/dist/css/flat/zebra_dialog.css" />
         <link rel="stylesheet" type="text/css" href="{{ node_url}}/font-awesome/css/font-awesome.min.css" />

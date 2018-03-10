@@ -187,7 +187,7 @@ class Dashboard extends ModelHeader {
 
         foreach ($query->execute() as $record) {
             $edits[] = [
-                'title' => '<a href=\"' . self::$config->read('url') . '/index.php/article/' . Sanitizer::addUnderscores($record['title']) . '\" target=\"_blank\">' . $record['title'] . '</a>',
+                'title' => '<a href="' . self::$config->read('url') . '/index.php/article/' . Sanitizer::addUnderscores($record['title']) . '" target="_blank">' . $record['title'] . '</a>',
                 'username' => $record['username'],
                 'updated' => $record['updated']
             ];
