@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS {db_prefix}session (
 
 CREATE TABLE IF NOT EXISTS {db_prefix}activation_code (
     id INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    user_id INT UNSIGNED,
+    user_id INT UNSIGNED NOT NULL,
     code CHAR(20) NOT NULL,
     creation_date DATETIME NOT NULL DEFAULT NOW(),
     FOREIGN KEY (user_id) REFERENCES {db_prefix}user(id)
@@ -126,4 +126,16 @@ CREATE TABLE IF NOT EXISTS {db_prefix}upload (
     type TINYTEXT NOT NULL,
     upload_date DATETIME NOT NULL DEFAULT NOW(),
     FOREIGN KEY (user_id) REFERENCES {db_prefix}user(id)
+) CHARACTER SET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS {db_prefix}log_changes (
+    id INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    user_id INT UNSIGNED,
+    locale_id INT UNSIGNED NOT NULL,
+    article_id INT UNSIGNED,
+    type SMALLINT NOT NULL DEFAULT 0,
+    creation_date DATETIME NOT NULL DEFAULT NOW(),
+    FOREIGN KEY (user_id) REFERENCES {db_prefix}user(id),
+    FOREIGN KEY (locale_id) REFERENCES {db_prefix}locale(id),
+    FOREIGN KEY (article_id) REFERENCES {db_prefix}article(id)
 ) CHARACTER SET=utf8mb4;

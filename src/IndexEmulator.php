@@ -22,7 +22,7 @@ define('DEBUG_ALWAYS', false);
 require __DIR__ . '/../src/core/models/ConfigHeader.class.php';
 require __DIR__ . '/../src/core/controllers/ModuleLoader.class.php';
 require __DIR__ . '/../src/core/models/Module.class.php';
-require __DIR__ . '/../src/LocaleFunctions.php';
+require __DIR__ . '/../src/WrapperFunctions.php';
 require __DIR__ . '/../public/Config.php';
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../modules/Hook.class.php';

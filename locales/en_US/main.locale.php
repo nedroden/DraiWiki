@@ -72,5 +72,12 @@ return [
 
     'about_this_software' => 'About this software',
 
-    'default' => 'default'
+    'default' => 'default',
+
+    'activity' => 'Recent updates',
+    'updated_article' => '%s updated an article: <strong><a href="%s" target="_blank">%s</a></strong>',
+    'created_article' => '%s created a new article: <strong><a href="%s" target="_blank">%s</a></strong>',
+    'registered_an_account' => '%s registered an account',
+
+    'load_more_updates' => 'Load more updates'
 ];

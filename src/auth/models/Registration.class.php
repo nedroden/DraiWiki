@@ -107,9 +107,9 @@ class Registration extends ModelHeader {
             }
 
             if ($key != 'confirm_password' && $field['validator']->isTooShort($minLength = self::$config->read('min_' . $key . '_length')))
-                $errors[$key] = sprintf(self::$locale->read('auth', $key . '_too_short'), $minLength);
+                $errors[$key] = sprintf(_localized('auth.' . $key . '_too_short'), $minLength);
             else if ($key != 'confirm_password' && $field['validator']->isTooLong($maxLength = self::$config->read('max_' . $key . '_length')))
-                $errors[$key] = sprintf(self::$locale->read('auth', $key . '_too_long'), $maxLength);
+                $errors[$key] = sprintf(_localized('auth.' . $key . '_too_long'), $maxLength);
 
             if ($key != 'confirm_password' && $field['validator']->containsHTML())
                 $errors[$key] = _localized('auth.no_html_' . $key);

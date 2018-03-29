@@ -104,3 +104,10 @@
 .clear {
     clear: both;
 }
+
+/* Responsive theming */
+@media only screen and (max-width: 900px) {
+    [class*="col"] {
+        width: 100%;
+    }
+}

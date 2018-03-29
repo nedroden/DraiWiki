@@ -797,6 +797,25 @@ h1 .highlighted {
 .size_equal { color: #565656; }
 .size_decrease { color: #ad0808; }
 
+/* Recent activity */
+.update {
+    padding: 20px;
+    border-bottom: 1px solid #efefef;
+    width: 100%;
+    display: table;
+}
+
+.update span:first-child {
+    color: #969696;
+    width: 20%;
+    display: table-cell;
+}
+
+.update span:last-child {
+    width: 80%;
+    display: table-cell;
+}
+
 /* Responsive theming */
 @media only screen and (max-width: 900px) {
     #content {
@@ -826,10 +845,6 @@ h1 .highlighted {
 
     .sidebar_header {
         margin: 5px 0px 0px 0px;
-        width: 100%;
-    }
-
-    [class*="col"] {
         width: 100%;
     }
 

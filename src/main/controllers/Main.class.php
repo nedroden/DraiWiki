@@ -29,7 +29,7 @@ require_once __DIR__ . '/../../../public/Routing.php';
 require_once __DIR__ . '/../../../modules/Hook.class.php';
 require_once __DIR__ . '/../../../modules/Module.interface.php';
 require_once __DIR__ . '/../../ScriptExtensions.php';
-require_once __DIR__ . '/../../LocaleFunctions.php';
+require_once __DIR__ . '/../../WrapperFunctions.php';
 
 class Main {
 

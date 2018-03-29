@@ -187,7 +187,7 @@ class User extends ModelHeader {
         $this->_cookieLength = $details['cookie_length'] ?? 7 * 24 * 60 * 60;
 
         if ($this->_id == 0)
-            $this->_isActivated = $details['activated'] ?? 0;
+            $this->_isActivated = self::$config->read('enable_email_activation') == 1 ? ($details['activated'] ?? 0) : 1;
         else
             $this->_isActivated = self::$config->read('enable_email_activation') == 1 ? $details['activated'] : 1;
 
@@ -244,10 +244,14 @@ class User extends ModelHeader {
 
         $query->execute();
 
+        $this->_id = $query->getLastId();
+
         unset($this->_password);
 
         if (self::$config->read('enable_email_activation') == 1 && $this->_isActivated == 0)
             $this->sendVerificationMail();
+
+        _logAction(0x03, null, $this);
     }
 
     private function sendVerificationMail() : void {
@@ -257,14 +261,16 @@ class User extends ModelHeader {
             '{wiki_name}',
             '{first_name}',
             '{activation_code}',
-            '{activation_link}'
+            '{activation_link}',
+            '{wiki_url}'
         ];
 
         $replaceWith = [
             self::$config->read('wiki_name'),
             $this->_firstName,
             $activationCode->getCode(),
-            $activationCode->getLink()
+            $activationCode->getLink(),
+            self::$config->read('url')
         ];
 
         $messageBody = str_replace($replaceThis, $replaceWith, _localized('auth.registration_mail_body'));

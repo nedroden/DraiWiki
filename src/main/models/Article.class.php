@@ -16,10 +16,11 @@ if (!defined('DraiWiki')) {
     die('You\'re really not supposed to be here.');
 }
 
+use Aidantwoods\SecureParsedown\SecureParsedown;
 use DraiWiki\src\core\controllers\QueryFactory;
 use DraiWiki\src\core\models\{InputValidator, PostRequest, Sanitizer};
 use DraiWiki\src\main\models\Locale;
-use Aidantwoods\SecureParsedown\SecureParsedown;;
+use Exception;
 
 class Article extends ModelHeader {
 
@@ -361,6 +362,8 @@ class Article extends ModelHeader {
 
             $query->execute();
         }
+
+        _logAction($this->_id == 0 ? 0x01 : 0x02, $this->_id);
     }
 
     public function softDelete() : bool {
@@ -511,7 +514,12 @@ class Article extends ModelHeader {
         $result = $query->execute();
         $locales = [];
         foreach ($result as $locale) {
-            $localeObject = $locale['locale_id'] == self::$locale->getCurrentLocaleInfo()->getID() ? self::$locale : new Locale($locale['locale_id']);
+            try {
+                $localeObject = $locale['locale_id'] == self::$locale->getCurrentLocaleInfo()->getID() ? self::$locale : new Locale($locale['locale_id']);
+            }
+            catch (Exception $e) {
+                continue;
+            }
 
             $locales[] = [
                 'label' => $localeObject->getNative(),

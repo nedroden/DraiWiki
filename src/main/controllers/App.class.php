@@ -44,6 +44,7 @@ class App {
             'about'         => 'DraiWiki\src\main\controllers\About',
             'account'       => 'DraiWiki\src\auth\controllers\AccountManager',
             'activate'      => 'DraiWiki\src\auth\controllers\Activate',
+            'activity'      => 'DraiWiki\src\main\controllers\Activity',
             'article'       => 'DraiWiki\src\main\controllers\Article',
             'changelocale'  => 'DraiWiki\src\main\controllers\LocaleSwitcher',
             'findarticle'   => 'DraiWiki\src\tools\controllers\ArticleFinder',

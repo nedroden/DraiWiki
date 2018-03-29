@@ -64,7 +64,7 @@ abstract class Error {
 
             $parsedBacktrace[] = $counter++ . '. 
                 <strong>[' . ($detail['file'] ?? 'unknown') . ']</strong> 
-                Called method <em>' . ($detail['function'] ?? 'unknown') . '(' . (implode(',', $detail['args']) ?? '') .  ')</em> 
+                Invoked method <em>' . ($detail['function'] ?? 'unknown') . '(' . (implode(',', $detail['args']) ?? '') .  ')</em> 
                 on line ' . ($detail['line'] ?? 'unknown');
         }
 

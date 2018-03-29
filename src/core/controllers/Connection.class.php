@@ -63,4 +63,8 @@ class Connection {
     private function destroyLoginData() : void {
         $this->_config->deleteDatabaseInfo();
     }
+
+    public function getLastId() : int {
+        return $this->_connection->lastInsertId();
+    }
 }

@@ -85,3 +85,20 @@ function selectTranslationGroup(article_id) {
     $('#article_id').val(article_id);
     $('#assign_translations_form').submit();
 }
+
+function loadMoreUpdates(start_at) {
+    performAJAXRequest('/activity/ajax/getupdates', {
+        start: start_at
+    }, function(msg, status, response) {
+        let selector = $('#updates');
+
+        $.each((response.responseJSON.data), function() {
+            selector.append('<div class="update"><span>' + this.time  + '</span><span>' + this.text + '</span></div>');
+        });
+
+        if (response.responseJSON.end >= response.responseJSON.total_records)
+            $('#more_results').hide();
+        else
+            $('#more_results').click(loadMoreUpdates(response.responseJSON.end));
+    });
+}

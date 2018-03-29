@@ -33,8 +33,11 @@ function createRoutes() : array {
         $routeCollector->get('/management/{subapp}/{section}/ajax/{ajax_request}', 'management');
         $routeCollector->addRoute(['GET', 'POST'], '/article/{title}/{action}/ajax/{ajax_request}', 'article');
         $routeCollector->get('/find/ajax/{ajax_request}', 'findarticle');
+        $routeCollector->get('/activity/ajax/{ajax_request}', 'activity');
 
         $routeCollector->get('/stylesheet/{id}', 'stylesheet');
+
+        $routeCollector->get('/activity', 'activity');
 
 	    $routeCollector->get('/activate/{code}', 'activate');
 	    $routeCollector->get('/article/{title}', 'article');

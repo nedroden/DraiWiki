@@ -20,6 +20,7 @@ use DraiWiki\external\modules\Hook;
 use DraiWiki\src\core\controllers\QueryFactory;
 use DraiWiki\src\core\controllers\Registry;
 use DraiWiki\src\main\models\{DebugBarWrapper, Locale as LocaleModel};
+use Exception;
 use Twig_Environment;
 use Twig_Function;
 use Twig_Loader_Filesystem;
@@ -143,6 +144,11 @@ class GUI {
                 'href' => $this->_config->read('url') . '/index.php',
                 'visible' => true
             ],
+            'activity' => [
+                'label' => 'activity',
+                'href' => $this->_config->read('url') . '/index.php/activity',
+                'visible' => true
+            ],
             'manage' => [
                 'label' => 'manage',
                 'href' => $this->_config->read('url') . '/index.php/management',
@@ -190,6 +196,11 @@ class GUI {
                         'label' => 'home',
                         'href' => $this->_config->read('url') . '/index.php',
                         'visible' => true
+                    ],
+                    'activity' => [
+                        'label' => 'activity',
+                        'href' => $this->_config->read('url') . '/index.php/activity',
+                        'visible' => true,
                     ],
                     'random' => [
                         'label' => 'random',
@@ -286,7 +297,12 @@ class GUI {
 
         $locales = [];
         foreach ($query->execute() as $foundLocale) {
-            $locale = new LocaleModel($foundLocale['id']);
+            try {
+                $locale = new LocaleModel($foundLocale['id']);
+            }
+            catch (Exception $e) {
+                continue;
+            }
 
             $localeContinent = $locale->getContinent();
 

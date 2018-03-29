@@ -542,10 +542,6 @@ tr.selected td {
         padding: 0;
     }
 
-    [class*="col"] {
-        width: 100%;
-    }
-
     #copyright div {
         margin: 15px 0 0 0;
         text-align: center;

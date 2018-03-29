@@ -22,6 +22,6 @@ function loadMoreSearchResults(start_at, current_terms) {
         if (response.responseJSON.end >= response.responseJSON.total_records)
             $('#more_results').hide();
         else
-            $('#more_results').click(loadMoreSearchResults(end, current_terms));
+            $('#more_results').click(loadMoreSearchResults(response.responseJSON.end, current_terms));
     });
 }

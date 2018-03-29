@@ -14,7 +14,9 @@ if (!defined('DraiWiki')) {
 	die('You\'re really not supposed to be here.');
 }
 
+use DraiWiki\src\auth\models\User;
 use DraiWiki\src\core\controllers\Registry;
+use DraiWiki\src\main\models\Activity;
 
 function _localized(string $identifier, ...$args) : string {
     $locale = Registry::get('locale');
@@ -29,4 +31,11 @@ function _localized(string $identifier, ...$args) : string {
 
     $str = $locale->read($set[0], $set[1]);
     return empty($args) ? $str : vsprintf($str, $args);
+}
+
+function _logAction(int $type, ?int $articleId, ?User $user = null) : void {
+    $locale = Registry::get('locale')->getCurrentLocaleInfo()->getID();
+    $userId = ($user ?? Registry::get('user'))->getID();
+
+    Activity::add($userId, $locale, $articleId, $type);
 }

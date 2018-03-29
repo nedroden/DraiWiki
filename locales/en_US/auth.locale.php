@@ -96,10 +96,11 @@ return [
 
     'registration_mail_title' => 'Registration at %s',
     'registration_mail_body' => 'Hello, {first_name}!<br /><br />
-Welcome to {wiki_name}. Before you can get started, there is one more thing you need to do: activate your user account. Luckily, that only takes a minute. Please
-click on the link below to activate your account:
+Welcome to {wiki_name}. Before you can get started, there is one more thing you need to do: activate your user account. Luckily, that only takes a minute. Please click on the link below to activate your account:
 
-<a href="{activation_link}" target="_blank">{activation_link}</a>
+<a href="{activation_link}" target="_blank">{activation_link}</a><br /><br />
+
+    If the link doesn\'t work for you, please visit {wiki_url}/index.php/activate and enter the following code: {activation_code}
 
 Regards,
 The {wiki_name} team',
