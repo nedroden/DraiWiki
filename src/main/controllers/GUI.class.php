@@ -202,6 +202,11 @@ class GUI {
                         'href' => $this->_config->read('url') . '/index.php/activity',
                         'visible' => true,
                     ],
+                    'new_article' => [
+                        'label' => 'new_article_popup',
+                        'href' => 'javascript:toggle_new_article_popup();',
+                        'visible' => true,
+                    ],
                     'random' => [
                         'label' => 'random',
                         'href' => $this->_config->read('url') . '/index.php/random',

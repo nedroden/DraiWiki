@@ -58,6 +58,7 @@
         {% endif %}
     </head>
     <body>
+        <div id="overlay"></div>
         <div id="wrapper">
             <div id="header_section">
                 <div id="header">
@@ -97,3 +98,22 @@
                 <br class="clear" />
             </div>
             <div id="content">
+                {% if user.hasPermission('create_articles') %}
+                    <div id="new_article">
+                        <form method="post" id="new_post_form">
+                            <input type="text" id="article_title" class="wide" placeholder="New article title" autocomplete="off" />
+                        </form>
+
+                        <script type="text/javascript">
+                            let form = document.getElementById('new_post_form');
+                            form.addEventListener('submit', e => {
+                                e.preventDefault();
+
+                                window.location = dw_url + '/index.php/article/' + encodeURIComponent(document.getElementById('article_title').value);
+
+                                // If we're still here, we might as well close the popup
+                                toggle_new_article_popup();
+                            });
+                        </script>
+                    </div>
+                {% endif %}

@@ -32,4 +32,8 @@ class Config extends ConfigHeader {
             'ssl_enabled' => false
         ];
     }
+
+    public function __get(string $setting) : ?string {
+        return $this->read($setting);
+    }
 }

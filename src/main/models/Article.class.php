@@ -300,26 +300,36 @@ class Article extends ModelHeader {
                     )
                     VALUES (
                         :title, :locale_id, :status_nr
-                    );
+                    )
+            ');
 
+            $query->setParams([
+                'title' => $this->_title,
+                'locale_id' => self::$locale->getCurrentLocaleInfo()->getID(),
+                'status_nr' => 1
+            ]);
+
+            $query->execute();
+
+            $this->_id = $query->getLastId();
+            $query = QueryFactory::produce('modify', '
                 INSERT
                     INTO {db_prefix}article_history (
                         article_id, user_id, body
                     )
                     VALUES (
-                        LAST_INSERT_ID(),
-                        :user_id,
-                        :body
-                    )'
-            );
+                        :last_id, :user_id, :body
+                    )
+            ');
 
             $query->setParams([
-                'title' => $this->_title,
-                'locale_id' => self::$locale->getCurrentLocaleInfo()->getID(),
-                'status_nr' => 1,
+                'last_id' => $this->_id,
                 'user_id' => self::$user->getID(),
                 'body' => $this->_bodyUnparsed
             ]);
+
+            $query->execute();
+            _logAction(0x01, $this->_id);
         }
 
         // Existing articles
@@ -344,9 +354,10 @@ class Article extends ModelHeader {
             ];
 
             $query->setParams($params);
-        }
+            $query->execute();
 
-        $query->execute();
+            _logAction(0x02, $this->_id);
+        }
 
         if ($this->_updatedTitle) {
             $query = QueryFactory::produce('modify', '
@@ -362,8 +373,6 @@ class Article extends ModelHeader {
 
             $query->execute();
         }
-
-        _logAction($this->_id == 0 ? 0x01 : 0x02, $this->_id);
     }
 
     public function softDelete() : bool {

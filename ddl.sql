@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS {db_prefix}log_errors (
     ip_address VARCHAR(45)
 ) CHARACTER SET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS {db_prefix}log_updates (
+CREATE TABLE IF NOT EXISTS {db_prefix}log_software_updates (
     id INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
     version_from VARCHAR(15) NOT NULL,
     version_to VARCHAR(15) NOT NULL,

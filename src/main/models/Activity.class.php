@@ -92,7 +92,7 @@ class Activity extends ModelHeader {
                     $title = Sanitizer::escapeHTML($update['title']);
                     $urlTitle = Sanitizer::addUnderscores($title);
 
-                    $text = _localized('main.created_article', $user->getUsername(), $urlTitle, $title);
+                    $text = _localized('main.created_article', $user->getUsername(), _internalUrl('/article/' . $urlTitle), $title);
                     break;
                 case self::TYPE_ARTICLE_UPDATED:
                     if ($update['article_id'] == null)
@@ -101,7 +101,7 @@ class Activity extends ModelHeader {
                     $title = Sanitizer::escapeHTML($update['title']);
                     $urlTitle = Sanitizer::addUnderscores($title);
 
-                    $text = _localized('main.updated_article', $user->getUsername(), $urlTitle, $title);
+                    $text = _localized('main.updated_article', $user->getUsername(), _internalUrl('/article/' . $urlTitle), $title);
                     break;
                 case self::TYPE_REGISTRATION:
                     $text = _localized('main.registered_an_account', $user->getUsername());

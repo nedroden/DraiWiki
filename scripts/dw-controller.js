@@ -9,7 +9,6 @@
  */
 
 $(function() {
-
     $("#to_top").click(function() {
         $('html, body').animate({
             scrollTop: $("#wrapper").offset().top
@@ -100,5 +99,15 @@ function loadMoreUpdates(start_at) {
             $('#more_results').hide();
         else
             $('#more_results').click(loadMoreUpdates(response.responseJSON.end));
+    });
+}
+
+function toggle_new_article_popup() {
+    $('#overlay').fadeIn(750);
+    $('#new_article').fadeIn(750);
+
+    $('#overlay').click(function() {
+        $('#overlay').fadeOut(300);
+        $('#new_article').fadeOut(300);
     });
 }

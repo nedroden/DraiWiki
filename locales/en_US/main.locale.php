@@ -79,5 +79,7 @@ return [
     'created_article' => '%s created a new article: <strong><a href="%s" target="_blank">%s</a></strong>',
     'registered_an_account' => '%s registered an account',
 
-    'load_more_updates' => 'Load more updates'
+    'load_more_updates' => 'Load more updates',
+
+    'new_article_popup' => 'New article'
 ];

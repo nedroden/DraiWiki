@@ -53,13 +53,13 @@ class App {
             'login'         => 'DraiWiki\src\auth\controllers\Login',
             'logout'        => 'DraiWiki\src\auth\controllers\Logout',
             'management'    => 'DraiWiki\src\admin\controllers\Management',
+            'newarticle'    => 'DraiWiki\src\main\controllers\NewArticleRedirect',
             'random'        => 'DraiWiki\src\main\controllers\Random',
             'register'      => 'DraiWiki\src\auth\controllers\Registration'
         ];
 
-        if (empty($apps[$this->_currentApp])) {
+        if (empty($apps[$this->_currentApp]))
             $this->_currentApp = self::DEFAULT_APP;
-        }
 
         DebugBarWrapper::report('App detected: ' . $this->_currentApp);
 

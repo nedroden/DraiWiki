@@ -39,3 +39,11 @@ function _logAction(int $type, ?int $articleId, ?User $user = null) : void {
 
     Activity::add($userId, $locale, $articleId, $type);
 }
+
+function _setting(string $identifier) : ?string {
+    return Registry::get('config')->$identifier;
+}
+
+function _internalUrl(string $section, ?string $parameters = null) : string {
+    return sprintf('%s/index.php%s', _setting('url'), $section, ...$parameters ?? []);
+}
