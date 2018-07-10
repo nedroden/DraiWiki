@@ -101,6 +101,7 @@ class GUI {
 
     public function parseAndGet(string $tplName, array $data, bool $canThrowException = true) : string {
         if (!file_exists($this->_templatePath . '/' . $tplName . '.tpl')) {
+            // @todo Throw exception here
             if ($canThrowException)
                 die('Exception thrown.');
             else
@@ -135,6 +136,9 @@ class GUI {
 
     private function setCopyright() : void {
         $this->_copyright = 'Powered by <a href="' . $this->_config->read('url') . '/index.php/about" target="_blank">DraiWiki</a> ' . Main::WIKI_VERSION;
+
+        if (Main::IS_DEV_BUILD)
+            $this->_copyright .= '<br />Development build';
     }
 
     private function generateMenu() : void {

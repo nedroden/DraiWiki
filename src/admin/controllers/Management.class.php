@@ -63,6 +63,7 @@ class Management extends AppHeader {
             'dashboard' => 'DraiWiki\src\admin\controllers\Dashboard',
             'edituser' => 'DraiWiki\src\admin\controllers\ProfileManager',
             'generalmaintenance' => 'DraiWiki\src\admin\controllers\GeneralMaintenance',
+            'groups' => 'DraiWiki\src\admin\controllers\GroupManagement',
             'locales' => 'DraiWiki\src\admin\controllers\LocaleManagement',
             'manageuploads' => 'DraiWiki\src\admin\controllers\UploadManagement',
             'settings' => 'DraiWiki\src\admin\controllers\SettingsPage',

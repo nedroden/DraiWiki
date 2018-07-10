@@ -7,7 +7,7 @@
         <div class="message_box error">
             <ul>
             {% for error in errors %}
-                <li>{{ _localized('management.' . error) }}</li>
+                <li>{{ _localized('management.' ~ error) }}</li>
             {% endfor %}
             </ul>
         </div>

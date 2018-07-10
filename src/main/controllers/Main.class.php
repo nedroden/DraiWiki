@@ -50,6 +50,7 @@ class Main {
 
 	public const WIKI_VERSION = '1.0 Alpha 1';
     public const DW_SUPPORT_URL = 'https://draiwiki.robertmonden.com';
+    public const IS_DEV_BUILD = true;
 
     public function __construct() {
         DebugBarWrapper::create();

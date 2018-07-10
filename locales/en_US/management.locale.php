@@ -249,5 +249,8 @@ return [
     'skin_set' => 'Default skin set',
     'skin_set_desc' => 'Choosing a different skinset will change the appearance, but not the template structure, of your theme.',
 
-    'theme_settings' => 'Theme settings'
+    'theme_settings' => 'Theme settings',
+
+    'group_management' => 'Group management',
+    'group_management_description' => 'From here you can create new user groups and edit/delete existing ones.'
 ];
