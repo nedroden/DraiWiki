@@ -9,16 +9,26 @@
  */
 
 function sysInfoToText() {
-    let table = $('.info_table');
+    let tableNodes = document.getElementById('system_information').childNodes;
+    let resultHook = document.getElementById('result_hook');
 
-    if (table.length) {
-        let clipboardContent = '';
+    if (tableNodes.length != 0) {
+        resultHook.innerHTML = '';
+        resultHook.classList.add('code');
+    }
 
-        table.find('div').each(function() {
-            clipboardContent += $(this).find('span').first().text().slice(0, -1) + ' = ';
-            clipboardContent += $(this).find('span').last().text() + '\n';
-        });
+    for (let node of tableNodes) {
+        let childNodes = node.childNodes;
 
-        alert(clipboardContent);
+        if (childNodes.length === 0)
+            continue;
+
+        let count = 0;
+        for (let grandChild of childNodes) {
+            if (grandChild.tagName === undefined || grandChild.tagName.toLowerCase() != 'span')
+                continue;
+
+            resultHook.innerHTML += grandChild.innerHTML + ' ' + (count++ !== 0 ? '<br />' : '');
+        }
     }
 }

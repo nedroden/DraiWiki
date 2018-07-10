@@ -1,5 +1,5 @@
 {% if type == 'info_table' %}
-    <div class="info_table">
+    <div id="{{ id }}" class="info_table">
         {% for cell in rows %}
             <div>
                 <span>{{ cell.0 }}</span>

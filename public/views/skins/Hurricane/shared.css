@@ -105,6 +105,19 @@
     clear: both;
 }
 
+/* Code blocks */
+.code {
+    font-family: "Courier New", Monospace;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #E5E5E5;
+    background: #f7f7f7 url({IMAGE_URL}codebg.png) no-repeat right 0px;
+    word-wrap: break-word;
+    min-height: 50px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
 /* Responsive theming */
 @media only screen and (max-width: 900px) {
     [class*="col"] {

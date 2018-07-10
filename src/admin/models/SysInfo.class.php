@@ -35,7 +35,7 @@ class SysInfo extends ModelHeader {
         ];
 
         $table = new Table('management', $columns, $this->generate());
-        $table->setID('user_list');
+        $table->setID('system_information');
         $table->setType('info_table');
 
         $table->create();
