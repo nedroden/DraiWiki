@@ -9,11 +9,6 @@
  * @license     Apache 2.0
  */
 
-if (!defined('DraiWiki')) {
-    header('Location: ../index.php');
-    die('You\'re really not supposed to be here.');
-}
-
 spl_autoload_register(function($className) {
     if (count($parsedClassName = explode('\\', $className)) > 1) {
         /* We need to get rid of the 'DraiWiki' part, and since classes

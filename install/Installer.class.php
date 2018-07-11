@@ -9,16 +9,9 @@
  * @license     Apache 2.0
  */
 
-namespace DraiWiki\import;
+namespace DraiWiki\install;
 
-define('DraiWiki', 1);
-
-// Unfortunately we can't use the autoloader here (yet!)
-require_once 'Table.class.php';
-require_once '../autoload.php';
-require_once './../src/IndexEmulator.php';
-
-class Importer {
+class Installer {
 
     private $_tables;
 
@@ -67,14 +60,3 @@ class Importer {
         }
     }
 }
-
-// Start index emulation
-$config = null;
-$connection = null;
-start($config);
-connectToDatabase($connection);
-
-// Start importing
-$importer = new Importer();
-$importer->loadTables();
-$importer->start();

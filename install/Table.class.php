@@ -9,7 +9,7 @@
  * @license     Apache 2.0
  */
 
-namespace DraiWiki\import;
+namespace DraiWiki\install;
 
 use DraiWiki\src\core\controllers\QueryFactory;
 use SimpleXMLElement;

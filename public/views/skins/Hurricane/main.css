@@ -193,19 +193,19 @@ select {
     margin: auto;
 }
 
-#header {/*
+#header {
     background: #25639e;
     background: linear-gradient(135deg, #25639e, #408dde);
     font-family: "Noto Sans", Verdana, Helvetica, Arial;
     padding: 40px;
-    align-items: center;*/
+    align-items: center;/*
     padding: 40px 20px 40px 20px;
     color: #fff;
     background: url('https://raw.githubusercontent.com/nedroden/Activity-Planner/master/frontend/src/assets/images/header.jpg') repeat-x;
     background-size: 100% auto;
     background-position: 0% 15%;
     text-shadow: 2px 2px #333333;
-    font-family: "Noto Sans", Verdana, Helvetica, Arial;
+    font-family: "Noto Sans", Verdana, Helvetica, Arial;*/
 }
 
 #header, #header a {
